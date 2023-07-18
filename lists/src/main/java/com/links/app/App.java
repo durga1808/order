@@ -8,6 +8,9 @@ public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        
+        System.out.println( "java application" );
+        System.out.println( "New app" );
+        System.out.println( "dispalying the data" );
     }
 }
