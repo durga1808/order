@@ -13,6 +13,13 @@ body,
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+.app {
+  display: flex;
+  position: relative;
+}
+
+
 code {
   font-family: 'Red Hat Display', sans-serif;
 }
