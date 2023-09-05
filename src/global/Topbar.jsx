@@ -1,30 +1,36 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, IconButton, CssBaseline } from '@mui/material';
-import { Brightness4, Brightness7 } from '@mui/icons-material';
-import LogoutIcon from '@mui/icons-material/Logout';
+import React, { useContext, useState } from "react";
+import { AppBar, Toolbar, IconButton, CssBaseline, useTheme } from "@mui/material";
+import { Brightness4, Brightness7 } from "@mui/icons-material";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { ColorModeContext, tokens } from "../theme";
 
 function Topbar() {
-  const [darkMode, setDarkMode] = useState(false);
-
-  const handleDarkModeToggle = () => {
-    setDarkMode(!darkMode);
-  };
-
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const colorMode = useContext(ColorModeContext);
+  
   const handleLogout = () => {
     // Handle the logout logic here
     // For example, clear authentication tokens, etc.
-    console.log('Logged out');
+    console.log("Logged out");
   };
 
   return (
     <div>
-      <CssBaseline />
       <AppBar position="static">
-        <Toolbar sx={{ justifyContent: 'flex-end' }}>
-          <IconButton color="inherit" aria-label="Toggle Dark Mode" onClick={handleDarkModeToggle}>
-            {darkMode ? <Brightness7 /> : <Brightness4 />}
+        <Toolbar sx={{ justifyContent: "flex-end" }}>
+          <IconButton
+            color="inherit"
+            aria-label="Toggle Dark Mode"
+            onClick={colorMode.toggleColorMode}
+          >
+            {theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
-          <IconButton color="inherit" aria-label="Account" onClick={handleLogout}>
+          <IconButton
+            color="inherit"
+            aria-label="Account"
+            onClick={handleLogout}
+          >
             <LogoutIcon />
           </IconButton>
         </Toolbar>

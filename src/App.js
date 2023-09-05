@@ -23,18 +23,18 @@ function App() {
 
   return (
     // <GlobalContextProvider>
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <Routes>
-            <Route path="/" element={<LoginPage />} />
-            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-            {/* Nested routes for /mainpage/* */}
-            <Route path="/mainpage/*" element={<MainPage />} />
-          </Routes>
-        </ThemeProvider>
-      </ColorModeContext.Provider>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+          {/* Nested routes for /mainpage/* */}
+          <Route path="/mainpage/*" element={<MainPage />} />
+        </Routes>
+      </ThemeProvider>
+    </ColorModeContext.Provider>
     // </GlobalContextProvider>
-  );
+  );
 }
 export default App;
