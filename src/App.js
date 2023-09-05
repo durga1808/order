@@ -4,6 +4,10 @@ import { ColorModeContext, useMode } from "./theme";
 import { Route, Routes } from "react-router";
 import LoginPage from "./scenes/auth/Login";
 import Topbar from "./global/Topbar";
+import { GlobalContextProvider } from "./global/globalContext/GlobalContext";
+import Traces from "./scenes/traces";
+import Metrics from "./scenes/metrics";
+import Logs from "./scenes/logs";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -15,6 +19,9 @@ function App() {
         <main className="content">
           <Topbar />
           <Routes>
+            <Route path="traces" element={<Traces />} />
+            <Route path="metrics" element={<Metrics />} />
+            <Route path="logs" element={<Logs />} />
           </Routes>
         </main>
       </div>
@@ -22,19 +29,19 @@ function App() {
   };
 
   return (
-    // <GlobalContextProvider>
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Routes>
-          <Route path="/" element={<LoginPage />} />
-          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-          {/* Nested routes for /mainpage/* */}
-          <Route path="/mainpage/*" element={<MainPage />} />
-        </Routes>
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-    // </GlobalContextProvider>
+    <GlobalContextProvider>
+      <ColorModeContext.Provider value={colorMode}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <Routes>
+            <Route path="/" element={<LoginPage />} />
+            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+            {/* Nested routes for /mainpage/* */}
+            <Route path="/mainpage/*" element={<MainPage />} />
+          </Routes>
+        </ThemeProvider>
+      </ColorModeContext.Provider>
+    </GlobalContextProvider>
   );
 }
 export default App;
