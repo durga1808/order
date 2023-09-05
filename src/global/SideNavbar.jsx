@@ -6,7 +6,7 @@ import {
   MenuOutlined,
   TimelineOutlined,
   ReceiptOutlined,
-    Person,
+  Person,
 } from "@mui/icons-material";
 import { useState } from "react";
 import { tokens } from "../theme";
@@ -37,10 +37,41 @@ const SideNavbar = () => {
   };
 
   return (
-    <Box className="sideclose" >
+    <Box className="sideclose" sx={{
+      "& .pro-sidebar-inner": {
+        background: `${colors.primary[500]} !important`,
+      },
+      "& .pro-icon-wrapper": {
+        backgroundColor: "transparent !important",
+      },
+      "& .pro-inner-item": {
+        padding: "5px 35px 5px 20px !important",
+      },
+      "& .pro-inner-item:hover": {
+        color: `${colors.greenAccent[500]} !important`,
+      },
+      "& .pro-menu-item.active": {
+        color: `${colors.greenAccent[900]} !important`,
+      },
+    }} >
       {/* <ProSidebar collapsed={collapsed}> */}
       <Sidebar collapsed={collapsed} rootStyles={{ height: "100vh", color: isDarkMode ? "blue" : "black", backgroundColor: isDarkMode ? "black" : "aliceblue" }} >
-        <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100%" }}>
+        <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100%" }} menuItemStyles={{
+          button: ({ level, active, disabled }) => {
+            if (level === 0) {
+              return {
+                color: disabled ? "#eee" : "#455A64",
+                backgroundColor: active ? "#000" : "#fff",
+                "&:hover": {
+                  backgroundColor: "#335B8C !important",
+                  color: "white !important",
+                  borderRadius: "8px !important",
+                  fontWeight: "bold !important"
+                },
+              };
+            }
+          },
+        }} >
           <MenuItem
             onClick={() => setCollapsed(!collapsed)}
             icon={collapsed ? <MenuOutlined /> : undefined}
@@ -70,6 +101,7 @@ const SideNavbar = () => {
           <MenuItem
             onClick={goToDashboard}
             icon={<DashboardOutlined />}
+            active
           >
             <Typography variant="h7">DASHBOARD</Typography>
           </MenuItem>
@@ -78,15 +110,15 @@ const SideNavbar = () => {
             Data
           </Typography>
 
-          <MenuItem onClick={goToTraces} icon={<TimelineOutlined />}>
+          <MenuItem onClick={goToTraces} icon={<TimelineOutlined />} active >
             <Typography variant="h7">TRACES</Typography>
           </MenuItem>
 
-          <MenuItem onClick={goToMetrics} icon={<AnalyticsOutlined />}>
+          <MenuItem onClick={goToMetrics} icon={<AnalyticsOutlined />} active >
             <Typography variant="h7">METRICS</Typography>
           </MenuItem>
 
-          <MenuItem onClick={goToLogs} icon={<ReceiptOutlined />}>
+          <MenuItem onClick={goToLogs} icon={<ReceiptOutlined />} active >
             <Typography variant="h7">LOGS</Typography>
           </MenuItem>
 
