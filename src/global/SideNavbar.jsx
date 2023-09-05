@@ -10,7 +10,7 @@ import {
 } from "@mui/icons-material";
 import { useState } from "react";
 import { tokens } from "../theme";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideNavbar = () => {
   const theme = useTheme();
@@ -19,22 +19,6 @@ const SideNavbar = () => {
   const location = useNavigate();
 
   const [collapsed, setCollapsed] = useState(false);
-
-  const goToDashboard = () => {
-    location("/mainpage");
-  };
-
-  const goToTraces = () => {
-    location("/mainpage/traces");
-  };
-
-  const goToLogs = () => {
-    location("/mainpage/logs");
-  };
-
-  const goToMetrics = () => {
-    location("/mainpage/metrics");
-  };
 
   return (
     <Box className="sideclose" sx={{
@@ -99,7 +83,7 @@ const SideNavbar = () => {
           </MenuItem>
 
           <MenuItem
-            onClick={goToDashboard}
+            component={<Link to="/mainpage" />}
             icon={<DashboardOutlined />}
             active
           >
@@ -110,15 +94,15 @@ const SideNavbar = () => {
             Data
           </Typography>
 
-          <MenuItem onClick={goToTraces} icon={<TimelineOutlined />} active >
+          <MenuItem component={<Link to="/mainpage/traces" />} icon={<TimelineOutlined />}>
             <Typography variant="h7">TRACES</Typography>
           </MenuItem>
 
-          <MenuItem onClick={goToMetrics} icon={<AnalyticsOutlined />} active >
+          <MenuItem component={<Link to="/mainpage/metrics" />} icon={<AnalyticsOutlined />}>
             <Typography variant="h7">METRICS</Typography>
           </MenuItem>
 
-          <MenuItem onClick={goToLogs} icon={<ReceiptOutlined />} active >
+          <MenuItem component={<Link to="/mainpage/logs" />} icon={<ReceiptOutlined />}>
             <Typography variant="h7">LOGS</Typography>
           </MenuItem>
 
