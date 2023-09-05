@@ -8,9 +8,10 @@ import {
   ReceiptOutlined,
   Person,
 } from "@mui/icons-material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { tokens } from "../theme";
 import { Link, useNavigate } from "react-router-dom";
+import { GlobalContext } from "./globalContext/GlobalContext";
 
 const SideNavbar = () => {
   const theme = useTheme();
@@ -19,33 +20,18 @@ const SideNavbar = () => {
   const location = useNavigate();
 
   const [collapsed, setCollapsed] = useState(false);
+  const { selected, setSelected } = useContext(GlobalContext);
 
   return (
-    <Box className="sideclose" sx={{
-      "& .pro-sidebar-inner": {
-        background: `${colors.primary[500]} !important`,
-      },
-      "& .pro-icon-wrapper": {
-        backgroundColor: "transparent !important",
-      },
-      "& .pro-inner-item": {
-        padding: "5px 35px 5px 20px !important",
-      },
-      "& .pro-inner-item:hover": {
-        color: `${colors.greenAccent[500]} !important`,
-      },
-      "& .pro-menu-item.active": {
-        color: `${colors.greenAccent[900]} !important`,
-      },
-    }} >
+    <Box className="sideclose" >
       {/* <ProSidebar collapsed={collapsed}> */}
       <Sidebar collapsed={collapsed} rootStyles={{ height: "100vh", color: isDarkMode ? "blue" : "black", backgroundColor: isDarkMode ? "black" : "aliceblue" }} >
         <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100%" }} menuItemStyles={{
           button: ({ level, active, disabled }) => {
             if (level === 0) {
               return {
-                color: disabled ? "#eee" : "#455A64",
-                backgroundColor: active ? "#000" : "#fff",
+                color: active ? "#eee" : "red",
+                // backgroundColor: active ? "#000" : "#fff",
                 "&:hover": {
                   backgroundColor: "#335B8C !important",
                   color: "white !important",
@@ -94,7 +80,7 @@ const SideNavbar = () => {
             Data
           </Typography>
 
-          <MenuItem component={<Link to="/mainpage/traces" />} icon={<TimelineOutlined />}>
+          <MenuItem component={<Link to="/mainpage/traces" />} icon={<TimelineOutlined />} >
             <Typography variant="h7">TRACES</Typography>
           </MenuItem>
 
