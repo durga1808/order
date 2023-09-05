@@ -10,17 +10,36 @@ import {
 } from "@mui/icons-material";
 import { useState } from "react";
 import { tokens } from "../theme";
+import { useNavigate } from "react-router-dom";
 
 const SideNavbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const isDarkMode = theme.palette.mode === "dark";
+  const location = useNavigate();
 
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
+
+  const goToDashboard = () => {
+    location("/mainpage");
+  };
+
+  const goToTraces = () => {
+    location("/mainpage/traces");
+  };
+
+  const goToLogs = () => {
+    location("/mainpage/logs");
+  };
+
+  const goToMetrics = () => {
+    location("/mainpage/metrics");
+  };
 
   return (
     <Box className="sideclose" >
       {/* <ProSidebar collapsed={collapsed}> */}
-      <Sidebar collapsed={collapsed} rootStyles={{ height: "100vh", color: colors.primary[500] }} >
+      <Sidebar collapsed={collapsed} rootStyles={{ height: "100vh", color: isDarkMode ? "blue" : "black", backgroundColor: isDarkMode ? "black" : "aliceblue" }} >
         <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100%" }}>
           <MenuItem
             onClick={() => setCollapsed(!collapsed)}
@@ -33,24 +52,23 @@ const SideNavbar = () => {
               display="flex"
               justifyContent="space-between"
               alignItems="center"
-              ml="15px"
+              ml="1px"
             >
               <Typography
                 variant="h6"
                 fontWeight="500"
-                fontFamily={"Red Hat Display"}
                 marginRight={1}
               >
                 OBSERVABILITY
               </Typography>
-              <IconButton onClick={() => setCollapsed(!collapsed)} style={{ color: colors.primary[500] }}>
+              <IconButton onClick={() => setCollapsed(!collapsed)} icon={collapsed ? <MenuOutlined /> : undefined} style={{ color: isDarkMode ? colors.primary[900] : "black" }}>
                 <MenuOutlined />
               </IconButton>
             </Box>
           </MenuItem>
 
           <MenuItem
-            onClick={() => {}}
+            onClick={goToDashboard}
             icon={<DashboardOutlined />}
           >
             <Typography variant="h7">DASHBOARD</Typography>
@@ -60,19 +78,19 @@ const SideNavbar = () => {
             Data
           </Typography>
 
-          <MenuItem icon={<TimelineOutlined />}>
+          <MenuItem onClick={goToTraces} icon={<TimelineOutlined />}>
             <Typography variant="h7">TRACES</Typography>
           </MenuItem>
 
-          <MenuItem icon={<AnalyticsOutlined />}>
+          <MenuItem onClick={goToMetrics} icon={<AnalyticsOutlined />}>
             <Typography variant="h7">METRICS</Typography>
           </MenuItem>
 
-          <MenuItem icon={<ReceiptOutlined />}>
+          <MenuItem onClick={goToLogs} icon={<ReceiptOutlined />}>
             <Typography variant="h7">LOGS</Typography>
           </MenuItem>
 
-          <MenuItem icon={<Person />} rootStyles={{ marginTop: "350px" }} >
+          <MenuItem icon={<Person />} rootStyles={{ position: "absolute", bottom: "2%", width: "100%" }} >
             <Typography variant="h7">LoggedIn User</Typography>
             <br />
             <Typography variant="h7">Role</Typography>
