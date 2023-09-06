@@ -20,7 +20,7 @@ export const tokens = (mode) => ({
                 100: "#d0d1d5",
                 200: "#a1a4ab",
                 300: "#727681",
-                400: "#434957",
+                400: "#2A3050",
                 500: "#141b2d",
                 600: "#101624",
                 700: "#0c101b",
@@ -60,6 +60,9 @@ export const tokens = (mode) => ({
                 800: "#2a2d64",
                 900: "#151632",
             },
+            lightGreen: {
+                500: "#65d57a"
+            }
         }
         : {
             grey: {
@@ -117,6 +120,9 @@ export const tokens = (mode) => ({
                 800: "#c3c6fd",
                 900: "#e1e2fe",
             },
+            lightGreen: {
+                500: "#30A849"
+            }
         }),
 });
 
@@ -143,10 +149,13 @@ export const themeSettings = (mode) => {
                     background: {
                         default: colors.primary[500],
                     },
+                    button: {
+                        main: "#65d57a"
+                    }
                 }
                 : {
                     primary: {
-                        main: colors.primary[100],
+                        main: colors.primary[500],
                     },
                     secondary: {
                         main: colors.greenAccent[500],
@@ -160,6 +169,9 @@ export const themeSettings = (mode) => {
                         default: "#ffffff",
                         paper: "#ffffff",
                     },
+                    button: {
+                        main: "#30A849"
+                    }
                 }),
             typography: {
                 fontFamily: ["Red Hat Display", "Sans serif"].join(","),
