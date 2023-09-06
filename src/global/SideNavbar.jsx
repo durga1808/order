@@ -8,29 +8,32 @@ import {
   ReceiptOutlined,
   Person,
 } from "@mui/icons-material";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { tokens } from "../theme";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { GlobalContext } from "./globalContext/GlobalContext";
 
 const SideNavbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const isDarkMode = theme.palette.mode === "dark";
-  const location = useNavigate();
+  const isDarkMode = theme.palette.mode === 'dark';
 
-  const [collapsed, setCollapsed] = useState(false);
+  const routeChange = (routeName) => {
+    localStorage.setItem("routeName", routeName);
+  };
+
+  const { isCollapsed, setIsCollapsed } = useContext(GlobalContext);
   const { selected, setSelected } = useContext(GlobalContext);
 
   return (
     <Box className="sideclose" >
       {/* <ProSidebar collapsed={collapsed}> */}
-      <Sidebar collapsed={collapsed} rootStyles={{ height: "100vh", color: isDarkMode ? "blue" : "black", backgroundColor: isDarkMode ? "black" : "aliceblue" }} >
-        <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100%" }} menuItemStyles={{
+      <Sidebar collapsed={isCollapsed} rootStyles={{ height: "100vh" }} >
+        <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100%", color: isDarkMode ? "white" : "black", backgroundColor: isDarkMode ? "black" : "white" }} menuItemStyles={{
           button: ({ level, active, disabled }) => {
             if (level === 0) {
               return {
-                color: active ? "#eee" : "red",
+                color: active ? "lightgreen" : "black",
                 // backgroundColor: active ? "#000" : "#fff",
                 "&:hover": {
                   backgroundColor: "#335B8C !important",
@@ -43,10 +46,11 @@ const SideNavbar = () => {
           },
         }} >
           <MenuItem
-            onClick={() => setCollapsed(!collapsed)}
-            icon={collapsed ? <MenuOutlined /> : undefined}
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            icon={isCollapsed ? <MenuOutlined /> : undefined}
             style={{
-              margin: "10px 0 20px 0"
+              margin: "10px 0 20px 0",
+              color: isDarkMode ? "white" : "black"
             }}
           >
             <Box
@@ -62,7 +66,7 @@ const SideNavbar = () => {
               >
                 OBSERVABILITY
               </Typography>
-              <IconButton onClick={() => setCollapsed(!collapsed)} icon={collapsed ? <MenuOutlined /> : undefined} style={{ color: isDarkMode ? colors.primary[900] : "black" }}>
+              <IconButton onClick={() => setIsCollapsed(!isCollapsed)} icon={isCollapsed ? <MenuOutlined /> : undefined} style={{ color: isDarkMode ? "white" : "black" }}>
                 <MenuOutlined />
               </IconButton>
             </Box>
@@ -70,8 +74,12 @@ const SideNavbar = () => {
 
           <MenuItem
             component={<Link to="/mainpage" />}
+            active={selected === "Dashboard"}
             icon={<DashboardOutlined />}
-            active
+            style={{
+                color: isDarkMode ? "white" : "black"
+            }}
+            onClick={() => {setSelected("Dashboard"); routeChange("Dashboard");}}
           >
             <Typography variant="h7">DASHBOARD</Typography>
           </MenuItem>
@@ -80,19 +88,19 @@ const SideNavbar = () => {
             Data
           </Typography>
 
-          <MenuItem component={<Link to="/mainpage/traces" />} icon={<TimelineOutlined />} >
+          <MenuItem component={<Link to="/mainpage/traces" />} active={selected === "Traces"} icon={<TimelineOutlined />} onClick={() => {setSelected("Traces"); routeChange("Traces");}} style={{ color: isDarkMode ? "white" : "black" }} >
             <Typography variant="h7">TRACES</Typography>
           </MenuItem>
 
-          <MenuItem component={<Link to="/mainpage/metrics" />} icon={<AnalyticsOutlined />}>
+          <MenuItem component={<Link to="/mainpage/metrics" />} active={selected === "Metrics" } icon={<AnalyticsOutlined />} onClick={() => {setSelected("Metrics"); routeChange("Metrics");}} style={{ color: isDarkMode ? "white" : "black" }} >
             <Typography variant="h7">METRICS</Typography>
           </MenuItem>
 
-          <MenuItem component={<Link to="/mainpage/logs" />} icon={<ReceiptOutlined />}>
+          <MenuItem component={<Link to="/mainpage/logs" />} active={selected === "Logs" } icon={<ReceiptOutlined />} onClick={() => {setSelected("Logs"); routeChange("Logs");}} style={{ color: isDarkMode ? "white" : "black" }} >
             <Typography variant="h7">LOGS</Typography>
           </MenuItem>
 
-          <MenuItem icon={<Person />} rootStyles={{ position: "absolute", bottom: "2%", width: "100%" }} >
+          <MenuItem icon={<Person />} rootStyles={{ position: "absolute", bottom: "2%", width: "100%" }} style={{ color: isDarkMode ? "white" : "black" }} >
             <Typography variant="h7">LoggedIn User</Typography>
             <br />
             <Typography variant="h7">Role</Typography>

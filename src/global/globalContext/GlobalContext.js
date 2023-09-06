@@ -4,7 +4,7 @@ const GlobalContext = createContext();
 
 const GlobalContextProvider = ({ children }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [selected, setSelected] = useState("");
+    const [selected, setSelected] = useState(localStorage.getItem("routeName"));
 
     return (
         <GlobalContext.Provider
