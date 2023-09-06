@@ -207,7 +207,8 @@ const Login = () => {
           <input id="check" type="checkbox" class="check" checked/>
           <label for="check"><span class="icon"></span> Keep me Signed in</label>
         </div> */}
-        <div className="group">
+        <div className="group"
+           onClick={()=> navigate("/mainpage/*")}>
           <input type="submit" className="button" value="Login"/>
         </div>
         <div className="hr"></div>
