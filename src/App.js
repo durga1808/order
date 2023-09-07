@@ -30,8 +30,8 @@ function App() {
 
   return (
     <GlobalContextProvider>
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <ColorModeContext.Provider value={colorMode}>
           <CssBaseline />
           <Routes>
             <Route path="/" element={<LoginPage />} />
@@ -39,8 +39,8 @@ function App() {
             {/* Nested routes for /mainpage/* */}
             <Route path="/mainpage/*" element={<MainPage />} />
           </Routes>
-        </ThemeProvider>
-      </ColorModeContext.Provider>
+        </ColorModeContext.Provider>
+      </ThemeProvider>
     </GlobalContextProvider>
   );
 }

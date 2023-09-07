@@ -6,6 +6,7 @@ import { ColorModeContext, tokens } from "../theme";
 
 function Topbar() {
   const theme = useTheme();
+  console.log("theme color " + theme.palette.mode)
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
   
@@ -17,17 +18,15 @@ function Topbar() {
 
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar sx={{ justifyContent: "flex-end" }}>
+      <AppBar position="static"  >
+        <Toolbar sx={{ justifyContent: "flex-end", backgroundColor: colors.primary[400], }}>
           <IconButton
-            color="inherit"
             aria-label="Toggle Dark Mode"
             onClick={colorMode.toggleColorMode}
           >
             {theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
           <IconButton
-            color="inherit"
             aria-label="Account"
             onClick={handleLogout}
           >
