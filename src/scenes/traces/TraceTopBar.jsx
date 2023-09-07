@@ -82,14 +82,16 @@ const TraceTopBar = () => {
             display: "flex",
             justifyContent: "space-between",
             backgroundColor: colors.primary[400],
-            boxShadow: "0px -3px 5px rgba(0, 0, 0, 0.2)",
+            borderTop: "4px solid #EBEBEB",
           }}
         >
           <Tabs
             value={activeTab}
             onChange={handleTabChange}
             // onChange={handleTabwidthChange}
-            TabIndicatorProps={{ style: { backgroundColor: "black" } }}
+            TabIndicatorProps={{
+              sx: { backgroundColor: "black", minWidth: 50 },
+            }}
             textColor="black"
           >
             <Tab
