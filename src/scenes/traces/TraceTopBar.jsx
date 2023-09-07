@@ -1,16 +1,18 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
+// import { makeStyles } from "@mui/styles";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import FilterDialog from "./FilterDialog";
 import { useTheme } from "@emotion/react";
-import { ColorModeContext, tokens } from "../../theme";
+import { tokens } from "../../theme";
+import { IconButton } from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
 import { Link } from "react-router-dom";
-import SummaryChart from "./summary/SummaryChart";
 
 const timeOptions = [
   "15 minutes",
@@ -29,10 +31,25 @@ const TraceTopBar = () => {
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState("");
   const [activeTab, setActiveTab] = useState(0);
+  const [value, setValue] = useState(0);
 
-  // const theme = useTheme();
-  // const colors = tokens(theme.palatte.mode);
-  // const ColorMode = useContext(ColorModeContext);
+  const handleTabwidthChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  const tabStyles = {
+    // Default tab style
+    tab: {
+      minWidth: 0, // Set the default minimum width of tabs
+    },
+    // Active tab style with a different width
+    activeTab: {
+      minWidth: 50, // Set the width of the active tab
+    },
+  };
 
   // const useStyles = makeStyles((theme) => ({
   //   select: {
@@ -65,27 +82,44 @@ const TraceTopBar = () => {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            // backgroundColor: colors.primary[400],
+            backgroundColor: colors.primary[400],
+            boxShadow: "0px -3px 5px rgba(0, 0, 0, 0.2)",
           }}
         >
-          <Tabs value={activeTab} onChange={handleTabChange}>
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            // onChange={handleTabwidthChange}
+            TabIndicatorProps={{ style: { backgroundColor: "black" } }}
+            textColor="black"
+          >
             <Link to={"/mainpage/traces/"} >
-              <Tab label="Summary" />
+              <Tab
+                label="Summary"
+                // onChange={handleTabwidthChange}
+                style={value === 0 ? tabStyles.activeTab : tabStyles.tab}
+              />
             </Link>
             <Link to={"/mainpage/traces/trace"} >
-              <Tab label="Traces" />
+              <Tab
+                label="Traces"
+                // onChange={handleTabwidthChange}
+                style={value === 1 ? tabStyles.activeTab : tabStyles.tab}
+              />
             </Link>
-
           </Tabs>
           <div>
-            <Button
-              sx={{ mr: "30px" }}
+            <IconButton color="black" sx={{ mr: "30px" }} aria-label="refresh">
+              <RefreshIcon />
+            </IconButton>
+            {/* <Button
+              sx={{ mr: "30px" , color: "black" }}
               variant="contained"
               color="primary"
               size="large"
             >
               Refresh
-            </Button>
+            </Button> */}
             <Select
               // className={classes.select}
               value={selectedTime}
@@ -93,7 +127,7 @@ const TraceTopBar = () => {
               displayEmpty
               inputProps={{ "aria-label": "Select Time" }}
               style={{ fontSize: "10px" }}
-            // sx={{ mr: "30px", p: "-20px" }}
+              sx={{ mr: "30px" }}
             >
               <MenuItem value="" disabled>
                 Select Time
