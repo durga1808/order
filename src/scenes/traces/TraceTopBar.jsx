@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import { makeStyles } from "@mui/styles";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Tabs from "@mui/material/Tabs";
@@ -10,6 +9,8 @@ import Tab from "@mui/material/Tab";
 import FilterDialog from "./FilterDialog";
 import { useTheme } from "@emotion/react";
 import { ColorModeContext, tokens } from "../../theme";
+import { Link } from "react-router-dom";
+import SummaryChart from "./summary/SummaryChart";
 
 const timeOptions = [
   "15 minutes",
@@ -68,8 +69,13 @@ const TraceTopBar = () => {
           }}
         >
           <Tabs value={activeTab} onChange={handleTabChange}>
-            <Tab label="Summary" />
-            <Tab label="Traces" />
+            <Link to={"/mainpage/traces/"} >
+              <Tab label="Summary" />
+            </Link>
+            <Link to={"/mainpage/traces/trace"} >
+              <Tab label="Traces" />
+            </Link>
+
           </Tabs>
           <div>
             <Button
@@ -87,7 +93,7 @@ const TraceTopBar = () => {
               displayEmpty
               inputProps={{ "aria-label": "Select Time" }}
               style={{ fontSize: "10px" }}
-              // sx={{ mr: "30px", p: "-20px" }}
+            // sx={{ mr: "30px", p: "-20px" }}
             >
               <MenuItem value="" disabled>
                 Select Time

@@ -6,7 +6,8 @@ const Traces = () => {
   return (
     <div>
       <TraceTopBar />
-      <TraceList />
+      {/* <TraceList /> */} 
+      HELLO
     </div>
   );
 };
