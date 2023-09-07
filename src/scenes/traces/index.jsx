@@ -6,7 +6,9 @@ const Traces = () => {
   return (
     <div>
       <TraceTopBar />
-      <TraceList />
+      <div style={{ maxHeight: "calc(100vh - 100px)", overflowY: "auto" }}>
+        <TraceList />
+      </div>
     </div>
   );
 };
