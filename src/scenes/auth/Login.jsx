@@ -26,7 +26,6 @@ const Login = () => {
           }
         }
       })
-      // navigate("/mainpage/*");
     }
 
   return (
@@ -68,7 +67,7 @@ const Login = () => {
               <label for="check">
               ROLE
               </label>
-              <select value={role} onChange={(e) => setRole(e.target.value)} >
+              <select className="inner-dropdown-all" value={role} onChange={(e) => setRole(e.target.value)} >
                 <option className="inner-dropdown" value="none">None</option>
                 <option className="inner-dropdown" value="admin">Admin</option>
                 <option className="inner-dropdown" value="vendor">Vendor</option>
