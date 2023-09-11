@@ -8,9 +8,31 @@ import { GlobalContextProvider } from "./global/globalContext/GlobalContext";
 import Traces from "./scenes/traces";
 import Metrics from "./scenes/metrics";
 import Logs from "./scenes/logs";
+import TraceList from "./scenes/traces/trace/TraceList";
+import SummaryChart from "./scenes/traces/summary/SummaryChart";
+import TraceTopBar from "./scenes/traces/TraceTopBar";
 
 function App() {
   const [theme, colorMode] = useMode();
+
+  // const TraceNavBar = () => {
+  //   <Routes>
+  //     <Route index element={<SummaryChart />} />
+
+  //   </Routes>
+  // }
+
+  const TraceSection = () => {
+    return (
+      <div>
+        <TraceTopBar />
+        <Routes>
+          <Route index element={<SummaryChart />} />
+          <Route path="trace" element={<TraceList />} />
+        </Routes>
+      </div>
+    )
+  }
 
   const MainPage = () => {
     return (
@@ -19,7 +41,7 @@ function App() {
         <main className="content">
           <Topbar />
           <Routes>
-            <Route path="traces" element={<Traces />} />
+            <Route path="traces/*" element={<TraceSection />} />
             <Route path="metrics" element={<Metrics />} />
             <Route path="logs" element={<Logs />} />
           </Routes>

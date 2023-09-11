@@ -15,6 +15,7 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import Dropdown from "react-bootstrap/Dropdown";
 import Tooltip from "@mui/material/Tooltip";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import { Link } from "react-router-dom";
 // import "./customDropDown.css";
 // import { Button } from "react-bootstrap";
 
@@ -116,18 +117,20 @@ const TraceTopBar = () => {
             }}
             textColor="black"
           >
-            <Tab
-              label="Summary"
-              style={{ fontSize: "10px" }}
-              // onChange={handleTabwidthChange}
-              // style={value === 0 ? tabStyles.activeTab : tabStyles.tab}
-            />
-            <Tab
-              label="Traces"
-              style={{ fontSize: "10px" }}
-              // onChange={handleTabwidthChange}
-              // style={value === 1 ? tabStyles.activeTab : tabStyles.tab}
-            />
+            <Link to={"/mainpage/traces/"} >
+              <Tab
+                label="Summary"
+                // onChange={handleTabwidthChange}
+                // style={value === 0 ? tabStyles.activeTab : tabStyles.tab}
+              />
+            </Link>
+            <Link to={"/mainpage/traces/trace"} >
+              <Tab
+                label="Traces"
+                // onChange={handleTabwidthChange}
+                // style={value === 1 ? tabStyles.activeTab : tabStyles.tab}
+              />
+            </Link>
           </Tabs>
           <div style={{ display: "flex" }}>
             {/* <Button
