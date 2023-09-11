@@ -11,25 +11,25 @@ import { tokens } from '../../theme';
 
 const mockTraces = [
     {
-      servicename: 'Service 1',
-      endPoint: '/endpoint1',
-      traceID: '123456987667898767898768987984594b345679',
+      servicename: 'orderService',
+      endPoint: '/order/getAllOrder',
+      traceID: '6a38d36987667898767898768987984594b345679',
       duration: 'a few seconds ago',
       statusCode: '200',
       method: 'GET',
     },
     {
-      servicename: 'Service 2',
-      endPoint: '/endpoint2',
-      traceID: '789012',
+      servicename: 'vendorService',
+      endPoint: '/vendor/createVendor',
+      traceID: '938b83b29837d8738x998378329087p0987789888',
       duration: '300 ms',
       statusCode: '404',
       method: 'POST',
     },
     {
-        servicename: 'Service 3',
-        endPoint: '/endpoint3',
-        traceID: '345678',
+        servicename: 'providerService',
+        endPoint: '/provider/getProviderById/{id} ',
+        traceID: '93875bf984375j4938749284vd87342893275874',
         duration: '200 ms',
         statusCode: '200',
         method: 'GET',
@@ -74,7 +74,7 @@ const TraceList = () => {
   return (
     <Box className="container">
         <Box className="box-container" width="100%" display="flex" flexDirection="row" justifyContent="space-between" margin= "10px 0 10px 0" >
-            <Typography variant="h6" style={{ margin: "10px 0 20px 0" }}>Traces(5)</Typography>
+            <Typography variant="h6" style={{ margin: "10px 0 20px 0" }}>Traces {""} ({mockTraces.length})</Typography>
 
             <FormControl style={{ width: "40%" }}>
                 <InputLabel id="demo-simple-select-label" style={{ color: colors.primary[100] }}>Sort Order</InputLabel>
@@ -94,7 +94,7 @@ const TraceList = () => {
         </Box>
 
         { mockTraces.map((trace, index) => (    
-            <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "500px", height: "fit-content" }} >
+            <Card className="tracelist-card" key={index} sx={{ position: "relative", margin: "10px 0 10px 0", width: "500px", height: "fit-content" }} >
             {/* <Card sx={{ maxWidth: 500 }}> */}
                 <CardActionArea>
                 {/* <CardMedia
@@ -103,26 +103,18 @@ const TraceList = () => {
                     image="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dynatrace.com%2Fnews%2Fblog%2Fopen-observability-distributed-tracing-and-observability%2F&psig=AOvVaw1UdwSrwWOw5IRAlGjOqhrb&ust=1693308672587000&source=images&cd=vfe&opi=89978449&ved=2ahUKEwitq9XAoP-AAxUzcWwGHeggDFQQjRx6BAgAEAw"
                     alt="trace image"
                 /> */}
-                <CardHeader title={<Typography variant="h6" style={{ backgroundColor: colors.greenAccent[500] }}>{trace.servicename}: {trace.endPoint}</Typography>} />
+                <CardHeader title={<Typography variant="h6" style={{ backgroundColor: colors.greenAccent[500], width: "100%" }}>{trace.servicename}: {trace.endPoint}</Typography>} />
                     <CardContent>
                         {/* <Typography gutterBottom variant="h5" component="div">
                         Traces
                         </Typography> */}
                         
                         <Typography variant="body2">
-                            {/* Servicename: endPoint
-                            <br />
-                            TraceID:
-                            <br />
-                            Duration:  StatusCode:  Method: */}
                             {/* orderProject: /get/getAllOrder
                             <br />
                             TraceID: 3948357549bas943578942nmn24985378345676543456432
                             <br />
                             20ms:  StatusCode: 200  Method: GET */}
-                            {/* <Typography variant="h6">
-                                {trace.servicename}: {trace.endPoint} 
-                            </Typography> */}
 
                             <Typography variant="h8" >
                                 TraceID: {trace.traceID}
