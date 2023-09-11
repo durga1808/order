@@ -10,24 +10,25 @@ const Login = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-     const [username,setUsername]= useState('');
-     const [password,setPassword]= useState('');
-     const [role,setRole] = useState('none');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('none');
 
-    const handleLogin = () => {
-      // console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
-      LoginInfo.forEach((userInfo) => {
-        if(userInfo.username === username){
-          if(userInfo.password === password){
-            if(userInfo.roles.includes(role)){
-              console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
-              navigate("/mainpage/*");
-            }
+  const handleLogin = () => {
+    // console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
+    localStorage.setItem("routeName", "");
+    LoginInfo.forEach((userInfo) => {
+      if (userInfo.username === username) {
+        if (userInfo.password === password) {
+          if (userInfo.roles.includes(role)) {
+            console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
+            navigate("/mainpage/*");
           }
         }
-      })
-      // navigate("/mainpage/*");
-    }
+      }
+    })
+    // navigate("/mainpage/*");
+  }
 
   return (
     <div className="login-wrap">
@@ -48,7 +49,7 @@ const Login = () => {
                 Username
               </label>
               <input id="user" type="text" className="input" value={username}
-        onChange={(e) => setUsername(e.target.value)} />
+                onChange={(e) => setUsername(e.target.value)} />
             </div>
 
             <div className="group">
@@ -66,7 +67,7 @@ const Login = () => {
 
             <div className="role1">
               <label for="check">
-              ROLE
+                ROLE
               </label>
               <select value={role} onChange={(e) => setRole(e.target.value)} >
                 <option className="inner-dropdown" value="none">None</option>

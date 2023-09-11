@@ -8,7 +8,7 @@ import { GlobalContextProvider } from "./global/globalContext/GlobalContext";
 import Traces from "./scenes/traces";
 import Metrics from "./scenes/metrics";
 import Logs from "./scenes/logs";
-import TraceList from "./scenes/traces/TraceList";
+import TraceList from "./scenes/traces/trace/TraceList";
 import SummaryChart from "./scenes/traces/summary/SummaryChart";
 import TraceTopBar from "./scenes/traces/TraceTopBar";
 
