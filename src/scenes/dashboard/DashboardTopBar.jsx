@@ -8,10 +8,7 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { IconButton } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
-<<<<<<< HEAD
-=======
 // import "./DashboardTopBar.css";
->>>>>>> 9415a386e86aafe65272d9edfacec1472911ba3c
 import Tooltip from "@mui/material/Tooltip";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link } from "react-router-dom";
