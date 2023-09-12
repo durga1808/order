@@ -74,8 +74,8 @@ const TraceList = () => {
     return (
         <div style={{ maxHeight: "calc(100vh - 100px)", overflowY: "auto" }} >
             <Box className="container"  >
-                <Box className="box-container" width="100%" display="flex" flexDirection="row" justifyContent="space-between" margin="10px 0 10px 0" >
-                    <Typography variant="h6" style={{ margin: "10px 0 20px 0" }}>Traces(5)</Typography>
+                <Box className="box-container" width="100%" display="flex" flexDirection="row" justifyContent="space-between" margin="10px 0 0 0" >
+                    <Typography variant="h6" style={{ margin: "10px 0 20px 0" }}>Traces ({mockTraces.length})</Typography>
 
                     <FormControl style={{ width: "40%" }}>
                         <InputLabel id="demo-simple-select-label" style={{ color: colors.primary[100] }}>Sort Order</InputLabel>
@@ -98,24 +98,9 @@ const TraceList = () => {
                     <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "500px", height: "fit-content" }} >
                         {/* <Card sx={{ maxWidth: 500 }}> */}
                         <CardActionArea>
-                            {/* <CardMedia
-                    component="img"
-                    height="140"
-                    image="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.dynatrace.com%2Fnews%2Fblog%2Fopen-observability-distributed-tracing-and-observability%2F&psig=AOvVaw1UdwSrwWOw5IRAlGjOqhrb&ust=1693308672587000&source=images&cd=vfe&opi=89978449&ved=2ahUKEwitq9XAoP-AAxUzcWwGHeggDFQQjRx6BAgAEAw"
-                    alt="trace image"
-                /> */}
                             <CardHeader title={<Typography variant="h6" style={{ backgroundColor: colors.greenAccent[500] }}>{trace.servicename}: {trace.endPoint}</Typography>} />
                             <CardContent>
-                                {/* <Typography gutterBottom variant="h5" component="div">
-                        Traces
-                        </Typography> */}
-
                                 <Typography variant="body2">
-                                    {/* Servicename: endPoint
-                            <br />
-                            TraceID:
-                            <br />
-                            Duration:  StatusCode:  Method: */}
                                     {/* orderProject: /get/getAllOrder
                             <br />
                             TraceID: 3948357549bas943578942nmn24985378345676543456432
