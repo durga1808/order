@@ -7,7 +7,7 @@ const Traces = () => {
     <div>
       {/* <TraceTopBar /> */}
       <TraceList /> 
-      HELLO
+      {/* HELLO */}
     </div>
   );
 };
