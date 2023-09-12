@@ -72,7 +72,7 @@ const TraceList = () => {
     };
 
     return (
-        <div style={{ maxHeight: "calc(100vh - 100px)", overflowY: "auto" }} >
+        <div style={{ maxHeight: "calc(100vh - 50px)", overflowY: "auto" }} >
             <Box className="container"  >
                 <Box className="box-container" width="100%" display="flex" flexDirection="row" justifyContent="space-between" margin="10px 0 0 0" >
                     <Typography variant="h6" style={{ margin: "10px 0 20px 0" }}>Traces ({mockTraces.length})</Typography>
@@ -101,15 +101,6 @@ const TraceList = () => {
                             <CardHeader title={<Typography variant="h6" style={{ backgroundColor: colors.greenAccent[500] }}>{trace.servicename}: {trace.endPoint}</Typography>} />
                             <CardContent>
                                 <Typography variant="body2">
-                                    {/* orderProject: /get/getAllOrder
-                            <br />
-                            TraceID: 3948357549bas943578942nmn24985378345676543456432
-                            <br />
-                            20ms:  StatusCode: 200  Method: GET */}
-                                    {/* <Typography variant="h6">
-                                {trace.servicename}: {trace.endPoint} 
-                            </Typography> */}
-
                                     <Typography variant="h8" >
                                         TraceID: {trace.traceID}
                                     </Typography>
