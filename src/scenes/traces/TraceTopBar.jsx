@@ -12,7 +12,7 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { IconButton } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import Dropdown from "react-bootstrap/Dropdown";
+import './TraceTopBar.css'
 import Tooltip from "@mui/material/Tooltip";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link } from "react-router-dom";
@@ -159,91 +159,20 @@ const TraceTopBar = () => {
                 </MenuItem>
               ))}
               </Select> */}
-
-            <div style={{ marginRight: "15px" }}>
-              <Dropdown>
-                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                  {selectedOption || "Select an Option"}
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    style={
-                      {
-                        // activeItem === '30 minutes' ? activeItemStyle : dropdownItemStyle,
-                        // color: "black",
-                      }
-                    }
-                    onClick={() => handleOptionSelect("30 minutes")}
-                  >
-                    30 minutes
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    style={{
-                      // backgroundColor: colors.primary[900],
-                      color: "black",
-                    }}
-                    onClick={() => handleOptionSelect("1 hour")}
-                  >
-                    1 hour
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    style={{
-                      // backgroundColor: colors.primary[900],
-                      color: "black",
-                    }}
-                    onClick={() => handleOptionSelect("2 hours")}
-                  >
-                    2 hours
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    style={{
-                      // backgroundColor: colors.primary[900],
-                      color: "black",
-                    }}
-                    onClick={() => handleOptionSelect("4 hours")}
-                  >
-                    4 hours
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    style={{
-                      // backgroundColor: colors.primary[900],
-                      color: "black",
-                    }}
-                    onClick={() => handleOptionSelect("8 hours")}
-                  >
-                    8 hours
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    style={{
-                      // backgroundColor: colors.primary[900],
-                      color: "black",
-                    }}
-                    onClick={() => handleOptionSelect("12 hours")}
-                  >
-                    12 hours
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    style={{
-                      // backgroundColor: colors.primary[900],
-                      color: "black",
-                    }}
-                    onClick={() => handleOptionSelect("16 hours")}
-                  >
-                    16 hours
-                  </Dropdown.Item>
-                  <Dropdown.Item
-                    style={{
-                      // backgroundColor: colors.primary[900],
-                      color: "black",
-                    }}
-                    onClick={() => handleOptionSelect("24 hours")}
-                  >
-                    24 hours
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            </div>
+	<div class="sec-center"> 	
+	  	<input class="dropdown" type="checkbox" id="dropdown" name="dropdown"/>
+	  	<label class="for-dropdown" for="dropdown">Dropdown Menu <i class="uil uil-arrow-down"></i></label>
+  		<div class="section-dropdown"> 
+  			<a href="#">Dropdown Link <i class="uil uil-arrow-right"></i></a>
+		  	<input class="dropdown-sub" type="checkbox" id="dropdown-sub" name="dropdown-sub"/>
+		  	<label class="for-dropdown-sub" for="dropdown-sub">Dropdown Sub <i class="uil uil-plus"></i></label>
+	  		<div class="section-dropdown-sub"> 
+	  			<a href="#">Dropdown Link <i class="uil uil-arrow-right"></i></a>
+	  			<a href="#">Dropdown Link <i class="uil uil-arrow-right"></i></a>
+	  		</div>
+  			<a href="#">Dropdown Link <i class="uil uil-arrow-right"></i></a>
+  			<a href="#">Dropdown Link <i class="uil uil-arrow-right"></i></a>
+  		</div>
             <Tooltip title="Refresh">
               <IconButton
                 onClick={handleRefreshClick}
@@ -272,7 +201,10 @@ const TraceTopBar = () => {
 
           {/* <Button color="inherit" onClick={handleFilterClick}>
             Filter
+            
           </Button> */}
+
+          </div>
         </Toolbar>
       </AppBar>
       <FilterDialog open={filterDialogOpen} onClose={handleFilterDialogClose} />
