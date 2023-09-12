@@ -73,7 +73,7 @@ const SideNavbar = () => {
           </MenuItem>
 
           <MenuItem
-            component={<Link to="/mainpage" />}
+            component={<Link to="/mainpage/dashboard" />}
             active={selected === "Dashboard"}
             icon={<DashboardOutlined />}
             onClick={() => {setSelected("Dashboard"); routeChange("Dashboard");}}

@@ -1,9 +1,9 @@
 import React from 'react'
 
-const SummaryChart = () => {
+const TraceSummaryChart = () => {
   return (
     <div>SummaryChart</div>
   )
 }
 
-export default SummaryChart
+export default TraceSummaryChart

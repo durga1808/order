@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./Login.css";
 import { Button, useTheme } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import { LoginInfo } from "../../global/MockData/LoginMock";
+import { GlobalContext } from "../../global/globalContext/GlobalContext";
 
 const Login = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const { setSelected } = useContext(GlobalContext);
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -16,13 +19,14 @@ const Login = () => {
 
   const handleLogin = () => {
     // console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
-    localStorage.setItem("routeName", "");
     LoginInfo.forEach((userInfo) => {
       if (userInfo.username === username) {
         if (userInfo.password === password) {
           if (userInfo.roles.includes(role)) {
             console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
-            navigate("/mainpage/*");
+            localStorage.setItem("routeName", "Dashboard");
+            setSelected("Dashboard");
+            navigate("/mainpage/dashboard");
           }
         }
       }

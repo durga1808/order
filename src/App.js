@@ -8,9 +8,9 @@ import { GlobalContextProvider } from "./global/globalContext/GlobalContext";
 import Traces from "./scenes/traces";
 import Metrics from "./scenes/metrics";
 import Logs from "./scenes/logs";
-import TraceList from "./scenes/traces/trace/TraceList";
-import SummaryChart from "./scenes/traces/summary/SummaryChart";
-import TraceTopBar from "./scenes/traces/TraceTopBar";
+import TraceSummaryChart from "./scenes/dashboard/summary/TraceSummaryChart";
+import LogSummaryChart from "./scenes/dashboard/summary/LogSummaryChart";
+import DashboardTopBar from "./scenes/dashboard/DashboardTopBar";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -22,13 +22,13 @@ function App() {
   //   </Routes>
   // }
 
-  const TraceSection = () => {
+  const DashboardSection = () => {
     return (
       <div>
-        <TraceTopBar />
+        <DashboardTopBar />
         <Routes>
-          <Route index element={<SummaryChart />} />
-          <Route path="trace" element={<TraceList />} />
+          <Route index element={<TraceSummaryChart />} />
+          <Route path="logSummary" element={<LogSummaryChart />} />
         </Routes>
       </div>
     )
@@ -41,7 +41,8 @@ function App() {
         <main className="content">
           <Topbar />
           <Routes>
-            <Route path="traces/*" element={<TraceSection />} />
+            <Route path="dashboard/*" element={<DashboardSection />} />
+            <Route path="traces" element={<Traces />} />
             <Route path="metrics" element={<Metrics />} />
             <Route path="logs" element={<Logs />} />
           </Routes>

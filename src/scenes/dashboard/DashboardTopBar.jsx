@@ -7,7 +7,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import FilterDialog from "./FilterDialog";
+import FilterDialog from "../traces/FilterDialog";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { IconButton } from "@mui/material";
@@ -32,7 +32,7 @@ const timeOptions = [
   "24 hours",
 ];
 
-const TraceTopBar = () => {
+const DashboardTopBar = () => {
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
   const [selectedTime, setSelectedTime] = useState("");
   const [activeTab, setActiveTab] = useState(0);
@@ -117,16 +117,16 @@ const TraceTopBar = () => {
             }}
             textColor="black"
           >
-            <Link to={"/mainpage/traces/"} >
+            <Link to={"/mainpage/dashboard"} >
               <Tab
-                label="Summary"
+                label="Trace Summary"
                 // onChange={handleTabwidthChange}
                 // style={value === 0 ? tabStyles.activeTab : tabStyles.tab}
               />
             </Link>
-            <Link to={"/mainpage/traces/trace"} >
+            <Link to={"/mainpage/dashboard/logSummary"} >
               <Tab
-                label="Traces"
+                label="Log Summary"
                 // onChange={handleTabwidthChange}
                 // style={value === 1 ? tabStyles.activeTab : tabStyles.tab}
               />
@@ -280,4 +280,4 @@ const TraceTopBar = () => {
   );
 };
 
-export default TraceTopBar;
+export default DashboardTopBar;
