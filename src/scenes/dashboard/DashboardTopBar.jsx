@@ -50,7 +50,7 @@ const DashboardTopBar = () => {
 
   return (
     <>
-      <AppBar position="static" style={{ height: "45px" }}>
+      <AppBar position="static" >
         <Toolbar
           style={{
             display: "flex",
