@@ -6,26 +6,35 @@ import Tab from "@mui/material/Tab";
 import FilterDialog from "../traces/FilterDialog";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 // import "./DashboardTopBar.css";
 import Tooltip from "@mui/material/Tooltip";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import { Link } from "react-router-dom";
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
+import { Link, useNavigate } from "react-router-dom";
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
+import "./DashboardTopBar.css"
+import { FilterListOutlined, RefreshOutlined } from "@mui/icons-material";
 
 const DashboardTopBar = () => {
+  const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const options = [
-    '30 minutes', '1 hour', '2 hours','4 hours', '8 hours', '12 hours','16 hours', '24 hours'
+    "30 minutes",
+    "1 hour",
+    "2 hours",
+    "4 hours",
+    "8 hours",
+    "12 hours",
+    "16 hours",
+    "24 hours",
   ];
 
-  
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
- 
+
   const FilterbuttonStyle = {
     backgroundColor: "#6c757d", // Use your desired gray color
     color: "#fff", // Text color
@@ -34,8 +43,7 @@ const DashboardTopBar = () => {
     },
   };
   const iconStyle = {
-    fontSize: "21px", // Adjust the font size as needed
-    mar: "30px",
+    fontSize: "22px", // Adjust the font size as needed
   };
 
   const handleRefreshClick = () => {
@@ -44,6 +52,11 @@ const DashboardTopBar = () => {
   };
 
   const handleTabChange = (event, newValue) => {
+    if (newValue === 0) {
+      navigate("/mainpage/dashboard");
+    } else if (newValue === 1) {
+      navigate("/mainpage/dashboard/logSummary");
+    }
     setActiveTab(newValue);
   };
 
@@ -57,7 +70,7 @@ const DashboardTopBar = () => {
 
   return (
     <>
-      <AppBar position="static" >
+      <AppBar position="static">
         <Toolbar
           style={{
             display: "flex",
@@ -74,32 +87,34 @@ const DashboardTopBar = () => {
             }}
             textColor="black"
           >
-            <Link to={"/mainpage/dashboard"}>
-              <Tab label="Trace Summary" />
-            </Link>
-            <Link to={"/mainpage/dashboard/logSummary"}>
-              <Tab label="Log Summary" />
-            </Link>
+            <Tab label="Trace Summary" />
+            <Tab label="Log Summary" />
           </Tabs>
-          <div style={{ display: "flex" }}>
-          <Dropdown options={options} placeholder="Select an option" />
-
+          <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-around", mr: "5px" }} >
+            <Dropdown options={options} placeholder="Lookback for" arrowClosed={<span className="arrow-closed" />}
+              arrowOpen={<span className="arrow-open" />} />
             <Tooltip title="Refresh">
               <IconButton
                 onClick={handleRefreshClick}
                 color="black"
                 aria-label="refresh"
                 sx={{ mr: "15px" }}
+                style={FilterbuttonStyle}
               >
-                <RefreshIcon style={iconStyle} />
+                <RefreshOutlined style={iconStyle} />
               </IconButton>
             </Tooltip>
             <Tooltip title="Filter">
               <IconButton onClick={handleFilterClick} style={FilterbuttonStyle}>
-                <FilterListIcon style={iconStyle} />
+                <FilterListOutlined style={iconStyle} />
               </IconButton>
             </Tooltip>
-          </div>
+          </Box>
+          {/* <div style={{ display: "flex" }}>
+          <Dropdown options={options} placeholder="Select an option" />
+
+            
+          </div> */}
         </Toolbar>
       </AppBar>
       <FilterDialog open={filterDialogOpen} onClose={handleFilterDialogClose} />
