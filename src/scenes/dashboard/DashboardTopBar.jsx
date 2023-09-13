@@ -12,13 +12,20 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import Tooltip from "@mui/material/Tooltip";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link } from "react-router-dom";
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 const DashboardTopBar = () => {
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+  const options = [
+    '30 minutes', '1 hour', '2 hours','4 hours', '8 hours', '12 hours','16 hours', '24 hours'
+  ];
+
+  
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
+ 
   const FilterbuttonStyle = {
     backgroundColor: "#6c757d", // Use your desired gray color
     color: "#fff", // Text color
@@ -75,8 +82,8 @@ const DashboardTopBar = () => {
             </Link>
           </Tabs>
           <div style={{ display: "flex" }}>
+          <Dropdown options={options} placeholder="Select an option" />
 
-            <div></div>
             <Tooltip title="Refresh">
               <IconButton
                 onClick={handleRefreshClick}
