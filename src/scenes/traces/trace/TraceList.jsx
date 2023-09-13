@@ -1,5 +1,4 @@
 import React from 'react'
-// import CardMedia from '@mui/material/CardMedia';
 import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader, OutlinedInput } from '@mui/material';
 import "./TraceList.css";
 import InputLabel from '@mui/material/InputLabel';
@@ -85,14 +84,9 @@ const TraceList = () => {
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={time}
-                            // label="Sort Order"
                             input={<OutlinedInput label="Sort Order" />}
                             onChange={handleChange}
                         >
-                            {/* <MenuItem value={10}>Earliest First</MenuItem>
-                            <MenuItem value={20}>1 hr ago</MenuItem>
-                            <MenuItem value={30}>2 hrs ago</MenuItem>
-                            <MenuItem value={40}>12 hrs ago</MenuItem> */}
                             {sortOrder.map((sortorder) => (
                                 <MenuItem
                                     key={sortorder}
@@ -107,11 +101,9 @@ const TraceList = () => {
 
                 {mockTraces.map((trace, index) => (
                     <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "500px", height: "fit-content" }} >
-                        {/* <Card sx={{ maxWidth: 500 }}> */}
                         <CardActionArea>
                             <CardHeader title={<Typography variant="h6" sx={{ backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px" }}>{trace.servicename}: {trace.endPoint}</Typography>} />
                             <CardContent style={{ marginTop: "-20px"}}>
-                                {/* <Typography variant="body2"> */}
                                     {/* orderProject: /get/getAllOrder
                             <br />
                             TraceID: 3948357549bas943578942nmn24985378345676543456432
@@ -130,7 +122,6 @@ const TraceList = () => {
                                         <span>StatusCode: {trace.statusCode}</span>
                                         <span>Method: {trace.method}</span>
                                     </Typography>
-                                {/* </Typography> */}
                             </CardContent>
                         </CardActionArea>
                     </Card>
