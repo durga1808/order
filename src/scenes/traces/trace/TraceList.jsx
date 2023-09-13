@@ -1,6 +1,5 @@
 import React from 'react'
-// import CardMedia from '@mui/material/CardMedia';
-import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader } from '@mui/material';
+import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader, OutlinedInput } from '@mui/material';
 import "./TraceList.css";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -60,6 +59,8 @@ const mockTraces = [
     }
 ];
 
+const sortOrder = ['Earliest First', '1 hr ago', '2 hrs ago', '12 hrs ago'];
+
 const TraceList = () => {
 
     const theme = useTheme();
@@ -73,34 +74,45 @@ const TraceList = () => {
 
     return (
         <div style={{ maxHeight: "calc(100vh - 50px)", overflowY: "auto" }} >
-            <Box className="container"  >
-                <Box className="box-container" width="100%" display="flex" flexDirection="row" justifyContent="space-between" margin="10px 0 0 0" >
-                    <Typography variant="h6" style={{ margin: "10px 0 20px 0" }}>Traces ({mockTraces.length})</Typography>
+            <div className="container"  >
+                <Box width="100%" display="flex" flexDirection="row" justifyContent="space-between" margin="10px 10px 0 10px" >
+                    <Typography variant="h6" style={{ margin: "10px 0 20px 10px" }}>Traces ({mockTraces.length})</Typography>
 
-                    <FormControl style={{ width: "40%" }}>
+                    <FormControl sx={{ width: "40%" }}>
                         <InputLabel id="demo-simple-select-label" style={{ color: colors.primary[100] }}>Sort Order</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
                             value={time}
-                            label="Sort Order"
+                            input={<OutlinedInput label="Sort Order" />}
                             onChange={handleChange}
                         >
-                            <MenuItem value={10}>Earliest First</MenuItem>
-                            <MenuItem value={20}>1 hr ago</MenuItem>
-                            <MenuItem value={30}>2 hrs ago</MenuItem>
-                            <MenuItem value={40}>12 hrs ago</MenuItem>
+                            {sortOrder.map((sortorder) => (
+                                <MenuItem
+                                    key={sortorder}
+                                    value={sortorder}
+                                >
+                                    {sortorder}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Box>
 
                 {mockTraces.map((trace, index) => (
                     <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "500px", height: "fit-content" }} >
-                        {/* <Card sx={{ maxWidth: 500 }}> */}
                         <CardActionArea>
-                            <CardHeader title={<Typography variant="h6" style={{ backgroundColor: colors.greenAccent[500] }}>{trace.servicename}: {trace.endPoint}</Typography>} />
-                            <CardContent>
-                                <Typography variant="body2">
+                            <CardHeader title={<Typography variant="h6" sx={{ backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px" }}>{trace.servicename}: {trace.endPoint}</Typography>} />
+                            <CardContent style={{ marginTop: "-20px"}}>
+                                    {/* orderProject: /get/getAllOrder
+                            <br />
+                            TraceID: 3948357549bas943578942nmn24985378345676543456432
+                            <br />
+                            20ms:  StatusCode: 200  Method: GET */}
+                                    {/* <Typography variant="h6">
+                                {trace.servicename}: {trace.endPoint} 
+                            </Typography> */}
+
                                     <Typography variant="h8" >
                                         TraceID: {trace.traceID}
                                     </Typography>
@@ -110,12 +122,11 @@ const TraceList = () => {
                                         <span>StatusCode: {trace.statusCode}</span>
                                         <span>Method: {trace.method}</span>
                                     </Typography>
-                                </Typography>
                             </CardContent>
                         </CardActionArea>
                     </Card>
                 ))}
-            </Box>
+            </div>
         </div>
     )
 }
