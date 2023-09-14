@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader, OutlinedInput } from '@mui/material';
+import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader, OutlinedInput, Pagination } from '@mui/material';
 import "./TraceList.css";
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -82,8 +82,8 @@ const TraceList = () => {
 
     return (
         <div  >
-            <div className="container"  >
-                <Box width="100%" display="flex" flexDirection="row" justifyContent="space-between" margin="0px 10px 0 10px" >
+            <div>
+                <Box display="flex" flexDirection="row" justifyContent="space-between"  >
                     <Typography variant="h7" style={{ margin: "10px 0 20px 10px" }}>Traces ({mockTraces.length})</Typography>
 
                     {/* <FormControl sx={{ width: "40%" }}>
@@ -105,13 +105,20 @@ const TraceList = () => {
                             ))}
                         </Select>
                     </FormControl> */}
-                    <Dropdown options={sortOrder} placeholder="Sort Order" arrowClosed={<span className="arrow-closed" />}
-              arrowOpen={<span className="arrow-open" />} />
+
+                    <Box sx={{ margin: "10px 0 20px 0" }} >
+                        <Pagination count={10} variant="outlined" size='small' shape="rounded" />
+                    </Box>
+
+                    <Box sx={{ margin: "5px 0 20px 0" }} >
+                        <Dropdown options={sortOrder} placeholder="Sort Order" arrowClosed={<span className="arrow-closed" />}
+                            arrowOpen={<span className="arrow-open" />} />
+                    </Box>
                 </Box>
 
-                <Box sx={{ maxHeight: "calc(81vh - 50px)", overflowY: "auto",paddingRight:"10px" }} >
+                <Box sx={{ maxHeight: "calc(80vh - 50px)", overflowY: "auto" }} >
                     {mockTraces.map((trace, index) => (
-                        <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "500px", height: "fit-content" }} >
+                        <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "530px", height: "fit-content" }} >
                             <CardActionArea>
                                 <CardHeader title={<Typography variant="h6" sx={{ backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px" }}>{trace.servicename}: {trace.endPoint}</Typography>} />
                                 <CardContent style={{ marginTop: "-20px" }}>
@@ -136,6 +143,7 @@ const TraceList = () => {
                                 </CardContent>
                             </CardActionArea>
                         </Card>
+                        
                     ))}
                 </Box>
             </div>
