@@ -7,6 +7,8 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useState } from 'react';
 import { tokens } from '../../../theme';
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 const mockTraces = [
     {
@@ -73,12 +75,12 @@ const TraceList = () => {
     };
 
     return (
-        <div style={{ maxHeight: "calc(100vh - 50px)", overflowY: "auto" }} >
+        <div  >
             <div className="container"  >
-                <Box width="100%" display="flex" flexDirection="row" justifyContent="space-between" margin="10px 10px 0 10px" >
-                    <Typography variant="h6" style={{ margin: "10px 0 20px 10px" }}>Traces ({mockTraces.length})</Typography>
+                <Box width="100%" display="flex" flexDirection="row" justifyContent="space-between" margin="0px 10px 0 10px" >
+                    <Typography variant="h7" style={{ margin: "10px 0 20px 10px" }}>Traces ({mockTraces.length})</Typography>
 
-                    <FormControl sx={{ width: "40%" }}>
+                    {/* <FormControl sx={{ width: "40%" }}>
                         <InputLabel id="demo-simple-select-label" style={{ color: colors.primary[100] }}>Sort Order</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -96,14 +98,17 @@ const TraceList = () => {
                                 </MenuItem>
                             ))}
                         </Select>
-                    </FormControl>
+                    </FormControl> */}
+                    <Dropdown options={sortOrder} placeholder="Sort Order" arrowClosed={<span className="arrow-closed" />}
+              arrowOpen={<span className="arrow-open" />} />
                 </Box>
 
-                {mockTraces.map((trace, index) => (
-                    <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "500px", height: "fit-content" }} >
-                        <CardActionArea>
-                            <CardHeader title={<Typography variant="h6" sx={{ backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px" }}>{trace.servicename}: {trace.endPoint}</Typography>} />
-                            <CardContent style={{ marginTop: "-20px"}}>
+                <Box sx={{ maxHeight: "calc(81vh - 50px)", overflowY: "auto",paddingRight:"10px" }} >
+                    {mockTraces.map((trace, index) => (
+                        <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "500px", height: "fit-content" }} >
+                            <CardActionArea>
+                                <CardHeader title={<Typography variant="h6" sx={{ backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px" }}>{trace.servicename}: {trace.endPoint}</Typography>} />
+                                <CardContent style={{ marginTop: "-20px" }}>
                                     {/* orderProject: /get/getAllOrder
                             <br />
                             TraceID: 3948357549bas943578942nmn24985378345676543456432
@@ -122,10 +127,11 @@ const TraceList = () => {
                                         <span>StatusCode: {trace.statusCode}</span>
                                         <span>Method: {trace.method}</span>
                                     </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                ))}
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                    ))}
+                </Box>
             </div>
         </div>
     )
