@@ -1,22 +1,31 @@
 import React from "react";
 import TraceList from "./trace/TraceList";
-import { Box, Card } from "@mui/material";
+import { Box, Card, useTheme } from "@mui/material";
+import { tokens } from "../../theme";
+import SpanFlow from "./trace/SpanFlow";
 
 const Traces = () => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", padding: "20px", maxHeight: "calc(100vh - 50px)", overflowY: "auto"}}>
+    <div style={{ display: "flex", flexDirection: "row", justifyContent: "normal" }} >
       {/* <TraceTopBar /> */}
-      <div>
-        <Card sx={{ padding: "10px", flex: 1, marginTop: "10px" }}>
+      <Box sx={{ width: "580px", m: "40px 20px 0 20px" }} >
+        <Card sx={{ backgroundColor: colors.primary[400], padding: "15px" }}>
           <TraceList />
         </Card>
-      </div>
+      </Box>
 
       <div>
-
+        <Box sx={{m: "40px 20px 20px 10px", width:"620px", }} >
+          <Card sx={{ backgroundColor: colors.primary[400], padding: "15px" }}>
+            <SpanFlow />
+          </Card>
+        </Box>
       </div>
 
-    </div>
+
+    </div >
   );
 };
 

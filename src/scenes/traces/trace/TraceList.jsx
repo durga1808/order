@@ -1,12 +1,9 @@
 import React from 'react'
-import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader, OutlinedInput } from '@mui/material';
+import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader, Pagination } from '@mui/material';
 import "./TraceList.css";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useState } from 'react';
 import { tokens } from '../../../theme';
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 
 const mockTraces = [
     {
@@ -72,19 +69,19 @@ const TraceList = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const [time, setTime] = useState('');
+    // const [time, setTime] = useState('');
 
-    const handleChange = (event) => {
-        setTime(event.target.value);
-    };
+    // const handleChange = (event) => {
+    //     setTime(event.target.value);
+    // };
 
     return (
-        <div style={{ maxHeight: "calc(100vh - 50px)", overflowY: "auto" }} >
-            <div className="container" >
-                <Box width="100%" display="flex" flexDirection="row" justifyContent="space-between" margin="0 10px 0 10px" >
-                    <Typography variant="h6" style={{ margin: "10px 0 20px 10px" }}>Traces ({mockTraces.length})</Typography>
+        <div  >
+            <div>
+                <Box display="flex" flexDirection="row" justifyContent="space-between"  >
+                    <Typography variant="h7" style={{ margin: "10px 0 20px 10px" }}>Traces ({mockTraces.length})</Typography>
 
-                    <FormControl sx={{ width: "40%" }}>
+                    {/* <FormControl sx={{ width: "40%" }}>
                         <InputLabel id="demo-simple-select-label" style={{ color: colors.primary[100] }}>Sort Order</InputLabel>
                         <Select
                             labelId="demo-simple-select-label"
@@ -102,25 +99,29 @@ const TraceList = () => {
                                 </MenuItem>
                             ))}
                         </Select>
-                    </FormControl>
+                    </FormControl> */}
+
+                    <Box sx={{ margin: "10px 0 20px 0" }} >
+                        <Pagination count={10} variant="outlined" size='small' shape="rounded" />
+                    </Box>
+
+                    <Box sx={{ margin: "5px 0 20px 0" }} >
+                        <Dropdown options={sortOrder} placeholder="Sort Order" arrowClosed={<span className="arrow-closed" />}
+                            arrowOpen={<span className="arrow-open" />} />
+                    </Box>
                 </Box>
 
-                {mockTraces.map((trace, index) => (
-                    <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "500px", height: "fit-content" }} >
-                        <CardActionArea>
-                            <CardHeader title={<Typography variant="h6" sx={{ backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px", display: "flex", justifyContent: "space-between" }}>
-                                <span>{trace.servicename}: {trace.endPoint}</span>
-                                <span>{trace.duration}</span>
-                            </Typography>} />
-                            <CardContent style={{ marginTop: "-20px"}}>
+                <Box sx={{ maxHeight: "calc(80vh - 50px)", overflowY: "auto" }} >
+                    {mockTraces.map((trace, index) => (
+                        <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "530px", height: "fit-content" }} >
+                            <CardActionArea>
+                                <CardHeader title={<Typography variant="h6" sx={{ backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px" }}>{trace.servicename}: {trace.endPoint}</Typography>} />
+                                <CardContent style={{ marginTop: "-20px" }}>
                                     {/* orderProject: /get/getAllOrder
                             <br />
                             TraceID: 3948357549bas943578942nmn24985378345676543456432
                             <br />
                             20ms:  StatusCode: 200  Method: GET */}
-                                    {/* <Typography variant="h6">
-                                {trace.servicename}: {trace.endPoint} 
-                            </Typography> */}
 
                                     <Typography variant="h8" >
                                         TraceID: {trace.traceID}
@@ -131,10 +132,12 @@ const TraceList = () => {
                                         <span>StatusCode: {trace.statusCode}</span>
                                         <span>Method: {trace.method}</span>
                                     </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                    </Card>
-                ))}
+                                </CardContent>
+                            </CardActionArea>
+                        </Card>
+                        
+                    ))}
+                </Box>
             </div>
         </div>
     )
