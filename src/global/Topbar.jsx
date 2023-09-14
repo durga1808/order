@@ -12,7 +12,7 @@ import { ColorModeContext, tokens } from "../theme";
 
 function Topbar() {
   const theme = useTheme();
-  console.log("theme color " + theme.palette.mode);
+  // console.log("theme color " + theme.palette.mode);
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
@@ -33,22 +33,21 @@ function Topbar() {
           sx={{
             justifyContent: "flex-end",
             backgroundColor: colors.primary[400],
-            // height: "16px",
+            marginTop: "-10px",
           }}
         >
           <IconButton
-            style={{ paddingTop: "0px" }}
             aria-label="Toggle Dark Mode"
             onClick={colorMode.toggleColorMode}
           >
-            {theme.palette.mode === "light" ? <Brightness7 /> : <Brightness4 />}
+            {theme.palette.mode === "light" ? (
+              <Brightness7 style={{ fontSize: "20px" }} />
+            ) : (
+              <Brightness4 style={{ fontSize: "20px" }} />
+            )}
           </IconButton>
-          <IconButton
-            aria-label="Account"
-            onClick={handleLogout}
-            style={{ paddingTop: "0px" }}
-          >
-            <LogoutIcon />
+          <IconButton aria-label="Account" onClick={handleLogout}>
+            <LogoutIcon style={{ fontSize: "20px" }} />
           </IconButton>
         </Toolbar>
       </AppBar>
