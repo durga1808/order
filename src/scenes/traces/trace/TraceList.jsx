@@ -1,11 +1,6 @@
 import React from 'react'
-import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader, OutlinedInput, Pagination } from '@mui/material';
+import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader, Pagination } from '@mui/material';
 import "./TraceList.css";
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useState } from 'react';
 import { tokens } from '../../../theme';
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -74,11 +69,11 @@ const TraceList = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
 
-    const [time, setTime] = useState('');
+    // const [time, setTime] = useState('');
 
-    const handleChange = (event) => {
-        setTime(event.target.value);
-    };
+    // const handleChange = (event) => {
+    //     setTime(event.target.value);
+    // };
 
     return (
         <div  >
@@ -127,9 +122,6 @@ const TraceList = () => {
                             TraceID: 3948357549bas943578942nmn24985378345676543456432
                             <br />
                             20ms:  StatusCode: 200  Method: GET */}
-                                    {/* <Typography variant="h6">
-                                {trace.servicename}: {trace.endPoint} 
-                            </Typography> */}
 
                                     <Typography variant="h8" >
                                         TraceID: {trace.traceID}

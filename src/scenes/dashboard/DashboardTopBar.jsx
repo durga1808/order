@@ -74,7 +74,15 @@ const DashboardTopBar = () => {
             display: "flex",
             justifyContent: "space-between",
             backgroundColor: colors.primary[400],
-            borderTop: "4px solid #EBEBEB",
+            // style={{
+            border: `1px solid ${theme.palette.divider}`,
+            boxShadow:
+              "0px 4px 4px -2px rgba(0,0,0,0.2), 0px 7px 10px 1px rgba(0,0,0,0.14), 0px 2px 16px 1px rgba(0,0,0,0.12)",
+            // }}
+
+            // borderTop: "4px solid #EBEBEB",
+            // borderTop: activeTab === 0 ? "4px solid #EBEBEB" : "4px solid red",
+            // borderTop: colors.topBorder[400],
           }}
         >
           <Tabs
