@@ -10,14 +10,14 @@ const Traces = () => {
   return (
     <div style={{ display: "flex", flexDirection: "row", justifyContent: "normal" }} >
       {/* <TraceTopBar /> */}
-      <Box sx={{ width: "550px", m: "40px 20px 20px 20px" }} >
+      <Box sx={{ width: "580px", m: "40px 20px 0 20px" }} >
         <Card sx={{ backgroundColor: colors.primary[400], padding: "15px" }}>
           <TraceList />
         </Card>
       </Box>
 
       <div>
-        <Box sx={{m: "40px 20px 20px 10px", width:"650px", }} >
+        <Box sx={{m: "40px 20px 20px 10px", width:"620px", }} >
           <Card sx={{ backgroundColor: colors.primary[400], padding: "15px" }}>
             <SpanFlow />
           </Card>
