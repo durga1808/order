@@ -12,52 +12,58 @@ import "react-dropdown/style.css";
 
 const mockTraces = [
     {
-        servicename: 'Service 1',
-        endPoint: '/endpoint1',
+        servicename: 'orderService',
+        endPoint: '/order/getOrderById/{id}',
         traceID: '123456987667898767898768987984594b345679',
-        duration: 'a few seconds ago',
+        createdTime: 'a few seconds ago',
         statusCode: '200',
         method: 'GET',
+        duration: '100 ms',
     },
     {
         servicename: 'Service 2',
         endPoint: '/endpoint2',
         traceID: '789012',
-        duration: '300 ms',
+        createdTime: '1 min ago',
         statusCode: '404',
         method: 'POST',
+        duration: '200 ms',
     },
     {
         servicename: 'Service 3',
         endPoint: '/endpoint3',
         traceID: '345678',
-        duration: '200 ms',
+        createdTime: '2 min ago',
         statusCode: '200',
         method: 'GET',
+        duration: '250 ms',
     },
     {
         servicename: 'Service 4',
         endPoint: '/endpoint4',
         traceID: '123456',
-        duration: '100 ms',
+        createdTime: '5 min ago',
         statusCode: '200',
         method: 'GET',
+        duration: '200 ms',
     },
     {
         servicename: 'Service 5',
         endPoint: '/endpoint5',
         traceID: '123456',
-        duration: '100 ms',
+        createdTime: '10 min ago',
         statusCode: '200',
         method: 'GET',
+        duration: '150 ms',
     },
     {
         servicename: 'Service 6',
         endPoint: '/endpoint6',
         traceID: '123456',
-        duration: '100 ms',
+        createdTime: '15 min ago',
         statusCode: '200',
         method: 'GET',
+        duration: '200 ms',
     }
 ];
 
@@ -123,7 +129,7 @@ const TraceList = () => {
                                     </Typography>
 
                                     <Typography variant="h8" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", margin: "15px 0 0 0 " }}>
-                                        <span>{trace.duration}</span>
+                                        <span>{trace.createdTime}</span>
                                         <span>StatusCode: {trace.statusCode}</span>
                                         <span>Method: {trace.method}</span>
                                     </Typography>

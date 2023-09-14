@@ -14,13 +14,14 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { Link, useNavigate } from "react-router-dom";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
-import "./DashboardTopBar.css"
+import "./DashboardTopBar.css";
 import { FilterListOutlined, RefreshOutlined } from "@mui/icons-material";
 
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
+
   const options = [
     "30 minutes",
     "1 hour",
@@ -36,12 +37,9 @@ const DashboardTopBar = () => {
   const colors = tokens(theme.palette.mode);
 
   const FilterbuttonStyle = {
-    backgroundColor: "#6c757d", // Use your desired gray color
-    color: "#fff", // Text color
-    "&:hover": {
-      backgroundColor: "#495057", // Color when hovered
-    },
+    backgroundColor: colors.primary[800], // Use your desired gray color
   };
+
   const iconStyle = {
     fontSize: "22px", // Adjust the font size as needed
   };
@@ -83,16 +81,29 @@ const DashboardTopBar = () => {
             value={activeTab}
             onChange={handleTabChange}
             TabIndicatorProps={{
-              sx: { backgroundColor: "black", minWidth: 50 },
+              sx: {
+                backgroundColor: colors.lightGreen[500],
+              },
             }}
             textColor="black"
           >
             <Tab label="Trace Summary" />
             <Tab label="Log Summary" />
           </Tabs>
-          <Box sx={{ display: "flex", flexDirection: "row", justifyContent: "space-around", mr: "5px" }} >
-            <Dropdown options={options} placeholder="Lookback for" arrowClosed={<span className="arrow-closed" />}
-              arrowOpen={<span className="arrow-open" />} />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              mr: "5px",
+            }}
+          >
+            <Dropdown
+              options={options}
+              placeholder="Lookback for"
+              arrowClosed={<span className="arrow-closed" />}
+              arrowOpen={<span className="arrow-open" />}
+            />
             <Tooltip title="Refresh">
               <IconButton
                 onClick={handleRefreshClick}
