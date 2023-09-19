@@ -5,72 +5,9 @@ export const spanData = [
         "methodName": "POST /",
         "duration": "120ms",
         "statusCode": "200",
+        "spanCount": "5",
         "createdTime": "a few seconds ago",
         "spans": [
-            {
-                "attributes": [
-                    {
-                        "key": "thread.id",
-                        "value": {
-                            "intValue": 26
-                        }
-                    },
-                    {
-                        "key": "thread.name",
-                        "value": {
-                            "intValue": 0,
-                            "stringValue": "executor-thread-1"
-                        }
-                    }
-                ],
-                "endTimeUnixNano": "1690183254781013224",
-                "kind": 1,
-                "name": "Session.merge",
-                "parentSpanId": "c77283d02dbe843c",
-                "spanId": "be8746b6a9d0a60a",
-                "startTimeUnixNano": "1690183251887669140",
-                "status": {},
-                "traceId": "1d9349e72cb6279ff97befe54f2e982b"
-            },
-            {
-                "attributes": [
-                    {
-                        "key": "code.namespace",
-                        "value": {
-                            "intValue": 0,
-                            "stringValue": "org.telemeter.Rest.PersonResource_Subclass"
-                        }
-                    },
-                    {
-                        "key": "code.function",
-                        "value": {
-                            "intValue": 0,
-                            "stringValue": "createPerson"
-                        }
-                    },
-                    {
-                        "key": "thread.id",
-                        "value": {
-                            "intValue": 26
-                        }
-                    },
-                    {
-                        "key": "thread.name",
-                        "value": {
-                            "intValue": 0,
-                            "stringValue": "executor-thread-1"
-                        }
-                    }
-                ],
-                "endTimeUnixNano": "1690183255111533861",
-                "kind": 1,
-                "name": "PersonResource_Subclass.createPerson",
-                "parentSpanId": "7274e2d0a0c75be5",
-                "spanId": "c77283d02dbe843c",
-                "startTimeUnixNano": "1690183249713580345",
-                "status": {},
-                "traceId": "1d9349e72cb6279ff97befe54f2e982b"
-            },
             {
                 "attributes": [
                     {
@@ -207,58 +144,17 @@ export const spanData = [
             {
                 "attributes": [
                     {
-                        "key": "db.connection_string",
+                        "key": "code.namespace",
                         "value": {
                             "intValue": 0,
-                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                            "stringValue": "org.telemeter.Rest.PersonResource_Subclass"
                         }
                     },
                     {
-                        "key": "net.peer.name",
+                        "key": "code.function",
                         "value": {
                             "intValue": 0,
-                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
-                        }
-                    },
-                    {
-                        "key": "db.user",
-                        "value": {
-                            "intValue": 0,
-                            "stringValue": "observability-demo-user"
-                        }
-                    },
-                    {
-                        "key": "net.peer.port",
-                        "value": {
-                            "intValue": 5432
-                        }
-                    },
-                    {
-                        "key": "db.statement",
-                        "value": {
-                            "intValue": 0,
-                            "stringValue": "select p1_0.id,p1_0.age,p1_0.name from person p1_0 where p1_0.id = any (?)"
-                        }
-                    },
-                    {
-                        "key": "db.system",
-                        "value": {
-                            "intValue": 0,
-                            "stringValue": "postgresql"
-                        }
-                    },
-                    {
-                        "key": "db.sql.table",
-                        "value": {
-                            "intValue": 0,
-                            "stringValue": "person"
-                        }
-                    },
-                    {
-                        "key": "db.operation",
-                        "value": {
-                            "intValue": 0,
-                            "stringValue": "SELECT"
+                            "stringValue": "createPerson"
                         }
                     },
                     {
@@ -273,21 +169,14 @@ export const spanData = [
                             "intValue": 0,
                             "stringValue": "executor-thread-1"
                         }
-                    },
-                    {
-                        "key": "db.name",
-                        "value": {
-                            "intValue": 0,
-                            "stringValue": "observability-demo-tables"
-                        }
                     }
                 ],
-                "endTimeUnixNano": "1690183254618616962",
-                "kind": 3,
-                "name": "SELECT observability-demo-tables.person",
-                "parentSpanId": "be8746b6a9d0a60a",
-                "spanId": "3510586bca5c146c",
-                "startTimeUnixNano": "1690183254582299928",
+                "endTimeUnixNano": "1690183255111533861",
+                "kind": 1,
+                "name": "PersonResource_Subclass.createPerson",
+                "parentSpanId": "7274e2d0a0c75be5",
+                "spanId": "c77283d02dbe843c",
+                "startTimeUnixNano": "1690183249713580345",
                 "status": {},
                 "traceId": "1d9349e72cb6279ff97befe54f2e982b"
             },
@@ -377,7 +266,120 @@ export const spanData = [
                 "startTimeUnixNano": "1690183254991490755",
                 "status": {},
                 "traceId": "1d9349e72cb6279ff97befe54f2e982b"
-            }
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": 26
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": 0,
+                            "stringValue": "executor-thread-1"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1690183254781013224",
+                "kind": 1,
+                "name": "Session.merge",
+                "parentSpanId": "c77283d02dbe843c",
+                "spanId": "be8746b6a9d0a60a",
+                "startTimeUnixNano": "1690183251887669140",
+                "status": {},
+                "traceId": "1d9349e72cb6279ff97befe54f2e982b"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "intValue": 0,
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "intValue": 0,
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "intValue": 0,
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": 5432
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "intValue": 0,
+                            "stringValue": "select p1_0.id,p1_0.age,p1_0.name from person p1_0 where p1_0.id = any (?)"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "intValue": 0,
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.sql.table",
+                        "value": {
+                            "intValue": 0,
+                            "stringValue": "person"
+                        }
+                    },
+                    {
+                        "key": "db.operation",
+                        "value": {
+                            "intValue": 0,
+                            "stringValue": "SELECT"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": 26
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": 0,
+                            "stringValue": "executor-thread-1"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "intValue": 0,
+                            "stringValue": "observability-demo-tables"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1690183254618616962",
+                "kind": 3,
+                "name": "SELECT observability-demo-tables.person",
+                "parentSpanId": "be8746b6a9d0a60a",
+                "spanId": "3510586bca5c146c",
+                "startTimeUnixNano": "1690183254582299928",
+                "status": {},
+                "traceId": "1d9349e72cb6279ff97befe54f2e982b"
+            },
+            
         ]
     }
 ]
