@@ -2,7 +2,8 @@ import React from "react";
 import TraceList from "./trace/TraceList";
 import { Box, Card, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
-import SpanFlow from "./trace/SpanFlow";
+import SpanFlow from "./trace/spanReactFlow/SpanFlow";
+
 
 const Traces = () => {
   const theme = useTheme();

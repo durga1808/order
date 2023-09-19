@@ -52,12 +52,12 @@ const mockTraces = [
         duration: '150 ms',
     },
     {
-        servicename: 'Service 6',
-        endPoint: '/endpoint6',
+        servicename: 'vendorService',
+        endPoint: '/vendor/deleteVendorById/{id}',
         traceID: '123456',
         createdTime: '15 min ago',
         statusCode: '200',
-        method: 'GET',
+        method: 'DELETE',
         duration: '200 ms',
     }
 ];
@@ -113,10 +113,19 @@ const TraceList = () => {
 
                 <Box sx={{ maxHeight: "calc(80vh - 50px)", overflowY: "auto" }} >
                     {mockTraces.map((trace, index) => (
-                        <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "530px", height: "fit-content" }} >
+                        <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "530px", height: "fit-content", backgroundColor: colors.primary[500] }} >
                             <CardActionArea>
-                                <CardHeader title={<Typography variant="h6" sx={{ backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px" }}>{trace.servicename}: {trace.endPoint}</Typography>} />
-                                <CardContent style={{ marginTop: "-20px" }}>
+                                {/* <CardHeader title={<Typography variant="h6" sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px" }}>
+                                    <span>{trace.servicename}: {trace.endPoint}</span>
+                                    <span>{trace.duration}</span>
+                                </Typography>} /> */}
+                                <Box>
+                                <Typography  sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], padding: "5px", fontSize:"16px" }}>
+                                    <span> <span style={{ fontWeight: "600" }}>{trace.servicename}:</span> {trace.endPoint}</span>
+                                    <span>{trace.duration}</span>
+                                </Typography>
+                                </Box>
+                                <CardContent>
                                     {/* orderProject: /get/getAllOrder
                             <br />
                             TraceID: 3948357549bas943578942nmn24985378345676543456432
@@ -124,13 +133,13 @@ const TraceList = () => {
                             20ms:  StatusCode: 200  Method: GET */}
 
                                     <Typography variant="h8" >
-                                        TraceID: {trace.traceID}
+                                        <span style={{ fontWeight: "600" }}>TraceID:</span> {trace.traceID}
                                     </Typography>
 
-                                    <Typography variant="h8" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", margin: "15px 0 0 0 " }}>
-                                        <span>{trace.createdTime}</span>
-                                        <span>StatusCode: {trace.statusCode}</span>
-                                        <span>Method: {trace.method}</span>
+                                    <Typography variant="h8" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "15px 0 0 0 " }}>
+                                        <span style={{width:"150px"}} >{trace.createdTime}</span>
+                                        <span style={{width:"200px"}} > <span style={{ fontWeight: "600", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
+                                        <span style={{width:"100px"}} > <span style={{ fontWeight: "600", margin: "0 2px 0 0" }}>Method:</span>{trace.method}</span>
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
