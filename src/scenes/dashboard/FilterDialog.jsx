@@ -14,7 +14,7 @@ import { FormGroup } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
-import { Box, Slider, TextField } from "@mui/material";
+import { Slider, TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 
 const FilterDialog = ({ open, onClose }) => {
@@ -28,7 +28,7 @@ const FilterDialog = ({ open, onClose }) => {
 
   const services = ['OrderService', 'VendorService', 'ProviderService', 'DeliveryService'];
   const methods = ['POST', 'GET', 'PUT', 'DELETE'];
-  const codes = ['200', '201', '400', '403', '404', '500'];
+  const codes = ['2xx', '3xx', '4xx', '5xx'];
 
   const toggleOption = (option) => () => {
     if (selectedOptions.includes(option)) {
@@ -72,18 +72,18 @@ const FilterDialog = ({ open, onClose }) => {
     return `${value}`;
   };
 
-
   return (
     <Drawer anchor="right" open={open} onClose={onClose}  >
       <div style={{ width: "300px" }}>
         <List>
           <ListItem>
             <ListItemText primary="Filter Options" />
+            <Button color="inherit" onClick={clearSelectedOptions}>Clear</Button>
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion expanded={expanded === 'panel4'} onChange={handlePanelChange('panel4')} style={{ width: "500px" }}>
+            <Accordion expanded={expanded === 'panel1'} onChange={handlePanelChange('panel1')} style={{ width: "500px" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>Duration</Typography>
               </AccordionSummary>
@@ -97,7 +97,6 @@ const FilterDialog = ({ open, onClose }) => {
                   valueLabelDisplay="auto"
                   getAriaValueText={valuetext}
                 />
-                {/* <Box> */}
                   <TextField
                     label="Min"
                     variant="outlined"
@@ -118,21 +117,18 @@ const FilterDialog = ({ open, onClose }) => {
                     }}
                     style={{ margin: "10px"}}
                   />
-                {/* </Box> */}
               </AccordionDetails>
             </Accordion>
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion expanded={expanded === 'panel1'} onChange={handlePanelChange('panel1')} style={{ width: "500px" }}>
+            <Accordion expanded={expanded === 'panel2'} onChange={handlePanelChange('panel2')} style={{ width: "500px" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>Service</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
-                <Button color="inherit" onClick={clearSelectedOptions}>Clear</Button>
-
                 <FormGroup>
                   {services.map((service) => (
                     <FormControlLabel
@@ -158,9 +154,9 @@ const FilterDialog = ({ open, onClose }) => {
           <Divider />
 
           <ListItem>
-            <Accordion expanded={expanded === 'panel2'} onChange={handlePanelChange('panel2')} style={{ width: "500px"}}>
+            <Accordion expanded={expanded === 'panel3'} onChange={handlePanelChange('panel3')} style={{ width: "500px"}}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>HTTP Method <span style={{alignItems: "right", padding: "10px", margin: "10px" }} ><Button  color="inherit" onClick={clearSelectedOptions}>Clear</Button></span> </Typography>
+                <Typography>HTTP Method</Typography>
               </AccordionSummary>
 
               <AccordionDetails>  
@@ -188,9 +184,9 @@ const FilterDialog = ({ open, onClose }) => {
           <Divider />
 
           <ListItem>
-            <Accordion expanded={expanded === 'panel3'} onChange={handlePanelChange('panel3')} style={{ width: "500px"}}>
+            <Accordion expanded={expanded === 'panel4'} onChange={handlePanelChange('panel4')} style={{ width: "500px"}}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>HTTP Code <span style={{alignItems: "right", padding: "10px", margin: "10px" }} ><Button  color="inherit" onClick={clearSelectedOptions}>Clear</Button></span> </Typography>
+                <Typography>HTTP Code</Typography>
               </AccordionSummary>
 
               <AccordionDetails>  
