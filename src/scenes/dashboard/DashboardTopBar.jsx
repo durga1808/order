@@ -65,7 +65,7 @@ const DashboardTopBar = () => {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" elevation={0}>
         <Toolbar
           style={{
             display: "flex",
@@ -73,9 +73,9 @@ const DashboardTopBar = () => {
             justifyContent: "space-between",
             backgroundColor: colors.primary[400],
             // style={{
-            border: `1px solid ${theme.palette.divider}`,
-            boxShadow:
-              "0px 4px 4px -2px rgba(0,0,0,0.2), 0px 7px 10px 1px rgba(0,0,0,0.14), 0px 2px 16px 1px rgba(0,0,0,0.12)",
+            // border: `1px solid ${theme.palette.divider}`,
+            // boxShadow:
+            //   "0px 4px 4px -2px rgba(0,0,0,0.2), 0px 7px 10px 1px rgba(0,0,0,0.14), 0px 2px 16px 1px rgba(0,0,0,0.12)",
             // }}
 
             // borderTop: "4px solid #EBEBEB",
