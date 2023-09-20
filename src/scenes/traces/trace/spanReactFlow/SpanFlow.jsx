@@ -34,31 +34,31 @@ const initialEdges = [
 const initialNodes = [
   {
     id: "span-7274e2d0a0c75be5",
-    type: "input",
+    // type: "input",
     data: { label: "POST /" },
     position: { x: 0, y: 0 },
   },
   {
     id: "span-c77283d02dbe843c",
-    type: "input",
+    // type: "input",
     data: { label: "PersonResource_Subclass.createPerson" },
     position: { x: 50, y: 90 },
   },
   {
     id: "span-36529e406ba99e26",
-    type: "input",
+    // type: "input",
     data: { label: "UPDATE observability-demo-tables.person" },
     position: { x: 100, y: 180 },
   },
   {
     id: "span-be8746b6a9d0a60a",
-    type: "input",
+    // type: "input",
     data: { label: "Session.merge" },
     position: { x: 150, y: 270 },
   },
   {
     id: "span-3510586bca5c146c",
-    type: "input",
+    // type: "input",
     data: { label: "SELECT observability-demo-tables.person" },
     position: { x: 200, y: 360 },
   },
@@ -103,8 +103,8 @@ const initialNodes = [
 // ];
 
 const SpanFlow = () => {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -119,56 +119,60 @@ const SpanFlow = () => {
     animated: true,
   };
 
-  // useEffect(() => {
-  //   // Process the span data and generate nodes and edges
-  //   const spanIdToNodeId = {};
-  //   const newNodes = [];
-  //   const newEdges = [];
+  useEffect(() => {
+    // Process the span data and generate nodes and edges
+    const spanIdToNodeId = {};
+    const newNodes = [];
+    const newEdges = [];
 
-  //   // Calculate the node positions dynamically
-  //   const nodeSpacingX = 50; // Adjust this value to control horizontal spacing
-  //   const nodeSpacingY = 90; // Adjust this value to control vertical spacing
+    // Calculate the node positions dynamically
+    let nodeSpacingX = 100; // Adjust this value to control horizontal spacing
+    let nodeSpacingY = 100; // Adjust this value to control vertical spacing
 
-  //   spanData[0].spans.forEach((span, index) => {
-  //     console.log(index);
-  //     const nodeId = `span-${span.spanId}`;
-  //     const nodeX = index * nodeSpacingX; // Adjust x position based on index
-  //     const nodeY = index * nodeSpacingY; // Set a fixed y position
+    spanData[0].spans.forEach((span, index) => {
+      console.log(index);
+      const nodeId = `span-${span.spanId}`;
+      const nodeX = index * nodeSpacingX; // Adjust x position based on index
+      const nodeY = index * nodeSpacingY; // Set a fixed y position
 
-  //     const node = {
-  //       id: nodeId,
-  //       type: "input",
-  //       data: {
-  //         label: span.name,
-  //       },
-  //       position: { x: nodeX, y: nodeY },
-  //     };
+      const node = {
+        id: nodeId,
+        type: index === 0 ? "input" : index === spanData[0].spans.length - 1 ? "output" : "default",
+        data: {
+          label: span.name,
+        },
+        position: { x: nodeX, y: nodeY },
+        className: "nodeStyle"
+      };
 
-  //     // console.log("node " + JSON.stringify(node) );
+      // console.log("node " + JSON.stringify(node) );
 
-  //     newNodes.push(node);
-  //     spanIdToNodeId[span.spanId] = nodeId;
+      newNodes.push(node);
+      spanIdToNodeId[span.spanId] = nodeId;
 
-  //     // console.log("SpanInfo " + JSON.stringify(spanIdToNodeId))
+      // console.log("SpanInfo " + JSON.stringify(spanIdToNodeId))
 
-  //     // if (span.parentSpanId) {
-  //     //   const edge = {
-  //     //     id: `edge-${span.spanId}`,
-  //     //     source: spanIdToNodeId[span.parentSpanId],
-  //     //     target: nodeId,
-  //     //   };
-  //     //   // console.log("SPanInfoi " + "  " + span.parentSpanId + spanIdToNodeId[span.parentSpanId]);
-  //     //   // console.log(JSON.stringify(edge));
+      if (span.parentSpanId) {
+        const edge = {
+          id: `edge-${span.spanId}`,
+          source: spanIdToNodeId[span.parentSpanId],
+          target: nodeId,
+        };
+        // console.log("SPanInfoi " + "  " + span.parentSpanId + spanIdToNodeId[span.parentSpanId]);
+        // console.log(JSON.stringify(edge));
 
-  //     //   newEdges.push(edge);
-  //     // }
-  //   });
+        newEdges.push(edge);
+      }
+    });
+    // const filteredEdges = newEdges.filter((e) => {
+      
+    // })
 
-  //   // Update the React Flow nodes and edges
-  //   setNodes((prevNodes) => [...prevNodes, ...newNodes]);
-  //   // setEdges((prevEdges) => [...prevEdges, ...newEdges]);
-  //   console.log("NEW EDGES " + JSON.stringify(newNodes));
-  // }, []);
+    // Update the React Flow nodes and edges
+    setNodes((prevNodes) => [...prevNodes, ...newNodes]);
+    setEdges((prevEdges) => [...prevEdges, ...newEdges]);
+    console.log("NEW EDGES " + JSON.stringify(newNodes));
+  }, []);
 
   return (
     <div style={{ height: "350px", width: "100%" }}>
