@@ -1,8 +1,10 @@
 import React from 'react'
+import MetricLayout from './MetricLayout'
+
 
 const Metrics = () => {
     return (
-        <div>Metrics</div>
+        <MetricLayout/>
     )
 }
 
