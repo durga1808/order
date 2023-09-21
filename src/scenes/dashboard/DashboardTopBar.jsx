@@ -7,11 +7,8 @@ import FilterDialog from "./FilterDialog";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import { Box, IconButton } from "@mui/material";
-import RefreshIcon from "@mui/icons-material/Refresh";
-// import "./DashboardTopBar.css";
 import Tooltip from "@mui/material/Tooltip";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import "./DashboardTopBar.css";
@@ -68,16 +65,17 @@ const DashboardTopBar = () => {
 
   return (
     <>
-      <AppBar position="static">
+      <AppBar position="static" elevation={0}>
         <Toolbar
           style={{
             display: "flex",
+
             justifyContent: "space-between",
             backgroundColor: colors.primary[400],
             // style={{
-            border: `1px solid ${theme.palette.divider}`,
-            boxShadow:
-              "0px 4px 4px -2px rgba(0,0,0,0.2), 0px 7px 10px 1px rgba(0,0,0,0.14), 0px 2px 16px 1px rgba(0,0,0,0.12)",
+            // border: `1px solid ${theme.palette.divider}`,
+            // boxShadow:
+            //   "0px 4px 4px -2px rgba(0,0,0,0.2), 0px 7px 10px 1px rgba(0,0,0,0.14), 0px 2px 16px 1px rgba(0,0,0,0.12)",
             // }}
 
             // borderTop: "4px solid #EBEBEB",

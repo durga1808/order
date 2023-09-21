@@ -1,25 +1,16 @@
 import React, { useContext, useState } from "react";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
-import Button from "@mui/material/Button";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
+import { Drawer, Divider, IconButton } from "@mui/material";
+import {List, ListItem} from "@mui/material";
+import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Typography from "@mui/material/Typography";
-import { FormGroup } from "@mui/material";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import { FormGroup, FormControlLabel } from "@mui/material";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
-import { Box, Slider, TextField } from "@mui/material";
+import { Slider, TextField, Button, Checkbox, Typography } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 const FilterDialog = ({ open, onClose }) => {
-
-  const { expanded, setExpanded } = useContext(GlobalContext);
+  // const { expanded, setExpanded } = useState(false);
   const { selectedOptions, setSelectedOptions } = useContext(GlobalContext);
 
   const [value, setValue] = useState([0, 1000]);
@@ -28,13 +19,63 @@ const FilterDialog = ({ open, onClose }) => {
 
   const services = ['OrderService', 'VendorService', 'ProviderService', 'DeliveryService'];
   const methods = ['POST', 'GET', 'PUT', 'DELETE'];
-  const codes = ['200', '201', '400', '403', '404', '500'];
+  // const codes = ['2xx', '3xx', '4xx', '5xx'];
+
+  const codesNew = [
+    {
+      labelName: "2xx",
+      labelValue: {
+        miniVal: 200,
+        maxiVal: 299
+      }
+    },
+    {
+      labelName: "3xx",
+      labelValue: {
+        miniVal: 300,
+        maxiVal: 399
+      }
+    },
+    {
+      labelName: "4xx",
+      labelValue: {
+        miniVal: 400,
+        maxiVal: 499
+      }
+    },
+    {
+      labelName: "5xx",
+      labelValue: {
+        miniVal: 500,
+        maxiVal: 599
+      }
+    }
+  ]
 
   const toggleOption = (option) => () => {
-    if (selectedOptions.includes(option)) {
-      setSelectedOptions(selectedOptions.filter((item) => item !== option));
-    } else {
-      setSelectedOptions([...selectedOptions, option]);
+    if (typeof option === 'string') {
+      if (selectedOptions.includes(option)) {
+        setSelectedOptions(selectedOptions.filter((item) => item !== option));
+      } else {
+        setSelectedOptions([...selectedOptions, option]);
+      }
+    } else if (typeof option === 'object') {
+
+      const isOptionSelected = selectedOptions.some(
+        (opt) =>
+          opt.miniVal === option.miniVal && opt.maxiVal === option.maxiVal
+      );
+
+      if (isOptionSelected) {
+        setSelectedOptions((prevSelectedOptions) =>
+          prevSelectedOptions.filter(
+            (opt) =>
+              opt.miniVal !== option.miniVal || opt.maxiVal !== option.maxiVal
+          )
+        );
+      } else {
+        setSelectedOptions([...selectedOptions, option]);
+      }
     }
   };
 
@@ -42,9 +83,9 @@ const FilterDialog = ({ open, onClose }) => {
     setSelectedOptions([]);
   };
 
-  const handlePanelChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  // const handlePanelChange = (panel) => (event, isExpanded) => {
+  //   setExpanded(isExpanded ? panel : false);
+  // };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -72,18 +113,31 @@ const FilterDialog = ({ open, onClose }) => {
     return `${value}`;
   };
 
+  const handleApplyButtonClick = () => {
+    console.log('Selected Options:', selectedOptions);
+
+    const selectedDuration = `${minValue}ms - ${maxValue}ms`;
+    console.log('Selected Duration:', selectedDuration);
+
+    onClose();
+  };
 
   return (
     <Drawer anchor="right" open={open} onClose={onClose}  >
       <div style={{ width: "300px" }}>
         <List>
-          <ListItem>
-            <ListItemText primary="Filter Options" />
+          <ListItem sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end" }}>
+            <IconButton color="inherit" onClick={onClose}><ClearRoundedIcon /></IconButton>
+          </ListItem>
+
+          <ListItem sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
+            <Typography variant="h6">Filter Options</Typography>
+            <Button variant="outlined" color="inherit" onClick={clearSelectedOptions}>Clear</Button>
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion expanded={expanded === 'panel4'} onChange={handlePanelChange('panel4')} style={{ width: "500px" }}>
+            <Accordion style={{ width: "500px" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>Duration</Typography>
               </AccordionSummary>
@@ -96,8 +150,8 @@ const FilterDialog = ({ open, onClose }) => {
                   onChange={handleChange}
                   valueLabelDisplay="auto"
                   getAriaValueText={valuetext}
+                  style={{ color: "grey" }}
                 />
-                {/* <Box> */}
                   <TextField
                     label="Min"
                     variant="outlined"
@@ -118,21 +172,18 @@ const FilterDialog = ({ open, onClose }) => {
                     }}
                     style={{ margin: "10px"}}
                   />
-                {/* </Box> */}
               </AccordionDetails>
             </Accordion>
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion expanded={expanded === 'panel1'} onChange={handlePanelChange('panel1')} style={{ width: "500px" }}>
+            <Accordion style={{ width: "500px" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography>Service</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
-                <Button color="inherit" onClick={clearSelectedOptions}>Clear</Button>
-
                 <FormGroup>
                   {services.map((service) => (
                     <FormControlLabel
@@ -158,9 +209,9 @@ const FilterDialog = ({ open, onClose }) => {
           <Divider />
 
           <ListItem>
-            <Accordion expanded={expanded === 'panel2'} onChange={handlePanelChange('panel2')} style={{ width: "500px"}}>
+            <Accordion style={{ width: "500px"}}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>HTTP Method <span style={{alignItems: "right", padding: "10px", margin: "10px" }} ><Button  color="inherit" onClick={clearSelectedOptions}>Clear</Button></span> </Typography>
+                <Typography>HTTP Method</Typography>
               </AccordionSummary>
 
               <AccordionDetails>  
@@ -188,19 +239,27 @@ const FilterDialog = ({ open, onClose }) => {
           <Divider />
 
           <ListItem>
-            <Accordion expanded={expanded === 'panel3'} onChange={handlePanelChange('panel3')} style={{ width: "500px"}}>
+            <Accordion style={{ width: "500px"}}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>HTTP Code <span style={{alignItems: "right", padding: "10px", margin: "10px" }} ><Button  color="inherit" onClick={clearSelectedOptions}>Clear</Button></span> </Typography>
+                <Typography>HTTP Code</Typography>
               </AccordionSummary>
 
               <AccordionDetails>  
                 <FormGroup>
-                  {codes.map((code) => (
+                  {codesNew.map((code,index) => (
                     <FormControlLabel
-                    key={code}
+                    key={index}
                     control={<Checkbox
-                      checked={selectedOptions.includes(code)}
-                      onChange={toggleOption(code)}
+                      checked={selectedOptions.some(
+                        (opt) =>
+                          typeof opt === 'string'
+                            ? opt === code
+                            : opt.miniVal === code.labelValue.miniVal &&
+                              opt.maxiVal === code.labelValue.maxiVal
+                      )}
+                      onChange={toggleOption(
+                        typeof code === 'string' ? code : code.labelValue
+                      )}
                       sx={{
                         color: "grey",
                         '&.Mui-checked': {
@@ -209,7 +268,7 @@ const FilterDialog = ({ open, onClose }) => {
                       }}
                     />
                     }
-                  label={code}
+                  label={code.labelName}
                   />))}
                 </FormGroup>
               </AccordionDetails>
@@ -220,11 +279,8 @@ const FilterDialog = ({ open, onClose }) => {
         </List>
 
         <div style={{ padding: "16px" }}>
-          <Button variant="contained" onClick={onClose} color="primary">
+          <Button variant="contained" onClick={handleApplyButtonClick} color="primary">
             Apply
-          </Button>
-          <Button onClick={onClose} color="primary">
-            Close
           </Button>
         </div>
       </div>
