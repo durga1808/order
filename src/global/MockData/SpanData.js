@@ -1663,12 +1663,6 @@ export const spanData = [
             {
                 "attributes": [
                     {
-                        "key": "thread.id",
-                        "value": {
-                            "intValue": "281"
-                        }
-                    },
-                    {
                         "key": "thread.name",
                         "value": {
                             "stringValue": "http-nio-5089-exec-10"
