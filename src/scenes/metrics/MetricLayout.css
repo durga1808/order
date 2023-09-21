@@ -1,0 +1,26 @@
+.resizable-grid-layout {
+  background-color: #f0f0f0;
+  padding: 20px;
+}
+
+.grid-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3498db;
+  color: #fff;
+  font-size: 18px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.scrollable-container {
+  max-height: 652px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  margin-top: 10px;
+}
+
+.layout {
+  margin-bottom: 20px;
+}
