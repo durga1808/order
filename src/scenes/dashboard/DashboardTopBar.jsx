@@ -91,7 +91,8 @@ const DashboardTopBar = () => {
                 backgroundColor: colors.lightGreen[500],
               },
             }}
-            textColor="black"
+            textColor="inherit"
+            indicatorColor="primary"
           >
             <Tab label="Trace Summary" />
             <Tab label="Log Summary" />

@@ -133,7 +133,7 @@ const FilterDialog = ({ open, onClose }) => {
           </ListItem>
 
           <ListItem sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
-            <Typography variant="h6">Filter Options</Typography>
+            <Typography variant="h5" fontWeight="500">Filter Options</Typography>
             <Button variant="outlined" color="inherit" onClick={clearSelectedOptions}>Clear</Button>
           </ListItem>
           <Divider />
@@ -141,7 +141,7 @@ const FilterDialog = ({ open, onClose }) => {
           <ListItem>
             <Accordion style={{ width: "500px" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Duration</Typography>
+                <Typography variant="h5">Duration</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -182,7 +182,7 @@ const FilterDialog = ({ open, onClose }) => {
           <ListItem>
             <Accordion style={{ width: "500px" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Service</Typography>
+                <Typography variant="h5">Service</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -213,7 +213,7 @@ const FilterDialog = ({ open, onClose }) => {
           <ListItem>
             <Accordion style={{ width: "500px"}}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>HTTP Method</Typography>
+                <Typography variant="h5">HTTP Method</Typography>
               </AccordionSummary>
 
               <AccordionDetails>  
@@ -243,7 +243,7 @@ const FilterDialog = ({ open, onClose }) => {
           <ListItem>
             <Accordion style={{ width: "500px"}}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>HTTP Code</Typography>
+                <Typography variant="h5">HTTP Code</Typography>
               </AccordionSummary>
 
               <AccordionDetails>  
