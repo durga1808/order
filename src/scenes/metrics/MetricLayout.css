@@ -1,5 +1,5 @@
 .resizable-grid-layout {
-  /* background-color: #f0f0f0; */
+  background-color: #f0f0f0;
   padding: 20px;
 }
 
@@ -7,8 +7,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: #3498db; */
-  /* color: #fff; */
+  background-color: #3498db;
+  color: #fff;
   font-size: 18px;
   border: 1px solid #ccc;
   cursor: pointer;
@@ -17,17 +17,22 @@
 .scrollable-container {
   max-height: 652px;
   overflow-y: auto;
-  /* border: 1px solid #ccc; */
-  margin-top: 10px;
+  border: 1px solid #ccc;
+  /* margin-top: 10px; */
+  margin-top: 30px ;
+  margin-right: 20px;
+  margin-left: 20px;
+  
 }
 
 .layout {
-  margin-bottom: 50px;
+  margin-bottom: 0px;
 }
 
 .chart-container {
   min-width: 1000px;
    min-height: 1000px;
+
    } 
 
 /* .chart-container {

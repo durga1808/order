@@ -3,10 +3,10 @@ import GridLayout from "react-grid-layout";
 import "react-grid-layout/css/styles.css"; 
 import "react-resizable/css/styles.css"; 
 import "./MetricLayout.css"; 
-import ErrorChart from "../dashboard/summary/TraceSummaryChart";
 
 
 function MetricLayout() {
+
   const layout = [
     { i: "a", x: 0, y: 0, w: 2, h: 2 },
     { i: "b", x: 2, y: 0, w: 2, h: 2 },
@@ -16,14 +16,15 @@ function MetricLayout() {
 
   return (
     <div className="scrollable-container">
-      <div className="resizable-grid-layout">
+    
+      <div className="resizable-grid-layout-container" style={{border: "10px"}}>
         <GridLayout
                   className="layout"
                   layout={layout}
                   cols={6}
                   rowHeight={100}
                   width={1200}
-                  isResizable={true} // Enable resizing
+                  isResizable={true} 
                 >
                           <div key="a" className="grid-item">
                             A
@@ -34,16 +35,14 @@ function MetricLayout() {
                           <div key="c" className="grid-item">
                             C
                           </div>
-                          <div key="d" className="grid-item">
-                           D
-                           <div className="chart-container">
-                           {/* <ErrorChart/> */}
-                           </div>
+                          <div key="d"  className="grid-item">
+                            D
                           </div>
         </GridLayout>
       </div>
-    </div>
+    // </div>
   );
 }
+
 
 export default MetricLayout;
