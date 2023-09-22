@@ -661,21 +661,98 @@ import {
 } from "@mui/material";
 const ChartData = [
   {
-    service: "Service A",
+    service: "Service 1",
     errorCount: 10,
     peakLatency: 50,
     totalErrorCalls: 20,
     totalSuccessCalls: 80,
   },
   {
-    service: "Service B",
+    service: "Service 2",
     errorCount: 5,
     peakLatency: 30,
     totalErrorCalls: 10,
     totalSuccessCalls: 90,
   },
   {
-    service: "Service C",
+    service: "Service 3",
+    errorCount: 8,
+    peakLatency: 45,
+    totalErrorCalls: 15,
+    totalSuccessCalls: 85,
+  },
+  {
+    service: "Service 4",
+    errorCount: 10,
+    peakLatency: 50,
+    totalErrorCalls: 20,
+    totalSuccessCalls: 80,
+  },
+  {
+    service: "Service 5",
+    errorCount: 5,
+    peakLatency: 30,
+    totalErrorCalls: 10,
+    totalSuccessCalls: 90,
+  },
+  {
+    service: "Service 6",
+    errorCount: 8,
+    peakLatency: 45,
+    totalErrorCalls: 15,
+    totalSuccessCalls: 85,
+  },
+  {
+    service: "Service 7",
+    errorCount: 10,
+    peakLatency: 50,
+    totalErrorCalls: 20,
+    totalSuccessCalls: 80,
+  },
+  {
+    service: "Service 8",
+    errorCount: 5,
+    peakLatency: 30,
+    totalErrorCalls: 10,
+    totalSuccessCalls: 90,
+  },
+  {
+    service: "Service 9",
+    errorCount: 8,
+    peakLatency: 45,
+    totalErrorCalls: 15,
+    totalSuccessCalls: 85,
+  },
+  {
+    service: "Service 10",
+    errorCount: 5,
+    peakLatency: 30,
+    totalErrorCalls: 10,
+    totalSuccessCalls: 90,
+  },
+  {
+    service: "Service 11",
+    errorCount: 8,
+    peakLatency: 45,
+    totalErrorCalls: 15,
+    totalSuccessCalls: 85,
+  },
+  {
+    service: "Service 12",
+    errorCount: 10,
+    peakLatency: 50,
+    totalErrorCalls: 20,
+    totalSuccessCalls: 80,
+  },
+  {
+    service: "Service 13",
+    errorCount: 5,
+    peakLatency: 30,
+    totalErrorCalls: 10,
+    totalSuccessCalls: 90,
+  },
+  {
+    service: "Service 14",
     errorCount: 8,
     peakLatency: 45,
     totalErrorCalls: 15,
@@ -762,182 +839,270 @@ const ErrorChart = () => {
   };
 
   return (
-    <div>
+    <div
+      style={{
+        height: "500px",
+        overflowY: "auto",
+        // marginLeft: "50px",
+        // marginRight: "50px",
+      }}
+    >
       <Grid
         container
         spacing={2}
         // style={{ height: "100%", overflow: "scroll" }}
+        // sw={{ maxHeight: "600px", overflowY: "auto" }}
       >
         <Grid item xs={12} sm={6}>
-          <ReactECharts
-            option={{
-              title: {
-                text: "API calls Count",
-              },
-              tooltip: {
-                trigger: "axis",
-                axisPointer: {
-                  type: "shadow",
+          <Paper elevation={3} style={{ paddingTop: "5px" }}>
+            <ReactECharts
+              style={{ height: "250px" }}
+              option={{
+                title: {
+                  text: "API calls Count",
                 },
-              },
-              xAxis: {
-                type: "category",
-                data: ChartData.map((item) => item.service),
-              },
-              yAxis: {
-                type: "value",
-              },
-              series: [
-                {
-                  name: "API Calls Count",
-                  type: "bar",
-                  data: ChartData.map((item) => item.errorCount),
-                  emphasis: {
-                    focus: "series",
-                  },
-                  itemStyle: {
-                    color: "#00CED1",
-                  },
+                grid: {
+                  containLabel: true, // This will make the chart fit inside the container
+                  left: "3%",
+                  right: "4%",
+                  bottom: "3%",
+                  // top: "10%",
+                  width: "auto", // You can set a fixed width or 'auto' to fit the container
                 },
-              ],
-            }}
-            onEvents={{
-              click: (event) => {
-                if (event.data && event.dataIndex !== undefined) {
-                  handleBarClick(
-                    {
-                      name: ChartData[event.dataIndex].service,
-                      value: ChartData[event.dataIndex].errorCount,
-                      // value: ChartData[event.dataIndex].totalErrorCalls,
+                dataZoom: [
+                  {
+                    // This adds a data zoom feature with a scrollbar
+                    type: "slider",
+                    show: true,
+                    start: 0,
+                    end: 50, // You can adjust the default viewable range as needed
+                    handleSize: "100%",
+                    handleStyle: {
+                      color: "black", // Set the color of the scroll bar handle to black
                     },
-                    false,
-                    false
-                  );
-                }
-              },
-            }}
-          />
+                    xAxisIndex: [0],
+                  },
+                ],
+                tooltip: {
+                  trigger: "axis",
+                  axisPointer: {
+                    type: "shadow",
+                  },
+                },
+                xAxis: {
+                  type: "category",
+                  data: ChartData.map((item) => item.service),
+                },
+                yAxis: {
+                  type: "value",
+                },
+                series: [
+                  {
+                    name: "API Calls Count",
+                    type: "bar",
+                    barWidth: 30,
+                    data: ChartData.map((item) => item.errorCount),
+                    emphasis: {
+                      focus: "series",
+                    },
+                    itemStyle: {
+                      color: "#00CED1",
+                    },
+                  },
+                ],
+              }}
+              onEvents={{
+                click: (event) => {
+                  if (event.data && event.dataIndex !== undefined) {
+                    handleBarClick(
+                      {
+                        name: ChartData[event.dataIndex].service,
+                        value: ChartData[event.dataIndex].errorCount,
+                        // value: ChartData[event.dataIndex].totalErrorCalls,
+                      },
+                      false,
+                      false
+                    );
+                  }
+                },
+              }}
+            />
+          </Paper>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <ReactECharts
-            option={{
-              title: {
-                text: "Peak Latency",
-              },
-              tooltip: {
-                trigger: "axis",
-                axisPointer: {
-                  type: "shadow",
+          <Paper elevation={3} style={{ paddingTop: "5px" }}>
+            <ReactECharts
+              style={{ height: "250px" }}
+              option={{
+                title: {
+                  text: "Peak Latency",
                 },
-              },
-              xAxis: {
-                type: "category",
-                data: ChartData.map((item) => item.service),
-              },
-              yAxis: {
-                type: "value",
-              },
-              series: [
-                {
-                  name: "Peak Latency",
-                  type: "bar",
-                  data: ChartData.map((item) => item.peakLatency),
-                  emphasis: {
-                    focus: "series",
-                  },
-                  itemStyle: {
-                    color: "#00FA9A",
-                  },
+                grid: {
+                  containLabel: true, // This will make the chart fit inside the container
+                  left: "3%",
+                  right: "4%",
+                  bottom: "3%",
+                  // height: "70%",
+                  // top: "10%",
+                  width: "auto", // You can set a fixed width or 'auto' to fit the container
                 },
-              ],
-            }}
-            onEvents={{
-              click: (event) => {
-                if (event.data && event.dataIndex !== undefined) {
-                  handleBarClick(
-                    {
-                      name: ChartData[event.dataIndex].service,
-                      value: ChartData[event.dataIndex].peakLatency,
+                dataZoom: [
+                  {
+                    // This adds a data zoom feature with a scrollbar
+                    type: "slider",
+                    show: true,
+                    start: 0,
+                    end: 50, // You can adjust the default viewable range as needed
+                    handleSize: "100%",
+                    handleStyle: {
+                      color: "black", // Set the color of the scroll bar handle to black
                     },
-                    true,
-                    false
-                  );
-                }
-              },
-            }}
-          />
+                    xAxisIndex: [0],
+                  },
+                ],
+                tooltip: {
+                  trigger: "axis",
+                  axisPointer: {
+                    type: "shadow",
+                  },
+                },
+                xAxis: {
+                  type: "category",
+                  data: ChartData.map((item) => item.service),
+                },
+                yAxis: {
+                  type: "value",
+                },
+                series: [
+                  {
+                    name: "Peak Latency",
+                    type: "bar",
+                    barWidth: 30,
+                    data: ChartData.map((item) => item.peakLatency),
+                    emphasis: {
+                      focus: "series",
+                    },
+                    itemStyle: {
+                      color: "#00FA9A",
+                    },
+                  },
+                ],
+              }}
+              onEvents={{
+                click: (event) => {
+                  if (event.data && event.dataIndex !== undefined) {
+                    handleBarClick(
+                      {
+                        name: ChartData[event.dataIndex].service,
+                        value: ChartData[event.dataIndex].peakLatency,
+                      },
+                      true,
+                      false
+                    );
+                  }
+                },
+              }}
+            />
+          </Paper>
         </Grid>
         <Grid item xs={12}>
-          <ReactECharts
-            option={{
-              title: {
-                text: "Error Calls Data",
-              },
-              tooltip: {
-                trigger: "axis",
-                axisPointer: {
-                  type: "shadow",
+          <Paper elevation={3} style={{ paddingTop: "5px" }}>
+            <ReactECharts
+              style={{ height: "250px" }}
+              option={{
+                title: {
+                  text: "Error Calls Data",
                 },
-              },
-              xAxis: {
-                type: "category",
-                data: ChartData.map((item) => item.service),
-              },
-              yAxis: [
-                {
-                  type: "value",
-                  name: "Total Error Calls",
+                grid: {
+                  containLabel: true, // This will make the chart fit inside the container
+                  left: "3%",
+                  right: "4%",
+                  bottom: "3%",
+                  // top: "10%",
+                  width: "auto", // You can set a fixed width or 'auto' to fit the container
                 },
-                {
-                  type: "value",
-                  name: "Total Success Calls",
-                },
-              ],
-              series: [
-                {
-                  name: "Total Error Calls",
-                  type: "bar",
-                  yAxisIndex: 0,
-                  data: ChartData.map((item) => item.totalErrorCalls),
-                  emphasis: {
-                    focus: "series",
-                  },
-                  itemStyle: {
-                    color: "#A9A9A9",
-                  },
-                },
-                {
-                  name: "Total Success Calls",
-                  type: "bar",
-                  yAxisIndex: 1,
-                  data: ChartData.map((item) => item.totalSuccessCalls),
-                  emphasis: {
-                    focus: "series",
-                  },
-                  itemStyle: {
-                    color: "#DAF7A6",
-                  },
-                },
-              ],
-            }}
-            onEvents={{
-              click: (event) => {
-                if (event.data && event.dataIndex !== undefined) {
-                  handleBarClick(
-                    {
-                      name: ChartData[event.dataIndex].service,
-                      value: ChartData[event.dataIndex].totalErrorCalls,
+                dataZoom: [
+                  {
+                    // This adds a data zoom feature with a scrollbar
+                    type: "slider",
+                    show: true,
+                    start: 0,
+                    end: 50, // You can adjust the default viewable range as needed
+                    handleSize: "100%",
+                    handleStyle: {
+                      color: "black", // Set the color of the scroll bar handle to black
                     },
-                    false,
-                    true
-                  );
-                }
-              },
-            }}
-          />
+                    xAxisIndex: [0],
+                  },
+                ],
+                tooltip: {
+                  trigger: "axis",
+                  axisPointer: {
+                    type: "shadow",
+                  },
+                },
+                xAxis: {
+                  type: "category",
+                  data: ChartData.map((item) => item.service),
+                },
+                yAxis: [
+                  {
+                    type: "value",
+                    name: "Total Error Calls",
+                  },
+                  {
+                    type: "value",
+                    name: "Total Success Calls",
+                  },
+                ],
+                series: [
+                  {
+                    name: "Total Error Calls",
+                    type: "bar",
+                    barWidth: 30,
+                    yAxisIndex: 0,
+                    data: ChartData.map((item) => item.totalErrorCalls),
+                    emphasis: {
+                      focus: "series",
+                    },
+                    itemStyle: {
+                      color: "#A9A9A9",
+                    },
+                  },
+                  {
+                    name: "Total Success Calls",
+                    type: "bar",
+                    barWidth: 30,
+                    yAxisIndex: 1,
+                    data: ChartData.map((item) => item.totalSuccessCalls),
+                    emphasis: {
+                      focus: "series",
+                    },
+                    itemStyle: {
+                      color: "#DAF7A6",
+                    },
+                  },
+                ],
+              }}
+              onEvents={{
+                click: (event) => {
+                  if (event.data && event.dataIndex !== undefined) {
+                    handleBarClick(
+                      {
+                        name: ChartData[event.dataIndex].service,
+                        value: ChartData[event.dataIndex].totalErrorCalls,
+                      },
+                      false,
+                      true
+                    );
+                  }
+                },
+              }}
+            />
+          </Paper>
         </Grid>
       </Grid>
-      <div style={{ marginLeft: "50px", marginRight: "50px" }}>
+      <div>
         <Grid
           container
           // sw={{ mr: "30px", ml: "30px" }}
@@ -948,6 +1113,7 @@ const ErrorChart = () => {
             // marginLeft: "30px",
           }}
         >
+          <div></div>
           <Grid>
             {selectedErrorData && (
               <Card
@@ -997,6 +1163,8 @@ const ErrorChart = () => {
               </Card>
             )}
           </Grid>
+        </Grid>
+        <div>
           <TableContainer component={Paper} style={{ marginTop: "20px" }}>
             <Table>
               <TableHead style={{ backgroundColor: colors.primary[400] }}>
@@ -1023,7 +1191,7 @@ const ErrorChart = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        </Grid>
+        </div>
       </div>
     </div>
   );
