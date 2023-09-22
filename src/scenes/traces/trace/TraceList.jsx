@@ -89,7 +89,7 @@ const TraceList = () => {
         <div  >
             <div>
                 <Box display="flex" flexDirection="row" justifyContent="space-between"  >
-                    <Typography variant="h7" style={{ margin: "10px 0 20px 10px" }}>Traces ({mockTraces.length})</Typography>
+                    <Typography variant="h4" fontWeight="500" style={{ margin: "10px 0 20px 10px" }}>Traces ({mockTraces.length})</Typography>
 
                     <Box sx={{ margin: "10px 0 20px 0" }} >
                         <Pagination count={10} variant="outlined" size='small' shape="rounded" />
@@ -110,20 +110,20 @@ const TraceList = () => {
                                     <span>{trace.duration}</span>
                                 </Typography>} /> */}
                                 <Box>
-                                    <Typography sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], padding: "5px", fontSize: "16px" }}>
-                                        <span> <span style={{ fontWeight: "600" }}>{trace.serviceName}:</span> {trace.operationName}</span>
+                                    <Typography variant="h5" sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], padding: "5px" }}>
+                                        <span> <span style={{ fontWeight: "500" }}>{trace.serviceName}:</span> {trace.operationName}</span>
                                         <span>{trace.duration}</span>
                                     </Typography>
                                 </Box>
                                 <CardContent>
-                                    <Typography variant="h8" >
-                                        <span style={{ fontWeight: "600" }}>TraceID:</span> {trace.traceId}
+                                    <Typography variant="h6" >
+                                        <span style={{ fontWeight: "500" }}>TraceID:</span> {trace.traceId}
                                     </Typography>
 
-                                    <Typography variant="h8" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "15px 0 0 0 " }}>
+                                    <Typography variant="h7" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "15px 0 0 0 " }}>
                                         <span style={{ width: "150px" }} >{trace.createdTime}</span>
-                                        <span style={{ width: "200px" }} > <span style={{ fontWeight: "600", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
-                                        <span style={{ width: "100px" }} > <span style={{ fontWeight: "600", margin: "0 2px 0 0" }}>Method:</span>{trace.methodName}</span>
+                                        <span style={{ width: "200px" }} > <span style={{ fontWeight: "500", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
+                                        <span style={{ width: "100px" }} > <span style={{ fontWeight: "500", margin: "0 2px 0 0" }}>Method:</span>{trace.methodName}</span>
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>

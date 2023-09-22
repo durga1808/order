@@ -26,10 +26,10 @@ const SideNavbar = () => {
   const { selected, setSelected } = useContext(GlobalContext);
 
   return (
-    <Box className="sideclose" >
+    <Box>
       {/* <ProSidebar collapsed={collapsed}> */}
       <Sidebar collapsed={isCollapsed} rootStyles={{ height: "100vh",borderRight: "none",  }} >
-        <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100%", backgroundColor: colors.primary[400],  }} menuItemStyles={{
+        <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100vh", backgroundColor: colors.primary[400],  }} menuItemStyles={{
           button: ({ level, active, disabled }) => {
             if (level === 0) {
               return {
@@ -60,7 +60,7 @@ const SideNavbar = () => {
               ml="1px"
             >
               <Typography
-                variant="h6"
+                variant="h4"
                 fontWeight="500"
                 marginRight={1}
               >
@@ -78,29 +78,30 @@ const SideNavbar = () => {
             icon={<DashboardOutlined />}
             onClick={() => {setSelected("Dashboard"); routeChange("Dashboard");}}
           >
-            <Typography variant="h7">DASHBOARD</Typography>
+            <Typography variant="h5">DASHBOARD</Typography>
           </MenuItem>
 
-          <Typography variant="h7" sx={{ m: "15px 10px 10px 20px" }}>
+          <Typography variant="h6" sx={{ m: "15px 10px 10px 20px" }}>
             Data
           </Typography>
 
           <MenuItem component={<Link to="/mainpage/traces" />} active={selected === "Traces"} icon={<TimelineOutlined />} onClick={() => {setSelected("Traces"); routeChange("Traces");}}  >
-            <Typography variant="h7">TRACES</Typography>
+            <Typography variant="h5">TRACES</Typography>
           </MenuItem>
 
           <MenuItem component={<Link to="/mainpage/metrics" />} active={selected === "Metrics" } icon={<AnalyticsOutlined />} onClick={() => {setSelected("Metrics"); routeChange("Metrics");}}  >
-            <Typography variant="h7">METRICS</Typography>
+            <Typography variant="h5">METRICS</Typography>
           </MenuItem>
 
           <MenuItem component={<Link to="/mainpage/logs" />} active={selected === "Logs" } icon={<ReceiptOutlined />} onClick={() => {setSelected("Logs"); routeChange("Logs");}}  >
-            <Typography variant="h7">LOGS</Typography>
+            <Typography variant="h5">LOGS</Typography>
           </MenuItem>
 
           <MenuItem icon={<Person />} rootStyles={{ position: "absolute", bottom: "2%", width: "100%" }}  >
-            <Typography variant="h7">LoggedIn User</Typography>
-            <br />
-            <Typography variant="h7">Role</Typography>
+            <div style={{ display: "flex", flexDirection: "column", justifyContent: "normal" }}>
+            <Typography variant="h5">LoggedIn User</Typography>
+            <Typography variant="h5">Role</Typography>
+            </div>
           </MenuItem>
 
         </Menu>

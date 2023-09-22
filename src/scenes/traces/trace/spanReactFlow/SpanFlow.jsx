@@ -236,9 +236,9 @@ const SpanFlow = () => {
       ) :
         <div>
           <div style={{ padding: "5px" }} >
-            <Typography variant="h6" >Details for Selected Trace </Typography>
+            <Typography variant="h5" fontWeight="600" >Details for Selected Trace </Typography>
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", textAlign: "center", margin: "10px" }} >
-              <Typography variant="h6" >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
+              <Typography variant="h6"  >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
               <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
             </div>
           </div>
