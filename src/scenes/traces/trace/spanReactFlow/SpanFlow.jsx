@@ -8,103 +8,18 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { spanData } from "../../../../global/MockData/SpanData";
 import "./SpanFlow.css";
-
-const initialEdges = [
-  {
-    id: "edge-1",
-    source: "span-7274e2d0a0c75be5",
-    target: "span-c77283d02dbe843c",
-  },
-  {
-    id: "edge-2",
-    source: "span-c77283d02dbe843c",
-    target: "span-36529e406ba99e26",
-  },
-  {
-    id: "edge-3",
-    source: "span-c77283d02dbe843c",
-    target: "span-be8746b6a9d0a60a",
-  },
-  {
-    id: "edge-4",
-    source: "span-be8746b6a9d0a60a",
-    target: "span-3510586bca5c146c",
-  },
-];
-const initialNodes = [
-  {
-    id: "span-7274e2d0a0c75be5",
-    type: "input",
-    data: { label: "POST /" },
-    position: { x: 0, y: 0 },
-  },
-  {
-    id: "span-c77283d02dbe843c",
-    type: "input",
-    data: { label: "PersonResource_Subclass.createPerson" },
-    position: { x: 50, y: 90 },
-  },
-  {
-    id: "span-36529e406ba99e26",
-    type: "input",
-    data: { label: "UPDATE observability-demo-tables.person" },
-    position: { x: 100, y: 180 },
-  },
-  {
-    id: "span-be8746b6a9d0a60a",
-    type: "input",
-    data: { label: "Session.merge" },
-    position: { x: 150, y: 270 },
-  },
-  {
-    id: "span-3510586bca5c146c",
-    type: "input",
-    data: { label: "SELECT observability-demo-tables.person" },
-    position: { x: 200, y: 360 },
-  },
-];
-// const initialNodes = [
-//   {
-//     id: "A",
-//     type: "group",
-//     position: { x: 0, y: 0 },
-//     style: {
-//       width: 170,
-//       height: 140,
-//     },
-//   },
-//   {
-//     id: "A-1",
-//     type: "input",
-//     data: { label: "Child Node 1" },
-//     position: { x: 10, y: 10 },
-//     parentNode: "A",
-//     extent: "parent",
-//   },
-//   {
-//     id: "A-2",
-//     data: { label: "Child Node 2" },
-//     position: { x: 10, y: 90 },
-//     parentNode: "A",
-//     extent: "parent",
-//   },
-//   {
-//     id: "B",
-//     type: "output",
-//     position: { x: -100, y: 200 },
-//     data: { label: "Node B" },
-//   },
-//   {
-//     id: "C",
-//     type: "output",
-//     position: { x: 100, y: 200 },
-//     data: { label: "Node C" },
-//   },
-// ];
+import { Card, Typography, useTheme } from "@mui/material";
+import { tokens } from "../../../../theme";
+import { useContext } from "react";
+import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
+import SpanInfo from "./SpanInfo";
 
 const SpanFlow = () => {
-  const [nodes, setNodes] = useState(initialNodes);
-  const [edges, setEdges] = useState(initialEdges);
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const { selectedTrace } = useContext(GlobalContext);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -119,69 +34,165 @@ const SpanFlow = () => {
     animated: true,
   };
 
-  // useEffect(() => {
-  //   // Process the span data and generate nodes and edges
-  //   const spanIdToNodeId = {};
-  //   const newNodes = [];
-  //   const newEdges = [];
+  const sortingParentChildOrder = (spanData) => {
+    // Parse the provided span data
+    const spans = spanData;
 
-  //   // Calculate the node positions dynamically
-  //   const nodeSpacingX = 50; // Adjust this value to control horizontal spacing
-  //   const nodeSpacingY = 90; // Adjust this value to control vertical spacing
+    // Create a dictionary to map parent spans to their child spans
+    const spanTree = {};
 
-  //   spanData[0].spans.forEach((span, index) => {
-  //     console.log(index);
-  //     const nodeId = `span-${span.spanId}`;
-  //     const nodeX = index * nodeSpacingX; // Adjust x position based on index
-  //     const nodeY = index * nodeSpacingY; // Set a fixed y position
+    // Create a function to recursively build the parent-child relationship
+    const buildSpanTree = (span) => {
+      const spanId = span.spanId;
+      const parentId = span.parentSpanId;
+      if (parentId) {
+        if (!spanTree[parentId]) {
+          spanTree[parentId] = [];
+        }
+        spanTree[parentId].push(span);
+      } else {
+        if (!spanTree[spanId]) {
+          spanTree[spanId] = [];
+        }
+        for (const child of spanTree[spanId]) {
+          buildSpanTree(child);
+        }
+      }
+    };
 
-  //     const node = {
-  //       id: nodeId,
-  //       type: "input",
-  //       data: {
-  //         label: span.name,
-  //       },
-  //       position: { x: nodeX, y: nodeY },
-  //     };
+    // Build the parent-child relationship
+    for (const span of spans) {
+      buildSpanTree(span);
+    }
 
-  //     // console.log("node " + JSON.stringify(node) );
+    // Sort the spans based on "spanId" and "parentSpanId"
+    const sortedSpans = [];
 
-  //     newNodes.push(node);
-  //     spanIdToNodeId[span.spanId] = nodeId;
+    const sortSpans = (spanId) => {
+      sortedSpans.push(spanId);
+      for (const childSpan of spanTree[spanId] || []) {
+        sortSpans(childSpan.spanId);
+      }
+    };
 
-  //     // console.log("SpanInfo " + JSON.stringify(spanIdToNodeId))
+    // Find the root spans (spans without parent)
+    const rootSpans = spans.filter((span) => !span.parentSpanId);
 
-  //     // if (span.parentSpanId) {
-  //     //   const edge = {
-  //     //     id: `edge-${span.spanId}`,
-  //     //     source: spanIdToNodeId[span.parentSpanId],
-  //     //     target: nodeId,
-  //     //   };
-  //     //   // console.log("SPanInfoi " + "  " + span.parentSpanId + spanIdToNodeId[span.parentSpanId]);
-  //     //   // console.log(JSON.stringify(edge));
+    // Sort the spans for each root span
+    for (const rootSpan of rootSpans) {
+      sortSpans(rootSpan.spanId);
+    }
 
-  //     //   newEdges.push(edge);
-  //     // }
-  //   });
+    // Create the ordered span data
+    const orderedSpanData = [];
 
-  //   // Update the React Flow nodes and edges
-  //   setNodes((prevNodes) => [...prevNodes, ...newNodes]);
-  //   // setEdges((prevEdges) => [...prevEdges, ...newEdges]);
-  //   console.log("NEW EDGES " + JSON.stringify(newNodes));
-  // }, []);
+    // Helper function to add spans in parent-child order
+    const addSpansInOrder = (spanId) => {
+      orderedSpanData.push(spans.find((span) => span.spanId === spanId));
+      for (const childSpan of spanTree[spanId] || []) {
+        addSpansInOrder(childSpan.spanId);
+      }
+    };
+
+    // Add spans to the orderedSpanData in parent-child order
+    for (const rootSpan of rootSpans) {
+      addSpansInOrder(rootSpan.spanId);
+    }
+
+    // Set the ordered spans in the state
+    return orderedSpanData;
+  };
+
+  const dynamicNodeCreation = (orderedSpans) => {
+    // Process the span data and generate nodes and edges
+    const spanIdToNodeId = {};
+    const newNodes = [];
+    const newEdges = [];
+
+    // Calculate the node positions dynamically
+    let nodeSpacingX = 100; // Adjust this value to control horizontal spacing
+    let nodeSpacingY = 100; // Adjust this value to control vertical spacing
+
+    orderedSpans.forEach((span, index) => {
+      const nodeId = `span-${span.spanId}`;
+      let nodeX = index * nodeSpacingX; // Adjust x position based on index
+      let nodeY = index * nodeSpacingY; // Set a fixed y position
+
+      const node = {
+        id: nodeId,
+        type:
+          index === 0
+            ? "input"
+            : index === orderedSpans.length - 1
+              ? "output"
+              : "default",
+        data: {
+          label: span.name,
+        },
+        position: { x: nodeX, y: nodeY },
+        className: "nodeStyle",
+      };
+
+      newNodes.push(node);
+      spanIdToNodeId[span.spanId] = nodeId;
+
+      if (span.parentSpanId) {
+        const edge = {
+          id: `edge-${span.spanId}`,
+          source: spanIdToNodeId[span.parentSpanId],
+          target: nodeId,
+        };
+
+        newEdges.push(edge);
+      }
+    });
+
+    // Update the React Flow nodes and edges
+    setNodes((prevNodes) => [...prevNodes, ...newNodes]);
+    setEdges((prevEdges) => [...prevEdges, ...newEdges]);
+  }
+
+  useEffect(() => {
+    setNodes([]);
+    setEdges([]);
+    if (Object.keys(selectedTrace).length !== 0) {
+      const orderedSpans = sortingParentChildOrder(selectedTrace.spans);
+      dynamicNodeCreation(orderedSpans);
+    }
+  }, [selectedTrace]);
 
   return (
-    <div style={{ height: "350px", width: "100%" }}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        defaultEdgeOptions={edgeOptions}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-      >
-        <Background />
-        <Controls />
-      </ReactFlow>
+    <div>
+      {Object.keys(selectedTrace).length === 0 ? (
+        <div>
+          <Typography variant="h4" sx={{ textAlign: "center", marginTop: "50%" }} >Please Select any one of the Trace from the list!</Typography>
+        </div>
+      ) :
+        <div>
+          <div style={{ padding: "5px" }} >
+            <Typography variant="h6" >Details for Selected Trace </Typography>
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", textAlign: "center", margin: "10px" }} >
+              <Typography variant="h6" >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
+              <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
+            </div>
+          </div>
+          <div style={{ height: "450px", width: "100%", border: "solid #000 1px", padding: 10 }}>
+            <ReactFlow
+              nodes={nodes}
+              edges={edges}
+              defaultEdgeOptions={edgeOptions}
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+            >
+              <Background />
+              <Controls />
+            </ReactFlow>
+          </div>
+          <div>
+            <SpanInfo />
+          </div>
+        </div>
+      }
     </div>
   );
 };

@@ -37,7 +37,7 @@ function MetricLayout() {
                           <div key="d" className="grid-item">
                            D
                            <div className="chart-container">
-                           <ErrorChart/>
+                           {/* <ErrorChart/> */}
                            </div>
                           </div>
         </GridLayout>
