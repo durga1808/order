@@ -7,10 +7,11 @@ const GlobalContextProvider = ({ children }) => {
     const [selected, setSelected] = useState(localStorage.getItem("routeName"));
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedTrace, setSelectedTrace] = useState({});
+    const [selectedSpan, setSelectedSpan] = useState({ "attributes": [] });
 
     return (
         <GlobalContext.Provider
-            value={{ isCollapsed, setIsCollapsed, selected, setSelected, selectedOptions, setSelectedOptions, selectedTrace, setSelectedTrace }}
+            value={{ isCollapsed, setIsCollapsed, selected, setSelected, selectedOptions, setSelectedOptions, selectedTrace, setSelectedTrace, selectedSpan, setSelectedSpan }}
         >
             {children}
         </GlobalContext.Provider>

@@ -13,13 +13,15 @@ import { tokens } from "../../../../theme";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 import SpanInfo from "./SpanInfo";
+import { useRef } from "react";
 
 const SpanFlow = () => {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
+  const [orderedSpans, setOrderedSpans] = useState([]);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { selectedTrace } = useContext(GlobalContext);
+  const { selectedTrace, setSelectedSpan } = useContext(GlobalContext);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -29,6 +31,68 @@ const SpanFlow = () => {
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     []
   );
+
+  const sectionRef = useRef(null);
+
+  // Function to scroll to the section
+  const scrollToSection = () => {
+    // Use the ref to access the target element
+    if (sectionRef.current) {
+      // Scroll to the target element
+      sectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // const onNodeClick = useCallback((event, node) => {
+  //   // Find the selected span data based on the clicked node
+  //   const spanId = node.id.replace("span-", "");
+  //   const selectedSpanData = orderedSpans.find((span) => span.spanId === spanId);
+
+  //   // Find child spans count
+  //   const childSpansCount = orderedSpans.filter(
+  //     (span) => span.parentSpanId === spanId
+  //   ).length;
+
+  //   // Append childSpansCount to selected span data
+  //   const updatedSelectedSpanData = {
+  //     ...selectedSpanData,
+  //     childSpansCount,
+  //   };
+
+  //   // Update the selected span in state
+  //   setSelectedSpan(updatedSelectedSpanData);
+  //   scrollToSection();
+  // }, [setSelectedSpan, orderedSpans]);
+
+  const onNodeClick = useCallback((event, node) => {
+    // Find the selected span data based on the clicked node
+    const spanId = node.id.replace("span-", "");
+    const selectedSpanData = orderedSpans.find((span) => span.spanId === spanId);
+
+    const startTimeUnixNano = parseInt(selectedSpanData.startTimeUnixNano, 10);
+    const endTimeUnixNano = parseInt(selectedSpanData.endTimeUnixNano, 10);
+
+    const startTime = new Date(startTimeUnixNano / 1000000); // Convert nanoseconds to milliseconds
+    const endTime = new Date(endTimeUnixNano / 1000000); // Convert nanoseconds to milliseconds
+
+    // Calculate the duration in milliseconds
+    const duration = endTime - startTime;
+
+    // Append childSpansCount and duration to selected span data
+    const updatedSelectedSpanData = {
+      ...selectedSpanData,
+      childSpansCount: orderedSpans.filter(
+        (span) => span.parentSpanId === spanId
+      ).length,
+      duration,
+    };
+
+    // Update the selected span in state
+    setSelectedSpan(updatedSelectedSpanData);
+    scrollToSection();
+  }, [setSelectedSpan, orderedSpans]);
+
+
 
   const edgeOptions = {
     animated: true,
@@ -155,17 +219,19 @@ const SpanFlow = () => {
   useEffect(() => {
     setNodes([]);
     setEdges([]);
+    setSelectedSpan({ "attributes": [] });
     if (Object.keys(selectedTrace).length !== 0) {
-      const orderedSpans = sortingParentChildOrder(selectedTrace.spans);
-      dynamicNodeCreation(orderedSpans);
+      const orderedSpansData = sortingParentChildOrder(selectedTrace.spans);
+      setOrderedSpans(orderedSpansData);
+      dynamicNodeCreation(orderedSpansData);
     }
-  }, [selectedTrace]);
+  }, [selectedTrace, setSelectedSpan]);
 
   return (
     <div>
       {Object.keys(selectedTrace).length === 0 ? (
         <div>
-          <Typography variant="h4" sx={{ textAlign: "center", marginTop: "50%" }} >Please Select any one of the Trace from the list!</Typography>
+          <Typography variant="h5" sx={{ textAlign: "center", marginTop: "50%" }} >Please Select any one of the Trace from the list to visualize!</Typography>
         </div>
       ) :
         <div>
@@ -180,6 +246,7 @@ const SpanFlow = () => {
             <ReactFlow
               nodes={nodes}
               edges={edges}
+              onNodeClick={onNodeClick}
               defaultEdgeOptions={edgeOptions}
               onNodesChange={onNodesChange}
               onEdgesChange={onEdgesChange}
@@ -188,7 +255,7 @@ const SpanFlow = () => {
               <Controls />
             </ReactFlow>
           </div>
-          <div>
+          <div id="span-info" ref={sectionRef} >
             <SpanInfo />
           </div>
         </div>
