@@ -10,8 +10,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 const FilterDialog = ({ open, onClose }) => {
+
   // const { expanded, setExpanded } = useState(false);
-  const { selectedOptions, setSelectedOptions } = useContext(GlobalContext);
+  // const { selectedOptions, setSelectedOptions } = useContext(GlobalContext);
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
   const [value, setValue] = useState([0, 1000]);
   const [minValue, setMinValue] = useState(0);
