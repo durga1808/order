@@ -4,6 +4,11 @@ import "./TraceList.css";
 import { tokens } from '../../../theme';
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { spanData } from '../../../global/MockData/SpanData';
+import { useContext } from 'react';
+import { GlobalContext } from '../../../global/globalContext/GlobalContext';
 
 const mockTraces = [
     {
@@ -62,44 +67,29 @@ const mockTraces = [
     }
 ];
 
-const sortOrder = ['Earliest First', '1 hr ago', '2 hrs ago', '12 hrs ago'];
+const sortOrder = ['Earliest First', 'Oldest First', 'Error First', 'Peak Latency First'];
 
 const TraceList = () => {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const [traceData, setTraceData] = useState([]);
+    const { setSelectedTrace } = useContext(GlobalContext);
 
-    // const [time, setTime] = useState('');
+    useEffect(() => {
+        setTraceData(spanData);
+    }, []);
 
-    // const handleChange = (event) => {
-    //     setTime(event.target.value);
-    // };
+    const handleCardClick = (trace) => {
+        console.log("Clicked");
+        setSelectedTrace(trace);
+    }
 
     return (
         <div  >
             <div>
                 <Box display="flex" flexDirection="row" justifyContent="space-between"  >
                     <Typography variant="h7" style={{ margin: "10px 0 20px 10px" }}>Traces ({mockTraces.length})</Typography>
-
-                    {/* <FormControl sx={{ width: "40%" }}>
-                        <InputLabel id="demo-simple-select-label" style={{ color: colors.primary[100] }}>Sort Order</InputLabel>
-                        <Select
-                            labelId="demo-simple-select-label"
-                            id="demo-simple-select"
-                            value={time}
-                            input={<OutlinedInput label="Sort Order" />}
-                            onChange={handleChange}
-                        >
-                            {sortOrder.map((sortorder) => (
-                                <MenuItem
-                                    key={sortorder}
-                                    value={sortorder}
-                                >
-                                    {sortorder}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl> */}
 
                     <Box sx={{ margin: "10px 0 20px 0" }} >
                         <Pagination count={10} variant="outlined" size='small' shape="rounded" />
@@ -111,40 +101,34 @@ const TraceList = () => {
                     </Box>
                 </Box>
 
-                <Box sx={{ maxHeight: "calc(80vh - 50px)", overflowY: "auto" }} >
-                    {mockTraces.map((trace, index) => (
-                        <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "530px", height: "fit-content", backgroundColor: colors.primary[500] }} >
+                <Box sx={{ maxHeight: "calc(80vh - 55px)", overflowY: "auto" }} >
+                    {traceData.map((trace, index) => (
+                        <Card className="tracelist-card" onClick={() => handleCardClick(trace)} key={index} sx={{ margin: "10px 0 20px 0", width: "530px", height: "fit-content", backgroundColor: colors.primary[500] }} >
                             <CardActionArea>
                                 {/* <CardHeader title={<Typography variant="h6" sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px" }}>
                                     <span>{trace.servicename}: {trace.endPoint}</span>
                                     <span>{trace.duration}</span>
                                 </Typography>} /> */}
                                 <Box>
-                                <Typography  sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], padding: "5px", fontSize:"16px" }}>
-                                    <span> <span style={{ fontWeight: "600" }}>{trace.servicename}:</span> {trace.endPoint}</span>
-                                    <span>{trace.duration}</span>
-                                </Typography>
+                                    <Typography sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], padding: "5px", fontSize: "16px" }}>
+                                        <span> <span style={{ fontWeight: "600" }}>{trace.serviceName}:</span> {trace.operationName}</span>
+                                        <span>{trace.duration}</span>
+                                    </Typography>
                                 </Box>
                                 <CardContent>
-                                    {/* orderProject: /get/getAllOrder
-                            <br />
-                            TraceID: 3948357549bas943578942nmn24985378345676543456432
-                            <br />
-                            20ms:  StatusCode: 200  Method: GET */}
-
                                     <Typography variant="h8" >
-                                        <span style={{ fontWeight: "600" }}>TraceID:</span> {trace.traceID}
+                                        <span style={{ fontWeight: "600" }}>TraceID:</span> {trace.traceId}
                                     </Typography>
 
                                     <Typography variant="h8" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "15px 0 0 0 " }}>
-                                        <span style={{width:"150px"}} >{trace.createdTime}</span>
-                                        <span style={{width:"200px"}} > <span style={{ fontWeight: "600", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
-                                        <span style={{width:"100px"}} > <span style={{ fontWeight: "600", margin: "0 2px 0 0" }}>Method:</span>{trace.method}</span>
+                                        <span style={{ width: "150px" }} >{trace.createdTime}</span>
+                                        <span style={{ width: "200px" }} > <span style={{ fontWeight: "600", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
+                                        <span style={{ width: "100px" }} > <span style={{ fontWeight: "600", margin: "0 2px 0 0" }}>Method:</span>{trace.methodName}</span>
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
                         </Card>
-                        
+
                     ))}
                 </Box>
             </div>
