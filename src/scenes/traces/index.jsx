@@ -11,22 +11,22 @@ import { GlobalContext } from "../../global/globalContext/GlobalContext";
 const Traces = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { selectedTrace } = useContext(GlobalContext);
+  const { selectedTrace, selectedSpan } = useContext(GlobalContext);
   return (
     <div style={{ display: "flex", flexDirection: "row", justifyContent: "normal", }}>
       {/* <TraceTopBar /> */}
-      <Box sx={{ m: "40px 20px 0 20px" }} >
-        <Card sx={{ backgroundColor: colors.primary[400], padding: "15px", width: "580px" }}>
+      <Box sx={{ m: "20px 20px 0 20px" }} >
+        <Card sx={{ backgroundColor: colors.primary[400], padding: "15px", width: "580px",height: "calc(90vh - 70px)", }}>
           <TraceList />
         </Card>
       </Box>
 
       <div>
-        <Box sx={{ m: "40px 20px 20px 10px", }} >
+        <Box sx={{ m: "20px 20px 20px 10px", }} >
           <Card sx={{
-            backgroundColor: colors.primary[400], padding: "15px", width: "620px", maxHeight: Object.keys(selectedTrace).length > 0 ? "calc(95vh - 70px)" : null,
-            height: Object.keys(selectedTrace).length === 0 ? "615px" : null,
-            overflowY: "auto",
+            backgroundColor: colors.primary[400], padding: "15px", width: "620px",
+            height: "calc(90vh - 70px)",
+            overflowY:"auto"
           }}>
             <SpanFlow />
           </Card>

@@ -101,7 +101,7 @@ const TraceList = () => {
                     </Box>
                 </Box>
 
-                <Box sx={{ maxHeight: "calc(80vh - 55px)", overflowY: "auto" }} >
+                <Box sx={{ maxHeight: "calc(80vh - 85px)", overflowY: "auto" }} >
                     {traceData.map((trace, index) => (
                         <Card className="tracelist-card" onClick={() => handleCardClick(trace)} key={index} sx={{ margin: "10px 0 20px 0", width: "530px", height: "fit-content", backgroundColor: colors.primary[500] }} >
                             <CardActionArea>

@@ -16,19 +16,6 @@ function MetricLayout() {
     { i: "dd", x: 0, y: 2, w: 6, h: 3 },
   ];
 
-  // const condition =layout.map((items)=>{
-  //   if(items.i==="dd"&&items.w ===6&&items.h===3){
-  //     return false;
-
-  //   }else{
-  //     return true;
-  //   }
-
-  // console.log(items.w,"www");
-  // })
-
-  // console.log("condition----------------------",condition);
-
   return (
     <div className="scrollable-container">
       <div className="resizable-grid-layout-container">
@@ -40,12 +27,6 @@ function MetricLayout() {
           width={1200}
           isResizable={true}
         >
-              {/* {layout.map((item) => (
-                <div key={item.i} className="grid-item" data-grid={item}>
-                  {item.i}
-                  {item.i === "dd" ? <ResizableContent /> : <NonResizableContent />}
-                </div>
-              ))} */}
 
           <div key="a" className="grid-item">
             A
@@ -70,35 +51,6 @@ function MetricLayout() {
           </div>
           <div key="dd" className="grid-item">
             DD
-            <p>
-              D Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sed
-              quibusdam id ullam ad quidem odio corporis quos repellendus
-              impedit incidunt reiciendis unde laborum, quas eius natus quam
-              corrupti harum . Rem? Lorem ipsum dolor sit, amet consectetur
-              adipisicing elit. Debitis quis unde, eaque iusto harum eum placeat
-              perspiciatis, ex id esse nulla error velit dolore asperiores
-              reprehenderit sint ad temporibus vero.D Lorem ipsum dolor, sit
-              amet consectetur adipisicing elit. Sed quibusdam id ullam ad
-              quidem odio corporis quos repellendus impedit incidunt reiciendis
-              unde laborum, quas eius natus quam corrupti harum . Rem? Lorem
-              ipsum dolor sit, amet consectetur adipisicing elit. Debitis quis
-              unde, eaque iusto harum eum placeat perspiciatis, ex id esse nulla
-              error velit dolore asperiores reprehenderit sint ad temporibus
-              vero.D Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Sed quibusdam id ullam ad quidem odio corporis quos repellendus
-              impedit incidunt reiciendis unde laborum, quas eius natus quam
-              corrupti harum . Rem? Lorem ipsum dolor sit, amet consectetur
-              adipisicing elit. Debitis quis unde, eaque iusto harum eum placeat
-              perspiciatis, ex id esse nulla error velit dolore asperiores
-              reprehenderit sint ad temporibus vero.D Lorem ipsum dolor, sit
-              amet consectetur adipisicing elit. Sed quibusdam id ullam ad
-              quidem odio corporis quos repellendus impedit incidunt reiciendis
-              unde laborum, quas eius natus quam corrupti harum . Rem? Lorem
-              ipsum dolor sit, amet consectetur adipisicing elit. Debitis quis
-              unde, eaque iusto harum eum placeat perspiciatis, ex id esse nulla
-              error velit dolore asperiores reprehenderit sint ad temporibus
-              vero.
-            </p>
           </div>
         </GridLayout>
       </div>

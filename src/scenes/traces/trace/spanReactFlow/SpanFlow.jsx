@@ -228,10 +228,10 @@ const SpanFlow = () => {
   }, [selectedTrace, setSelectedSpan]);
 
   return (
-    <div>
+    <div style={{maxHeight: Object.keys(selectedTrace).length ? "calc(93vh - 70px)"  : null}} >
       {Object.keys(selectedTrace).length === 0 ? (
         <div>
-          <Typography variant="h5" sx={{ textAlign: "center", marginTop: "50%" }} >Please Select any one of the Trace from the list to visualize!</Typography>
+          <Typography variant="h5" sx={{ textAlign: "center", marginTop: "60%" }} >Please Select any one of the Trace from the list to visualize!</Typography>
         </div>
       ) :
         <div>

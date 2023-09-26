@@ -1,113 +1,115 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Drawer, Divider, IconButton } from "@mui/material";
-import {List, ListItem} from "@mui/material";
+import { List, ListItem } from "@mui/material";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FormGroup, FormControlLabel } from "@mui/material";
-import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { Slider, TextField, Button, Checkbox, Typography } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 const FilterDialog = ({ open, onClose }) => {
 
-  // const { expanded, setExpanded } = useState(false);
-  // const { selectedOptions, setSelectedOptions } = useContext(GlobalContext);
-  const [selectedOptions, setSelectedOptions] = useState([]);
-
-  const [value, setValue] = useState([0, 1000]);
-  const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(1000);
+  // const [value, setValue] = useState([0, 1000]);
+  const [minDurationValue, setMinDurationValue] = useState(0);
+  const [maxDurationValue, setMaxDurationValue] = useState(1000);
+  const [selectedService, setSelectedService] = useState([]);
+  const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
+  const [selectedHttpCode, setSelectedHttpCode] = useState([]);
 
   const services = ['OrderService', 'VendorService', 'ProviderService', 'DeliveryService'];
   const methods = ['POST', 'GET', 'PUT', 'DELETE'];
-  // const codes = ['2xx', '3xx', '4xx', '5xx'];
 
   const codesNew = [
     {
       labelName: "2xx",
       labelValue: {
-        miniVal: 200,
-        maxiVal: 299
+        min: 200,
+        max: 299
       }
     },
     {
       labelName: "3xx",
       labelValue: {
-        miniVal: 300,
-        maxiVal: 399
+        min: 300,
+        max: 399
       }
     },
     {
       labelName: "4xx",
       labelValue: {
-        miniVal: 400,
-        maxiVal: 499
+        min: 400,
+        max: 499
       }
     },
     {
       labelName: "5xx",
       labelValue: {
-        miniVal: 500,
-        maxiVal: 599
+        min: 500,
+        max: 599
       }
     }
   ]
 
-  const toggleOption = (option) => () => {
-    if (typeof option === 'string') {
-      if (selectedOptions.includes(option)) {
-        setSelectedOptions(selectedOptions.filter((item) => item !== option));
-      } else {
-        setSelectedOptions([...selectedOptions, option]);
-      }
-    } else if (typeof option === 'object') {
 
-      const isOptionSelected = selectedOptions.some(
-        (opt) =>
-          opt.miniVal === option.miniVal && opt.maxiVal === option.maxiVal
-      );
+  const handleServiceToggle = (service) => () => {
+    if (selectedService.includes(service)) {
+      setSelectedService(selectedService.filter((item) => item !== service));
+    } else {
+      setSelectedService([...selectedService, service]);
+    }
+  };
 
-      if (isOptionSelected) {
-        setSelectedOptions((prevSelectedOptions) =>
-          prevSelectedOptions.filter(
-            (opt) =>
-              opt.miniVal !== option.miniVal || opt.maxiVal !== option.maxiVal
-          )
-        );
-      } else {
-        setSelectedOptions([...selectedOptions, option]);
-      }
+  const handleHttpToggle = (method) => () => {
+    if (selectedHttpMethod.includes(method)) {
+      setSelectedHttpMethod(selectedHttpMethod.filter((item) => item !== method));
+    } else {
+      setSelectedHttpMethod([...selectedHttpMethod, method]);
+    }
+  };
+
+  const handleHttpCodeToggle = (code) => () => {
+    if (
+      selectedHttpCode.some((opt) =>
+        typeof opt === 'object' &&
+        opt.min === code.labelValue.min &&
+        opt.max === code.labelValue.max
+      )
+    ) {
+      setSelectedHttpCode(selectedHttpCode.filter((opt) =>
+        !(typeof opt === 'object' &&
+          opt.min === code.labelValue.min &&
+          opt.max === code.labelValue.max)
+      ));
+    } else {
+      setSelectedHttpCode([...selectedHttpCode, code.labelValue]);
     }
   };
 
   const clearSelectedOptions = () => {
-    setSelectedOptions([]);
+    setSelectedHttpCode([]);
+    setSelectedHttpMethod([]);
+    setSelectedService([]);
+    setMinDurationValue(0);
+    setMaxDurationValue(1000);
   };
 
-  // const handlePanelChange = (panel) => (event, isExpanded) => {
-  //   setExpanded(isExpanded ? panel : false);
-  // };
-
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-    setMinValue(newValue[0]);
-    setMaxValue(newValue[1]);
+    setMinDurationValue(newValue[0]);
+    setMaxDurationValue(newValue[1]);
   };
 
   const handleMinChange = (event) => {
     const newValue = parseInt(event.target.value);
-    if (!isNaN(newValue) && newValue <= maxValue) {
-      setMinValue(newValue);
-      setValue([newValue, value[1]]);
+    if (!isNaN(newValue) && newValue <= maxDurationValue) {
+      setMinDurationValue(newValue);
     }
   };
 
   const handleMaxChange = (event) => {
     const newValue = parseInt(event.target.value);
-    if (!isNaN(newValue) && newValue >= minValue) {
-      setMaxValue(newValue);
-      setValue([value[0], newValue]);
+    if (!isNaN(newValue) && newValue >= minDurationValue) {
+      setMaxDurationValue(newValue);
     }
   };
 
@@ -116,9 +118,18 @@ const FilterDialog = ({ open, onClose }) => {
   };
 
   const handleApplyButtonClick = () => {
-    console.log('Selected Options:', selectedOptions);
+    const payload = {
+      "duration": {
+        minValue: minDurationValue,
+        maxValue: maxDurationValue
+      },
+      "service": selectedService,
+      "methodName": selectedHttpMethod,
+      "statusCode": selectedHttpCode
+    }
+    console.log('Selected Options:', payload);
 
-    const selectedDuration = `${minValue}ms - ${maxValue}ms`;
+    const selectedDuration = `${minDurationValue}ms - ${maxDurationValue}ms`;
     console.log('Selected Duration:', selectedDuration);
 
     onClose();
@@ -146,7 +157,7 @@ const FilterDialog = ({ open, onClose }) => {
 
               <AccordionDetails>
                 <Slider
-                  value={value}
+                  value={[minDurationValue, maxDurationValue]}
                   min={0}
                   max={1000}
                   onChange={handleChange}
@@ -154,26 +165,26 @@ const FilterDialog = ({ open, onClose }) => {
                   getAriaValueText={valuetext}
                   style={{ color: "grey" }}
                 />
-                  <TextField
-                    label="Min"
-                    variant="outlined"
-                    value={minValue}
-                    onChange={handleMinChange}
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">ms</InputAdornment>,
-                    }}
-                    style={{ margin: "10px"}}
-                  />
-                  <TextField
-                    label="Max"
-                    variant="outlined"
-                    value={maxValue}
-                    onChange={handleMaxChange}
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">ms</InputAdornment>,
-                    }}
-                    style={{ margin: "10px"}}
-                  />
+                <TextField
+                  label="Min"
+                  variant="outlined"
+                  value={minDurationValue}
+                  onChange={handleMinChange}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+                  }}
+                  style={{ margin: "10px" }}
+                />
+                <TextField
+                  label="Max"
+                  variant="outlined"
+                  value={maxDurationValue}
+                  onChange={handleMaxChange}
+                  InputProps={{
+                    endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+                  }}
+                  style={{ margin: "10px" }}
+                />
               </AccordionDetails>
             </Accordion>
           </ListItem>
@@ -189,20 +200,20 @@ const FilterDialog = ({ open, onClose }) => {
                 <FormGroup>
                   {services.map((service) => (
                     <FormControlLabel
-                    key={service}
-                    control={<Checkbox
-                      checked={selectedOptions.includes(service)}
-                      onChange={toggleOption(service)}
-                      sx={{
-                        color: "grey",
-                        '&.Mui-checked': {
-                          color: "blue",
-                        },
-                      }}
-                    />
-                    }
-                  label={service}
-                  />))}
+                      key={service}
+                      control={<Checkbox
+                        checked={selectedService.includes(service)}
+                        onChange={handleServiceToggle(service)}
+                        sx={{
+                          color: "grey",
+                          '&.Mui-checked': {
+                            color: "blue",
+                          },
+                        }}
+                      />
+                      }
+                      label={service}
+                    />))}
                 </FormGroup>
               </AccordionDetails>
             </Accordion>
@@ -211,29 +222,29 @@ const FilterDialog = ({ open, onClose }) => {
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px"}}>
+            <Accordion style={{ width: "500px" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="h5">HTTP Method</Typography>
               </AccordionSummary>
 
-              <AccordionDetails>  
+              <AccordionDetails>
                 <FormGroup>
                   {methods.map((method) => (
                     <FormControlLabel
-                    key={method}
-                    control={<Checkbox
-                      checked={selectedOptions.includes(method)}
-                      onChange={toggleOption(method)}
-                      sx={{
-                        color: "grey",
-                        '&.Mui-checked': {
-                          color: "blue",
-                        },
-                      }}
-                    />
-                    }
-                  label={method}
-                  />))}
+                      key={method}
+                      control={<Checkbox
+                        checked={selectedHttpMethod.includes(method)}
+                        onChange={handleHttpToggle(method)}
+                        sx={{
+                          color: "grey",
+                          '&.Mui-checked': {
+                            color: "blue",
+                          },
+                        }}
+                      />
+                      }
+                      label={method}
+                    />))}
                 </FormGroup>
               </AccordionDetails>
             </Accordion>
@@ -241,37 +252,35 @@ const FilterDialog = ({ open, onClose }) => {
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px"}}>
+            <Accordion style={{ width: "500px" }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                 <Typography variant="h5">HTTP Code</Typography>
               </AccordionSummary>
 
-              <AccordionDetails>  
+              <AccordionDetails>
                 <FormGroup>
-                  {codesNew.map((code,index) => (
+                  {codesNew.map((code, index) => (
                     <FormControlLabel
-                    key={index}
-                    control={<Checkbox
-                      checked={selectedOptions.some(
-                        (opt) =>
-                          typeof opt === 'string'
-                            ? opt === code
-                            : opt.miniVal === code.labelValue.miniVal &&
-                              opt.maxiVal === code.labelValue.maxiVal
-                      )}
-                      onChange={toggleOption(
-                        typeof code === 'string' ? code : code.labelValue
-                      )}
-                      sx={{
-                        color: "grey",
-                        '&.Mui-checked': {
-                          color: "blue",
-                        },
-                      }}
+                      key={index}
+                      control={
+                        <Checkbox
+                          checked={selectedHttpCode.some((opt) =>
+                            typeof opt === 'object' &&
+                            opt.min === code.labelValue.min &&
+                            opt.max === code.labelValue.max
+                          )}
+                          onChange={handleHttpCodeToggle(code)}
+                          sx={{
+                            color: "grey",
+                            '&.Mui-checked': {
+                              color: "blue",
+                            },
+                          }}
+                        />
+                      }
+                      label={code.labelName}
                     />
-                    }
-                  label={code.labelName}
-                  />))}
+                  ))}
                 </FormGroup>
               </AccordionDetails>
             </Accordion>
