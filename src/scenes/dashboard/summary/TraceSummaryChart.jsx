@@ -1349,7 +1349,6 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
 
 const BarChart = () => {
   const data = [
@@ -1450,18 +1449,12 @@ const BarChart = () => {
       data: data.map((item) => item.peakLatency),
     },
   ];
-  const useStyles = makeStyles({
-    card: {
-      paddingBottom: "0", // Remove the default padding-bottom
-    },
-  });
-  const classes = useStyles();
+
   return (
     <div style={{ display: "flex" }}>
       <Card
         elevation={3}
         style={{ margin: "16px", flex: 1 }}
-        className={classes.card}
       >
         <CardContent>
           <ReactApexChart
