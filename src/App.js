@@ -14,18 +14,10 @@ import DashboardTopBar from "./scenes/dashboard/DashboardTopBar";
 
 function App() {
   const [theme, colorMode] = useMode();
-
-  // const TraceNavBar = () => {
-  //   <Routes>
-  //     <Route index element={<SummaryChart />} />
-
-  //   </Routes>
-  // }
-
+  
   const DashboardSection = () => {
     return (
       <div>
-        <DashboardTopBar />
         <Routes>
           <Route index element={<TraceSummaryChart />} />
           <Route path="logSummary" element={<LogSummaryChart />} />
@@ -40,6 +32,7 @@ function App() {
         <SideNavbar />
         <main className="content">
           <Topbar />
+          <DashboardTopBar />
           <Routes>
             <Route path="dashboard/*" element={<DashboardSection />} />
             <Route path="traces" element={<Traces />} />

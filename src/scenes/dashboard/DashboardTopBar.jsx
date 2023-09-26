@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Tabs from "@mui/material/Tabs";
@@ -17,17 +17,42 @@ import { FilterListOutlined, RefreshOutlined } from "@mui/icons-material";
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
+  const [lookBackVal, setLookBackVal] = useState("1 hour");
   const [activeTab, setActiveTab] = useState(0);
 
   const options = [
-    "30 minutes",
-    "1 hour",
-    "2 hours",
-    "4 hours",
-    "8 hours",
-    "12 hours",
-    "16 hours",
-    "24 hours",
+    {
+      "value":30,
+      "label":"30 minutes"
+    },
+    {
+      "value":60,
+      "label":"1 hour"
+    },
+    {
+      "value":120,
+      "label":"2 hours"
+    },
+    {
+      "value":240,
+      "label":"4 hours"
+    },
+    {
+      "value":480,
+      "label":"8 hours"
+    },
+    {
+      "value":720,
+      "label":"12 hours"
+    },
+    {
+      "value":960,
+      "label":"16 hours"
+    },
+    {
+      "value":1440,
+      "label":"24 hours"
+    }
   ];
 
   const theme = useTheme();
@@ -63,40 +88,37 @@ const DashboardTopBar = () => {
     setFilterDialogOpen(false);
   };
 
+  const handleLookbackChange = (val) => {
+    console.log("VAL " + JSON.stringify(val.value));
+    setLookBackVal(val);
+  }
+
   return (
     <>
       <AppBar position="static" elevation={0}>
         <Toolbar
           style={{
             display: "flex",
-
-            justifyContent: "space-between",
+            justifyContent: window.location.pathname === "/mainpage/dashboard" ? "space-between" : "flex-end",
             backgroundColor: colors.primary[400],
-            // style={{
-            // border: `1px solid ${theme.palette.divider}`,
-            // boxShadow:
-            //   "0px 4px 4px -2px rgba(0,0,0,0.2), 0px 7px 10px 1px rgba(0,0,0,0.14), 0px 2px 16px 1px rgba(0,0,0,0.12)",
-            // }}
-
-            // borderTop: "4px solid #EBEBEB",
-            // borderTop: activeTab === 0 ? "4px solid #EBEBEB" : "4px solid red",
-            // borderTop: colors.topBorder[400],
           }}
         >
-          <Tabs
-            value={activeTab}
-            onChange={handleTabChange}
-            TabIndicatorProps={{
-              sx: {
-                backgroundColor: colors.lightGreen[500],
-              },
-            }}
-            textColor="inherit"
-            indicatorColor="primary"
-          >
-            <Tab label="Trace Summary" />
-            <Tab label="Log Summary" />
-          </Tabs>
+          {window.location.pathname === "/mainpage/dashboard" ? (
+            <Tabs
+              value={activeTab}
+              onChange={handleTabChange}
+              TabIndicatorProps={{
+                sx: {
+                  backgroundColor: colors.lightGreen[500],
+                },
+              }}
+              textColor="inherit"
+              indicatorColor="primary"
+            >
+              <Tab label="Trace Summary" />
+              <Tab label="Log Summary" />
+            </Tabs>
+          ) : null}
           <Box
             sx={{
               display: "flex",
@@ -108,6 +130,8 @@ const DashboardTopBar = () => {
             <Dropdown
               options={options}
               placeholder="Lookback for"
+              value={lookBackVal}
+              onChange={(val) => handleLookbackChange(val)}
               arrowClosed={<span className="arrow-closed" />}
               arrowOpen={<span className="arrow-open" />}
             />
