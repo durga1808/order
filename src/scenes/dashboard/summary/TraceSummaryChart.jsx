@@ -1345,145 +1345,283 @@
 
 // export default BarChart;
 
+// import React from "react";
+// import ReactApexChart from "react-apexcharts";
+// import Card from "@mui/material/Card";
+// import CardContent from "@mui/material/CardContent";
+// // import { makeStyles } from "@material-ui/core/styles";
+// // import { withStyles } from "@material-ui/core";
+
+// const BarChart = () => {
+//   const data = [
+//     { serviceName: 'Service A', apiCalls: 100, peakLatency: 10, errorCalls: 20, successCalls: 80 },
+//     { serviceName: 'Service B', apiCalls: 150, peakLatency: 20, errorCalls: 30, successCalls: 120 },
+//     { serviceName: 'Service C', apiCalls: 75, peakLatency: 15, errorCalls: 10, successCalls: 65 },
+//     // Add more data as needed
+//   ];
+
+//   const apiCallsOptions = {
+//     chart: {
+//       type: "bar",
+//     },
+//     plotOptions: {
+//       bar: {
+//         columnWidth: "30px",
+//       },
+//     },
+//     xaxis: {
+//       categories: data.map((item) => item.serviceName),
+//       title: {
+//         text: "List of Services",
+//         style:{
+//           fontSize:"13px",
+//           fontWeight:'normal',
+//           // color:  '#263238'
+//         }
+//       },
+//     },
+//     yaxis: {
+//       title: {
+//         text: "API Calls Count",
+//         style:{
+//           fontSize:"12px",
+//           fontWeight:'normal',
+//           // color:  '#263238'
+//         }
+//       },
+//     },
+//     title: {
+//       text: "API Calls Count",
+//       align: "center",
+//       margin: 5,
+//       offsetX: 0,
+//       offsetY: 5,
+//       style: {
+//         fontSize:  '18px',
+//         fontWeight:  'bold',
+//         // fontFamily:  undefined,
+//         color:  '#263238'
+//       },
+//     },
+//   };
+
+//   const apiCallsSeries = [
+//     {
+//       name: "API Calls",
+//       data: data.map((item) => item.apiCalls),
+//     },
+//   ];
+
+//   const peakLatencyOptions = {
+//     chart: {
+//       type: "bar",
+//     },
+//     // zoom: {
+//     //   enabled: true,
+//     //   type: "x",
+//     //   resetIcon: {
+//     //     offsetX: -10,
+//     //     offsetY: 0,
+//     //     fillColor: "#fff",
+//     //     strokeColor: "#37474F",
+//     //   },
+//     //   selection: {
+//     //     background: "#90CAF9",
+//     //     border: "#0D47A1",
+//     //   },
+//     // },
+//     plotOptions: {
+//       bar: {
+//         columnWidth: "30px",
+//       },
+//     },
+//     xaxis: {
+//       categories: data.map((item) => item.serviceName),
+//       title: {
+//         text: "List of Services",
+//         style:{
+//           fontSize:"13px",
+//           fontWeight:'normal',
+//           // color:  '#263238'
+//         }
+//       },
+//     },
+//     yaxis: {
+//       title: {
+//         text: "Latency(ms)",
+//         style:{
+//           fontSize:"12px",
+//           fontWeight:'normal',
+//           // color:  '#263238'
+//         }
+//       },
+//     },
+//     title: {
+//       text: "Peak Latency(ms)",
+//       align: "center",
+//       margin: 5,
+//       offsetX: 0,
+//       offsetY: 5,
+//       style: {
+//         fontSize:  '18px',
+//         fontWeight:  'bold',
+//         // fontFamily:  undefined,
+//         color:  '#263238'
+//       },
+//     },
+//   };
+
+//   const peakLatencySeries = [
+//     {
+//       name: "Peak Latency",
+//       data: data.map((item) => item.peakLatency),
+//     },
+//   ];
+
+//   const errorSuccessOptions = {
+//     chart: {
+//       type: 'bar',
+
+//     },
+//     plotOptions: {
+//       bar: {
+//         columnWidth: "30px",
+//       },
+//     },
+//     xaxis: {
+//       categories: data.map(item => item.serviceName),
+//       title: {
+//         text: 'List of Services',
+//         style:{
+//           fontSize:"12px",
+//           fontWeight:'normal',
+//           // color:  '#263238'
+//         }
+//       },
+//     },
+//     yaxis: {
+//       title: {
+//         text: 'Call Count',
+//         style:{
+//           fontSize:"12px",
+//           fontWeight:'normal',
+//           // color:  '#263238'
+//         }
+//       },
+//     },
+//     title: {
+//       text: 'Error and Success Calls',
+//       align: 'center',
+//       margin: 5,
+//       offsetX: 0,
+//       offsetY: 5,
+//       style: {
+//         fontSize:  '18px',
+//         fontWeight:  'bold',
+//         // fontFamily:  undefined,
+//         color:  '#263238'
+//       },
+//     },
+//   };
+
+//   const errorSuccessSeries = [
+//     {
+//       name: 'Error Calls',
+//       data: data.map(item => item.errorCalls),
+//     },
+//     {
+//       name: 'Success Calls',
+//       data: data.map(item => item.successCalls),
+//     },
+//   ];
+
+//   return (
+//     <div><div style={{ display: "flex"}} >
+//     <Card
+//       elevation={3}
+//       style={{ margin: "25px", flex: 1 }}
+
+//     >
+//       <CardContent >
+//         <ReactApexChart
+//           options={apiCallsOptions}
+//           series={apiCallsSeries}
+//           type="bar"
+//           height={250}
+
+//         />
+//       </CardContent>
+//     </Card>
+//     <Card elevation={3} style={{ margin: "25px", flex: 1 }}>
+//       <CardContent>
+//         <ReactApexChart
+//           options={peakLatencyOptions}
+//           series={peakLatencySeries}
+//           type="bar"
+//           height={250}
+//         />
+
+//       </CardContent>
+//     </Card>
+
+//   </div><Card elevation={3} style={{ margin: '10px' }}>
+//         <CardContent>
+
+//           <ReactApexChart options={errorSuccessOptions} series={errorSuccessSeries} type="bar" height={250} />
+//         </CardContent>
+//       </Card></div>
+//   );
+// };
+
+// export default BarChart;
+
 import React from "react";
-import ReactApexChart from "react-apexcharts";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
+import ApiCallCount from "./TraceCharts/ApiCallCountChart/ApiCallCount";
+import PeakLatencyChart from "./TraceCharts/PeakLatencyChart/PeakLatencyChart";
+import ErrSucssCallCountChart from "./TraceCharts/ErrorSucccessCallCountChart/ErrSucssCallCountChart";
+import { Grid } from "@mui/material";
 
-const BarChart = () => {
-  const data = [
-    { serviceName: "Service A", apiCalls: 100, peakLatency: 10 },
-    { serviceName: "Service B", apiCalls: 150, peakLatency: 20 },
-    { serviceName: "Service C", apiCalls: 75, peakLatency: 15 },
-    // Add more data as needed
-  ];
-
-  const apiCallsOptions = {
-    chart: {
-      type: "bar",
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: "30px",
-      },
-    },
-    xaxis: {
-      categories: data.map((item) => item.serviceName),
-      title: {
-        text: "List of Services",
-      },
-    },
-    yaxis: {
-      title: {
-        text: "API Call Count",
-      },
-    },
-    title: {
-      text: "API Calls Count",
-      align: "center",
-      margin: 5,
-      offsetX: 0,
-      offsetY: 10,
-      style: {
-        fontSize: "18px",
-      },
-    },
-  };
-
-  const apiCallsSeries = [
-    {
-      name: "API Calls",
-      data: data.map((item) => item.apiCalls),
-    },
-  ];
-
-  const peakLatencyOptions = {
-    chart: {
-      type: "bar",
-    },
-    zoom: {
-      enabled: true,
-      type: "x",
-      resetIcon: {
-        offsetX: -10,
-        offsetY: 0,
-        fillColor: "#fff",
-        strokeColor: "#37474F",
-      },
-      selection: {
-        background: "#90CAF9",
-        border: "#0D47A1",
-      },
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: "30px",
-      },
-    },
-    xaxis: {
-      categories: data.map((item) => item.serviceName),
-      title: {
-        text: "List of Services",
-      },
-    },
-    yaxis: {
-      title: {
-        text: "Latency(ms)",
-      },
-    },
-    title: {
-      text: "Peak Latency Chart",
-      align: "center",
-      margin: 5,
-      offsetX: 0,
-      offsetY: 10,
-      style: {
-        fontSize: "18px",
-      },
-    },
-  };
-
-  const peakLatencySeries = [
-    {
-      name: "Peak Latency",
-      data: data.map((item) => item.peakLatency),
-    },
-  ];
-  const useStyles = makeStyles({
-    card: {
-      paddingBottom: "0", // Remove the default padding-bottom
-    },
-  });
-  const classes = useStyles();
+const BarChar = () => {
   return (
-    <div style={{ display: "flex" }}>
-      <Card
-        elevation={3}
-        style={{ margin: "16px", flex: 1 }}
-        className={classes.card}
-      >
-        <CardContent>
-          <ReactApexChart
-            options={apiCallsOptions}
-            series={apiCallsSeries}
-            type="bar"
-            height={300}
-          />
-        </CardContent>
-      </Card>
-      <Card elevation={3} style={{ margin: "16px", flex: 1 }}>
-        <CardContent>
-          <ReactApexChart
-            options={peakLatencyOptions}
-            series={peakLatencySeries}
-            type="bar"
-            height={300}
-          />
-        </CardContent>
-      </Card>
+    <div
+    // style={{ maxHeight: "calc(80vh - 75px)", overflowY: "auto" }}
+    >
+      <div style={{ display: "flex" }}>
+        <Card elevation={3} style={{ margin: "25px 15px 10px 25px", flex: 1 }}>
+          <CardContent>
+            <ApiCallCount />
+          </CardContent>
+        </Card>
+        <Card elevation={3} style={{ margin: "25px 25px 10px 15px", flex: 1 }}>
+          <CardContent>
+            <PeakLatencyChart />
+          </CardContent>
+        </Card>
+      </div>
+      <div>
+        {/* <Card elevation={3} style={{ margin: "25px" }}>
+          <CardContent><ErrSucssCallCountChart /></CardContent>
+        </Card> */}
+        {/* <Card elevation={3} style={{ margin: "25px" }}>
+          <ErrSucssCallCountChart />
+        </Card> */}
+      </div>
     </div>
+    // <div style={{ maxHeight: "100vh", overflowY: "auto" }}>
+    //   <Grid container spacing={2}>
+    //     <Grid item xs={12} sm={6}>
+    //       <ApiCallCount />
+    //     </Grid>
+    //     <Grid item xs={12} sm={6}>
+    //       <PeakLatencyChart />
+    //     </Grid>
+    //     <Grid item xs={12}>
+    //       <ErrSucssCallCountChart />
+    //     </Grid>
+    //   </Grid>
+    // </div>
   );
 };
-
-export default BarChart;
+export default BarChar;
