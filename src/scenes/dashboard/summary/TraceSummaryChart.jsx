@@ -1578,10 +1578,10 @@
 import React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import ApiCallCount from "./TraceCharts/ApiCallCountChart/ApiCallCount";
-import PeakLatencyChart from "./TraceCharts/PeakLatencyChart/PeakLatencyChart";
-import ErrSucssCallCountChart from "./TraceCharts/ErrorSucccessCallCountChart/ErrSucssCallCountChart";
+
 import { Grid } from "@mui/material";
+import ApiCallCount from "./TraceCharts/ApiCallCount";
+import PeakLatencyChart from "./TraceCharts/PeakLatencyChart";
 
 const BarChar = () => {
   return (
