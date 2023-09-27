@@ -1,13 +1,7 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const PeakLatencyChart = () => {
-  const data = [
-    { serviceName: "Service A", peakLatency: 10 },
-    { serviceName: "Service B", peakLatency: 20 },
-    { serviceName: "Service C", peakLatency: 15 },
-    // Add more data as needed
-  ];
+const PeakLatencyChart = ({ data }) => {
   const peakLatencyOptions = {
     chart: {
       type: "bar",
@@ -38,7 +32,6 @@ const PeakLatencyChart = () => {
         style: {
           fontSize: "13px",
           fontWeight: "normal",
-          // color:  '#263238'
         },
       },
     },
@@ -48,7 +41,6 @@ const PeakLatencyChart = () => {
         style: {
           fontSize: "12px",
           fontWeight: "normal",
-          // color:  '#263238'
         },
       },
     },
@@ -61,7 +53,7 @@ const PeakLatencyChart = () => {
       style: {
         fontSize: "18px",
         fontWeight: "bold",
-        // fontFamily:  undefined,
+
         color: "#263238",
       },
     },

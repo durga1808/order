@@ -1,13 +1,13 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ApiCallCount = () => {
-  const data = [
-    { serviceName: "Service A", apiCalls: 100 },
-    { serviceName: "Service B", apiCalls: 150 },
-    { serviceName: "Service C", apiCalls: 75 },
-    // Add more data as needed
-  ];
+const ApiCallCount = ({ data }) => {
+  // const data = [
+  //   { serviceName: "Service A", apiCalls: 100 },
+  //   { serviceName: "Service B", apiCalls: 150 },
+  //   { serviceName: "Service C", apiCalls: 75 },
+  //   // Add more data as needed
+  // ];
 
   const apiCallsOptions = {
     chart: {

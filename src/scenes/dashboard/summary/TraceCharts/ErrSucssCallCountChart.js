@@ -1,16 +1,31 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ErrSucssCallCountChart = () => {
-  const data = [
-    { serviceName: "Service A", errorCalls: 20, successCalls: 80 },
-    { serviceName: "Service B", errorCalls: 30, successCalls: 120 },
-    { serviceName: "Service C", errorCalls: 10, successCalls: 65 },
-    // Add more data as needed
-  ];
-  const errorSuccessOptions = {
+const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
+  const handleBarClick = (event, chartContext, config) => {
+    const selectedDataPointIndex = config.dataPointIndex; // Get data point index
+    onBarClick(selectedDataPointIndex); // Call the callback with the index
+  };
+  const options = {
     chart: {
       type: "bar",
+      events: { dataPointSelection: handleBarClick },
+      // events: {
+      //   click(event, chartContext, config) {
+      //     let ID = config.config.xaxis.categories[config.dataPointIndex];
+      //     onBarClick(ID);
+      //   },
+      // },
+      // events: {
+      //   dataPointSelection: function (event, chartContext, config) {
+      //     console.log("evnts details", event.dataPointIndex);
+      //   },
+      // },
+      // events: {
+      //   dataPointSelection: (event, chartContext, config) => {
+      //     onBarClick(event, chartContext);
+      //   },
+      // },
     },
     plotOptions: {
       bar: {
@@ -18,13 +33,12 @@ const ErrSucssCallCountChart = () => {
       },
     },
     xaxis: {
-      categories: data.map((item) => item.serviceName),
+      categories: ErrSuccessData.map((item) => item.serviceName),
       title: {
         text: "List of Services",
         style: {
-          fontSize: "12px",
+          fontSize: "13px",
           fontWeight: "normal",
-          // color:  '#263238'
         },
       },
     },
@@ -34,7 +48,6 @@ const ErrSucssCallCountChart = () => {
         style: {
           fontSize: "12px",
           fontWeight: "normal",
-          // color:  '#263238'
         },
       },
     },
@@ -47,28 +60,43 @@ const ErrSucssCallCountChart = () => {
       style: {
         fontSize: "18px",
         fontWeight: "bold",
-        // fontFamily:  undefined,
+
         color: "#263238",
       },
     },
+    dataLabels: {
+      enabled: true,
+      offsetY: -20,
+      style: {
+        fontSize: "12px",
+        colors: ["#000"],
+      },
+    },
+    markers: {
+      size: 4,
+    },
   };
 
-  const errorSuccessSeries = [
+  const series = [
     {
       name: "Error Calls",
-      data: data.map((item) => item.errorCalls),
+      data: ErrSuccessData.map((item) => item.errorCalls),
     },
     {
       name: "Success Calls",
-      data: data.map((item) => item.successCalls),
+      data: ErrSuccessData.map((item) => item.successCalls),
     },
   ];
-
+  // const handleBarClick = (event, chartContext, config) => {
+  //   const selectedDataPointIndex = config.dataPointIndex; // Get data point index
+  //   console.log(selectedDataPointIndex, "index");
+  //   onBarClick(selectedDataPointIndex); // Call the callback with the index
+  // };
   return (
     <div>
       <ReactApexChart
-        options={errorSuccessOptions}
-        series={errorSuccessSeries}
+        options={options}
+        series={series}
         type="bar"
         height={250}
       />
@@ -76,4 +104,4 @@ const ErrSucssCallCountChart = () => {
   );
 };
 
-export default ErrSucssCallCountChart;
+export default ErrorSuccessChart;
