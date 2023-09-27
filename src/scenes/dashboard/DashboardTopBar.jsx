@@ -99,11 +99,11 @@ const DashboardTopBar = () => {
         <Toolbar
           style={{
             display: "flex",
-            justifyContent: window.location.pathname === "/mainpage/dashboard" ? "space-between" : "flex-end",
+            justifyContent: window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" ? "space-between" : "flex-end",
             backgroundColor: colors.primary[400],
           }}
         >
-          {window.location.pathname === "/mainpage/dashboard" ? (
+          {window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
