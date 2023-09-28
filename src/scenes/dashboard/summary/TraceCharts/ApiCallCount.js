@@ -1,14 +1,15 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 
-const ErrSucssCallCountChart = () => {
-  const data = [
-    { serviceName: "Service A", errorCalls: 20, successCalls: 80 },
-    { serviceName: "Service B", errorCalls: 30, successCalls: 120 },
-    { serviceName: "Service C", errorCalls: 10, successCalls: 65 },
-    // Add more data as needed
-  ];
-  const errorSuccessOptions = {
+const ApiCallCount = ({ data }) => {
+  // const data = [
+  //   { serviceName: "Service A", apiCalls: 100 },
+  //   { serviceName: "Service B", apiCalls: 150 },
+  //   { serviceName: "Service C", apiCalls: 75 },
+  //   // Add more data as needed
+  // ];
+
+  const apiCallsOptions = {
     chart: {
       type: "bar",
     },
@@ -22,7 +23,7 @@ const ErrSucssCallCountChart = () => {
       title: {
         text: "List of Services",
         style: {
-          fontSize: "12px",
+          fontSize: "13px",
           fontWeight: "normal",
           // color:  '#263238'
         },
@@ -30,7 +31,7 @@ const ErrSucssCallCountChart = () => {
     },
     yaxis: {
       title: {
-        text: "Call Count",
+        text: "API Calls Count",
         style: {
           fontSize: "12px",
           fontWeight: "normal",
@@ -39,7 +40,7 @@ const ErrSucssCallCountChart = () => {
       },
     },
     title: {
-      text: "Error and Success Calls",
+      text: "API Calls Count",
       align: "center",
       margin: 5,
       offsetX: 0,
@@ -53,22 +54,17 @@ const ErrSucssCallCountChart = () => {
     },
   };
 
-  const errorSuccessSeries = [
+  const apiCallsSeries = [
     {
-      name: "Error Calls",
-      data: data.map((item) => item.errorCalls),
-    },
-    {
-      name: "Success Calls",
-      data: data.map((item) => item.successCalls),
+      name: "API Calls",
+      data: data.map((item) => item.apiCalls),
     },
   ];
-
   return (
     <div>
       <ReactApexChart
-        options={errorSuccessOptions}
-        series={errorSuccessSeries}
+        options={apiCallsOptions}
+        series={apiCallsSeries}
         type="bar"
         height={250}
       />
@@ -76,4 +72,4 @@ const ErrSucssCallCountChart = () => {
   );
 };
 
-export default ErrSucssCallCountChart;
+export default ApiCallCount;
