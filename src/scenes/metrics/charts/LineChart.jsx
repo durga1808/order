@@ -1,76 +1,156 @@
-import React from 'react'
-import ReactApexChart from 'react-apexcharts'
+import React, { useEffect } from "react";
+import ReactApexChart from "react-apexcharts";
+import { useTheme } from "@mui/material";
+import { tokens } from "../../../theme";
 
-const LineChart = ({height}) => {
+const LineChart = ({ data }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
-    const series = [{
-        name: 'XYZ MOTORS',
-        data: [30, 40, 35, 50, 49, 60, 70, 91, 125, 100]
-    }];
+  const series = [
+    {
+      name: "XYZ MOTORS",
+      data: data.data,
+    },
+  ];
 
-    const options = {
-        chart: {
-            type: 'line',
-            stacked: false,
-            height: 350,
-            zoom: {
-                type: 'x',
-                enabled: true,
-                autoScaleYaxis: true
-            },
-            toolbar: {
-                autoSelected: 'zoom'
-            }
+  const options = {
+    chart: {
+      type: "area",
+      stacked: true,
+      offsetY: 30,
+      zoom: {
+        type: "x",
+        enabled: true,
+        autoScaleYaxis: true,
+      },
+      toolbar: {
+        autoSelected: "zoom",
+      },
+      background: colors.primary[400],
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    // markers: {
+    //   size: 5,
+    // },
+    title: {
+      // text: "CPU UTILIZATION",
+      text: data.title,
+      align: "middle",
+      offsetY: 10,
+      style: {
+        color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+        fontFamily: "Red Hat Display, sans-serif",
+        fontWeight: 500,
+      },
+    },
+    fill: {
+      type: "gradient",
+      gradient: {
+        shadeIntensity: 1,
+        inverseColors: false,
+        opacityFrom: 0.5,
+        opacityTo: 0,
+        stops: [0, 90, 100],
+      },
+    },
+    yaxis: {
+      title: {
+        // text: "USAGE",
+        text: data.yaxis,
+        style: {
+          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          fontFamily: "Red Hat Display, sans-serif",
+          fontWeight: 500,
         },
-        dataLabels: {
-            enabled: false
+      },
+      // min: minValue,
+      // max: maxValue,
+      // tickAmount: tickAmount,
+      labels: {
+        formatter: function (val) {
+          return ((val / 1000) * 1000).toFixed(4);
         },
-        markers: {
-            size: 0,
+        style: {
+          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
         },
-        title: {
-            text: 'CPU Utilization',
-            align: 'left'
+      },
+    },
+    xaxis: {
+      type: "datetime",
+      // offsetY: 10,
+      title: {
+        text: "TIME RANGE",
+        style: {
+          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          fontWeight: 500,
+          fontFamily: "Red Hat Display, sans-serif",
         },
-        fill: {
-            type: 'gradient',
-            gradient: {
-                shadeIntensity: 1,
-                inverseColors: false,
-                opacityFrom: 0.5,
-                opacityTo: 0,
-                stops: [0, 90, 100]
-            },
+      },
+      labels: {
+        style: {
+          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
         },
-        yaxis: {
-            // labels: {
-            //     formatter: function (val) {
-            //         return (val / 1000000).toFixed(0);
-            //     },
-            // },
-            title: {
-                text: 'CPU Range'
-            },
+        datetimeUTC: false,
+        datetimeFormatter: {
+          year: "yyyy",
+          month: "MMM 'yy",
+          day: "dd MMM",
+          hour: "HH:mm",
         },
-        xaxis: {
-            // type: 'datetime',
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'], // Replace with your x-axis labels
+      },
+    },
+    tooltip: {
+      enabled: true,
+      shared: true,
+      // fillSeriesColor: true,
+      // theme: false,
+      x: {
+        format: "dd MMM yyyy HH:mm:ss", // Format the date/time in the tooltip
+      },
+      y: {
+        formatter: function (val) {
+          return val;
         },
-        tooltip: {
-            shared: false,
-            // y: {
-            //     formatter: function (val) {
-            //         return (val / 1000000).toFixed(0)
-            //     }
-            // }
-        }
-    };
+      },
+      style: {
+        fontSize: "12px",
+      },
+    },
+    theme: {
+      mode: theme.palette.mode,
+      palette: "palette1",
+      monochrome: {
+        enabled: false,
+        color: theme.palette.mode === "dark" ? "#FFF" : "#255aee",
+        shadeTo: theme.palette.mode === "dark" ? "dark" : "light",
+        shadeIntensity: 0.65,
+      },
+    },
+  };
 
-    return (
-        <div >
-            <ReactApexChart options={options} series={series} type="area" height={height} />
-        </div>
-    )
-}
+  useEffect(() => {
+    const createdTime = new Date(1695875216150);
+    console.log(createdTime);
+  }, []);
 
-export default LineChart
+  return (
+    <div
+    style={{ paddingTop: '10px', 
+    paddingRight: '20px', paddingBottom: '10px',
+     paddingLeft: '20px', border: '1px solid #ddd', 
+     backgroundColor: '#f9f9f9' }}
+    >
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="area"
+        height={300}
+      />
+    </div>
+  );
+};
+
+export default LineChart;
