@@ -6,6 +6,7 @@ import ApiCallCount from "./TraceCharts/ApiCallCount";
 import PeakLatencyChart from "./TraceCharts/PeakLatencyChart";
 import ErrSucssCallCountChart from "./TraceCharts/ErrSucssCallCountChart";
 import ServiceDetails from "./TraceCharts/ServiceDetails";
+import ServiceTable from "./TraceCharts/ServiceTable";
 
 const BarChar = () => {
   const [selectedService, setSelectedService] = useState(null);
@@ -99,6 +100,18 @@ const BarChar = () => {
             : null
         }
       />
+
+      <Card elevation={3} style={{ margin: "16px" }}>
+        <CardContent>
+          <h2>Service Details Table</h2>
+          <ServiceTable
+            APICallsData={apiCallsData}
+            PeakLatencyData={peakLatencyData}
+            ErrSuccessData={errorSuccessData}
+            selectedService={selectedService} // Pass selected service to ServiceTable
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 };
