@@ -1,6 +1,9 @@
 import React from "react";
 import MetricLayout from "./MetricLayout";
 import LineChart from "./charts/LineChart";
+// import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
+import { Card } from "@mui/material";
 
 const Metrics = () => {
 
@@ -47,7 +50,7 @@ const Metrics = () => {
     {
       data: dataFields,
       title: "CPU Usage",
-      yaxis: "CPU Usage",
+      yaxis: "Cpu Usage",
     },
     {
       data: dataFields1,
@@ -58,10 +61,14 @@ const Metrics = () => {
 
   return (
     // <MetricLayout/>
-    <div >
-      {mockMetrics.map((mock, index) => (
+    <div style={{ display: "flex", flexDirection: "column", justifyContent: "normal" }} >
+        <div style={{ maxHeight: "80vh", overflowY: "auto" }}>
+        <Card padding="10px">
+        {mockMetrics.map((mock, index) => (
         <LineChart key={index} data={mock} />
       ))}
+        </Card>
+        </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import { useTheme } from "@mui/material";
+import { useTheme, Box } from "@mui/material";
 import { tokens } from "../../../theme";
 
 const LineChart = ({ data }) => {
@@ -137,18 +137,21 @@ const LineChart = ({ data }) => {
   }, []);
 
   return (
-    <div
-    style={{ paddingTop: '10px', 
-    paddingRight: '20px', paddingBottom: '10px',
-     paddingLeft: '20px', border: '1px solid #ddd', 
-     backgroundColor: '#f9f9f9' }}
-    >
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="area"
-        height={300}
-      />
+    <div style={{ maxHeight: "calc(100vh - 100px)", overflowY: "auto" }}>
+      <div
+      style={{ padding: '10px 20px 10px 20px',
+        border: '1px solid #ddd', 
+      backgroundColor: '#f9f9f9' }}
+      >
+        <Box height= "50vh" padding="10px">
+          <ReactApexChart
+            options={options}
+            series={series}
+            type="area"
+            height={300}
+          />
+        </Box>
+      </div>
     </div>
   );
 };
