@@ -70,11 +70,13 @@ const mockTraces = [
 const sortOrder = ['Earliest First', 'Oldest First', 'Error First', 'Peak Latency First'];
 
 const TraceList = () => {
-
+    
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [traceData, setTraceData] = useState([]);
     const { setSelectedTrace } = useContext(GlobalContext);
+    const [loading , setLoading] = useState(false);
+
 
     useEffect(() => {
         setTraceData(spanData);
