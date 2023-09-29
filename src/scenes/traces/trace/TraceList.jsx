@@ -91,7 +91,7 @@ const sortOrderOptions = [
 ]
 
 const TraceList = () => {
-
+    
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     // const [traceData, setTraceData] = useState([]);
