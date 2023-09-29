@@ -8,7 +8,7 @@ const GlobalContextProvider = ({ children }) => {
     const [selected, setSelected] = useState(localStorage.getItem("routeName"));
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedTrace, setSelectedTrace] = useState({});
-    const [selectedSpan, setSelectedSpan] = useState({ "attributes": [] });
+    const [selectedSpan, setSelectedSpan] = useState({ attributes: [] });
     const [traceData, setTraceData] = useState([]);
 
     const defaultValue = 480;
@@ -16,15 +16,39 @@ const GlobalContextProvider = ({ children }) => {
     const [lookBackVal, setLookBackVal] = useState(defaultLabel);
     const [needFilterCall, setNeedFilterCall] = useState(false);
     const [filterApiBody, setFilterApiBody] = useState({});
-
+    const [traceGlobalEmpty, setTraceGlobalEmpty] = useState(null);
+    const [traceGlobalError, setTraceGlobalError] = useState(null);
 
     return (
         <GlobalContext.Provider
-            value={{ isCollapsed, setIsCollapsed, selected, setSelected, selectedOptions, setSelectedOptions, selectedTrace, setSelectedTrace, selectedSpan, setSelectedSpan, traceData, setTraceData, lookBackVal, setLookBackVal, needFilterCall, setNeedFilterCall, filterApiBody, setFilterApiBody }}
+            value={{
+                isCollapsed,
+                setIsCollapsed,
+                selected,
+                setSelected,
+                selectedOptions,
+                setSelectedOptions,
+                selectedTrace,
+                setSelectedTrace,
+                selectedSpan,
+                setSelectedSpan,
+                traceData,
+                setTraceData,
+                lookBackVal,
+                setLookBackVal,
+                needFilterCall,
+                setNeedFilterCall,
+                filterApiBody,
+                setFilterApiBody,
+                traceGlobalEmpty,
+                setTraceGlobalEmpty,
+                traceGlobalError,
+                setTraceGlobalError
+            }}
         >
             {children}
         </GlobalContext.Provider>
-    )
-}
+    );
+};
 
 export { GlobalContext, GlobalContextProvider };

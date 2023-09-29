@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { spanData } from '../../../global/MockData/SpanData';
 import { useContext } from 'react';
 import { GlobalContext } from '../../../global/globalContext/GlobalContext';
-import { TraceFilterOption, TraceListPaginationApi } from '../../../api/TraceApiService';
+import { FindByTraceIdForSpans, TraceFilterOption, TraceListPaginationApi } from '../../../api/TraceApiService';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 
 const mockTraces = [
@@ -95,10 +95,13 @@ const TraceList = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     // const [traceData, setTraceData] = useState([]);
-    const { setSelectedTrace, traceData, setTraceData, lookBackVal, needFilterCall, filterApiBody } = useContext(GlobalContext);
+    const { setSelectedTrace, traceData, setTraceData, lookBackVal, needFilterCall, filterApiBody, setTraceGlobalEmpty, setTraceGlobalError } = useContext(GlobalContext);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
     const [selectedSortOrder, setSelectedSortOrder] = useState("new");
+    // const [isEmptyData, setIsEmptyData] = useState(false);
+    // const [emptyMessage, setEmptyMessage] = useState(null);
+    // const [error, setError] = useState(null);
     const pageLimit = 10;
 
 
@@ -120,19 +123,37 @@ const TraceList = () => {
                 const { data, totalCount } = await TraceListPaginationApi(newpage, pageLimit, 2440, selectedSortOrder);
                 // console.log("Data " + JSON.stringify(updatedData));
                 const updatedData = createTimeInWords(data);
-                setTraceData(updatedData);
-                setTotalPageCount(Math.ceil(totalCount / pageLimit));
+                if (updatedData.length === 0) {
+                    setTraceGlobalEmpty("No Data to Display!");
+                }
+                else {
+                    setTraceData(updatedData);
+                    setTotalPageCount(Math.ceil(totalCount / pageLimit));
+                }
+
             } catch (error) {
                 console.log("ERROR " + error);
+                setTraceGlobalError("An error occurred");
             }
         }
 
         const filterApiCall = async (newpage, payload) => {
-            const { data, totalCount } = await TraceFilterOption(lookBackVal.value, newpage, pageLimit, payload);
-            console.log("DATA FILTERED filter api call " + JSON.stringify(data));
-            const updatedData = createTimeInWords(data);
-            setTraceData(updatedData);
-            setTotalPageCount(Math.ceil(totalCount / pageLimit));
+            try {
+                const { data, totalCount } = await TraceFilterOption(2440, newpage, pageLimit, payload);
+                console.log("DATA FILTERED filter api call " + JSON.stringify(data));
+                const updatedData = createTimeInWords(data);
+                if (updatedData.length === 0) {
+                    setTraceGlobalEmpty(`No Data Matched for this filter! Please click on refresh / select different queries to filter!`);
+                }
+                else {
+                    setTraceData(updatedData);
+                    setTotalPageCount(Math.ceil(totalCount / pageLimit));
+                }
+            } catch (error) {
+                console.log("ERROR " + error);
+                setTraceGlobalError("An error occurred On Filter");
+            }
+
         }
 
         if (needFilterCall) {
@@ -141,11 +162,20 @@ const TraceList = () => {
             apiCall(currentPage);
         }
 
-    }, [currentPage, lookBackVal, setTraceData, needFilterCall, filterApiBody, selectedSortOrder]);
+    }, [currentPage, lookBackVal, setTraceData, needFilterCall, filterApiBody, selectedSortOrder, setTraceGlobalEmpty, setTraceGlobalError]);
 
-    const handleCardClick = (trace) => {
+    const handleCardClick = (traceId) => {
         console.log("Clicked");
-        setSelectedTrace(trace);
+        const spanApiCall = async (traceId) => {
+            try {
+                const data = await FindByTraceIdForSpans(traceId);
+                console.log("OUTPUT " + JSON.stringify(data.data[0]));
+                setSelectedTrace(data.data[0]);
+            } catch (error) {
+                console.log("ERROR " + error);
+            }
+        }
+        spanApiCall(traceId);
     }
 
     const handlePageChange = (event, newPage) => {
@@ -156,45 +186,13 @@ const TraceList = () => {
     const handleSortOrderChange = (selectedValue) => {
         console.log("SORT " + selectedValue.value);
         setSelectedSortOrder(selectedValue.value);
-        // if (selectedValue.value === "error") {
-        //     // Sort data by "statusCode" in descending order (errors first)
-        //     setTraceData([...traceData].sort((a, b) => b.statusCode - a.statusCode));
-        // } else if (selectedValue.value === "recent") {
-        //     // Sort data by the "createdTime" field in descending order (newest first)
-        //     setTraceData([...traceData].sort((a, b) => {
-        //         const dateA = new Date(a.createdTime);
-        //         const dateB = new Date(b.createdTime);
-        //         console.log("DATES " + dateA + " " + dateB);
-        //         return dateB - dateA;
-        //     }));
-        // } else if (selectedValue.value === "old") {
-        //     // Sort data by the "createdTime" field in ascending order (oldest first)
-        //     setTraceData([...traceData].sort((a, b) => {
-        //         const dateA = new Date(a.createdTime);
-        //         const dateB = new Date(b.createdTime);
-        //         return dateA - dateB;
-        //     }));
-        // } else if (selectedValue.value === "peakLatency") {
-        //     // Sort data by "duration" in descending order (longest duration first)
-        //     const sortedData = [...traceData].sort((a, b) => {
-        //         const durationA = parseFloat(a.duration);
-        //         const durationB = parseFloat(b.duration);
-        //         return durationB - durationA;
-        //     });
-
-        //     // Filter the data to display entries with peak latency greater than 1000ms
-        //     const filteredData = sortedData.filter((item) => parseFloat(item.duration) > 1000);
-
-        //     // Update the data state with the filtered data
-        //     setTraceData(filteredData);
-        // }
     };
 
     return (
-        <div  >
+        <div >
             <div>
                 <Box display="flex" flexDirection="row" justifyContent="space-between"  >
-                    <Typography variant="h4" fontWeight="500" style={{ margin: "10px 0 20px 10px" }}>Traces ({mockTraces.length})</Typography>
+                    <Typography variant="h4" fontWeight="500" style={{ margin: "10px 0 20px 10px" }}>Traces ({traceData.length})</Typography>
 
                     <Box sx={{ margin: "10px 0 20px 0" }} >
                         <Pagination count={totalPageCount} variant="outlined" size='small' shape="rounded" page={currentPage} onChange={handlePageChange} />
@@ -209,12 +207,8 @@ const TraceList = () => {
 
                 <Box sx={{ maxHeight: "calc(80vh - 85px)", overflowY: "auto" }} >
                     {traceData.map((trace, index) => (
-                        <Card className="tracelist-card" onClick={() => handleCardClick(trace)} key={index} sx={{ margin: "10px 0 20px 0", width: "530px", height: "fit-content", backgroundColor: colors.primary[500] }} >
+                        <Card className="tracelist-card" onClick={() => handleCardClick(trace.traceId)} key={index} sx={{ margin: "10px 0 20px 0", width: "530px", height: "fit-content", backgroundColor: colors.primary[500] }} >
                             <CardActionArea>
-                                {/* <CardHeader title={<Typography variant="h6" sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], paddingInlineStart: "10px" }}>
-                                    <span>{trace.servicename}: {trace.endPoint}</span>
-                                    <span>{trace.duration}</span>
-                                </Typography>} /> */}
                                 <Box>
                                     <Typography variant="h5" sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], padding: "5px" }}>
                                         <span> <span style={{ fontWeight: "500" }}>{trace.serviceName}:</span> {trace.operationName}</span>

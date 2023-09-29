@@ -19,7 +19,7 @@ const FilterDialog = ({ open, onClose }) => {
   const [selectedService, setSelectedService] = useState([]);
   const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
   const [selectedHttpCode, setSelectedHttpCode] = useState([]);
-  const { setNeedFilterCall, needFilterCall, setTraceData, setFilterApiBody } = useContext(GlobalContext);
+  const { setNeedFilterCall, needFilterCall, setTraceData, setFilterApiBody, setTraceGlobalEmpty, setTraceGlobalError } = useContext(GlobalContext);
 
   const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
   const methods = ['POST', 'GET', 'PUT', 'DELETE'];
@@ -166,6 +166,8 @@ const FilterDialog = ({ open, onClose }) => {
       setNeedFilterCall(true);
     } else {
       setNeedFilterCall(false);
+      setTraceGlobalEmpty(null);
+      setTraceGlobalError(null);
     }
     const selectedDuration = `${minDurationValue}ms - ${maxDurationValue}ms`;
     console.log('Selected Duration:', selectedDuration);

@@ -34,6 +34,10 @@ const SpanInfo = () => {
         },
     }));
 
+    useEffect(() => {
+        console.log(selectedSpan.attributes);
+    }, [selectedSpan])
+
 
     return (
         <div >
@@ -42,7 +46,7 @@ const SpanInfo = () => {
                 <Typography variant='h6' >Metadata Attributes</Typography>
                 {Object.keys(selectedSpan.attributes).length === 0 ? (
                     <div>
-                        <Typography variant="h5" sx={{ textAlign: "center", marginTop:"5%" }} >Please Select any one of the Span from the flow!</Typography>
+                        <Typography variant="h5" sx={{ textAlign: "center", marginTop: "5%" }} >Please Select any one of the Span from the flow!</Typography>
                     </div>
                 ) : (
                     <div>
@@ -52,7 +56,7 @@ const SpanInfo = () => {
                             <Typography variant="h6" >ChildSpans <br /><Typography variant="h7" >{selectedSpan.childSpansCount}</Typography></Typography>
                             <Typography variant="h6" >Duration <br /><Typography variant="h7" >{selectedSpan.duration}ms</Typography></Typography>
                         </div>
-                        <div style={{ marginTop: "20px", paddingBottom:"20px" }} >
+                        <div style={{ marginTop: "20px", paddingBottom: "20px" }} >
                             <TableContainer component={Paper} >
                                 <Table sx={{ minWidth: 450 }} aria-label="customized table">
                                     <TableHead>
@@ -67,11 +71,13 @@ const SpanInfo = () => {
                                                 <StyledTableCell component="th" scope="row">
                                                     {attribute.key}
                                                 </StyledTableCell>
-                                                <StyledTableCell align="right">{Array.isArray(attribute.value.arrayValue)
-                                                    ? attribute.value.arrayValue.join(', ')
-                                                    : (attribute.value.stringValue !== undefined
-                                                        ? attribute.value.stringValue
-                                                        : attribute.value.intValue)}</StyledTableCell>
+                                                <StyledTableCell align="right">
+                                                    {Array.isArray(attribute.value.arrayValue)
+                                                        ? attribute.value.arrayValue.join(', ')
+                                                        : attribute.value.stringValue !== undefined && attribute.value.stringValue !== null
+                                                            ? attribute.value.stringValue
+                                                            : attribute.value.intValue}
+                                                </StyledTableCell>
                                             </StyledTableRow>
                                         ))}
                                     </TableBody>
