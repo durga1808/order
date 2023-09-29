@@ -6,7 +6,6 @@ import Box from "@mui/material/Box";
 import { Card } from "@mui/material";
 
 const Metrics = () => {
-
   const dataFields = [
     {
       x: new Date(1695875216150),
@@ -45,7 +44,6 @@ const Metrics = () => {
     },
   ];
 
-
   const mockMetrics = [
     {
       data: dataFields,
@@ -61,14 +59,18 @@ const Metrics = () => {
 
   return (
     // <MetricLayout/>
-    <div style={{ display: "flex", flexDirection: "column", justifyContent: "normal" }} >
-        <div style={{ maxHeight: "80vh", overflowY: "auto" }}>
-        <Card padding="10px">
+    <div>
+      <div style={{ height: "calc(93vh - 70px)", overflowY: "auto" }}>
         {mockMetrics.map((mock, index) => (
-        <LineChart key={index} data={mock} />
-      ))}
-        </Card>
-        </div>
+          <Card
+            key={index}
+            // padding="10px"
+            style={{ margin: "10px 10px 8px 10px" }}
+          >
+            <LineChart data={mock} />
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };

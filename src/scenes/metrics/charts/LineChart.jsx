@@ -143,7 +143,7 @@ const LineChart = ({ data }) => {
         border: '1px solid #ddd', 
       backgroundColor: '#f9f9f9' }}
       >
-        <Box height= "50vh" padding="10px">
+        <Box height= "50vh" padding="10px"  border= '1px' >
           <ReactApexChart
             options={options}
             series={series}
