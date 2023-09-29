@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Tabs from "@mui/material/Tabs";
@@ -13,47 +13,14 @@ import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import "./DashboardTopBar.css";
 import { FilterListOutlined, RefreshOutlined } from "@mui/icons-material";
+import { GlobalContext } from "../../global/globalContext/GlobalContext";
+import { options } from "../../global/MockData/MockTraces";
 
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
-  const [lookBackVal, setLookBackVal] = useState("1 hour");
+  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty } = useContext(GlobalContext);
   const [activeTab, setActiveTab] = useState(0);
-
-  const options = [
-    {
-      "value":30,
-      "label":"30 minutes"
-    },
-    {
-      "value":60,
-      "label":"1 hour"
-    },
-    {
-      "value":120,
-      "label":"2 hours"
-    },
-    {
-      "value":240,
-      "label":"4 hours"
-    },
-    {
-      "value":480,
-      "label":"8 hours"
-    },
-    {
-      "value":720,
-      "label":"12 hours"
-    },
-    {
-      "value":960,
-      "label":"16 hours"
-    },
-    {
-      "value":1440,
-      "label":"24 hours"
-    }
-  ];
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -68,7 +35,12 @@ const DashboardTopBar = () => {
 
   const handleRefreshClick = () => {
     // Implement your refresh logic here
-    alert("Refreshing...");
+    const defaultValue = 480;
+    const defaultLabel = options.find((option) => option.value === defaultValue);
+    setLookBackVal(defaultLabel);
+    setNeedFilterCall(false);
+    setTraceGlobalEmpty(null);
+    setTraceGlobalError(null);
   };
 
   const handleTabChange = (event, newValue) => {
@@ -130,7 +102,7 @@ const DashboardTopBar = () => {
             <Dropdown
               options={options}
               placeholder="Lookback for"
-              value={lookBackVal}
+              value={lookBackVal.label}
               onChange={(val) => handleLookbackChange(val)}
               arrowClosed={<span className="arrow-closed" />}
               arrowOpen={<span className="arrow-open" />}

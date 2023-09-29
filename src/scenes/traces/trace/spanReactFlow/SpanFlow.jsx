@@ -221,9 +221,9 @@ const SpanFlow = () => {
     setEdges([]);
     setSelectedSpan({ "attributes": [] });
     if (Object.keys(selectedTrace).length !== 0) {
-      const orderedSpansData = sortingParentChildOrder(selectedTrace.spans);
-      setOrderedSpans(orderedSpansData);
-      dynamicNodeCreation(orderedSpansData);
+      // const orderedSpansData = sortingParentChildOrder(selectedTrace.spans);
+      setOrderedSpans(selectedTrace.spans);
+      dynamicNodeCreation(selectedTrace.spans);
     }
   }, [selectedTrace, setSelectedSpan]);
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Drawer, Divider, IconButton } from "@mui/material";
 import { List, ListItem } from "@mui/material";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
@@ -7,6 +7,9 @@ import { FormGroup, FormControlLabel } from "@mui/material";
 import { Slider, TextField, Button, Checkbox, Typography } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import { TraceFilterOption } from "../../api/TraceApiService";
+import { GlobalContext } from "../../global/globalContext/GlobalContext";
+import { formatDistanceToNow } from "date-fns";
 
 const FilterDialog = ({ open, onClose }) => {
 
@@ -16,8 +19,9 @@ const FilterDialog = ({ open, onClose }) => {
   const [selectedService, setSelectedService] = useState([]);
   const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
   const [selectedHttpCode, setSelectedHttpCode] = useState([]);
+  const { setNeedFilterCall, needFilterCall, setTraceData, setFilterApiBody, setTraceGlobalEmpty, setTraceGlobalError } = useContext(GlobalContext);
 
-  const services = ['OrderService', 'VendorService', 'ProviderService', 'DeliveryService'];
+  const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
   const methods = ['POST', 'GET', 'PUT', 'DELETE'];
 
   const codesNew = [
@@ -117,6 +121,8 @@ const FilterDialog = ({ open, onClose }) => {
     return `${value}`;
   };
 
+
+
   const handleApplyButtonClick = () => {
     const payload = {
       "duration": {
@@ -126,9 +132,43 @@ const FilterDialog = ({ open, onClose }) => {
       "service": selectedService,
       "methodName": selectedHttpMethod,
       "statusCode": selectedHttpCode
-    }
-    console.log('Selected Options:', payload);
+    };
 
+    const apiBody = {};
+
+    // Check if minValue and maxValue are not null and not empty strings in the duration object
+    if (payload.duration.minValue > 0 || payload.duration.maxValue < 1000) {
+      apiBody.duration = {
+        min: payload.duration.minValue,
+        max: payload.duration.maxValue
+      };
+    }
+
+    // Check if selectedService is not null and not an empty array
+    if (payload.service !== null && Array.isArray(payload.service) && payload.service.length > 0) {
+      apiBody.serviceName = payload.service;
+    }
+
+    // Check if selectedHttpMethod is not null and not an empty array
+    if (payload.methodName !== null && Array.isArray(payload.methodName) && payload.methodName.length > 0) {
+      apiBody.methodName = payload.methodName;
+    }
+
+    // Check if selectedHttpCode is not null and not an empty array
+    if (payload.statusCode !== null && Array.isArray(payload.statusCode) && payload.statusCode.length > 0) {
+      apiBody.statusCode = payload.statusCode;
+    }
+
+
+    console.log('Selected Options:', apiBody);
+    if (Object.keys(apiBody).length !== 0) {
+      setFilterApiBody(apiBody);
+      setNeedFilterCall(true);
+    } else {
+      setNeedFilterCall(false);
+      setTraceGlobalEmpty(null);
+      setTraceGlobalError(null);
+    }
     const selectedDuration = `${minDurationValue}ms - ${maxDurationValue}ms`;
     console.log('Selected Duration:', selectedDuration);
 
