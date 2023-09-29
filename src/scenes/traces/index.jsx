@@ -10,7 +10,7 @@ import { GlobalContext } from "../../global/globalContext/GlobalContext";
 const Traces = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { traceGlobalEmpty, traceGlobalError } = useContext(GlobalContext);
+  const { traceGlobalEmpty, traceGlobalError, traceLoading } = useContext(GlobalContext);
 
   return (
     <div
@@ -20,7 +20,7 @@ const Traces = () => {
         justifyContent: "normal",
       }}
     >
-      {traceGlobalError ? (
+      {traceLoading ? (<div>LOADING.....</div>) : (traceGlobalError ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
           <Typography variant="h5" fontWeight={"600"}>
             {traceGlobalError}
@@ -70,7 +70,7 @@ const Traces = () => {
             </Box>
           </div>
         </>
-      )}
+      ))}
     </div>
   );
 };

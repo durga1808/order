@@ -18,6 +18,7 @@ const GlobalContextProvider = ({ children }) => {
     const [filterApiBody, setFilterApiBody] = useState({});
     const [traceGlobalEmpty, setTraceGlobalEmpty] = useState(null);
     const [traceGlobalError, setTraceGlobalError] = useState(null);
+    const [traceLoading, setTraceLoading] = useState(false);
 
     return (
         <GlobalContext.Provider
@@ -43,7 +44,9 @@ const GlobalContextProvider = ({ children }) => {
                 traceGlobalEmpty,
                 setTraceGlobalEmpty,
                 traceGlobalError,
-                setTraceGlobalError
+                setTraceGlobalError,
+                traceLoading,
+                setTraceLoading
             }}
         >
             {children}

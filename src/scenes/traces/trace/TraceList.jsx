@@ -91,11 +91,11 @@ const sortOrderOptions = [
 ]
 
 const TraceList = () => {
-    
+
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     // const [traceData, setTraceData] = useState([]);
-    const { setSelectedTrace, traceData, setTraceData, lookBackVal, needFilterCall, filterApiBody, setTraceGlobalEmpty, setTraceGlobalError } = useContext(GlobalContext);
+    const { setSelectedTrace, traceData, setTraceData, lookBackVal, needFilterCall, filterApiBody, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading } = useContext(GlobalContext);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
     const [selectedSortOrder, setSelectedSortOrder] = useState("new");
@@ -119,8 +119,9 @@ const TraceList = () => {
     useEffect(() => {
         console.log("SORT " + selectedSortOrder);
         const apiCall = async (newpage) => {
+            // setTraceLoading(true);
             try {
-                const { data, totalCount } = await TraceListPaginationApi(newpage, pageLimit, 2440, selectedSortOrder);
+                const { data, totalCount } = await TraceListPaginationApi(newpage, pageLimit, lookBackVal.value, selectedSortOrder);
                 // console.log("Data " + JSON.stringify(updatedData));
                 const updatedData = createTimeInWords(data);
                 if (updatedData.length === 0) {
@@ -129,17 +130,19 @@ const TraceList = () => {
                 else {
                     setTraceData(updatedData);
                     setTotalPageCount(Math.ceil(totalCount / pageLimit));
+                    // setTraceLoading(false);
                 }
 
             } catch (error) {
                 console.log("ERROR " + error);
                 setTraceGlobalError("An error occurred");
+                setTraceLoading(false);
             }
         }
 
         const filterApiCall = async (newpage, payload) => {
             try {
-                const { data, totalCount } = await TraceFilterOption(2440, newpage, pageLimit, payload);
+                const { data, totalCount } = await TraceFilterOption(lookBackVal.value, newpage, pageLimit, payload);
                 console.log("DATA FILTERED filter api call " + JSON.stringify(data));
                 const updatedData = createTimeInWords(data);
                 if (updatedData.length === 0) {
@@ -160,9 +163,10 @@ const TraceList = () => {
             filterApiCall(currentPage, filterApiBody);
         } else {
             apiCall(currentPage);
+
         }
 
-    }, [currentPage, lookBackVal, setTraceData, needFilterCall, filterApiBody, selectedSortOrder, setTraceGlobalEmpty, setTraceGlobalError]);
+    }, [currentPage, lookBackVal, setTraceData, needFilterCall, filterApiBody, selectedSortOrder, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading]);
 
     const handleCardClick = (traceId) => {
         console.log("Clicked");
@@ -198,11 +202,11 @@ const TraceList = () => {
                         <Pagination count={totalPageCount} variant="outlined" size='small' shape="rounded" page={currentPage} onChange={handlePageChange} />
                     </Box>
 
-                    <Box sx={{ margin: "5px 0 20px 0" }} >
+                    {!needFilterCall ? (<Box sx={{ margin: "5px 0 20px 0" }} >
                         <Dropdown options={sortOrderOptions} placeholder="Sort Order" arrowClosed={<span className="arrow-closed" />}
                             arrowOpen={<span className="arrow-open" />} value={selectedSortOrder}
                             onChange={handleSortOrderChange} />
-                    </Box>
+                    </Box>) : null}
                 </Box>
 
                 <Box sx={{ maxHeight: "calc(80vh - 85px)", overflowY: "auto" }} >
