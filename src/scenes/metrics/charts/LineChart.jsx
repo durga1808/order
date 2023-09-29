@@ -139,11 +139,13 @@ const LineChart = ({ data }) => {
   return (
     <div style={{ maxHeight: "calc(100vh - 100px)", overflowY: "auto" }}>
       <div
-      style={{ padding: '10px 20px 10px 20px',
-        border: '1px solid #ddd', 
-      backgroundColor: '#f9f9f9' }}
+        style={{
+          padding: "10px 20px 10px 20px",
+          border: "1px solid #ddd",
+          backgroundColor: "#f9f9f9",
+        }}
       >
-        <Box height= "50vh" padding="10px"  border= '1px' >
+        <Box height="50vh" padding="10px" border="1px">
           <ReactApexChart
             options={options}
             series={series}

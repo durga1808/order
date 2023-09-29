@@ -1,31 +1,20 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import { tokens } from "../../../../theme";
+import { useTheme } from "@emotion/react";
 
 const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const handleBarClick = (event, chartContext, config) => {
-    const selectedDataPointIndex = config.dataPointIndex; // Get data point index
-    onBarClick(selectedDataPointIndex); // Call the callback with the index
+    const selectedDataPointIndex = config.dataPointIndex;
+    const selectedSeriesName = config.w.globals.seriesNames[config.seriesIndex]; // Get series name
+    onBarClick(selectedDataPointIndex, selectedSeriesName); // Pass selected series name to the parent component
   };
   const options = {
     chart: {
       type: "bar",
       events: { dataPointSelection: handleBarClick },
-      // events: {
-      //   click(event, chartContext, config) {
-      //     let ID = config.config.xaxis.categories[config.dataPointIndex];
-      //     onBarClick(ID);
-      //   },
-      // },
-      // events: {
-      //   dataPointSelection: function (event, chartContext, config) {
-      //     console.log("evnts details", event.dataPointIndex);
-      //   },
-      // },
-      // events: {
-      //   dataPointSelection: (event, chartContext, config) => {
-      //     onBarClick(event, chartContext);
-      //   },
-      // },
     },
     plotOptions: {
       bar: {
@@ -37,8 +26,9 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       title: {
         text: "List of Services",
         style: {
-          fontSize: "13px",
-          fontWeight: "normal",
+          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          fontFamily: "Red Hat Display, sans-serif",
+          fontWeight: 500,
         },
       },
     },
@@ -46,8 +36,15 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       title: {
         text: "Call Count",
         style: {
-          fontSize: "12px",
-          fontWeight: "normal",
+          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          fontFamily: "Red Hat Display, sans-serif",
+          fontWeight: 500,
+        },
+      },
+
+      labels: {
+        style: {
+          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
         },
       },
     },
@@ -58,12 +55,12 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       offsetX: 0,
       offsetY: 5,
       style: {
-        fontSize: "18px",
-        fontWeight: "bold",
-
-        color: "#263238",
+        color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+        fontFamily: "Red Hat Display, sans-serif",
+        fontWeight: 500,
       },
     },
+
     dataLabels: {
       enabled: true,
       offsetY: -20,
@@ -87,11 +84,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       data: ErrSuccessData.map((item) => item.successCalls),
     },
   ];
-  // const handleBarClick = (event, chartContext, config) => {
-  //   const selectedDataPointIndex = config.dataPointIndex; // Get data point index
-  //   console.log(selectedDataPointIndex, "index");
-  //   onBarClick(selectedDataPointIndex); // Call the callback with the index
-  // };
+
   return (
     <div>
       <ReactApexChart

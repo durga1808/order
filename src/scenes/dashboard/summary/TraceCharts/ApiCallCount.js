@@ -1,13 +1,11 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import { tokens } from "../../../../theme";
+import { useTheme } from "@emotion/react";
 
 const ApiCallCount = ({ data }) => {
-  // const data = [
-  //   { serviceName: "Service A", apiCalls: 100 },
-  //   { serviceName: "Service B", apiCalls: 150 },
-  //   { serviceName: "Service C", apiCalls: 75 },
-  //   // Add more data as needed
-  // ];
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const apiCallsOptions = {
     chart: {
@@ -23,9 +21,9 @@ const ApiCallCount = ({ data }) => {
       title: {
         text: "List of Services",
         style: {
-          fontSize: "13px",
-          fontWeight: "normal",
-          // color:  '#263238'
+          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          fontFamily: "Red Hat Display, sans-serif",
+          fontWeight: 500,
         },
       },
     },
@@ -33,23 +31,27 @@ const ApiCallCount = ({ data }) => {
       title: {
         text: "API Calls Count",
         style: {
-          fontSize: "12px",
-          fontWeight: "normal",
-          // color:  '#263238'
+          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          fontFamily: "Red Hat Display, sans-serif",
+          fontWeight: 500,
+        },
+      },
+      labels: {
+        style: {
+          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
         },
       },
     },
     title: {
       text: "API Calls Count",
-      align: "center",
-      margin: 5,
+      align: "middle",
+      // margin: 5,
       offsetX: 0,
-      offsetY: 5,
+      offsetY: 10,
       style: {
-        fontSize: "18px",
-        fontWeight: "bold",
-        // fontFamily:  undefined,
-        color: "#263238",
+        color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+        fontFamily: "Red Hat Display, sans-serif",
+        fontWeight: 500,
       },
     },
   };

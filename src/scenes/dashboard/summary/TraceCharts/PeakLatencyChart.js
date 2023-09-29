@@ -1,10 +1,16 @@
+import { colors } from "@mui/material";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
+import { tokens } from "../../../../theme";
+import { useTheme } from "@emotion/react";
 
 const PeakLatencyChart = ({ data }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const peakLatencyOptions = {
     chart: {
       type: "bar",
+      bakground: colors.primary[400],
     },
     // zoom: {
     //   enabled: true,
@@ -30,8 +36,14 @@ const PeakLatencyChart = ({ data }) => {
       title: {
         text: "List of Services",
         style: {
-          fontSize: "13px",
-          fontWeight: "normal",
+          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          fontFamily: "Red Hat Display, sans-serif",
+          fontWeight: 500,
+        },
+      },
+      labels: {
+        style: {
+          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
         },
       },
     },
@@ -39,22 +51,27 @@ const PeakLatencyChart = ({ data }) => {
       title: {
         text: "Latency(ms)",
         style: {
-          fontSize: "12px",
-          fontWeight: "normal",
+          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          fontFamily: "Red Hat Display, sans-serif",
+          fontWeight: 500,
+        },
+      },
+      labels: {
+        style: {
+          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
         },
       },
     },
     title: {
       text: "Peak Latency(ms)",
-      align: "center",
-      margin: 5,
+      align: "middle",
+      // margin: 5,
       offsetX: 0,
-      offsetY: 5,
+      offsetY: 10,
       style: {
-        fontSize: "18px",
-        fontWeight: "bold",
-
-        color: "#263238",
+        color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+        fontFamily: "Red Hat Display, sans-serif",
+        fontWeight: 500,
       },
     },
   };

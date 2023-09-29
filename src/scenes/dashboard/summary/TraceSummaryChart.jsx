@@ -10,11 +10,40 @@ import ServiceTable from "./TraceCharts/ServiceTable";
 
 const BarChar = () => {
   const [selectedService, setSelectedService] = useState(null);
+  const [errorCalls, setErrorCalls] = useState(null);
+  const [successCalls, setSuccessCalls] = useState(null);
 
   const apiCallsData = [
-    { serviceName: "Service A", apiCalls: 100 },
-    { serviceName: "Service B", apiCalls: 150 },
-    { serviceName: "Service C", apiCalls: 75 },
+    {
+      serviceName: "Service A",
+      apiCalls: 100,
+      traceId: "1d9349e72cb6279ff97uiyfe54f2e982b",
+      methodName: "GET /",
+      operationName: "/personal/details",
+      duration: "120ms",
+      statusCode: "200",
+      createdTime: "a few seconds ago",
+    },
+    {
+      serviceName: "Service B",
+      apiCalls: 150,
+      traceId: "1d9349e72cb6279ff97befe54f2e982ty",
+      methodName: "POST /",
+      operationName: "/personal/details",
+      duration: "100ms",
+      statusCode: "401",
+      createdTime: "a few seconds ago",
+    },
+    {
+      serviceName: "Service C",
+      apiCalls: 75,
+      traceId: "1d9349e72cb6279ff97befe54f2e9asdf",
+      methodName: "PUT /",
+      operationName: "/personal/details",
+      duration: "80ms",
+      statusCode: "400",
+      createdTime: "a few seconds ago",
+    },
   ];
 
   const peakLatencyData = [
@@ -29,38 +58,47 @@ const BarChar = () => {
     { serviceName: "Service C", errorCalls: 10, successCalls: 65 },
   ];
 
-  const handleBarClick = (selectedDataPointIndex) => {
+  const handleBarClick = (selectedDataPointIndex, selectedSeriesName) => {
     const serviceName = errorSuccessData[selectedDataPointIndex].serviceName;
-    // const serviceName = "Service A";
-    // console.log("there is no service name", event.dataPointIndex);
-
+    const clickedBarData = errorSuccessData[selectedDataPointIndex];
     const peakLatency = peakLatencyData.find(
       (item) => item.serviceName === serviceName
     ).peakLatency;
     const errorCalls = errorSuccessData.find(
       (item) => item.serviceName === serviceName
     ).errorCalls;
+    const successCalls = errorSuccessData.find(
+      (item) => item.serviceName === serviceName
+    ).successCalls;
 
-    setSelectedService(serviceName, peakLatency, errorCalls);
+    setSelectedService(serviceName, peakLatency, errorCalls, successCalls);
+
+    if (selectedSeriesName === "Error Calls") {
+      setErrorCalls(clickedBarData.errorCalls);
+      setSuccessCalls(null);
+    } else if (selectedSeriesName === "Success Calls") {
+      setSuccessCalls(clickedBarData.successCalls);
+      setErrorCalls(null);
+    }
   };
   return (
-    <div style={{ maxHeight: "80vh", overflowY: "auto" }}>
+    <div
+      style={{
+        // height: "calc(93vh-70px)",
+        maxHeight: "82vh",
+        overflowY: "auto",
+      }}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
-          <Card
-            elevation={3}
-            style={{ margin: "25px 15px 10px 25px", flex: 1 }}
-          >
+          <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}>
             <CardContent>
               <ApiCallCount data={apiCallsData} />
             </CardContent>
           </Card>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Card
-            elevation={3}
-            style={{ margin: "25px 25px 10px 15px", flex: 1 }}
-          >
+          <Card elevation={3} style={{ margin: "25px 25px 10px 15px" }}>
             <CardContent>
               <PeakLatencyChart data={peakLatencyData} />
             </CardContent>
@@ -92,26 +130,16 @@ const BarChar = () => {
               ).peakLatency
             : null
         }
-        ErrSuccessData={
-          selectedService
-            ? errorSuccessData.find(
-                (item) => item.serviceName === selectedService
-              ).errorCalls
-            : null
-        }
+        ErrorData={errorCalls}
+        SuccessData={successCalls}
       />
 
-      <Card elevation={3} style={{ margin: "16px" }}>
-        <CardContent>
-          <h2>Service Details Table</h2>
-          <ServiceTable
-            APICallsData={apiCallsData}
-            PeakLatencyData={peakLatencyData}
-            ErrSuccessData={errorSuccessData}
-            selectedService={selectedService} // Pass selected service to ServiceTable
-          />
-        </CardContent>
-      </Card>
+      <ServiceTable
+        APICallsData={apiCallsData}
+        PeakLatencyData={peakLatencyData}
+        ErrSuccessData={errorSuccessData}
+        selectedService={selectedService} // Pass selected service to ServiceTable
+      />
     </div>
   );
 };

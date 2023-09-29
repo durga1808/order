@@ -1,92 +1,26 @@
-// import React from "react";
-// // import Paper from "@mui/material/Paper";
-// import Grid from "@mui/material/Grid";
-// import Card from "@mui/material/Card";
-// import CardContent from "@mui/material/CardContent";
-
-// const ServiceDetails = ({
-//   selectedService,
-//   APICallsData,
-//   PeakLatencyData,
-//   ErrSuccessData,
-// }) => {
-//   return (
-//     <div>
-//       <Grid container spacing={2} justifyContent="center">
-//         {selectedService ? (
-//           <>
-//             <Grid item xs={12} sm={4}>
-//               <Card
-//                 elevation={3}
-//                 style={{
-//                   backgroundColor: "#f5f5f5",
-//                   marginLeft: "35px",
-//                   marginBottom: "20px",
-//                 }}
-//               >
-//                 <CardContent style={{ textAlign: "center" }}>
-//                   <p>API Calls: {APICallsData}</p>
-//                 </CardContent>
-//               </Card>
-//             </Grid>
-//             <Grid item xs={12} sm={4}>
-//               <Card
-//                 elevation={3}
-//                 style={{ backgroundColor: "#f5f5f5", marginBottom: "20px" }}
-//               >
-//                 <CardContent style={{ textAlign: "center" }}>
-//                   <p>Peak Latency: {PeakLatencyData} ms</p>
-//                 </CardContent>
-//               </Card>
-//             </Grid>
-//             <Grid item xs={12} sm={4}>
-//               <Card
-//                 elevation={3}
-//                 style={{
-//                   backgroundColor: "#f5f5f5",
-//                   marginRight: "35px",
-//                   marginBottom: "20px",
-//                 }}
-//               >
-//                 <CardContent style={{ textAlign: "center" }}>
-//                   <p>Error Calls: {ErrSuccessData}</p>
-//                 </CardContent>
-//               </Card>
-//             </Grid>
-//           </>
-//         ) : (
-//           <Grid item xs={12} sm={4}>
-//             <Card elevation={3} style={{ backgroundColor: "#f5f5f5" }}>
-//               <CardContent style={{ textAlign: "center" }}>
-//                 <p>Please click any one bar for API details.</p>
-//               </CardContent>
-//             </Card>
-//           </Grid>
-//         )}
-//       </Grid>
-//     </div>
-//   );
-// };
-
-// export default ServiceDetails;
-
 import React from "react";
-
-const boxStyle = {
-  backgroundColor: "#f5f5f5",
-  padding: "3px 5px 3px 5px", // Adjust the padding as needed
-  borderRadius: "5px",
-  textAlign: "center",
-  width: "fit-content", // Adjust the width as needed
-  margin: "0 auto", // Center horizontally
-};
+import { tokens } from "../../../../theme";
+import { useTheme } from "@emotion/react";
 
 const MyComponent = ({
   selectedService,
   APICallsData,
   PeakLatencyData,
-  ErrSuccessData,
+  ErrorData,
+  SuccessData,
 }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const boxStyle = {
+    backgroundColor: colors.primary[400],
+    borderRadius: "5px",
+    textAlign: "center",
+    overflow: "hidden",
+    width: selectedService ? "150px" : "300px", // Set a fixed width for the box (change this to your desired width)
+    height: "50px", // Set a fixed height for the box (change this to your desired height)
+    whiteSpace: "nowrap", // Prevents content from wrapping to the next line
+    margin: "0 auto",
+  };
   return (
     <div style={{ display: "flex" }}>
       {selectedService ? (
@@ -98,7 +32,8 @@ const MyComponent = ({
             <p>Peak Latency: {PeakLatencyData} ms</p>
           </div>
           <div style={boxStyle}>
-            <p>Error Calls: {ErrSuccessData}</p>
+            {ErrorData !== null && <p>Error Calls: {ErrorData}</p>}
+            {SuccessData !== null && <p>Success Calls: {SuccessData}</p>}
           </div>
         </>
       ) : (
