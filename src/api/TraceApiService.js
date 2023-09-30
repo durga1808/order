@@ -6,7 +6,7 @@ const traceURL = "http://localhost:8081/traces";
 export const TraceListPaginationApi = async (page, itemsPerPage, interval, sortOrder) => {
     try {
         const response = await axios.get(
-            `${traceURL}/getalldata-sortorder?page=${page}&pageSize=${itemsPerPage}&sortOrder=${sortOrder}&timeAgoMinutes=${interval}`
+            `${traceURL}/getalldata-sortorder?minutesAgo=${interval}&page=${page}&pageSize=${itemsPerPage}&sortOrder=${sortOrder}`
         );
         return response.data;
     } catch (error) {

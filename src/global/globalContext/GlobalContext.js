@@ -11,7 +11,7 @@ const GlobalContextProvider = ({ children }) => {
     const [selectedSpan, setSelectedSpan] = useState({ attributes: [] });
     const [traceData, setTraceData] = useState([]);
 
-    const defaultValue = 480;
+    const defaultValue = 60;
     const defaultLabel = options.find((option) => option.value === defaultValue);
     const [lookBackVal, setLookBackVal] = useState(defaultLabel);
     const [needFilterCall, setNeedFilterCall] = useState(false);

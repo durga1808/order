@@ -15,7 +15,7 @@ const FilterDialog = ({ open, onClose }) => {
 
   // const [value, setValue] = useState([0, 1000]);
   const [minDurationValue, setMinDurationValue] = useState(0);
-  const [maxDurationValue, setMaxDurationValue] = useState(1000);
+  const [maxDurationValue, setMaxDurationValue] = useState(10000);
   const [selectedService, setSelectedService] = useState([]);
   const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
   const [selectedHttpCode, setSelectedHttpCode] = useState([]);
@@ -201,7 +201,7 @@ const FilterDialog = ({ open, onClose }) => {
                 <Slider
                   value={[minDurationValue, maxDurationValue]}
                   min={0}
-                  max={1000}
+                  max={10000}
                   onChange={handleChange}
                   valueLabelDisplay="auto"
                   getAriaValueText={valuetext}

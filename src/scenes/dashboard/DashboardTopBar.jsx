@@ -19,7 +19,7 @@ import { options } from "../../global/MockData/MockTraces";
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
-  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty } = useContext(GlobalContext);
+  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty,setTraceData,setSelectedTrace } = useContext(GlobalContext);
   const [activeTab, setActiveTab] = useState(0);
 
   const theme = useTheme();
@@ -35,9 +35,11 @@ const DashboardTopBar = () => {
 
   const handleRefreshClick = () => {
     // Implement your refresh logic here
-    const defaultValue = 480;
+    const defaultValue = 60;
     const defaultLabel = options.find((option) => option.value === defaultValue);
     setLookBackVal(defaultLabel);
+    setTraceData([]);
+    setSelectedTrace([]);
     setNeedFilterCall(false);
     setTraceGlobalEmpty(null);
     setTraceGlobalError(null);
@@ -63,6 +65,8 @@ const DashboardTopBar = () => {
   const handleLookbackChange = (val) => {
     console.log("VAL " + JSON.stringify(val.value));
     setLookBackVal(val);
+    setTraceGlobalEmpty(null);
+    setTraceGlobalError(null);
   }
 
   return (

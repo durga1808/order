@@ -11,6 +11,7 @@ import { useContext } from 'react';
 import { GlobalContext } from '../../../global/globalContext/GlobalContext';
 import { FindByTraceIdForSpans, TraceFilterOption, TraceListPaginationApi } from '../../../api/TraceApiService';
 import { formatDistanceToNow, parseISO } from 'date-fns';
+import { useCallback } from 'react';
 
 const mockTraces = [
     {
@@ -116,57 +117,47 @@ const TraceList = () => {
     }
 
 
+    const apiCall = useCallback(async (newpage) => {
+        try {
+            const { data, totalCount } = await TraceListPaginationApi(newpage, pageLimit, lookBackVal.value, selectedSortOrder);
+            const updatedData = createTimeInWords(data);
+
+            if (updatedData.length === 0) {
+                setTraceGlobalEmpty("No Data to Display!");
+            } else {
+                setTraceData(updatedData);
+                setTotalPageCount(Math.ceil(totalCount / pageLimit));
+            }
+        } catch (error) {
+            console.log("ERROR " + error);
+            setTraceGlobalError("An error occurred");
+        }
+    }, [pageLimit, lookBackVal, selectedSortOrder, setTraceData, setTotalPageCount, setTraceGlobalEmpty, setTraceGlobalError]);
+
+    const filterApiCall = useCallback(async (newpage, payload) => {
+        try {
+            const { data, totalCount } = await TraceFilterOption(lookBackVal.value, newpage, pageLimit, payload);
+            const updatedData = createTimeInWords(data);
+
+            if (updatedData.length === 0) {
+                setTraceGlobalEmpty(`No Data Matched for this filter! Please click on refresh / select different queries to filter!`);
+            } else {
+                setTraceData(updatedData);
+                setTotalPageCount(Math.ceil(totalCount / pageLimit));
+            }
+        } catch (error) {
+            console.log("ERROR " + error);
+            setTraceGlobalError("An error occurred On Filter");
+        }
+    }, [pageLimit, lookBackVal, setTraceData, setTotalPageCount, setTraceGlobalEmpty, setTraceGlobalError]);
+
     useEffect(() => {
-        console.log("SORT " + selectedSortOrder);
-        const apiCall = async (newpage) => {
-            // setTraceLoading(true);
-            try {
-                const { data, totalCount } = await TraceListPaginationApi(newpage, pageLimit, lookBackVal.value, selectedSortOrder);
-                // console.log("Data " + JSON.stringify(updatedData));
-                const updatedData = createTimeInWords(data);
-                if (updatedData.length === 0) {
-                    setTraceGlobalEmpty("No Data to Display!");
-                }
-                else {
-                    setTraceData(updatedData);
-                    setTotalPageCount(Math.ceil(totalCount / pageLimit));
-                    // setTraceLoading(false);
-                }
-
-            } catch (error) {
-                console.log("ERROR " + error);
-                setTraceGlobalError("An error occurred");
-                setTraceLoading(false);
-            }
-        }
-
-        const filterApiCall = async (newpage, payload) => {
-            try {
-                const { data, totalCount } = await TraceFilterOption(lookBackVal.value, newpage, pageLimit, payload);
-                console.log("DATA FILTERED filter api call " + JSON.stringify(data));
-                const updatedData = createTimeInWords(data);
-                if (updatedData.length === 0) {
-                    setTraceGlobalEmpty(`No Data Matched for this filter! Please click on refresh / select different queries to filter!`);
-                }
-                else {
-                    setTraceData(updatedData);
-                    setTotalPageCount(Math.ceil(totalCount / pageLimit));
-                }
-            } catch (error) {
-                console.log("ERROR " + error);
-                setTraceGlobalError("An error occurred On Filter");
-            }
-
-        }
-
         if (needFilterCall) {
             filterApiCall(currentPage, filterApiBody);
-        } else {
+        } else if (traceData.length === 0) {
             apiCall(currentPage);
-
         }
-
-    }, [currentPage, lookBackVal, setTraceData, needFilterCall, filterApiBody, selectedSortOrder, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading]);
+    }, [currentPage, needFilterCall, traceData, apiCall, filterApiCall, filterApiBody]);
 
     const handleCardClick = (traceId) => {
         console.log("Clicked");

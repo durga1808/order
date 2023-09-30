@@ -2288,6 +2288,603 @@ export const spanData = [
         "traceId": "dee3bd2e82665daaead05dce094a0f94"
     },
     {
+        "traceId": "2384799a01be10b55245e99864bba516",
+        "serviceName": "order-project",
+        "methodName": "POST",
+        "operationName": "POST /orders/createOrders",
+        "duration": 2916,
+        "statusCode": 500,
+        "spanCount": "9",
+        "createdTime": 1695959315186,
+        "createdTimeInWords": "a 10mins ago",
+        "spans": [
+            {
+                "traceId": "2384799a01be10b55245e99864bba516",
+                "spanId": "3f53374e6613ce28",
+                "parentSpanId": "",
+                "name": "POST /orders/createOrders",
+                "kind": 2,
+                "startTimeUnixNano": "1695959315186918000",
+                "endTimeUnixNano": "1695959318103060326",
+                "attributes": [
+                    {
+                        "key": "http.status_code",
+                        "value": {
+                            "intValue": "200",
+                            "stringValue": null
+                        }
+                    },
+                    {
+                        "key": "http.method",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "POST"
+                        }
+                    },
+                    {
+                        "key": "http.scheme",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http"
+                        }
+                    },
+                    {
+                        "key": "net.protocol.version",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "1.1"
+                        }
+                    },
+                    {
+                        "key": "net.protocol.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http"
+                        }
+                    },
+                    {
+                        "key": "net.sock.host.addr",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "10.128.0.164"
+                        }
+                    },
+                    {
+                        "key": "http.route",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "/orders/createOrders"
+                        }
+                    },
+                    {
+                        "key": "net.sock.peer.port",
+                        "value": {
+                            "intValue": "60428",
+                            "stringValue": null
+                        }
+                    },
+                    {
+                        "key": "net.sock.host.port",
+                        "value": {
+                            "intValue": "5089",
+                            "stringValue": null
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "42",
+                            "stringValue": null
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http-nio-5089-exec-1"
+                        }
+                    },
+                    {
+                        "key": "http.client_ip",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "192.168.1.2"
+                        }
+                    },
+                    {
+                        "key": "http.target",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "/orders/createOrders"
+                        }
+                    },
+                    {
+                        "key": "net.sock.peer.addr",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "10.128.0.2"
+                        }
+                    },
+                    {
+                        "key": "user_agent.original",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "PostmanRuntime/7.33.0"
+                        }
+                    },
+                    {
+                        "key": "net.host.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "order-project-observai-main.apps.zagaopenshift.zagaopensource.com"
+                        }
+                    },
+                    {
+                        "key": "http.request_content_length",
+                        "value": {
+                            "intValue": "250",
+                            "stringValue": null
+                        }
+                    }
+                ],
+                "status": {}
+            },
+            {
+                "traceId": "2384799a01be10b55245e99864bba516",
+                "spanId": "6cbbb9b5ad68e990",
+                "parentSpanId": "3f53374e6613ce28",
+                "name": "OrderController.createOrders",
+                "kind": 1,
+                "startTimeUnixNano": "1695959315895971987",
+                "endTimeUnixNano": "1695959318093661890",
+                "attributes": [
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http-nio-5089-exec-1"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "42",
+                            "stringValue": null
+                        }
+                    }
+                ],
+                "status": {}
+            },
+            {
+                "traceId": "2384799a01be10b55245e99864bba516",
+                "spanId": "9e07d2ef217fdeb1",
+                "parentSpanId": "6cbbb9b5ad68e990",
+                "name": "OrderRepo.save",
+                "kind": 1,
+                "startTimeUnixNano": "1695959316902916020",
+                "endTimeUnixNano": "1695959317888846543",
+                "attributes": [
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http-nio-5089-exec-1"
+                        }
+                    },
+                    {
+                        "key": "code.function",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "save"
+                        }
+                    },
+                    {
+                        "key": "code.namespace",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "com.zaga.OrderProj.OrderRepo"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "42",
+                            "stringValue": null
+                        }
+                    }
+                ],
+                "status": {}
+            },
+            {
+                "traceId": "2384799a01be10b55245e99864bba516",
+                "spanId": "221d0c22b4619a5c",
+                "parentSpanId": "9e07d2ef217fdeb1",
+                "name": "observability-demo-tables",
+                "kind": 3,
+                "startTimeUnixNano": "1695959317070662577",
+                "endTimeUnixNano": "1695959317082021997",
+                "attributes": [
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http-nio-5089-exec-1"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432",
+                            "stringValue": null
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": ""
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "42",
+                            "stringValue": null
+                        }
+                    }
+                ],
+                "status": {}
+            },
+            {
+                "traceId": "2384799a01be10b55245e99864bba516",
+                "spanId": "43515e703708cda2",
+                "parentSpanId": "9e07d2ef217fdeb1",
+                "name": "Session.merge com.zaga.OrderProj.OrderEntity",
+                "kind": 1,
+                "startTimeUnixNano": "1695959317185697966",
+                "endTimeUnixNano": "1695959317710767913",
+                "attributes": [
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http-nio-5089-exec-1"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "42",
+                            "stringValue": null
+                        }
+                    }
+                ],
+                "status": {}
+            },
+            {
+                "traceId": "2384799a01be10b55245e99864bba516",
+                "spanId": "d1773e9c3285180a",
+                "parentSpanId": "43515e703708cda2",
+                "name": "SELECT observability-demo-tables.order_vendor",
+                "kind": 3,
+                "startTimeUnixNano": "1695959317488376362",
+                "endTimeUnixNano": "1695959317569497923",
+                "attributes": [
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http-nio-5089-exec-1"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "db.sql.table",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "order_vendor"
+                        }
+                    },
+                    {
+                        "key": "db.operation",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "SELECT"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432",
+                            "stringValue": null
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "select orderentit0_.id as id1_0_0_, orderentit0_.customer_id as customer2_0_0_, orderentit0_.customer_name as customer3_0_0_, orderentit0_.customer_phone_number as customer4_0_0_, orderentit0_.model_no as model_no5_0_0_, orderentit0_.order_id as order_id6_0_0_, orderentit0_.product_address as product_7_0_0_, orderentit0_.product_id as product_8_0_0_, orderentit0_.product_name as product_9_0_0_, orderentit0_.quantity as quantit10_0_0_ from order_vendor orderentit0_ where orderentit0_.id=?"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "42",
+                            "stringValue": null
+                        }
+                    }
+                ],
+                "status": {}
+            },
+            {
+                "traceId": "2384799a01be10b55245e99864bba516",
+                "spanId": "fbfeca47123209ee",
+                "parentSpanId": "43515e703708cda2",
+                "name": "SELECT observability-demo-tables",
+                "kind": 3,
+                "startTimeUnixNano": "1695959317671662318",
+                "endTimeUnixNano": "1695959317674930116",
+                "attributes": [
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http-nio-5089-exec-1"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "db.operation",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "SELECT"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432",
+                            "stringValue": null
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "select nextval (?)"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "42",
+                            "stringValue": null
+                        }
+                    }
+                ],
+                "status": {}
+            },
+            {
+                "traceId": "2384799a01be10b55245e99864bba516",
+                "spanId": "19254f80f0e044ce",
+                "parentSpanId": "9e07d2ef217fdeb1",
+                "name": "Transaction.commit",
+                "kind": 1,
+                "startTimeUnixNano": "1695959317714216716",
+                "endTimeUnixNano": "1695959317888578496",
+                "attributes": [
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http-nio-5089-exec-1"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "42",
+                            "stringValue": null
+                        }
+                    }
+                ],
+                "status": {}
+            },
+            {
+                "traceId": "2384799a01be10b55245e99864bba516",
+                "spanId": "80b506137ef3939a",
+                "parentSpanId": "19254f80f0e044ce",
+                "name": "INSERT observability-demo-tables.order_vendor",
+                "kind": 3,
+                "startTimeUnixNano": "1695959317870197634",
+                "endTimeUnixNano": "1695959317876598068",
+                "attributes": [
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "http-nio-5089-exec-1"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "db.sql.table",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "order_vendor"
+                        }
+                    },
+                    {
+                        "key": "db.operation",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "INSERT"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432",
+                            "stringValue": null
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "insert into order_vendor (customer_id, customer_name, customer_phone_number, model_no, order_id, product_address, product_id, product_name, quantity, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "intValue": null,
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "42",
+                            "stringValue": null
+                        }
+                    }
+                ],
+                "status": {}
+            }
+        ]
+    },
+    {
         "createdTime": "2 seconds ago",
         "duration": "2ms",
         "methodName": "GET",
@@ -3982,455 +4579,455 @@ export const spanData = [
         "serviceName": "order-project",
         "spanCount": "8",
         "spans": [
-          {
-            "attributes": [
-              {
-                "key": "code.namespace",
-                "value": {
-                  "stringValue": "com.zaga.OrderProj.OrderRepo"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "279"
-                }
-              },
-              {
-                "key": "code.function",
-                "value": {
-                  "stringValue": "save"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-2"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703597717319950",
-            "kind": 1,
-            "name": "OrderRepo.save",
-            "parentSpanId": "bf4ebbeb2433508c",
-            "spanId": "aa728a8aa82a20f2",
-            "startTimeUnixNano": "1695703597594034961",
-            "status": {},
-            "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
-          },
-          {
-            "attributes": [
-              {
-                "key": "net.sock.peer.port",
-                "value": {
-                  "intValue": "36986"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "279"
-                }
-              },
-              {
-                "key": "net.sock.host.port",
-                "value": {
-                  "intValue": "5089"
-                }
-              },
-              {
-                "key": "http.route",
-                "value": {
-                  "stringValue": "/orders/createErrorOrders"
-                }
-              },
-              {
-                "key": "net.sock.host.addr",
-                "value": {
-                  "stringValue": "10.128.0.102"
-                }
-              },
-              {
-                "key": "net.protocol.name",
-                "value": {
-                  "stringValue": "http"
-                }
-              },
-              {
-                "key": "http.scheme",
-                "value": {
-                  "stringValue": "http"
-                }
-              },
-              {
-                "key": "http.status_code",
-                "value": {
-                  "intValue": "200"
-                }
-              },
-              {
-                "key": "net.protocol.version",
-                "value": {
-                  "stringValue": "1.1"
-                }
-              },
-              {
-                "key": "http.method",
-                "value": {
-                  "stringValue": "POST"
-                }
-              },
-              {
-                "key": "user_agent.original",
-                "value": {
-                  "stringValue": "PostmanRuntime/7.33.0"
-                }
-              },
-              {
-                "key": "net.host.name",
-                "value": {
-                  "stringValue": "order-project-observability-workspace.apps.zagaopenshift.zagaopensource.com"
-                }
-              },
-              {
-                "key": "http.request_content_length",
-                "value": {
-                  "intValue": "244"
-                }
-              },
-              {
-                "key": "http.target",
-                "value": {
-                  "stringValue": "/orders/createErrorOrders"
-                }
-              },
-              {
-                "key": "net.sock.peer.addr",
-                "value": {
-                  "stringValue": "10.128.0.2"
-                }
-              },
-              {
-                "key": "http.client_ip",
-                "value": {
-                  "stringValue": "192.168.1.2"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-2"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703597727667121",
-            "kind": 2,
-            "name": "POST /orders/createErrorOrders",
-            "parentSpanId": "",
-            "spanId": "d3360cf7b5cf663b",
-            "startTimeUnixNano": "1695703597578409000",
-            "status": {},
-            "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
-          },
-          {
-            "attributes": [
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "279"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-2"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703597613356841",
-            "kind": 1,
-            "name": "Session.merge com.zaga.OrderProj.OrderEntity",
-            "parentSpanId": "aa728a8aa82a20f2",
-            "spanId": "e98c4170acb08bb8",
-            "startTimeUnixNano": "1695703597603606588",
-            "status": {},
-            "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
-          },
-          {
-            "attributes": [
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "279"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-2"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703597716945522",
-            "kind": 1,
-            "name": "Transaction.commit",
-            "parentSpanId": "aa728a8aa82a20f2",
-            "spanId": "f64553f364871663",
-            "startTimeUnixNano": "1695703597613747176",
-            "status": {},
-            "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
-          },
-          {
-            "attributes": [
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "279"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-2"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703597723921771",
-            "kind": 1,
-            "name": "OrderController.createErrorOrder",
-            "parentSpanId": "d3360cf7b5cf663b",
-            "spanId": "bf4ebbeb2433508c",
-            "startTimeUnixNano": "1695703597584827760",
-            "status": {},
-            "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
-          },
-          {
-            "attributes": [
-              {
-                "key": "db.user",
-                "value": {
-                  "stringValue": "observability-demo-user"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "279"
-                }
-              },
-              {
-                "key": "db.connection_string",
-                "value": {
-                  "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
-                }
-              },
-              {
-                "key": "net.peer.name",
-                "value": {
-                  "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
-                }
-              },
-              {
-                "key": "db.system",
-                "value": {
-                  "stringValue": "postgresql"
-                }
-              },
-              {
-                "key": "db.statement",
-                "value": {
-                  "stringValue": ""
-                }
-              },
-              {
-                "key": "net.peer.port",
-                "value": {
-                  "intValue": "5432"
-                }
-              },
-              {
-                "key": "db.name",
-                "value": {
-                  "stringValue": "observability-demo-tables"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-2"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703597601865353",
-            "kind": 3,
-            "name": "observability-demo-tables",
-            "parentSpanId": "aa728a8aa82a20f2",
-            "spanId": "7bf64142a40bcbf6",
-            "startTimeUnixNano": "1695703597595488385",
-            "status": {},
-            "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
-          },
-          {
-            "attributes": [
-              {
-                "key": "db.user",
-                "value": {
-                  "stringValue": "observability-demo-user"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "279"
-                }
-              },
-              {
-                "key": "db.connection_string",
-                "value": {
-                  "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
-                }
-              },
-              {
-                "key": "net.peer.name",
-                "value": {
-                  "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
-                }
-              },
-              {
-                "key": "db.system",
-                "value": {
-                  "stringValue": "postgresql"
-                }
-              },
-              {
-                "key": "db.statement",
-                "value": {
-                  "stringValue": "select orderentit0_.id as id1_0_0_, orderentit0_.customer_id as customer2_0_0_, orderentit0_.customer_name as customer3_0_0_, orderentit0_.customer_phone_number as customer4_0_0_, orderentit0_.model_no as model_no5_0_0_, orderentit0_.order_id as order_id6_0_0_, orderentit0_.product_address as product_7_0_0_, orderentit0_.product_id as product_8_0_0_, orderentit0_.product_name as product_9_0_0_, orderentit0_.quantity as quantit10_0_0_ from order_vendor orderentit0_ where orderentit0_.id=?"
-                }
-              },
-              {
-                "key": "net.peer.port",
-                "value": {
-                  "intValue": "5432"
-                }
-              },
-              {
-                "key": "db.sql.table",
-                "value": {
-                  "stringValue": "order_vendor"
-                }
-              },
-              {
-                "key": "db.operation",
-                "value": {
-                  "stringValue": "SELECT"
-                }
-              },
-              {
-                "key": "db.name",
-                "value": {
-                  "stringValue": "observability-demo-tables"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-2"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703597611407752",
-            "kind": 3,
-            "name": "SELECT observability-demo-tables.order_vendor",
-            "parentSpanId": "e98c4170acb08bb8",
-            "spanId": "1f53876160bdd211",
-            "startTimeUnixNano": "1695703597607086760",
-            "status": {},
-            "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
-          },
-          {
-            "attributes": [
-              {
-                "key": "db.user",
-                "value": {
-                  "stringValue": "observability-demo-user"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "279"
-                }
-              },
-              {
-                "key": "db.connection_string",
-                "value": {
-                  "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
-                }
-              },
-              {
-                "key": "net.peer.name",
-                "value": {
-                  "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
-                }
-              },
-              {
-                "key": "db.system",
-                "value": {
-                  "stringValue": "postgresql"
-                }
-              },
-              {
-                "key": "db.statement",
-                "value": {
-                  "stringValue": "update order_vendor set customer_id=?, customer_name=?, customer_phone_number=?, model_no=?, order_id=?, product_address=?, product_id=?, product_name=?, quantity=? where id=?"
-                }
-              },
-              {
-                "key": "net.peer.port",
-                "value": {
-                  "intValue": "5432"
-                }
-              },
-              {
-                "key": "db.sql.table",
-                "value": {
-                  "stringValue": "order_vendor"
-                }
-              },
-              {
-                "key": "db.operation",
-                "value": {
-                  "stringValue": "UPDATE"
-                }
-              },
-              {
-                "key": "db.name",
-                "value": {
-                  "stringValue": "observability-demo-tables"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-2"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703597704853454",
-            "kind": 3,
-            "name": "UPDATE observability-demo-tables.order_vendor",
-            "parentSpanId": "f64553f364871663",
-            "spanId": "aa9d2f7ca9a40186",
-            "startTimeUnixNano": "1695703597690099650",
-            "status": {},
-            "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
-          }
+            {
+                "attributes": [
+                    {
+                        "key": "code.namespace",
+                        "value": {
+                            "stringValue": "com.zaga.OrderProj.OrderRepo"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "279"
+                        }
+                    },
+                    {
+                        "key": "code.function",
+                        "value": {
+                            "stringValue": "save"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-2"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703597717319950",
+                "kind": 1,
+                "name": "OrderRepo.save",
+                "parentSpanId": "bf4ebbeb2433508c",
+                "spanId": "aa728a8aa82a20f2",
+                "startTimeUnixNano": "1695703597594034961",
+                "status": {},
+                "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "net.sock.peer.port",
+                        "value": {
+                            "intValue": "36986"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "279"
+                        }
+                    },
+                    {
+                        "key": "net.sock.host.port",
+                        "value": {
+                            "intValue": "5089"
+                        }
+                    },
+                    {
+                        "key": "http.route",
+                        "value": {
+                            "stringValue": "/orders/createErrorOrders"
+                        }
+                    },
+                    {
+                        "key": "net.sock.host.addr",
+                        "value": {
+                            "stringValue": "10.128.0.102"
+                        }
+                    },
+                    {
+                        "key": "net.protocol.name",
+                        "value": {
+                            "stringValue": "http"
+                        }
+                    },
+                    {
+                        "key": "http.scheme",
+                        "value": {
+                            "stringValue": "http"
+                        }
+                    },
+                    {
+                        "key": "http.status_code",
+                        "value": {
+                            "intValue": "200"
+                        }
+                    },
+                    {
+                        "key": "net.protocol.version",
+                        "value": {
+                            "stringValue": "1.1"
+                        }
+                    },
+                    {
+                        "key": "http.method",
+                        "value": {
+                            "stringValue": "POST"
+                        }
+                    },
+                    {
+                        "key": "user_agent.original",
+                        "value": {
+                            "stringValue": "PostmanRuntime/7.33.0"
+                        }
+                    },
+                    {
+                        "key": "net.host.name",
+                        "value": {
+                            "stringValue": "order-project-observability-workspace.apps.zagaopenshift.zagaopensource.com"
+                        }
+                    },
+                    {
+                        "key": "http.request_content_length",
+                        "value": {
+                            "intValue": "244"
+                        }
+                    },
+                    {
+                        "key": "http.target",
+                        "value": {
+                            "stringValue": "/orders/createErrorOrders"
+                        }
+                    },
+                    {
+                        "key": "net.sock.peer.addr",
+                        "value": {
+                            "stringValue": "10.128.0.2"
+                        }
+                    },
+                    {
+                        "key": "http.client_ip",
+                        "value": {
+                            "stringValue": "192.168.1.2"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-2"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703597727667121",
+                "kind": 2,
+                "name": "POST /orders/createErrorOrders",
+                "parentSpanId": "",
+                "spanId": "d3360cf7b5cf663b",
+                "startTimeUnixNano": "1695703597578409000",
+                "status": {},
+                "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "279"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-2"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703597613356841",
+                "kind": 1,
+                "name": "Session.merge com.zaga.OrderProj.OrderEntity",
+                "parentSpanId": "aa728a8aa82a20f2",
+                "spanId": "e98c4170acb08bb8",
+                "startTimeUnixNano": "1695703597603606588",
+                "status": {},
+                "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "279"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-2"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703597716945522",
+                "kind": 1,
+                "name": "Transaction.commit",
+                "parentSpanId": "aa728a8aa82a20f2",
+                "spanId": "f64553f364871663",
+                "startTimeUnixNano": "1695703597613747176",
+                "status": {},
+                "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "279"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-2"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703597723921771",
+                "kind": 1,
+                "name": "OrderController.createErrorOrder",
+                "parentSpanId": "d3360cf7b5cf663b",
+                "spanId": "bf4ebbeb2433508c",
+                "startTimeUnixNano": "1695703597584827760",
+                "status": {},
+                "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "279"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "stringValue": ""
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-2"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703597601865353",
+                "kind": 3,
+                "name": "observability-demo-tables",
+                "parentSpanId": "aa728a8aa82a20f2",
+                "spanId": "7bf64142a40bcbf6",
+                "startTimeUnixNano": "1695703597595488385",
+                "status": {},
+                "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "279"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "stringValue": "select orderentit0_.id as id1_0_0_, orderentit0_.customer_id as customer2_0_0_, orderentit0_.customer_name as customer3_0_0_, orderentit0_.customer_phone_number as customer4_0_0_, orderentit0_.model_no as model_no5_0_0_, orderentit0_.order_id as order_id6_0_0_, orderentit0_.product_address as product_7_0_0_, orderentit0_.product_id as product_8_0_0_, orderentit0_.product_name as product_9_0_0_, orderentit0_.quantity as quantit10_0_0_ from order_vendor orderentit0_ where orderentit0_.id=?"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432"
+                        }
+                    },
+                    {
+                        "key": "db.sql.table",
+                        "value": {
+                            "stringValue": "order_vendor"
+                        }
+                    },
+                    {
+                        "key": "db.operation",
+                        "value": {
+                            "stringValue": "SELECT"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-2"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703597611407752",
+                "kind": 3,
+                "name": "SELECT observability-demo-tables.order_vendor",
+                "parentSpanId": "e98c4170acb08bb8",
+                "spanId": "1f53876160bdd211",
+                "startTimeUnixNano": "1695703597607086760",
+                "status": {},
+                "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "279"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "stringValue": "update order_vendor set customer_id=?, customer_name=?, customer_phone_number=?, model_no=?, order_id=?, product_address=?, product_id=?, product_name=?, quantity=? where id=?"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432"
+                        }
+                    },
+                    {
+                        "key": "db.sql.table",
+                        "value": {
+                            "stringValue": "order_vendor"
+                        }
+                    },
+                    {
+                        "key": "db.operation",
+                        "value": {
+                            "stringValue": "UPDATE"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-2"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703597704853454",
+                "kind": 3,
+                "name": "UPDATE observability-demo-tables.order_vendor",
+                "parentSpanId": "f64553f364871663",
+                "spanId": "aa9d2f7ca9a40186",
+                "startTimeUnixNano": "1695703597690099650",
+                "status": {},
+                "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
+            }
         ],
         "statusCode": 200,
         "traceId": "2d6847588ce29c7f7cb4b07bea1f888a"
-      },
-      {
+    },
+    {
         "createdTime": "2023-09-26 10:10:35 IST",
         "duration": 117,
         "methodName": "GET",
@@ -4438,938 +5035,938 @@ export const spanData = [
         "serviceName": "vendor-project",
         "spanCount": "10",
         "spans": [
-          {
-            "attributes": [
-              {
-                "key": "net.sock.peer.port",
-                "value": {
-                  "intValue": "34608"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "278"
-                }
-              },
-              {
-                "key": "net.sock.host.port",
-                "value": {
-                  "intValue": "8080"
-                }
-              },
-              {
-                "key": "http.route",
-                "value": {
-                  "stringValue": "/vendor/vendorGetDataFromExternalApi"
-                }
-              },
-              {
-                "key": "net.sock.host.addr",
-                "value": {
-                  "stringValue": "10.128.0.101"
-                }
-              },
-              {
-                "key": "net.protocol.name",
-                "value": {
-                  "stringValue": "http"
-                }
-              },
-              {
-                "key": "http.scheme",
-                "value": {
-                  "stringValue": "http"
-                }
-              },
-              {
-                "key": "http.status_code",
-                "value": {
-                  "intValue": "200"
-                }
-              },
-              {
-                "key": "net.protocol.version",
-                "value": {
-                  "stringValue": "1.1"
-                }
-              },
-              {
-                "key": "http.method",
-                "value": {
-                  "stringValue": "GET"
-                }
-              },
-              {
-                "key": "user_agent.original",
-                "value": {
-                  "stringValue": "PostmanRuntime/7.33.0"
-                }
-              },
-              {
-                "key": "net.host.name",
-                "value": {
-                  "stringValue": "vendor-project-observability-workspace.apps.zagaopenshift.zagaopensource.com"
-                }
-              },
-              {
-                "key": "http.target",
-                "value": {
-                  "stringValue": "/vendor/vendorGetDataFromExternalApi?id=1"
-                }
-              },
-              {
-                "key": "net.sock.peer.addr",
-                "value": {
-                  "stringValue": "10.128.0.2"
-                }
-              },
-              {
-                "key": "http.client_ip",
-                "value": {
-                  "stringValue": "192.168.1.2"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-8080-exec-7"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235887662207",
-            "kind": 2,
-            "name": "GET /vendor/vendorGetDataFromExternalApi",
-            "parentSpanId": "",
-            "spanId": "a3c43b336098b819",
-            "startTimeUnixNano": "1695703235667410000",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "net.sock.peer.port",
-                "value": {
-                  "intValue": "50182"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "281"
-                }
-              },
-              {
-                "key": "http.route",
-                "value": {
-                  "stringValue": "/orders/getOrders"
-                }
-              },
-              {
-                "key": "net.sock.host.addr",
-                "value": {
-                  "stringValue": "10.128.0.102"
-                }
-              },
-              {
-                "key": "net.protocol.name",
-                "value": {
-                  "stringValue": "http"
-                }
-              },
-              {
-                "key": "net.host.port",
-                "value": {
-                  "intValue": "5089"
-                }
-              },
-              {
-                "key": "http.scheme",
-                "value": {
-                  "stringValue": "http"
-                }
-              },
-              {
-                "key": "http.status_code",
-                "value": {
-                  "intValue": "200"
-                }
-              },
-              {
-                "key": "net.protocol.version",
-                "value": {
-                  "stringValue": "1.1"
-                }
-              },
-              {
-                "key": "http.method",
-                "value": {
-                  "stringValue": "GET"
-                }
-              },
-              {
-                "key": "user_agent.original",
-                "value": {
-                  "stringValue": "Java/11.0.18"
-                }
-              },
-              {
-                "key": "net.host.name",
-                "value": {
-                  "stringValue": "order-project.observability-workspace.svc.cluster.local"
-                }
-              },
-              {
-                "key": "http.target",
-                "value": {
-                  "stringValue": "/orders/getOrders?id=1"
-                }
-              },
-              {
-                "key": "net.sock.peer.addr",
-                "value": {
-                  "stringValue": "10.128.0.101"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-4"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235825376593",
-            "kind": 2,
-            "name": "GET /orders/getOrders",
-            "parentSpanId": "06f74bb95de0fc3d",
-            "spanId": "b749af99ce8e2355",
-            "startTimeUnixNano": "1695703235748888000",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "db.user",
-                "value": {
-                  "stringValue": "observability-demo-user"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "278"
-                }
-              },
-              {
-                "key": "db.connection_string",
-                "value": {
-                  "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
-                }
-              },
-              {
-                "key": "net.peer.name",
-                "value": {
-                  "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
-                }
-              },
-              {
-                "key": "db.system",
-                "value": {
-                  "stringValue": "postgresql"
-                }
-              },
-              {
-                "key": "db.statement",
-                "value": {
-                  "stringValue": "select nextval (?)"
-                }
-              },
-              {
-                "key": "net.peer.port",
-                "value": {
-                  "intValue": "5432"
-                }
-              },
-              {
-                "key": "db.operation",
-                "value": {
-                  "stringValue": "SELECT"
-                }
-              },
-              {
-                "key": "db.name",
-                "value": {
-                  "stringValue": "observability-demo-tables"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-8080-exec-7"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235864343009",
-            "kind": 3,
-            "name": "SELECT observability-demo-tables",
-            "parentSpanId": "3a407f59e1626053",
-            "spanId": "881cd7e46da0f69d",
-            "startTimeUnixNano": "1695703235860453786",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "db.user",
-                "value": {
-                  "stringValue": "observability-demo-user"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "278"
-                }
-              },
-              {
-                "key": "db.connection_string",
-                "value": {
-                  "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
-                }
-              },
-              {
-                "key": "net.peer.name",
-                "value": {
-                  "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
-                }
-              },
-              {
-                "key": "db.system",
-                "value": {
-                  "stringValue": "postgresql"
-                }
-              },
-              {
-                "key": "db.statement",
-                "value": {
-                  "stringValue": "select vendorenti0_.id as id1_0_0_, vendorenti0_.customer_id as customer2_0_0_, vendorenti0_.customer_name as customer3_0_0_, vendorenti0_.customer_phone_number as customer4_0_0_, vendorenti0_.model_no as model_no5_0_0_, vendorenti0_.order_id as order_id6_0_0_, vendorenti0_.product_address as product_7_0_0_, vendorenti0_.product_id as product_8_0_0_, vendorenti0_.product_name as product_9_0_0_, vendorenti0_.quantity as quantit10_0_0_ from vendor_order vendorenti0_ where vendorenti0_.id=?"
-                }
-              },
-              {
-                "key": "net.peer.port",
-                "value": {
-                  "intValue": "5432"
-                }
-              },
-              {
-                "key": "db.sql.table",
-                "value": {
-                  "stringValue": "vendor_order"
-                }
-              },
-              {
-                "key": "db.operation",
-                "value": {
-                  "stringValue": "SELECT"
-                }
-              },
-              {
-                "key": "db.name",
-                "value": {
-                  "stringValue": "observability-demo-tables"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-8080-exec-7"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235857058962",
-            "kind": 3,
-            "name": "SELECT observability-demo-tables.vendor_order",
-            "parentSpanId": "3a407f59e1626053",
-            "spanId": "ad2796c37af3ec3e",
-            "startTimeUnixNano": "1695703235849406886",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "db.user",
-                "value": {
-                  "stringValue": "observability-demo-user"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "281"
-                }
-              },
-              {
-                "key": "db.connection_string",
-                "value": {
-                  "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
-                }
-              },
-              {
-                "key": "net.peer.name",
-                "value": {
-                  "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
-                }
-              },
-              {
-                "key": "db.system",
-                "value": {
-                  "stringValue": "postgresql"
-                }
-              },
-              {
-                "key": "db.statement",
-                "value": {
-                  "stringValue": ""
-                }
-              },
-              {
-                "key": "net.peer.port",
-                "value": {
-                  "intValue": "5432"
-                }
-              },
-              {
-                "key": "db.name",
-                "value": {
-                  "stringValue": "observability-demo-tables"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-4"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235781682485",
-            "kind": 3,
-            "name": "observability-demo-tables",
-            "parentSpanId": "467baabbe2c12828",
-            "spanId": "464598aeba4e72a1",
-            "startTimeUnixNano": "1695703235773994969",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "281"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-4"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235804305387",
-            "kind": 1,
-            "name": "Session.find com.zaga.OrderProj.OrderEntity",
-            "parentSpanId": "467baabbe2c12828",
-            "spanId": "996fd46fb5595c29",
-            "startTimeUnixNano": "1695703235785929923",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "281"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-4"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235806631528",
-            "kind": 1,
-            "name": "Transaction.commit",
-            "parentSpanId": "467baabbe2c12828",
-            "spanId": "ef7c3579e0943f89",
-            "startTimeUnixNano": "1695703235805060754",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "code.namespace",
-                "value": {
-                  "stringValue": "com.zaga.OrderProj.OrderRepo"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "281"
-                }
-              },
-              {
-                "key": "code.function",
-                "value": {
-                  "stringValue": "findById"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-4"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235806789374",
-            "kind": 1,
-            "name": "OrderRepo.findById",
-            "parentSpanId": "5903c537b0577f94",
-            "spanId": "467baabbe2c12828",
-            "startTimeUnixNano": "1695703235770526830",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "db.user",
-                "value": {
-                  "stringValue": "observability-demo-user"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "281"
-                }
-              },
-              {
-                "key": "db.connection_string",
-                "value": {
-                  "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
-                }
-              },
-              {
-                "key": "net.peer.name",
-                "value": {
-                  "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
-                }
-              },
-              {
-                "key": "db.system",
-                "value": {
-                  "stringValue": "postgresql"
-                }
-              },
-              {
-                "key": "db.statement",
-                "value": {
-                  "stringValue": "select orderentit0_.id as id1_0_0_, orderentit0_.customer_id as customer2_0_0_, orderentit0_.customer_name as customer3_0_0_, orderentit0_.customer_phone_number as customer4_0_0_, orderentit0_.model_no as model_no5_0_0_, orderentit0_.order_id as order_id6_0_0_, orderentit0_.product_address as product_7_0_0_, orderentit0_.product_id as product_8_0_0_, orderentit0_.product_name as product_9_0_0_, orderentit0_.quantity as quantit10_0_0_ from order_vendor orderentit0_ where orderentit0_.id=?"
-                }
-              },
-              {
-                "key": "net.peer.port",
-                "value": {
-                  "intValue": "5432"
-                }
-              },
-              {
-                "key": "db.sql.table",
-                "value": {
-                  "stringValue": "order_vendor"
-                }
-              },
-              {
-                "key": "db.operation",
-                "value": {
-                  "stringValue": "SELECT"
-                }
-              },
-              {
-                "key": "db.name",
-                "value": {
-                  "stringValue": "observability-demo-tables"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-4"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235800430778",
-            "kind": 3,
-            "name": "SELECT observability-demo-tables.order_vendor",
-            "parentSpanId": "996fd46fb5595c29",
-            "spanId": "1ce2b4b162ae43e9",
-            "startTimeUnixNano": "1695703235791316929",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "278"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-8080-exec-7"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235883353258",
-            "kind": 1,
-            "name": "VendorController.getOrderDetailsFromExternalAPI",
-            "parentSpanId": "a3c43b336098b819",
-            "spanId": "a64efce2a8c03478",
-            "startTimeUnixNano": "1695703235681990529",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "278"
-                }
-              },
-              {
-                "key": "net.peer.name",
-                "value": {
-                  "stringValue": "order-project.observability-workspace.svc.cluster.local"
-                }
-              },
-              {
-                "key": "net.peer.port",
-                "value": {
-                  "intValue": "5089"
-                }
-              },
-              {
-                "key": "net.protocol.name",
-                "value": {
-                  "stringValue": "http"
-                }
-              },
-              {
-                "key": "http.url",
-                "value": {
-                  "stringValue": "http://order-project.observability-workspace.svc.cluster.local:5089/orders/getOrders?id=1"
-                }
-              },
-              {
-                "key": "http.status_code",
-                "value": {
-                  "intValue": "200"
-                }
-              },
-              {
-                "key": "net.protocol.version",
-                "value": {
-                  "stringValue": "1.1"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-8080-exec-7"
-                }
-              },
-              {
-                "key": "http.method",
-                "value": {
-                  "stringValue": "GET"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235822345906",
-            "kind": 3,
-            "name": "GET",
-            "parentSpanId": "a64efce2a8c03478",
-            "spanId": "06f74bb95de0fc3d",
-            "startTimeUnixNano": "1695703235704866286",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "code.namespace",
-                "value": {
-                  "stringValue": "com.zaga.VendorProj.VendorRepo"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "278"
-                }
-              },
-              {
-                "key": "code.function",
-                "value": {
-                  "stringValue": "save"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-8080-exec-7"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235876220392",
-            "kind": 1,
-            "name": "VendorRepo.save",
-            "parentSpanId": "a64efce2a8c03478",
-            "spanId": "bcf5d2e1d7af9875",
-            "startTimeUnixNano": "1695703235830353123",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "db.user",
-                "value": {
-                  "stringValue": "observability-demo-user"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "278"
-                }
-              },
-              {
-                "key": "db.connection_string",
-                "value": {
-                  "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
-                }
-              },
-              {
-                "key": "net.peer.name",
-                "value": {
-                  "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
-                }
-              },
-              {
-                "key": "db.system",
-                "value": {
-                  "stringValue": "postgresql"
-                }
-              },
-              {
-                "key": "db.statement",
-                "value": {
-                  "stringValue": "insert into vendor_order (customer_id, customer_name, customer_phone_number, model_no, order_id, product_address, product_id, product_name, quantity, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-                }
-              },
-              {
-                "key": "net.peer.port",
-                "value": {
-                  "intValue": "5432"
-                }
-              },
-              {
-                "key": "db.sql.table",
-                "value": {
-                  "stringValue": "vendor_order"
-                }
-              },
-              {
-                "key": "db.operation",
-                "value": {
-                  "stringValue": "INSERT"
-                }
-              },
-              {
-                "key": "db.name",
-                "value": {
-                  "stringValue": "observability-demo-tables"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-8080-exec-7"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235872362003",
-            "kind": 3,
-            "name": "INSERT observability-demo-tables.vendor_order",
-            "parentSpanId": "b4d607a6e520a3d1",
-            "spanId": "de7eb597bc80b3f8",
-            "startTimeUnixNano": "1695703235869231684",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "281"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-5089-exec-4"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235820782045",
-            "kind": 1,
-            "name": "OrderController.getOrdersByid",
-            "parentSpanId": "b749af99ce8e2355",
-            "spanId": "5903c537b0577f94",
-            "startTimeUnixNano": "1695703235762456248",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "db.user",
-                "value": {
-                  "stringValue": "observability-demo-user"
-                }
-              },
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "278"
-                }
-              },
-              {
-                "key": "db.connection_string",
-                "value": {
-                  "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
-                }
-              },
-              {
-                "key": "net.peer.name",
-                "value": {
-                  "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
-                }
-              },
-              {
-                "key": "db.system",
-                "value": {
-                  "stringValue": "postgresql"
-                }
-              },
-              {
-                "key": "db.statement",
-                "value": {
-                  "stringValue": ""
-                }
-              },
-              {
-                "key": "net.peer.port",
-                "value": {
-                  "intValue": "5432"
-                }
-              },
-              {
-                "key": "db.name",
-                "value": {
-                  "stringValue": "observability-demo-tables"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-8080-exec-7"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235842709733",
-            "kind": 3,
-            "name": "observability-demo-tables",
-            "parentSpanId": "bcf5d2e1d7af9875",
-            "spanId": "3179880e8c3aeab6",
-            "startTimeUnixNano": "1695703235834659119",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "278"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-8080-exec-7"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235865981450",
-            "kind": 1,
-            "name": "Session.merge com.zaga.VendorProj.VendorEntity",
-            "parentSpanId": "bcf5d2e1d7af9875",
-            "spanId": "3a407f59e1626053",
-            "startTimeUnixNano": "1695703235844730836",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          },
-          {
-            "attributes": [
-              {
-                "key": "thread.id",
-                "value": {
-                  "intValue": "278"
-                }
-              },
-              {
-                "key": "thread.name",
-                "value": {
-                  "stringValue": "http-nio-8080-exec-7"
-                }
-              }
-            ],
-            "endTimeUnixNano": "1695703235876040371",
-            "kind": 1,
-            "name": "Transaction.commit",
-            "parentSpanId": "bcf5d2e1d7af9875",
-            "spanId": "b4d607a6e520a3d1",
-            "startTimeUnixNano": "1695703235866467014",
-            "status": {},
-            "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-          }
+            {
+                "attributes": [
+                    {
+                        "key": "net.sock.peer.port",
+                        "value": {
+                            "intValue": "34608"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "278"
+                        }
+                    },
+                    {
+                        "key": "net.sock.host.port",
+                        "value": {
+                            "intValue": "8080"
+                        }
+                    },
+                    {
+                        "key": "http.route",
+                        "value": {
+                            "stringValue": "/vendor/vendorGetDataFromExternalApi"
+                        }
+                    },
+                    {
+                        "key": "net.sock.host.addr",
+                        "value": {
+                            "stringValue": "10.128.0.101"
+                        }
+                    },
+                    {
+                        "key": "net.protocol.name",
+                        "value": {
+                            "stringValue": "http"
+                        }
+                    },
+                    {
+                        "key": "http.scheme",
+                        "value": {
+                            "stringValue": "http"
+                        }
+                    },
+                    {
+                        "key": "http.status_code",
+                        "value": {
+                            "intValue": "200"
+                        }
+                    },
+                    {
+                        "key": "net.protocol.version",
+                        "value": {
+                            "stringValue": "1.1"
+                        }
+                    },
+                    {
+                        "key": "http.method",
+                        "value": {
+                            "stringValue": "GET"
+                        }
+                    },
+                    {
+                        "key": "user_agent.original",
+                        "value": {
+                            "stringValue": "PostmanRuntime/7.33.0"
+                        }
+                    },
+                    {
+                        "key": "net.host.name",
+                        "value": {
+                            "stringValue": "vendor-project-observability-workspace.apps.zagaopenshift.zagaopensource.com"
+                        }
+                    },
+                    {
+                        "key": "http.target",
+                        "value": {
+                            "stringValue": "/vendor/vendorGetDataFromExternalApi?id=1"
+                        }
+                    },
+                    {
+                        "key": "net.sock.peer.addr",
+                        "value": {
+                            "stringValue": "10.128.0.2"
+                        }
+                    },
+                    {
+                        "key": "http.client_ip",
+                        "value": {
+                            "stringValue": "192.168.1.2"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-8080-exec-7"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235887662207",
+                "kind": 2,
+                "name": "GET /vendor/vendorGetDataFromExternalApi",
+                "parentSpanId": "",
+                "spanId": "a3c43b336098b819",
+                "startTimeUnixNano": "1695703235667410000",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "net.sock.peer.port",
+                        "value": {
+                            "intValue": "50182"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "281"
+                        }
+                    },
+                    {
+                        "key": "http.route",
+                        "value": {
+                            "stringValue": "/orders/getOrders"
+                        }
+                    },
+                    {
+                        "key": "net.sock.host.addr",
+                        "value": {
+                            "stringValue": "10.128.0.102"
+                        }
+                    },
+                    {
+                        "key": "net.protocol.name",
+                        "value": {
+                            "stringValue": "http"
+                        }
+                    },
+                    {
+                        "key": "net.host.port",
+                        "value": {
+                            "intValue": "5089"
+                        }
+                    },
+                    {
+                        "key": "http.scheme",
+                        "value": {
+                            "stringValue": "http"
+                        }
+                    },
+                    {
+                        "key": "http.status_code",
+                        "value": {
+                            "intValue": "200"
+                        }
+                    },
+                    {
+                        "key": "net.protocol.version",
+                        "value": {
+                            "stringValue": "1.1"
+                        }
+                    },
+                    {
+                        "key": "http.method",
+                        "value": {
+                            "stringValue": "GET"
+                        }
+                    },
+                    {
+                        "key": "user_agent.original",
+                        "value": {
+                            "stringValue": "Java/11.0.18"
+                        }
+                    },
+                    {
+                        "key": "net.host.name",
+                        "value": {
+                            "stringValue": "order-project.observability-workspace.svc.cluster.local"
+                        }
+                    },
+                    {
+                        "key": "http.target",
+                        "value": {
+                            "stringValue": "/orders/getOrders?id=1"
+                        }
+                    },
+                    {
+                        "key": "net.sock.peer.addr",
+                        "value": {
+                            "stringValue": "10.128.0.101"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-4"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235825376593",
+                "kind": 2,
+                "name": "GET /orders/getOrders",
+                "parentSpanId": "06f74bb95de0fc3d",
+                "spanId": "b749af99ce8e2355",
+                "startTimeUnixNano": "1695703235748888000",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "278"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "stringValue": "select nextval (?)"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432"
+                        }
+                    },
+                    {
+                        "key": "db.operation",
+                        "value": {
+                            "stringValue": "SELECT"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-8080-exec-7"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235864343009",
+                "kind": 3,
+                "name": "SELECT observability-demo-tables",
+                "parentSpanId": "3a407f59e1626053",
+                "spanId": "881cd7e46da0f69d",
+                "startTimeUnixNano": "1695703235860453786",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "278"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "stringValue": "select vendorenti0_.id as id1_0_0_, vendorenti0_.customer_id as customer2_0_0_, vendorenti0_.customer_name as customer3_0_0_, vendorenti0_.customer_phone_number as customer4_0_0_, vendorenti0_.model_no as model_no5_0_0_, vendorenti0_.order_id as order_id6_0_0_, vendorenti0_.product_address as product_7_0_0_, vendorenti0_.product_id as product_8_0_0_, vendorenti0_.product_name as product_9_0_0_, vendorenti0_.quantity as quantit10_0_0_ from vendor_order vendorenti0_ where vendorenti0_.id=?"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432"
+                        }
+                    },
+                    {
+                        "key": "db.sql.table",
+                        "value": {
+                            "stringValue": "vendor_order"
+                        }
+                    },
+                    {
+                        "key": "db.operation",
+                        "value": {
+                            "stringValue": "SELECT"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-8080-exec-7"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235857058962",
+                "kind": 3,
+                "name": "SELECT observability-demo-tables.vendor_order",
+                "parentSpanId": "3a407f59e1626053",
+                "spanId": "ad2796c37af3ec3e",
+                "startTimeUnixNano": "1695703235849406886",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "281"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "stringValue": ""
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-4"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235781682485",
+                "kind": 3,
+                "name": "observability-demo-tables",
+                "parentSpanId": "467baabbe2c12828",
+                "spanId": "464598aeba4e72a1",
+                "startTimeUnixNano": "1695703235773994969",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "281"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-4"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235804305387",
+                "kind": 1,
+                "name": "Session.find com.zaga.OrderProj.OrderEntity",
+                "parentSpanId": "467baabbe2c12828",
+                "spanId": "996fd46fb5595c29",
+                "startTimeUnixNano": "1695703235785929923",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "281"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-4"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235806631528",
+                "kind": 1,
+                "name": "Transaction.commit",
+                "parentSpanId": "467baabbe2c12828",
+                "spanId": "ef7c3579e0943f89",
+                "startTimeUnixNano": "1695703235805060754",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "code.namespace",
+                        "value": {
+                            "stringValue": "com.zaga.OrderProj.OrderRepo"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "281"
+                        }
+                    },
+                    {
+                        "key": "code.function",
+                        "value": {
+                            "stringValue": "findById"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-4"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235806789374",
+                "kind": 1,
+                "name": "OrderRepo.findById",
+                "parentSpanId": "5903c537b0577f94",
+                "spanId": "467baabbe2c12828",
+                "startTimeUnixNano": "1695703235770526830",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "281"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "stringValue": "select orderentit0_.id as id1_0_0_, orderentit0_.customer_id as customer2_0_0_, orderentit0_.customer_name as customer3_0_0_, orderentit0_.customer_phone_number as customer4_0_0_, orderentit0_.model_no as model_no5_0_0_, orderentit0_.order_id as order_id6_0_0_, orderentit0_.product_address as product_7_0_0_, orderentit0_.product_id as product_8_0_0_, orderentit0_.product_name as product_9_0_0_, orderentit0_.quantity as quantit10_0_0_ from order_vendor orderentit0_ where orderentit0_.id=?"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432"
+                        }
+                    },
+                    {
+                        "key": "db.sql.table",
+                        "value": {
+                            "stringValue": "order_vendor"
+                        }
+                    },
+                    {
+                        "key": "db.operation",
+                        "value": {
+                            "stringValue": "SELECT"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-4"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235800430778",
+                "kind": 3,
+                "name": "SELECT observability-demo-tables.order_vendor",
+                "parentSpanId": "996fd46fb5595c29",
+                "spanId": "1ce2b4b162ae43e9",
+                "startTimeUnixNano": "1695703235791316929",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "278"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-8080-exec-7"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235883353258",
+                "kind": 1,
+                "name": "VendorController.getOrderDetailsFromExternalAPI",
+                "parentSpanId": "a3c43b336098b819",
+                "spanId": "a64efce2a8c03478",
+                "startTimeUnixNano": "1695703235681990529",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "278"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "stringValue": "order-project.observability-workspace.svc.cluster.local"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5089"
+                        }
+                    },
+                    {
+                        "key": "net.protocol.name",
+                        "value": {
+                            "stringValue": "http"
+                        }
+                    },
+                    {
+                        "key": "http.url",
+                        "value": {
+                            "stringValue": "http://order-project.observability-workspace.svc.cluster.local:5089/orders/getOrders?id=1"
+                        }
+                    },
+                    {
+                        "key": "http.status_code",
+                        "value": {
+                            "intValue": "200"
+                        }
+                    },
+                    {
+                        "key": "net.protocol.version",
+                        "value": {
+                            "stringValue": "1.1"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-8080-exec-7"
+                        }
+                    },
+                    {
+                        "key": "http.method",
+                        "value": {
+                            "stringValue": "GET"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235822345906",
+                "kind": 3,
+                "name": "GET",
+                "parentSpanId": "a64efce2a8c03478",
+                "spanId": "06f74bb95de0fc3d",
+                "startTimeUnixNano": "1695703235704866286",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "code.namespace",
+                        "value": {
+                            "stringValue": "com.zaga.VendorProj.VendorRepo"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "278"
+                        }
+                    },
+                    {
+                        "key": "code.function",
+                        "value": {
+                            "stringValue": "save"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-8080-exec-7"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235876220392",
+                "kind": 1,
+                "name": "VendorRepo.save",
+                "parentSpanId": "a64efce2a8c03478",
+                "spanId": "bcf5d2e1d7af9875",
+                "startTimeUnixNano": "1695703235830353123",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "278"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "stringValue": "insert into vendor_order (customer_id, customer_name, customer_phone_number, model_no, order_id, product_address, product_id, product_name, quantity, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432"
+                        }
+                    },
+                    {
+                        "key": "db.sql.table",
+                        "value": {
+                            "stringValue": "vendor_order"
+                        }
+                    },
+                    {
+                        "key": "db.operation",
+                        "value": {
+                            "stringValue": "INSERT"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-8080-exec-7"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235872362003",
+                "kind": 3,
+                "name": "INSERT observability-demo-tables.vendor_order",
+                "parentSpanId": "b4d607a6e520a3d1",
+                "spanId": "de7eb597bc80b3f8",
+                "startTimeUnixNano": "1695703235869231684",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "281"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-5089-exec-4"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235820782045",
+                "kind": 1,
+                "name": "OrderController.getOrdersByid",
+                "parentSpanId": "b749af99ce8e2355",
+                "spanId": "5903c537b0577f94",
+                "startTimeUnixNano": "1695703235762456248",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "db.user",
+                        "value": {
+                            "stringValue": "observability-demo-user"
+                        }
+                    },
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "278"
+                        }
+                    },
+                    {
+                        "key": "db.connection_string",
+                        "value": {
+                            "stringValue": "postgresql://dev-postgres-primary.postgresql-workspace.svc:5432"
+                        }
+                    },
+                    {
+                        "key": "net.peer.name",
+                        "value": {
+                            "stringValue": "dev-postgres-primary.postgresql-workspace.svc"
+                        }
+                    },
+                    {
+                        "key": "db.system",
+                        "value": {
+                            "stringValue": "postgresql"
+                        }
+                    },
+                    {
+                        "key": "db.statement",
+                        "value": {
+                            "stringValue": ""
+                        }
+                    },
+                    {
+                        "key": "net.peer.port",
+                        "value": {
+                            "intValue": "5432"
+                        }
+                    },
+                    {
+                        "key": "db.name",
+                        "value": {
+                            "stringValue": "observability-demo-tables"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-8080-exec-7"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235842709733",
+                "kind": 3,
+                "name": "observability-demo-tables",
+                "parentSpanId": "bcf5d2e1d7af9875",
+                "spanId": "3179880e8c3aeab6",
+                "startTimeUnixNano": "1695703235834659119",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "278"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-8080-exec-7"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235865981450",
+                "kind": 1,
+                "name": "Session.merge com.zaga.VendorProj.VendorEntity",
+                "parentSpanId": "bcf5d2e1d7af9875",
+                "spanId": "3a407f59e1626053",
+                "startTimeUnixNano": "1695703235844730836",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            },
+            {
+                "attributes": [
+                    {
+                        "key": "thread.id",
+                        "value": {
+                            "intValue": "278"
+                        }
+                    },
+                    {
+                        "key": "thread.name",
+                        "value": {
+                            "stringValue": "http-nio-8080-exec-7"
+                        }
+                    }
+                ],
+                "endTimeUnixNano": "1695703235876040371",
+                "kind": 1,
+                "name": "Transaction.commit",
+                "parentSpanId": "bcf5d2e1d7af9875",
+                "spanId": "b4d607a6e520a3d1",
+                "startTimeUnixNano": "1695703235866467014",
+                "status": {},
+                "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
+            }
         ],
         "statusCode": 200,
         "traceId": "753f5e0f8b8c7aec643b4eb890376e01"
-      },
+    },
 ]

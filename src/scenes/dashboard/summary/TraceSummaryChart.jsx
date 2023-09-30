@@ -15,13 +15,13 @@ const BarChar = () => {
 
   const apiCallsData = [
     {
-      serviceName: "Service A",
+      serviceName: "order-project",
       apiCalls: 100,
-      traceId: "1d9349e72cb6279ff97uiyfe54f2e982b",
-      methodName: "GET /",
-      operationName: "/personal/details",
+      traceId: "2384799a01be10b55245e99864bba516",
+      methodName: "POST",
+      operationName: "POST /orders/createOrders",
       duration: "120ms",
-      statusCode: "200",
+      statusCode: "500",
       createdTime: "a few seconds ago",
     },
     {
@@ -47,13 +47,13 @@ const BarChar = () => {
   ];
 
   const peakLatencyData = [
-    { serviceName: "Service A", peakLatency: 10 },
+    { serviceName: "order-project", peakLatency: 10 },
     { serviceName: "Service B", peakLatency: 20 },
     { serviceName: "Service C", peakLatency: 15 },
   ];
 
   const errorSuccessData = [
-    { serviceName: "Service A", errorCalls: 20, successCalls: 80 },
+    { serviceName: "order-project", errorCalls: 20, successCalls: 80 },
     { serviceName: "Service B", errorCalls: 30, successCalls: 120 },
     { serviceName: "Service C", errorCalls: 10, successCalls: 65 },
   ];
@@ -120,14 +120,14 @@ const BarChar = () => {
         APICallsData={
           selectedService
             ? apiCallsData.find((item) => item.serviceName === selectedService)
-                .apiCalls
+              .apiCalls
             : null
         }
         PeakLatencyData={
           selectedService
             ? peakLatencyData.find(
-                (item) => item.serviceName === selectedService
-              ).peakLatency
+              (item) => item.serviceName === selectedService
+            ).peakLatency
             : null
         }
         ErrorData={errorCalls}
