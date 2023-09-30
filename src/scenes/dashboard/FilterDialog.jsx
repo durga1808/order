@@ -164,6 +164,8 @@ const FilterDialog = ({ open, onClose }) => {
     if (Object.keys(apiBody).length !== 0) {
       setFilterApiBody(apiBody);
       setNeedFilterCall(true);
+      setTraceGlobalEmpty(null);
+      setTraceGlobalError(null);
     } else {
       setNeedFilterCall(false);
       setTraceGlobalEmpty(null);
