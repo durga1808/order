@@ -96,7 +96,7 @@ const TraceList = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     // const [traceData, setTraceData] = useState([]);
-    const { setSelectedTrace, traceData, setTraceData, lookBackVal, needFilterCall, filterApiBody, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading } = useContext(GlobalContext);
+    const { setSelectedTrace, traceData, setTraceData, lookBackVal, needFilterCall, filterApiBody, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading, recentTrace } = useContext(GlobalContext);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
     const [selectedSortOrder, setSelectedSortOrder] = useState("new");
@@ -119,6 +119,7 @@ const TraceList = () => {
 
     const apiCall = useCallback(async (newpage) => {
         try {
+            console.log("Trace api called!");
             const { data, totalCount } = await TraceListPaginationApi(newpage, pageLimit, lookBackVal.value, selectedSortOrder);
             const updatedData = createTimeInWords(data);
 
@@ -136,6 +137,7 @@ const TraceList = () => {
 
     const filterApiCall = useCallback(async (newpage, payload) => {
         try {
+            console.log("Trace filter called!");
             const { data, totalCount } = await TraceFilterOption(lookBackVal.value, newpage, pageLimit, payload);
             const updatedData = createTimeInWords(data);
 
@@ -151,13 +153,24 @@ const TraceList = () => {
         }
     }, [pageLimit, lookBackVal, setTraceData, setTotalPageCount, setTraceGlobalEmpty, setTraceGlobalError]);
 
+    const dashboardTraceMap = useCallback(() => {
+        console.log("Trace UseEffect called!" + recentTrace);
+        setTraceData(recentTrace);
+    }, [recentTrace, setTraceData]);
+
     useEffect(() => {
+        console.log("Trace UseEffect called!");
         if (needFilterCall) {
             filterApiCall(currentPage, filterApiBody);
-        } else if (traceData.length === 0) {
-            apiCall(currentPage);
+        } else {
+            if (recentTrace.length === 0) {
+                apiCall(currentPage);
+            }
+            else {
+                dashboardTraceMap();
+            }
         }
-    }, [currentPage, needFilterCall, traceData, apiCall, filterApiCall, filterApiBody]);
+    }, [currentPage, needFilterCall, apiCall, filterApiCall, filterApiBody, recentTrace, dashboardTraceMap]);
 
     const handleCardClick = (traceId) => {
         console.log("Clicked");

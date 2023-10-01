@@ -20,7 +20,9 @@ const Traces = () => {
         justifyContent: "normal",
       }}
     >
-      {traceLoading ? (<div>LOADING.....</div>) : (traceGlobalError ? (
+      {traceLoading ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}><Typography variant="h5" fontWeight={"600"}>
+        LOADING.....
+      </Typography></div>) : (traceGlobalError ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
           <Typography variant="h5" fontWeight={"600"}>
             {traceGlobalError}

@@ -25,7 +25,7 @@ const ServiceTable = ({
   const theme = useTheme();
   const navigate = useNavigate();
   const colors = tokens(theme.palette.mode);
-  const { setSelected, setTraceData } = useContext(GlobalContext);
+  const { setSelected, setTraceData, setRecentTrace } = useContext(GlobalContext);
   // Filter the data for the selected service
   // const selectedApiCallsData = APICallsData.find(
   //   (item) => item.serviceName === selectedService
@@ -45,7 +45,8 @@ const ServiceTable = ({
   const handleOpenTrace = (trace) => {
 
     // console.log("TRACE " + JSON.stringify([trace] ));
-    setTraceData([trace]);
+    setRecentTrace([trace]);
+    // setTraceData([trace]);
     localStorage.setItem("routeName", "Traces");
     setSelected("Traces");
     navigate("/mainpage/traces");

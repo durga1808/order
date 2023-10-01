@@ -19,7 +19,7 @@ import { options } from "../../global/MockData/MockTraces";
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
-  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty,setTraceData,setSelectedTrace } = useContext(GlobalContext);
+  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty,setTraceData,setSelectedTrace,setRecentTrace } = useContext(GlobalContext);
   const [activeTab, setActiveTab] = useState(0);
 
   const theme = useTheme();
@@ -38,11 +38,12 @@ const DashboardTopBar = () => {
     const defaultValue = 60;
     const defaultLabel = options.find((option) => option.value === defaultValue);
     setLookBackVal(defaultLabel);
+    setRecentTrace([]);
     setTraceData([]);
     setSelectedTrace([]);
     setNeedFilterCall(false);
-    setTraceGlobalEmpty(null);
-    setTraceGlobalError(null);
+    // setTraceGlobalEmpty(null);
+    // setTraceGlobalError(null);
   };
 
   const handleTabChange = (event, newValue) => {

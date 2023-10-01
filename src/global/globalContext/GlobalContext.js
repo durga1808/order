@@ -19,6 +19,7 @@ const GlobalContextProvider = ({ children }) => {
     const [traceGlobalEmpty, setTraceGlobalEmpty] = useState(null);
     const [traceGlobalError, setTraceGlobalError] = useState(null);
     const [traceLoading, setTraceLoading] = useState(false);
+    const [recentTrace, setRecentTrace] = useState([]);
 
     return (
         <GlobalContext.Provider
@@ -46,7 +47,9 @@ const GlobalContextProvider = ({ children }) => {
                 traceGlobalError,
                 setTraceGlobalError,
                 traceLoading,
-                setTraceLoading
+                setTraceLoading,
+                recentTrace,
+                setRecentTrace
             }}
         >
             {children}
