@@ -1,27 +1,21 @@
-import { colors } from "@mui/material";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import { tokens } from "../../../../theme";
 import { useTheme } from "@emotion/react";
 
-const PeakLatencyChart = ({ data }) => {
+const WarnBarChart = ({ data }) => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  
 
-  const peakLatencyOptions = {
-   
+  const WarnCountOptions = {
     chart: {
       height: 250,
       type: "bar",
     },
     plotOptions: {
       bar: {
-       
         columnWidth: "70%",
       },
     },
-    
+
     xaxis: {
       labels: {
         rotate: -45,
@@ -35,17 +29,28 @@ const PeakLatencyChart = ({ data }) => {
           fontWeight: 500,
         },
       },
-     
     },
+
     yaxis: {
       title: {
-        text: "Latency (ms)",
+        text: "Log Warn Count",
+        style: {
+          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          fontFamily: "Red Hat Display, sans-serif",
+          fontWeight: 500,
+        },
+      },
+
+      labels: {
+        style: {
+          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
+        },
       },
     },
+
     title: {
-      text: "Peak Latency > 500(ms)",
+      text: "Log Warn Count",
       align: "middle",
-      // margin: 5,
       offsetX: 0,
       offsetY: 10,
       style: {
@@ -59,19 +64,18 @@ const PeakLatencyChart = ({ data }) => {
         colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
       },
     },
-   
   };
-  const peakLatencySeries = [
+  const warncountSeries = [
     {
       name: "Peak Latency",
-      data: data.map((item) => item.peakLatency),
+      data: data.map((item) => item.logWarnCount),
     },
   ];
   return (
     <div>
       <ReactApexChart
-        options={peakLatencyOptions}
-        series={peakLatencySeries}
+        options={WarnCountOptions}
+        series={warncountSeries}
         type="bar"
         height={250}
       />
@@ -79,4 +83,4 @@ const PeakLatencyChart = ({ data }) => {
   );
 };
 
-export default PeakLatencyChart;
+export default WarnBarChart;

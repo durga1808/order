@@ -2,8 +2,12 @@ import axios from "axios";
 
 const traceURL = "http://localhost:8081/traces";
 
-
-export const TraceListPaginationApi = async (page, itemsPerPage, interval, sortOrder) => {
+export const TraceListPaginationApi = async (
+    page,
+    itemsPerPage,
+    interval,
+    sortOrder
+) => {
     try {
         const response = await axios.get(
             `${traceURL}/getalldata-sortorder?minutesAgo=${interval}&page=${page}&pageSize=${itemsPerPage}&sortOrder=${sortOrder}`
@@ -13,8 +17,7 @@ export const TraceListPaginationApi = async (page, itemsPerPage, interval, sortO
         console.error("Error retrieving users:", error);
         throw error;
     }
-}
-
+};
 
 export const TraceFilterOption = async (lookback, page, pageSize, payload) => {
     try {
@@ -23,7 +26,7 @@ export const TraceFilterOption = async (lookback, page, pageSize, payload) => {
             payload,
             {
                 headers: {
-                    'Content-Type': 'application/json', // Set the Content-Type header
+                    "Content-Type": "application/json", // Set the Content-Type header
                 },
             }
         );
@@ -32,7 +35,7 @@ export const TraceFilterOption = async (lookback, page, pageSize, payload) => {
         console.error("Error retrieving users:", error);
         throw error;
     }
-}
+};
 
 export const FindByTraceIdForSpans = async (traceId) => {
     try {
@@ -42,4 +45,16 @@ export const FindByTraceIdForSpans = async (traceId) => {
         console.error("Error retrieving users:", error);
         throw error;
     }
-}
+};
+
+export const getTraceSummaryData = async (timeMinutesAgo) => {
+    try {
+        const response = await axios.get(
+            `${traceURL}/TraceSumaryChartDataCount?timeAgoMinutes=${timeMinutesAgo}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error retrieving users:", error);
+        throw error;
+    }
+};

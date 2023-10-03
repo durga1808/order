@@ -5,6 +5,8 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import { LoginInfo } from "../../global/MockData/LoginMock";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
+import { loginUser } from "../../api/LoginApiService";
+
 
 const Login = () => {
   const navigate = useNavigate();
@@ -16,24 +18,58 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('none');
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleLogin = () => {
+  const handleLogin = async() => {
+    if (!username || !password || !role) {
+      setErrorMessage("Please fill in all fields.");
+      return;
+    }
+
+    const payload = {
+      username: username,
+      password: password,
+      roles: [role],
+    };
+
+    const userAuth = await loginUser(payload);
+    // console.log(userAuth);
+
     // console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
-    LoginInfo.forEach((userInfo) => {
-      if (userInfo.username === username) {
-        if (userInfo.password === password) {
-          if (userInfo.roles.includes(role)) {
-            console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
-            localStorage.setItem("routeName", "Dashboard");
-            setSelected("Dashboard");
-            navigate("/mainpage/dashboard");
-          }
-        }
-      }
-    })
-  }
+    // LoginInfo.forEach((userInfo) => {    // LoginInfo is mock data
+    //   if (userInfo.username === username) {
+    //     if (userInfo.password === password) {
+    //       if (userInfo.roles.includes(role)) {
+    //         console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
+    //         localStorage.setItem("routeName", "Dashboard");
+    //         setSelected("Dashboard");
+    //         navigate("/mainpage/dashboard");
+    //       }
+    //     }
+    //   }
+    // })
+   
 
-  return (
+    if (userAuth.status === 200) {
+      console.log("login", username, password, role);
+      // setUserInfo(userAuth.data);
+      localStorage.setItem("userInfo",JSON.stringify(userAuth.data));
+      navigate("/mainpage/dashboard");
+    } 
+    else if (userAuth.response.status === 401) {
+      setErrorMessage(userAuth.response.data);
+    } else if (userAuth.response.status === 404) {
+      setErrorMessage(userAuth.response.data);
+    } else if (userAuth.response.status === 403) {
+      setErrorMessage(userAuth.response.data);
+    } 
+    else {
+      setErrorMessage("Something went wrong. Please try again later.");
+    }
+  };
+
+
+    return (
     <div className="login-wrap">
       <div className="login-html">
         <input id="tab-1" type="radio" name="tab" class="sign-in" checked />

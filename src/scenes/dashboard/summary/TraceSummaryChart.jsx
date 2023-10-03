@@ -7,11 +7,16 @@ import PeakLatencyChart from "./TraceCharts/PeakLatencyChart";
 import ErrSucssCallCountChart from "./TraceCharts/ErrSucssCallCountChart";
 import ServiceDetails from "./TraceCharts/ServiceDetails";
 import ServiceTable from "./TraceCharts/ServiceTable";
+import { getTraceSummaryData } from "../../../api/TraceApiService";
+import { GlobalContext } from "../../../global/globalContext/GlobalContext";
+import { useEffect } from "react";
+import { useContext } from "react";
 
-const BarChar = () => {
+const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
+  const {lookBackVal} = useContext(GlobalContext);
 
   const apiCallsData = [
     {
@@ -142,6 +147,15 @@ const BarChar = () => {
     { serviceName: "Service J", errorCalls: 30, successCalls: 60 },
   ];
 
+  const traceSummaryApiCall = async () => {
+    const traceSummaryData = await getTraceSummaryData(lookBackVal.value);
+    console.log("Trace summary data " + JSON.stringify(traceSummaryData));
+  }
+
+  useEffect(() => {
+    traceSummaryApiCall();
+  }, [])
+
   const handleBarClick = (selectedDataPointIndex, selectedSeriesName) => {
     const serviceName = errorSuccessData[selectedDataPointIndex].serviceName;
     const clickedBarData = errorSuccessData[selectedDataPointIndex];
@@ -174,20 +188,6 @@ const BarChar = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={12} sm={6}>
-          <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}>
-            <CardContent>
-              <ApiCallCount data={apiCallsData} />
-            </CardContent>
-          </Card>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <Card elevation={3} style={{ margin: "25px 25px 10px 15px" }}>
-            <CardContent>
-              <PeakLatencyChart data={peakLatencyData} />
-            </CardContent>
-          </Card>
-        </Grid>
         <Grid item xs={12}>
           <Card elevation={3} style={{ margin: "25px" }}>
             <CardContent>
@@ -204,14 +204,14 @@ const BarChar = () => {
         APICallsData={
           selectedService
             ? apiCallsData.find((item) => item.serviceName === selectedService)
-              .apiCalls
+                .apiCalls
             : null
         }
         PeakLatencyData={
           selectedService
             ? peakLatencyData.find(
-              (item) => item.serviceName === selectedService
-            ).peakLatency
+                (item) => item.serviceName === selectedService
+              ).peakLatency
             : null
         }
         ErrorData={errorCalls}
@@ -224,7 +224,24 @@ const BarChar = () => {
         ErrSuccessData={errorSuccessData}
         selectedService={selectedService} // Pass selected service to ServiceTable
       />
+      <Grid container spacing={2}>
+        {" "}
+        <Grid item xs={12} sm={6}>
+          <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}>
+            <CardContent>
+              <ApiCallCount data={apiCallsData} />
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Card elevation={3} style={{ margin: "25px 25px 10px 15px" }}>
+            <CardContent>
+              <PeakLatencyChart data={peakLatencyData} />
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
     </div>
   );
 };
-export default BarChar;
+export default TraceBarChart;
