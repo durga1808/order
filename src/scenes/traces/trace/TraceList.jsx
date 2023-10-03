@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader, Pagination } from '@mui/material';
+import { Card, CardContent, Typography, CardActionArea, Box, useTheme, CardHeader, Pagination, Button } from '@mui/material';
 import "./TraceList.css";
 import { tokens } from '../../../theme';
 import Dropdown from "react-dropdown";
@@ -12,6 +12,10 @@ import { GlobalContext } from '../../../global/globalContext/GlobalContext';
 import { FindByTraceIdForSpans, TraceFilterOption, TraceListPaginationApi } from '../../../api/TraceApiService';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { useCallback } from 'react';
+import setupAxiosInterceptor from '../../../api/SetupAxiosInterceptors';
+import Loading from '../../../global/Loading/Loading';
+import { findLogByTraceId } from '../../../api/LogApiService';
+import { useNavigate } from 'react-router-dom';
 
 const mockTraces = [
     {
@@ -92,14 +96,15 @@ const sortOrderOptions = [
 ]
 
 const TraceList = () => {
-
+    const navigate = useNavigate();
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     // const [traceData, setTraceData] = useState([]);
-    const { setSelectedTrace, traceData, setTraceData, lookBackVal, needFilterCall, filterApiBody, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading, recentTrace } = useContext(GlobalContext);
+    const { setSelectedTrace, traceData, setTraceData, lookBackVal, needFilterCall, filterApiBody, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading, recentTrace, setLogData, setTraceToLogError, setSelected } = useContext(GlobalContext);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
     const [selectedSortOrder, setSelectedSortOrder] = useState("new");
+    const [loading, setLoading] = useState(false);
     // const [isEmptyData, setIsEmptyData] = useState(false);
     // const [emptyMessage, setEmptyMessage] = useState(null);
     // const [error, setError] = useState(null);
@@ -116,10 +121,13 @@ const TraceList = () => {
         return updatedData;
     }
 
+    // setupAxiosInterceptor(setTraceLoading);
 
     const apiCall = useCallback(async (newpage) => {
         try {
             console.log("Trace api called!");
+            // setTraceLoading(true);
+            setLoading(true);
             const { data, totalCount } = await TraceListPaginationApi(newpage, pageLimit, lookBackVal.value, selectedSortOrder);
             const updatedData = createTimeInWords(data);
 
@@ -129,15 +137,22 @@ const TraceList = () => {
                 setTraceData(updatedData);
                 setTotalPageCount(Math.ceil(totalCount / pageLimit));
             }
+
+            // setTraceLoading(false);
+            setLoading(false);
         } catch (error) {
             console.log("ERROR " + error);
             setTraceGlobalError("An error occurred");
+            // setTraceLoading(false);
+            setLoading(false);
         }
     }, [pageLimit, lookBackVal, selectedSortOrder, setTraceData, setTotalPageCount, setTraceGlobalEmpty, setTraceGlobalError]);
 
     const filterApiCall = useCallback(async (newpage, payload) => {
         try {
             console.log("Trace filter called!");
+            // setTraceLoading(true);
+            setLoading(true);
             const { data, totalCount } = await TraceFilterOption(lookBackVal.value, newpage, pageLimit, payload);
             const updatedData = createTimeInWords(data);
 
@@ -147,9 +162,14 @@ const TraceList = () => {
                 setTraceData(updatedData);
                 setTotalPageCount(Math.ceil(totalCount / pageLimit));
             }
+
+            setLoading(false);
+            // setTraceLoading(false);
         } catch (error) {
             console.log("ERROR " + error);
             setTraceGlobalError("An error occurred On Filter");
+            // setTraceLoading(false);
+            setLoading(false);
         }
     }, [pageLimit, lookBackVal, setTraceData, setTotalPageCount, setTraceGlobalEmpty, setTraceGlobalError]);
 
@@ -176,11 +196,14 @@ const TraceList = () => {
         console.log("Clicked");
         const spanApiCall = async (traceId) => {
             try {
+                setTraceLoading(true);
                 const data = await FindByTraceIdForSpans(traceId);
                 console.log("OUTPUT " + JSON.stringify(data.data[0]));
                 setSelectedTrace(data.data[0]);
+                setTraceLoading(false);
             } catch (error) {
                 console.log("ERROR " + error);
+                setTraceLoading(false);
             }
         }
         spanApiCall(traceId);
@@ -191,6 +214,25 @@ const TraceList = () => {
         setCurrentPage(newPage);
     }
 
+    const handleLogRoute = async (traceId) => {
+        console.log("TraceId " + traceId);
+        try {
+            const logData = await findLogByTraceId(traceId);
+            console.log("Log Data " + JSON.stringify(logData));
+            if (logData.length !== 0) {
+                setLogData(logData);
+            } else {
+                setTraceToLogError("No Log for this TraceId!");
+            }
+        } catch (error) {
+            setTraceToLogError("An error occurred!");
+        }
+        localStorage.setItem("routeName", "Logs");
+        setSelected("Logs");
+        navigate("/mainpage/logs");
+
+    }
+
     const handleSortOrderChange = (selectedValue) => {
         console.log("SORT " + selectedValue.value);
         setSelectedSortOrder(selectedValue.value);
@@ -198,48 +240,88 @@ const TraceList = () => {
 
     return (
         <div >
-            <div>
-                <Box display="flex" flexDirection="row" justifyContent="space-between"  >
-                    <Typography variant="h4" fontWeight="500" style={{ margin: "10px 0 20px 10px" }}>Traces ({traceData.length})</Typography>
+            {loading ? (<Loading />) : (
+                <div>
+                    <Box display="flex" flexDirection="row" justifyContent="space-between"  >
+                        <Typography variant="h4" fontWeight="500" style={{ margin: "10px 0 20px 10px" }}>Traces ({traceData.length})</Typography>
 
-                    <Box sx={{ margin: "10px 0 20px 0" }} >
-                        <Pagination count={totalPageCount} variant="outlined" size='small' shape="rounded" page={currentPage} onChange={handlePageChange} />
+                        <Box sx={{ margin: "10px 0 20px 0" }} >
+                            <Pagination count={totalPageCount} variant="outlined" size='small' shape="rounded" page={currentPage} onChange={handlePageChange} />
+                        </Box>
+
+                        {!needFilterCall ? (<Box sx={{ margin: "5px 0 20px 0" }} >
+                            <Dropdown options={sortOrderOptions} placeholder="Sort Order" arrowClosed={<span className="arrow-closed" />}
+                                arrowOpen={<span className="arrow-open" />} value={selectedSortOrder}
+                                onChange={handleSortOrderChange} />
+                        </Box>) : null}
                     </Box>
 
-                    {!needFilterCall ? (<Box sx={{ margin: "5px 0 20px 0" }} >
-                        <Dropdown options={sortOrderOptions} placeholder="Sort Order" arrowClosed={<span className="arrow-closed" />}
-                            arrowOpen={<span className="arrow-open" />} value={selectedSortOrder}
-                            onChange={handleSortOrderChange} />
-                    </Box>) : null}
-                </Box>
+                    <Box sx={{ maxHeight: "calc(80vh - 85px)", overflowY: "auto" }} >
+                        {traceData.map((trace, index) => (
+                            <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "560px", height: "fit-content", backgroundColor: colors.primary[500] }} >
+                                {/* <CardActionArea> */}
+                                    <Box>
+                                        <Typography variant="h5" sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], padding: "5px" }}>
+                                            <span> <span style={{ fontWeight: "500" }}>{trace.serviceName}:</span> {trace.operationName}</span>
+                                            <span>{trace.duration}ms</span>
+                                        </Typography>
+                                    </Box>
+                                    <CardContent>
+                                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }} >
+                                            <Typography variant="h7" >
+                                                <span style={{ fontWeight: "500" }}>TraceID:</span> {trace.traceId}
+                                            </Typography>
+                                            <Button
+                                                sx={{
+                                                    backgroundColor: colors.greenAccent[500],
+                                                    color: colors.grey[100],
+                                                    "&:hover": {
+                                                        backgroundColor: "#ffffff",
+                                                        color: colors.primary[600],
+                                                    },
+                                                }}
+                                                // component={Link}
+                                                // to={`/mainpage/logs`}
+                                                variant="contained"
+                                                onClick={() => handleLogRoute(trace.traceId)}
+                                            >
+                                                <Typography variant="h8" >
+                                                    View Log
+                                                </Typography>
+                                            </Button>
+                                            <Button
+                                                sx={{
+                                                    backgroundColor: colors.greenAccent[500],
+                                                    color: colors.grey[100],
+                                                    "&:hover": {
+                                                        backgroundColor: "#ffffff",
+                                                        color: colors.primary[600],
+                                                    },
+                                                }}
+                                                // component={Link}
+                                                // to={`/mainpage/logs`}
+                                                variant="contained"
+                                                onClick={() => handleCardClick(trace.traceId)}
+                                            >
+                                                <Typography variant="h8" >
+                                                    Open Spans
+                                                </Typography>
+                                            </Button>
+                                        </div>
 
-                <Box sx={{ maxHeight: "calc(80vh - 85px)", overflowY: "auto" }} >
-                    {traceData.map((trace, index) => (
-                        <Card className="tracelist-card" onClick={() => handleCardClick(trace.traceId)} key={index} sx={{ margin: "10px 0 20px 0", width: "530px", height: "fit-content", backgroundColor: colors.primary[500] }} >
-                            <CardActionArea>
-                                <Box>
-                                    <Typography variant="h5" sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], padding: "5px" }}>
-                                        <span> <span style={{ fontWeight: "500" }}>{trace.serviceName}:</span> {trace.operationName}</span>
-                                        <span>{trace.duration}ms</span>
-                                    </Typography>
-                                </Box>
-                                <CardContent>
-                                    <Typography variant="h6" >
-                                        <span style={{ fontWeight: "500" }}>TraceID:</span> {trace.traceId}
-                                    </Typography>
+                                        <Typography variant="h7" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "15px 0 0 0 " }}>
+                                            <span style={{ width: "150px" }} >{trace.createdTimeInWords}</span>
+                                            <span style={{ width: "200px" }} > <span style={{ fontWeight: "500", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
+                                            <span style={{ width: "100px" }} > <span style={{ fontWeight: "500", margin: "0 2px 0 0" }}>Method:</span>{trace.methodName}</span>
+                                        </Typography>
+                                    </CardContent>
+                                {/* </CardActionArea> */}
+                            </Card>
 
-                                    <Typography variant="h7" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "15px 0 0 0 " }}>
-                                        <span style={{ width: "150px" }} >{trace.createdTimeInWords}</span>
-                                        <span style={{ width: "200px" }} > <span style={{ fontWeight: "500", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
-                                        <span style={{ width: "100px" }} > <span style={{ fontWeight: "500", margin: "0 2px 0 0" }}>Method:</span>{trace.methodName}</span>
-                                    </Typography>
-                                </CardContent>
-                            </CardActionArea>
-                        </Card>
-
-                    ))}
-                </Box>
-            </div>
+                        ))}
+                    </Box>
+                </div>
+            )}
         </div>
     )
 }

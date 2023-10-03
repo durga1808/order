@@ -39,22 +39,11 @@ const PeakLatencyChart = ({ data }) => {
     },
     yaxis: {
       title: {
-        text: "Latency(ms)",
-        style: {
-          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-          fontFamily: "Red Hat Display, sans-serif",
-          fontWeight: 500,
-        },
-      },
-
-      labels: {
-        style: {
-          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
-        },
+        text: "Latency (ms)",
       },
     },
     title: {
-      text: "Peak Latency(ms)",
+      text: "Peak Latency > 500(ms)",
       align: "middle",
       // margin: 5,
       offsetX: 0,

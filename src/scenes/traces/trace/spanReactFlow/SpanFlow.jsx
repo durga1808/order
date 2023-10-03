@@ -14,6 +14,7 @@ import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 import SpanInfo from "./SpanInfo";
 import { useRef } from "react";
+import Loading from "../../../../global/Loading/Loading";
 
 const SpanFlow = () => {
   const [nodes, setNodes] = useState([]);
@@ -21,7 +22,8 @@ const SpanFlow = () => {
   const [orderedSpans, setOrderedSpans] = useState([]);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { selectedTrace, setSelectedSpan } = useContext(GlobalContext);
+  const { selectedTrace, setSelectedSpan, traceLoading } = useContext(GlobalContext);
+  const [loading, setLoading] = useState(false);
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -217,6 +219,7 @@ const SpanFlow = () => {
   }
 
   useEffect(() => {
+    // setLoading(true);
     setNodes([]);
     setEdges([]);
     setSelectedSpan({ "attributes": [] });
@@ -224,43 +227,49 @@ const SpanFlow = () => {
       // const orderedSpansData = sortingParentChildOrder(selectedTrace.spans);
       setOrderedSpans(selectedTrace.spans);
       dynamicNodeCreation(selectedTrace.spans);
+      
     }
+    // setLoading(false);
   }, [selectedTrace, setSelectedSpan]);
 
   return (
-    <div style={{maxHeight: Object.keys(selectedTrace).length ? "calc(93vh - 70px)"  : null}} >
-      {Object.keys(selectedTrace).length === 0 ? (
-        <div>
-          <Typography variant="h5" sx={{ textAlign: "center", marginTop: "60%" }} >Please Select any one of the Trace from the list to visualize!</Typography>
-        </div>
-      ) :
-        <div>
-          <div style={{ padding: "5px" }} >
-            <Typography variant="h5" fontWeight="600" >Details for Selected Trace </Typography>
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", textAlign: "center", margin: "10px" }} >
-              <Typography variant="h6"  >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
-              <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
+    <>
+      {traceLoading ? (<Loading />) : (
+        <div style={{ maxHeight: Object.keys(selectedTrace).length ? "calc(93vh - 70px)" : null }} >
+          {Object.keys(selectedTrace).length === 0 ? (
+            <div>
+              <Typography variant="h5" sx={{ textAlign: "center", marginTop: "60%" }} >Please Select any one of the Trace from the list to visualize!</Typography>
             </div>
-          </div>
-          <div style={{ height: "450px", width: "100%", border: "solid #000 1px", padding: 10 }}>
-            <ReactFlow
-              nodes={nodes}
-              edges={edges}
-              onNodeClick={onNodeClick}
-              defaultEdgeOptions={edgeOptions}
-              onNodesChange={onNodesChange}
-              onEdgesChange={onEdgesChange}
-            >
-              <Background />
-              <Controls />
-            </ReactFlow>
-          </div>
-          <div id="span-info" ref={sectionRef} >
-            <SpanInfo />
-          </div>
+          ) :
+            <div>
+              <div style={{ padding: "5px" }} >
+                <Typography variant="h5" fontWeight="600" >Details for Selected Trace </Typography>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", textAlign: "center", margin: "10px" }} >
+                  <Typography variant="h6"  >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
+                  <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
+                </div>
+              </div>
+              <div style={{ height: "450px", width: "100%", border: "solid #000 1px", padding: 10 }}>
+                <ReactFlow
+                  nodes={nodes}
+                  edges={edges}
+                  onNodeClick={onNodeClick}
+                  defaultEdgeOptions={edgeOptions}
+                  onNodesChange={onNodesChange}
+                  onEdgesChange={onEdgesChange}
+                >
+                  <Background />
+                  <Controls />
+                </ReactFlow>
+              </div>
+              <div id="span-info" ref={sectionRef} >
+                <SpanInfo />
+              </div>
+            </div>
+          }
         </div>
-      }
-    </div>
+      )}
+    </>
   );
 };
 

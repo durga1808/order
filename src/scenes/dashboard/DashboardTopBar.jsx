@@ -19,7 +19,7 @@ import { options } from "../../global/MockData/MockTraces";
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
-  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty,setTraceData,setSelectedTrace,setRecentTrace } = useContext(GlobalContext);
+  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace } = useContext(GlobalContext);
   const [activeTab, setActiveTab] = useState(0);
 
   const theme = useTheme();
@@ -42,8 +42,8 @@ const DashboardTopBar = () => {
     setTraceData([]);
     setSelectedTrace([]);
     setNeedFilterCall(false);
-    // setTraceGlobalEmpty(null);
-    // setTraceGlobalError(null);
+    setTraceGlobalEmpty(null);
+    setTraceGlobalError(null);
   };
 
   const handleTabChange = (event, newValue) => {
@@ -123,11 +123,12 @@ const DashboardTopBar = () => {
                 <RefreshOutlined style={iconStyle} />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Filter">
-              <IconButton onClick={handleFilterClick} style={FilterbuttonStyle}>
-                <FilterListOutlined style={iconStyle} />
-              </IconButton>
-            </Tooltip>
+            {window.location.pathname === "/mainpage/traces" || window.location.pathname === "/mainpage/logs" ? (
+              <Tooltip title="Filter">
+                <IconButton onClick={handleFilterClick} style={FilterbuttonStyle}>
+                  <FilterListOutlined style={iconStyle} />
+                </IconButton>
+              </Tooltip>) : null}
           </Box>
           {/* <div style={{ display: "flex" }}>
           <Dropdown options={options} placeholder="Select an option" />
