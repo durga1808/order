@@ -120,11 +120,11 @@ const PeakLatencyChart = ({ data }) => {
     },
     yaxis: {
       title: {
-        text: "Latency(ms)",
+        text: "Latency (ms)",
       },
     },
     title: {
-      text: "Peak Latency(ms)",
+      text: "Peak Latency > 500(ms)",
       align: "middle",
       // margin: 5,
       offsetX: 0,

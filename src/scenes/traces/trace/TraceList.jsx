@@ -12,6 +12,7 @@ import { GlobalContext } from '../../../global/globalContext/GlobalContext';
 import { FindByTraceIdForSpans, TraceFilterOption, TraceListPaginationApi } from '../../../api/TraceApiService';
 import { formatDistanceToNow, parseISO } from 'date-fns';
 import { useCallback } from 'react';
+import setupAxiosInterceptor from '../../../api/SetupAxiosInterceptors';
 
 const mockTraces = [
     {
@@ -116,10 +117,12 @@ const TraceList = () => {
         return updatedData;
     }
 
+    setupAxiosInterceptor(setTraceLoading);
 
     const apiCall = useCallback(async (newpage) => {
         try {
             console.log("Trace api called!");
+            setTraceLoading(true);
             const { data, totalCount } = await TraceListPaginationApi(newpage, pageLimit, lookBackVal.value, selectedSortOrder);
             const updatedData = createTimeInWords(data);
 
@@ -129,15 +132,19 @@ const TraceList = () => {
                 setTraceData(updatedData);
                 setTotalPageCount(Math.ceil(totalCount / pageLimit));
             }
+
+            setTraceLoading(false);
         } catch (error) {
             console.log("ERROR " + error);
             setTraceGlobalError("An error occurred");
+            setTraceLoading(false);
         }
-    }, [pageLimit, lookBackVal, selectedSortOrder, setTraceData, setTotalPageCount, setTraceGlobalEmpty, setTraceGlobalError]);
+    }, [pageLimit, lookBackVal, selectedSortOrder, setTraceData, setTotalPageCount, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading]);
 
     const filterApiCall = useCallback(async (newpage, payload) => {
         try {
             console.log("Trace filter called!");
+            setTraceLoading(true);
             const { data, totalCount } = await TraceFilterOption(lookBackVal.value, newpage, pageLimit, payload);
             const updatedData = createTimeInWords(data);
 
@@ -147,11 +154,14 @@ const TraceList = () => {
                 setTraceData(updatedData);
                 setTotalPageCount(Math.ceil(totalCount / pageLimit));
             }
+
+            setTraceLoading(false);
         } catch (error) {
             console.log("ERROR " + error);
             setTraceGlobalError("An error occurred On Filter");
+            setTraceLoading(false);
         }
-    }, [pageLimit, lookBackVal, setTraceData, setTotalPageCount, setTraceGlobalEmpty, setTraceGlobalError]);
+    }, [pageLimit, lookBackVal, setTraceData, setTotalPageCount, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading]);
 
     const dashboardTraceMap = useCallback(() => {
         console.log("Trace UseEffect called!" + recentTrace);

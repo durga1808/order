@@ -42,8 +42,8 @@ const DashboardTopBar = () => {
     setTraceData([]);
     setSelectedTrace([]);
     setNeedFilterCall(false);
-    // setTraceGlobalEmpty(null);
-    // setTraceGlobalError(null);
+    setTraceGlobalEmpty(null);
+    setTraceGlobalError(null);
   };
 
   const handleTabChange = (event, newValue) => {
