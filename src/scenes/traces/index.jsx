@@ -6,6 +6,7 @@ import SpanFlow from "./trace/spanReactFlow/SpanFlow";
 import SpanInfo from "./trace/spanReactFlow/SpanInfo";
 import { useContext } from "react";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
+import Loading from "../../global/Loading/Loading";
 
 const Traces = () => {
   const theme = useTheme();
@@ -20,9 +21,7 @@ const Traces = () => {
         justifyContent: "normal",
       }}
     >
-      {traceLoading ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}><Typography variant="h5" fontWeight={"600"}>
-        LOADING.....
-      </Typography></div>) : (traceGlobalError ? (
+      {traceLoading ? (<Loading />) : (traceGlobalError ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
           <Typography variant="h5" fontWeight={"600"}>
             {traceGlobalError}
