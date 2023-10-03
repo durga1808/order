@@ -180,6 +180,7 @@ const TraceList = () => {
 
     useEffect(() => {
         console.log("Trace UseEffect called!");
+        setSelectedTrace([]);
         if (needFilterCall) {
             filterApiCall(currentPage, filterApiBody);
         } else {
@@ -190,7 +191,7 @@ const TraceList = () => {
                 dashboardTraceMap();
             }
         }
-    }, [currentPage, needFilterCall, apiCall, filterApiCall, filterApiBody, recentTrace, dashboardTraceMap]);
+    }, [currentPage, needFilterCall, apiCall, filterApiCall, filterApiBody, recentTrace, dashboardTraceMap, setSelectedTrace]);
 
     const handleCardClick = (traceId) => {
         console.log("Clicked");
@@ -260,61 +261,61 @@ const TraceList = () => {
                         {traceData.map((trace, index) => (
                             <Card className="tracelist-card" key={index} sx={{ margin: "10px 0 20px 0", width: "560px", height: "fit-content", backgroundColor: colors.primary[500] }} >
                                 {/* <CardActionArea> */}
-                                    <Box>
-                                        <Typography variant="h5" sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], padding: "5px" }}>
-                                            <span> <span style={{ fontWeight: "500" }}>{trace.serviceName}:</span> {trace.operationName}</span>
-                                            <span>{trace.duration}ms</span>
+                                <Box>
+                                    <Typography variant="h5" sx={{ display: "flex", flexDirection: "row", justifyContent: "space-between", backgroundColor: colors.greenAccent[500], padding: "5px" }}>
+                                        <span> <span style={{ fontWeight: "500" }}>{trace.serviceName}:</span> {trace.operationName}</span>
+                                        <span>{trace.duration}ms</span>
+                                    </Typography>
+                                </Box>
+                                <CardContent>
+                                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }} >
+                                        <Typography variant="h7" >
+                                            <span style={{ fontWeight: "500" }}>TraceID:</span> {trace.traceId}
                                         </Typography>
-                                    </Box>
-                                    <CardContent>
-                                        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center" }} >
-                                            <Typography variant="h7" >
-                                                <span style={{ fontWeight: "500" }}>TraceID:</span> {trace.traceId}
+                                        <Button
+                                            sx={{
+                                                backgroundColor: colors.greenAccent[500],
+                                                color: colors.grey[100],
+                                                "&:hover": {
+                                                    backgroundColor: "#ffffff",
+                                                    color: colors.primary[600],
+                                                },
+                                            }}
+                                            // component={Link}
+                                            // to={`/mainpage/logs`}
+                                            variant="contained"
+                                            onClick={() => handleLogRoute(trace.traceId)}
+                                        >
+                                            <Typography variant="h8" >
+                                                View Log
                                             </Typography>
-                                            <Button
-                                                sx={{
-                                                    backgroundColor: colors.greenAccent[500],
-                                                    color: colors.grey[100],
-                                                    "&:hover": {
-                                                        backgroundColor: "#ffffff",
-                                                        color: colors.primary[600],
-                                                    },
-                                                }}
-                                                // component={Link}
-                                                // to={`/mainpage/logs`}
-                                                variant="contained"
-                                                onClick={() => handleLogRoute(trace.traceId)}
-                                            >
-                                                <Typography variant="h8" >
-                                                    View Log
-                                                </Typography>
-                                            </Button>
-                                            <Button
-                                                sx={{
-                                                    backgroundColor: colors.greenAccent[500],
-                                                    color: colors.grey[100],
-                                                    "&:hover": {
-                                                        backgroundColor: "#ffffff",
-                                                        color: colors.primary[600],
-                                                    },
-                                                }}
-                                                // component={Link}
-                                                // to={`/mainpage/logs`}
-                                                variant="contained"
-                                                onClick={() => handleCardClick(trace.traceId)}
-                                            >
-                                                <Typography variant="h8" >
-                                                    Open Spans
-                                                </Typography>
-                                            </Button>
-                                        </div>
+                                        </Button>
+                                        <Button
+                                            sx={{
+                                                backgroundColor: colors.greenAccent[500],
+                                                color: colors.grey[100],
+                                                "&:hover": {
+                                                    backgroundColor: "#ffffff",
+                                                    color: colors.primary[600],
+                                                },
+                                            }}
+                                            // component={Link}
+                                            // to={`/mainpage/logs`}
+                                            variant="contained"
+                                            onClick={() => handleCardClick(trace.traceId)}
+                                        >
+                                            <Typography variant="h8" >
+                                                Open Spans
+                                            </Typography>
+                                        </Button>
+                                    </div>
 
-                                        <Typography variant="h7" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "15px 0 0 0 " }}>
-                                            <span style={{ width: "150px" }} >{trace.createdTimeInWords}</span>
-                                            <span style={{ width: "200px" }} > <span style={{ fontWeight: "500", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
-                                            <span style={{ width: "100px" }} > <span style={{ fontWeight: "500", margin: "0 2px 0 0" }}>Method:</span>{trace.methodName}</span>
-                                        </Typography>
-                                    </CardContent>
+                                    <Typography variant="h7" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "15px 0 0 0 " }}>
+                                        <span style={{ width: "150px" }} >{trace.createdTimeInWords}</span>
+                                        <span style={{ width: "200px" }} > <span style={{ fontWeight: "500", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
+                                        <span style={{ width: "100px" }} > <span style={{ fontWeight: "500", margin: "0 2px 0 0" }}>Method:</span>{trace.methodName}</span>
+                                    </Typography>
+                                </CardContent>
                                 {/* </CardActionArea> */}
                             </Card>
 

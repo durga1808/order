@@ -36,7 +36,7 @@ export const TraceFilterOption = async (lookback, page, pageSize, payload) => {
 
 export const FindByTraceIdForSpans = async (traceId) => {
     try {
-        const response = await axios.get(`${traceURL}//findByTraceId?traceId=${traceId}`);
+        const response = await axios.get(`${traceURL}/findByTraceId?traceId=${traceId}`);
         return response.data;
     } catch (error) {
         console.error("Error retrieving users:", error);
