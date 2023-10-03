@@ -1,16 +1,15 @@
-import React, { useContext, useEffect } from 'react'
-import { GlobalContext } from '../../global/globalContext/GlobalContext'
+import { Box } from '@mui/material'
+import React from 'react'
+import Loglists from './Loglists'
 
 const Logs = () => {
 
-    const { logData, traceToLogError } = useContext(GlobalContext);
-
-    useEffect(() => {
-        console.log("LogData " + logData + "  " + traceToLogError);
-    }, [logData, traceToLogError])
-
     return (
-        <div>Logs</div>
+        <div>
+            <Box sx={{ display: "flex", flexDirection: "column", alignItems: "normal", margin: "20px" }}>
+                <Loglists />
+            </Box>
+        </div>
     )
 }
 
