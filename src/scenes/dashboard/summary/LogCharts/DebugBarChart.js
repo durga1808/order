@@ -1,27 +1,21 @@
-import { colors } from "@mui/material";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import { tokens } from "../../../../theme";
 import { useTheme } from "@emotion/react";
 
-const PeakLatencyChart = ({ data }) => {
+const DebugBarChart = ({ data }) => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  
 
-  const peakLatencyOptions = {
-   
+  const DebugBarChartOption = {
     chart: {
       height: 250,
       type: "bar",
     },
     plotOptions: {
       bar: {
-       
         columnWidth: "70%",
       },
     },
-    
+
     xaxis: {
       labels: {
         rotate: -45,
@@ -35,11 +29,11 @@ const PeakLatencyChart = ({ data }) => {
           fontWeight: 500,
         },
       },
-     
     },
+
     yaxis: {
       title: {
-        text: "Latency(ms)",
+        text: "Log Debug Count",
         style: {
           color: theme.palette.mode === "dark" ? "#FFF" : "#000",
           fontFamily: "Red Hat Display, sans-serif",
@@ -53,8 +47,9 @@ const PeakLatencyChart = ({ data }) => {
         },
       },
     },
+
     title: {
-      text: "Peak Latency(ms)",
+      text: "Log Debug Count",
       align: "middle",
       // margin: 5,
       offsetX: 0,
@@ -70,19 +65,20 @@ const PeakLatencyChart = ({ data }) => {
         colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
       },
     },
-   
+    
   };
-  const peakLatencySeries = [
+
+  const debugcountseries = [
     {
-      name: "Peak Latency",
-      data: data.map((item) => item.peakLatency),
+      name: "Debug Count",
+      data: data.map((item) => item.logDebugCount),
     },
   ];
   return (
     <div>
       <ReactApexChart
-        options={peakLatencyOptions}
-        series={peakLatencySeries}
+        options={DebugBarChartOption}
+        series={debugcountseries}
         type="bar"
         height={250}
       />
@@ -90,4 +86,14 @@ const PeakLatencyChart = ({ data }) => {
   );
 };
 
-export default PeakLatencyChart;
+export default DebugBarChart;
+
+// import React from 'react'
+
+// const DebugBarChart = () => {
+//   return (
+//     <div>DebugBarChart</div>
+//   )
+// }
+
+// export default DebugBarChart

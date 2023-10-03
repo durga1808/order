@@ -2,13 +2,13 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
 
-const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
+
+const ErrorBarChart = ({ data, onBarClick }) => {
   const theme = useTheme();
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
-    const selectedSeriesName = config.w.globals.seriesNames[config.seriesIndex]; // Get series name
-    onBarClick(selectedDataPointIndex, selectedSeriesName); // Pass selected series name to the parent component
+    onBarClick(selectedDataPointIndex);
   };
 
   const options = {
@@ -19,11 +19,19 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
     plotOptions: {
       bar: {
         columnWidth: "30px",
+        colors: {
+          ranges: [{
+            from: 0,
+            to: 60,
+            color: "#FF0000"  // Set the entire bar color to red (#FF0000)
+          }]
+        }
       },
     },
     xaxis: {
-      categories: ErrSuccessData.map((item) => item.serviceName),
-
+      categories: data.map((item) => item.serviceName),
+      
+      
       title: {
         text: "List of Services",
         style: {
@@ -35,7 +43,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
     },
     yaxis: {
       title: {
-        text: "Call Count",
+        text: "Error Count",
         style: {
           color: theme.palette.mode === "dark" ? "#FFF" : "#000",
           fontFamily: "Red Hat Display, sans-serif",
@@ -50,7 +58,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       },
     },
     title: {
-      text: "Error and Success Calls",
+      text: "Log Error Count",
       align: "center",
       margin: 5,
       offsetX: 0,
@@ -66,11 +74,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
   const series = [
     {
       name: "Error Calls",
-      data: ErrSuccessData.map((item) => item.errorCalls),
-    },
-    {
-      name: "Success Calls",
-      data: ErrSuccessData.map((item) => item.successCalls),
+      data: data.map((item) => item.logErrorCount),
     },
   ];
 
@@ -83,14 +87,17 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
         scrollbarColor: "blue",
       }}
     >
-      <ReactApexChart
-        options={options}
-        series={series}
-        type="bar"
-        height={250}
-      />
+       {/* <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}> */}
+         {/* {" "} */}
+        <ReactApexChart
+          options={options}
+          series={series}
+          type="bar"
+          height={250}
+        />
+      {/* </Card> */}
     </div>
   );
 };
 
-export default ErrorSuccessChart;
+export default ErrorBarChart;
