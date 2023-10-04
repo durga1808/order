@@ -267,9 +267,9 @@ const Loglists = () => {
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
-                                {tableHeaderData.map((column) => (
+                                {tableHeaderData.map((column,index) => (
                                     <TableCell
-                                        key={column.id}
+                                        key={index}
                                         align={column.align}
                                         style={{ minWidth: column.minWidth, padding: '10px' }}
                                     >
@@ -282,9 +282,9 @@ const Loglists = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {logData.map((row) => {
+                            {logData.map((row,index) => {
                                 return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.traceid}>
+                                    <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                                         {tableHeaderData.map((column) => {
                                             const value = row[column.id];
                                             // return (
