@@ -43,7 +43,7 @@ export const FindByTraceIdForSpans = async (traceId) => {
         return response.data;
     } catch (error) {
         console.error("Error retrieving users:", error);
-        throw error;
+        return error;
     }
 };
 

@@ -49,12 +49,8 @@ const tableHeaderData = [
     }
 ]
 
-
-
 const Loglists = () => {
     const mockData = ['Newest First', 'Oldest First', 'Error First']
-
-    const defaultOptions = mockData[0]
 
     const [selectedOption, setSelectedOption] = useState('');
     const { setRecentTrace, setSelected, setTraceGlobalEmpty, setTraceGlobalError } = useContext(GlobalContext);
@@ -146,6 +142,16 @@ const Loglists = () => {
     const handleChange = (event) => {
         setSelectedOption(event.target.value);
     };
+
+    const [searchQuery, setSearchQuery] = useState('');
+      
+      const handleSearchChange = (event) => {
+        const searchQuery = event.target.value;
+        setSearchQuery(searchQuery);
+
+        console.log("query " + searchQuery);
+      };
+
     return (
         <div>
             <Box>
@@ -158,6 +164,12 @@ const Loglists = () => {
                     InputProps={{
                         endAdornment: <SearchOutlined />,
                     }}
+                    onChange={handleSearchChange}
+                    onKeyDown={(event) => {
+                        if (event.key === "Enter") {
+                          handleSearchChange(event);
+                        }
+                      }}
                 />
 
                 <FormControl variant="outlined" style={{ marginBottom: '10px', marginLeft: '10px', width: '15%' }}>
