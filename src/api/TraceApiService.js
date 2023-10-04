@@ -53,7 +53,7 @@ export const getTraceSummaryData = async (timeMinutesAgo) => {
   try {
     const response = await axios.get(
       `${traceURL}/TraceSumaryChartDataCount?timeAgoMinutes=${timeMinutesAgo}`
-    );
+    )
     return response.data;
   } catch (error) {
     console.error("Error retrieving users:", error);
