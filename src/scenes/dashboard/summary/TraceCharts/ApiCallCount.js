@@ -131,7 +131,7 @@ const ApiCallCount = ({ data }) => {
   const apiCallsSeries = [
     {
       name: "API Calls",
-      data: data.map((item) => item.apiCalls),
+      data: data.map((item) => item.apiCallCount),
     },
   ];
   return (
