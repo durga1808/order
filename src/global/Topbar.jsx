@@ -9,8 +9,10 @@ import {
 import { Brightness4, Brightness7 } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ColorModeContext, tokens } from "../theme";
+import { useNavigate } from "react-router-dom";
 
 function Topbar() {
+  const navigate = useNavigate();
   const theme = useTheme();
   // console.log("theme color " + theme.palette.mode);
   const colors = tokens(theme.palette.mode);
@@ -20,6 +22,8 @@ function Topbar() {
     // Handle the logout logic here
     // For example, clear authentication tokens, etc.
     console.log("Logged out");
+    // localStorage.setItem("userInfo","");
+    navigate("/");
   };
   const appBarStyles = {
     // Set the height of the AppBar

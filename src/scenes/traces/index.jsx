@@ -11,7 +11,7 @@ import Loading from "../../global/Loading/Loading";
 const Traces = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { traceGlobalEmpty, traceGlobalError, traceLoading } = useContext(GlobalContext);
+  const { traceGlobalEmpty, traceGlobalError } = useContext(GlobalContext);
 
   return (
     <div
@@ -21,7 +21,7 @@ const Traces = () => {
         justifyContent: "normal",
       }}
     >
-      {traceLoading ? (<Loading />) : (traceGlobalError ? (
+      {traceGlobalError ? (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
           <Typography variant="h5" fontWeight={"600"}>
             {traceGlobalError}
@@ -42,7 +42,7 @@ const Traces = () => {
               sx={{
                 backgroundColor: colors.primary[400],
                 padding: "15px",
-                width: "580px",
+                width: "600px",
                 height: "calc(90vh - 70px)",
               }}
             >
@@ -56,7 +56,7 @@ const Traces = () => {
                 sx={{
                   backgroundColor: colors.primary[400],
                   padding: "15px",
-                  width: "620px",
+                  width: "600px",
                   height: "calc(90vh - 70px)",
                   overflowY: "auto",
                 }}
@@ -71,7 +71,7 @@ const Traces = () => {
             </Box>
           </div>
         </>
-      ))}
+      )}
     </div>
   );
 };
