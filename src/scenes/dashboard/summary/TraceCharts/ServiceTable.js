@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -8,6 +8,7 @@ import {
   TableRow,
   Paper,
   Button,
+  TablePagination,
 } from "@mui/material";
 import { tokens } from "../../../../theme";
 import { useTheme } from "@emotion/react";
@@ -25,15 +26,25 @@ const ServiceTable = ({
   const theme = useTheme();
   const navigate = useNavigate();
   const colors = tokens(theme.palette.mode);
-  const { setSelected, setTraceData, setRecentTrace } = useContext(GlobalContext);
+  const { setSelected, setTraceData, setRecentTrace, dashboardPageCount, dashboardPage, setDashboardPage } = useContext(GlobalContext);
+  const [selectedTableData, setSelectedTableData] = useState([]);
   // Filter the data for the selected service
   // const selectedApiCallsData = APICallsData.find(
   //   (item) => item.serviceName === selectedService
   // );
 
-  const selectedApiCallsData = spanData.find(
-    (item) => item.serviceName === selectedService && item.traceId === "2384799a01be10b55245e99864bba516"
-  );
+  useEffect(() => {
+    if(selectedService !== null){
+      setSelectedTableData(selectedService);
+    }
+    else {
+      setSelectedTableData([]);
+    }
+  }, [selectedService])
+
+  // const selectedApiCallsData = spanData.find(
+  //   (item) => item.serviceName === selectedService && item.traceId === "2384799a01be10b55245e99864bba516"
+  // );
 
   // const selectedPeakLatencyData = PeakLatencyData.find(
   //   (item) => item.serviceName === selectedService
@@ -50,6 +61,11 @@ const ServiceTable = ({
     localStorage.setItem("routeName", "Traces");
     setSelected("Traces");
     navigate("/mainpage/traces");
+  }
+
+  const handlePageChange = (event, newPage) => {
+    console.log("Dashboard page change " + newPage);
+    setDashboardPage(newPage);
   }
 
   return (
@@ -80,34 +96,46 @@ const ServiceTable = ({
             </TableHead>
             <TableBody>
               {/* {selectedService && ( */}
-              <TableRow key={selectedService}>
-                {/* <TableCell>{selectedService}</TableCell> */}
-                <TableCell style={{ textAlign: "center" }}>
-                  {selectedApiCallsData.traceId}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {selectedApiCallsData.operationName}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {selectedApiCallsData.methodName}
-                </TableCell>
+              {selectedTableData.map((trace, index) => (
+                <TableRow key={index}>
+                  {/* <TableCell>{selectedService}</TableCell> */}
+                  <TableCell style={{ textAlign: "center" }}>
+                    {trace.traceId}
+                  </TableCell>
+                  <TableCell style={{ textAlign: "center" }}>
+                    {trace.operationName}
+                  </TableCell>
+                  <TableCell style={{ textAlign: "center" }}>
+                    {trace.methodName}
+                  </TableCell>
 
-                <TableCell style={{ textAlign: "center" }}>
-                  {selectedApiCallsData.duration}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {selectedApiCallsData.statusCode}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }}>
-                  {selectedApiCallsData.createdTime}
-                </TableCell>
-                <TableCell style={{ textAlign: "center" }} onClick={() => handleOpenTrace(selectedApiCallsData)} >
-                  <Button variant="primary">OPEN TRACE</Button>
-                </TableCell>
-              </TableRow>
+                  <TableCell style={{ textAlign: "center" }}>
+                    {trace.duration}
+                  </TableCell>
+                  <TableCell style={{ textAlign: "center" }}>
+                    {trace.statusCode}
+                  </TableCell>
+                  <TableCell style={{ textAlign: "center" }}>
+                    {trace.createdTimeInWords}
+                  </TableCell>
+                  <TableCell style={{ textAlign: "center" }} onClick={() => handleOpenTrace(trace)} >
+                    <Button variant="primary">OPEN TRACE</Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+
               {/* )} */}
             </TableBody>
           </Table>
+          <TablePagination
+            rowsPerPageOptions={[5]}
+            component="div"
+            count={dashboardPageCount}
+            rowsPerPage={5}
+            page={dashboardPage}
+            onPageChange={handlePageChange}
+          // onRowsPerPageChange={handleChangeRowsPerPage}
+          />
         </TableContainer>
         // </CardContent>
         // </Card>
