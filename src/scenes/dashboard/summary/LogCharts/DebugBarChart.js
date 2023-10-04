@@ -51,7 +51,6 @@ const DebugBarChart = ({ data }) => {
     title: {
       text: "Log Debug Count",
       align: "middle",
-      // margin: 5,
       offsetX: 0,
       offsetY: 10,
       style: {
@@ -65,13 +64,12 @@ const DebugBarChart = ({ data }) => {
         colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
       },
     },
-    
   };
 
   const debugcountseries = [
     {
       name: "Debug Count",
-      data: data.map((item) => item.logDebugCount),
+      data: data.map((item) => item.debugCallCount),
     },
   ];
   return (

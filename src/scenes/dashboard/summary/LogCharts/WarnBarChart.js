@@ -68,7 +68,7 @@ const WarnBarChart = ({ data }) => {
   const warncountSeries = [
     {
       name: "Peak Latency",
-      data: data.map((item) => item.logWarnCount),
+      data: data.map((item) => item.warnCallCount),
     },
   ];
   return (

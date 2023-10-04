@@ -2,7 +2,6 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
 
-
 const ErrorBarChart = ({ data, onBarClick }) => {
   const theme = useTheme();
 
@@ -10,7 +9,7 @@ const ErrorBarChart = ({ data, onBarClick }) => {
     const selectedDataPointIndex = config.dataPointIndex;
     onBarClick(selectedDataPointIndex);
   };
-
+console.log("data",data);
   const options = {
     chart: {
       type: "bar",
@@ -20,18 +19,19 @@ const ErrorBarChart = ({ data, onBarClick }) => {
       bar: {
         columnWidth: "30px",
         colors: {
-          ranges: [{
-            from: 0,
-            to: 60,
-            color: "#FF0000"  // Set the entire bar color to red (#FF0000)
-          }]
-        }
+          ranges: [
+            {
+              from: 0,
+              to: 60,
+              color: "#FF0000", // Set the entire bar color to red (#FF0000)
+            },
+          ],
+        },
       },
     },
     xaxis: {
       categories: data.map((item) => item.serviceName),
-      
-      
+
       title: {
         text: "List of Services",
         style: {
@@ -74,7 +74,7 @@ const ErrorBarChart = ({ data, onBarClick }) => {
   const series = [
     {
       name: "Error Calls",
-      data: data.map((item) => item.logErrorCount),
+      data: data.map((item) => item.errorCallCount),
     },
   ];
 
@@ -87,14 +87,14 @@ const ErrorBarChart = ({ data, onBarClick }) => {
         scrollbarColor: "blue",
       }}
     >
-       {/* <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}> */}
-         {/* {" "} */}
-        <ReactApexChart
-          options={options}
-          series={series}
-          type="bar"
-          height={250}
-        />
+      {/* <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}> */}
+      {/* {" "} */}
+      <ReactApexChart
+        options={options}
+        series={series}
+        type="bar"
+        height={250}
+      />
       {/* </Card> */}
     </div>
   );
