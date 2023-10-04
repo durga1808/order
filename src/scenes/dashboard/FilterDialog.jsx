@@ -19,10 +19,11 @@ const FilterDialog = ({ open, onClose }) => {
   const [selectedService, setSelectedService] = useState([]);
   const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
   const [selectedHttpCode, setSelectedHttpCode] = useState([]);
-  const { setNeedFilterCall, needFilterCall, setTraceData, setFilterApiBody, setTraceGlobalEmpty, setTraceGlobalError } = useContext(GlobalContext);
+  const { setNeedFilterCall, needFilterCall, setTraceData, setFilterApiBody, setTraceGlobalEmpty, setTraceGlobalError, serviceList } = useContext(GlobalContext);
 
   const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
   const methods = ['POST', 'GET', 'PUT', 'DELETE'];
+
 
   const codesNew = [
     {
@@ -240,12 +241,12 @@ const FilterDialog = ({ open, onClose }) => {
 
               <AccordionDetails>
                 <FormGroup>
-                  {services.map((service) => (
+                  {serviceList.map((service,index) => (
                     <FormControlLabel
-                      key={service}
+                      key={index}
                       control={<Checkbox
-                        checked={selectedService.includes(service)}
-                        onChange={handleServiceToggle(service)}
+                        checked={selectedService.includes(service.serviceName)}
+                        onChange={handleServiceToggle(service.serviceName)}
                         sx={{
                           color: "grey",
                           '&.Mui-checked': {
@@ -254,7 +255,7 @@ const FilterDialog = ({ open, onClose }) => {
                         }}
                       />
                       }
-                      label={service}
+                      label={service.serviceName}
                     />))}
                 </FormGroup>
               </AccordionDetails>

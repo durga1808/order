@@ -22,6 +22,7 @@ const GlobalContextProvider = ({ children }) => {
     const [recentTrace, setRecentTrace] = useState([]);
     const [traceToLogError, setTraceToLogError] = useState("");
     const [logData, setLogData] = useState([]);
+    const [serviceList, setServiceList] = useState([]);
 
     return (
         <GlobalContext.Provider
@@ -55,7 +56,9 @@ const GlobalContextProvider = ({ children }) => {
                 traceToLogError,
                 setTraceToLogError,
                 logData,
-                setLogData
+                setLogData,
+                serviceList,
+                setServiceList
             }}
         >
             {children}

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const traceURL = "http://localhost:8081/traces";
+const traceURL = process.env.REACT_APP_APIURL_TRACES;
 
 export const TraceListPaginationApi = async (
     page,
