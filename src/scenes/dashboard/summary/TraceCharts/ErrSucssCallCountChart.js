@@ -9,6 +9,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
     const selectedDataPointIndex = config.dataPointIndex;
     const selectedSeriesName = config.w.globals.seriesNames[config.seriesIndex]; // Get series name
     onBarClick(selectedDataPointIndex, selectedSeriesName); // Pass selected series name to the parent component
+    console.log("ServiceName " + ErrSuccessData[selectedDataPointIndex].serviceName);
   };
 
 
