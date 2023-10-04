@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const logUrl = "http://localhost:8081/logs";
+const logUrl = process.env.REACT_APP_APIURL_LOGS;
 
 export const findLogByTraceId = async (traceId) => {
     try {
