@@ -6,7 +6,6 @@ import SpanFlow from "./trace/spanReactFlow/SpanFlow";
 import SpanInfo from "./trace/spanReactFlow/SpanInfo";
 import { useContext } from "react";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
-import Loading from "../../global/Loading/Loading";
 
 const Traces = () => {
   const theme = useTheme();
