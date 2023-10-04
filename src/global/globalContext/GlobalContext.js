@@ -23,6 +23,8 @@ const GlobalContextProvider = ({ children }) => {
     const [traceToLogError, setTraceToLogError] = useState("");
     const [logData, setLogData] = useState([]);
     const [serviceList, setServiceList] = useState([]);
+    const [dashboardPage, setDashboardPage] = useState(1);
+    const [dashboardPageCount, setDashboardPageCount] = useState(0);
 
     return (
         <GlobalContext.Provider
@@ -58,7 +60,11 @@ const GlobalContextProvider = ({ children }) => {
                 logData,
                 setLogData,
                 serviceList,
-                setServiceList
+                setServiceList,
+                dashboardPage,
+                setDashboardPage,
+                dashboardPageCount,
+                setDashboardPageCount
             }}
         >
             {children}

@@ -13,3 +13,15 @@ export const findLogByTraceId = async (traceId) => {
         throw error;
     }
 }
+
+export const getAllLogBySorts = async (minutesAgo, page, pageSize, sortOrder) => {
+    try {
+        const response = await axios.get(
+            `${logUrl}/getallLogdata-sortorder?minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}&sortOrder=${sortOrder}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error retrieving users:", error);
+        throw error;
+    }
+}
