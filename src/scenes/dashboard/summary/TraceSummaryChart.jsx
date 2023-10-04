@@ -156,13 +156,12 @@ const TraceBarChart = () => {
     var response = await getTraceSummaryData(lookBackVal.value);
     // const traceSummaryData = JSON.parse(JSON.stringify(response));
     setintegrationdata(response);
-    console.log("Trace summary data " + JSON.parse(JSON.stringify(response)));
+    // console.log("Trace summary data " + JSON.parse(JSON.stringify(response)));
     setLoading(false);
   };
 
   useEffect(() => {
     traceSummaryApiCall();
-    // setintegrationdata()
   }, []);
 
   const handleBarClick = (selectedDataPointIndex, selectedSeriesName) => {

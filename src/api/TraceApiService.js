@@ -48,7 +48,6 @@ export const FindByTraceIdForSpans = async (traceId) => {
 };
 
 export const getTraceSummaryData = async (timeMinutesAgo) => {
-<<<<<<< HEAD
   try {
     const response = await axios.get(
       `${traceURL}/TraceSumaryChartDataCount?timeAgoMinutes=${timeMinutesAgo}`
@@ -58,15 +57,4 @@ export const getTraceSummaryData = async (timeMinutesAgo) => {
     console.error("Error retrieving users:", error);
     throw error;
   }
-=======
-    try {
-        const response = await axios.get(
-            `${traceURL}/TraceSumaryChartDataCount?timeAgoMinutes=${timeMinutesAgo}`
-        );
-        return response.data;
-    } catch (error) {
-        console.error("Error retrieving users:", error);
-        throw error;
-    }
->>>>>>> 9c0bbc498187fd60af55868307e93a4e58bc16d9
 };
