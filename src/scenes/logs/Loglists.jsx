@@ -22,32 +22,32 @@ const tableHeaderData = [
     {
         id: 'severity',
         label: 'Severity',
-        minWidth: 120
+        // minWidth: 120
     },
     {
         id: 'time',
         label: 'Time',
-        minWidth: 170
+        // minWidth: 170
     },
     {
         id: 'traceid',
         label: 'Trace ID',
-        minWidth: 120
+        // minWidth: 120
     },
     {
         id: 'serviceName',
         label: 'Service Name',
-        minWidth: 170
+        // minWidth: 170
     },
     {
         id: 'message',
         label: 'Message',
-        minWidth: 170
+        // minWidth: 170
     },
     {
         id: 'action',
         label: 'Action',
-        minWidth: 170
+        // minWidth: 170
     }
 ]
 
@@ -66,12 +66,8 @@ const sortOrderOptions = [
     }
 ]
 
-
-
 const Loglists = () => {
     const mockData = ['Newest First', 'Oldest First', 'Error First']
-
-    const defaultOptions = mockData[0]
 
     const [selectedOption, setSelectedOption] = useState("new");
     const [currentPage, setCurrentPage] = useState(0);
@@ -263,7 +259,8 @@ const Loglists = () => {
             </Box>
 
             <Card sx={{ padding: "20px", height: "73vh" }}>
-                <TableContainer sx={{ maxHeight: 800, maxWidth: 1200 }}>
+                <Box>
+                                    <TableContainer sx={{ maxWidth: 1200, maxHeight: "calc(75vh - 85px)", overflowY: "auto" }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
@@ -271,9 +268,9 @@ const Loglists = () => {
                                     <TableCell
                                         key={column.id}
                                         align={column.align}
-                                        style={{ minWidth: column.minWidth, padding: '10px' }}
+                                        style={{ padding: '10px' }}
                                     >
-                                        <Typography variant='h5' style={{ fontWeight: "800" }}>
+                                        <Typography variant='h5' style={{ width: "150px", fontWeight: "800", padding: '10px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                             {column.label}
                                         </Typography>
                                     </TableCell>
@@ -295,7 +292,7 @@ const Loglists = () => {
                                             if (column.id === 'action') {
                                                 return (
                                                     <TableCell key={column.id} align={column.align} style={{ padding: '10px' }}>
-                                                        <Typography variant='h6'>
+                                                        <Typography variant='h6' style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                             {value}
                                                         </Typography>
                                                     </TableCell>
@@ -303,7 +300,7 @@ const Loglists = () => {
                                             } else {
                                                 return (
                                                     <TableCell key={column.id} align={column.align} style={{ padding: '10px' }}>
-                                                        <Typography variant='h6'>
+                                                        <Typography variant='h6' style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                                                             {value}
                                                         </Typography>
                                                     </TableCell>
@@ -316,16 +313,18 @@ const Loglists = () => {
                             })}
                         </TableBody>
                     </Table>
-                    <TablePagination
+                    
+                </TableContainer>
+                <TablePagination
                         rowsPerPageOptions={[5]}
                         component="div"
                         count={totalPageCount}
-                        rowsPerPage={10}
+                        rowsPerPage={5}
                         page={currentPage}
                         onPageChange={handleChangePage}
                     // onRowsPerPageChange={handleChangeRowsPerPage}
                     />
-                </TableContainer>
+                </Box>
             </Card>
         </div>
     )
