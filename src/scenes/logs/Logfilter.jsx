@@ -1,12 +1,15 @@
 import React, { useState } from 'react'
-import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Divider, Drawer, FormControlLabel, FormGroup, IconButton, InputAdornment, List, ListItem, Slider, TextField, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Divider, Drawer, FormControlLabel, FormGroup, IconButton, List, ListItem, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 const Logfilter = ({ open, onClose}) => {
     const [selectedService, setSelectedService] = useState([]);
+    const [selectedSeverity, setSelectedSeverity] = useState([]);
 
     const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
+
+    const severity = ['Error', 'Warning', 'Info'];
 
     const handleServiceToggle = (service) => () => {
         if (selectedService.includes(service)) {
@@ -14,14 +17,40 @@ const Logfilter = ({ open, onClose}) => {
         } else {
           setSelectedService([...selectedService, service]);
         }
-      };
+    };
+
+    const handleSeverityToggle = (severity) => () => {
+        if (selectedSeverity.includes(severity)) {
+          setSelectedSeverity(selectedSeverity.filter((item) => item !== severity));
+        } else {
+          setSelectedSeverity([...selectedSeverity, severity]);
+        }
+    }
 
     const handleApplyButtonClick = () => {
+        const payload = {
+            service: selectedService,
+            severity: selectedSeverity
+        }
+
+        const apiBody = {};
+
+        if (payload.service !== null && Array.isArray(payload.service) && payload.service.length > 0) {
+            apiBody.serviceName = payload.service;
+        }
+
+        if (payload.severity !== null && Array.isArray(payload.severity) && payload.severity.length > 0) {
+            apiBody.severity = payload.severity;
+        }
+
         onClose();
+
+        console.log('API Body:', apiBody);
     }
 
     const clearSelectedOptions = () => {
         setSelectedService([]);
+        setSelectedSeverity([]);
     }
 
   return (
@@ -68,6 +97,35 @@ const Logfilter = ({ open, onClose}) => {
 
         </ListItem>
         <Divider />
+
+        <ListItem>
+            <Accordion style={{ width: "500px" }}>
+                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                <Typography variant="h5">Severity Changes</Typography>
+                </AccordionSummary>
+
+                <AccordionDetails>
+                    <FormGroup>
+                        {severity.map((severity) => (
+                            <FormControlLabel
+                                key={severity}
+                                control={<Checkbox
+                                    checked={selectedSeverity.includes(severity)}
+                                    onChange={handleSeverityToggle(severity)}
+                                    sx={{
+                                        color: "grey",
+                                        '&.Mui-checked': {
+                                            color: "blue",
+                                        },
+                                    }}
+                                />
+                                }
+                                label={severity}
+                            />))}
+                    </FormGroup>
+                </AccordionDetails>
+            </Accordion>
+        </ListItem>
 
       </List>
 

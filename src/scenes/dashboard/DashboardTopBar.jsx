@@ -15,12 +15,15 @@ import "./DashboardTopBar.css";
 import { FilterListOutlined, RefreshOutlined } from "@mui/icons-material";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { options } from "../../global/MockData/MockTraces";
+import Logfilter from "../logs/Logfilter";
 
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
   const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty,setTraceData,setSelectedTrace,setRecentTrace } = useContext(GlobalContext);
   const [activeTab, setActiveTab] = useState(0);
+
+  const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -56,11 +59,21 @@ const DashboardTopBar = () => {
   };
 
   const handleFilterClick = () => {
-    setFilterDialogOpen(true);
+    // setFilterDialogOpen(true);
+    if(window.location.pathname === "/mainpage/logs"){
+      setLogFilterDialogOpen(true);
+    } else if(window.location.pathname === "/mainpage/traces"){
+      setFilterDialogOpen(true);
+    }
   };
 
   const handleFilterDialogClose = () => {
-    setFilterDialogOpen(false);
+    // setFilterDialogOpen(false);
+    if(window.location.pathname === "/mainpage/logs"){
+      setLogFilterDialogOpen(false);
+    } else if(window.location.pathname === "/mainpage/traces"){
+      setFilterDialogOpen(false);
+    }
   };
 
   const handleLookbackChange = (val) => {
@@ -137,6 +150,8 @@ const DashboardTopBar = () => {
         </Toolbar>
       </AppBar>
       <FilterDialog open={filterDialogOpen} onClose={handleFilterDialogClose} />
+
+      <Logfilter open={logFilterDialogOpen} onClose={handleFilterDialogClose}  />
     </>
   );
 };
