@@ -21,6 +21,15 @@ const Login = () => {
   const [role, setRole] = useState('none');
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [serviceListData, setServiceListData] = useState([]);
+
+  const servicePayload = (serviceData) => {
+    serviceData.forEach((item) => {
+      serviceListData.push(item.serviceName);
+    })
+    localStorage.setItem("serviceListData",JSON.stringify(serviceListData));
+    console.log("ServiceName " + serviceListData);
+  }
 
   const getServiceListCall = async (userInfo) => {
     try {
@@ -28,6 +37,7 @@ const Login = () => {
       console.log("ServiceList " + JSON.stringify(serviceData));
       if (serviceData !== 0) {
         setServiceList(serviceData);
+        servicePayload(serviceData);
       }
     } catch (error) {
       console.log("error " + error);
