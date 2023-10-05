@@ -7,7 +7,10 @@ import PeakLatencyChart from "./TraceCharts/PeakLatencyChart";
 import ErrSucssCallCountChart from "./TraceCharts/ErrSucssCallCountChart";
 import ServiceDetails from "./TraceCharts/ServiceDetails";
 import ServiceTable from "./TraceCharts/ServiceTable";
-import { getRecentTraceList, getTraceSummaryData } from "../../../api/TraceApiService";
+import {
+  getRecentTraceList,
+  getTraceSummaryData,
+} from "../../../api/TraceApiService";
 import { GlobalContext } from "../../../global/globalContext/GlobalContext";
 import { useEffect } from "react";
 import { useContext } from "react";
@@ -19,7 +22,8 @@ const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
-  const { lookBackVal, setDashboardPageCount, dashboardPage } = useContext(GlobalContext);
+  const { lookBackVal, setDashboardPageCount, dashboardPage } =
+    useContext(GlobalContext);
 
   // const apiCallsData = [
   //   {
@@ -152,9 +156,9 @@ const TraceBarChart = () => {
 
   const [integrationdata, setintegrationdata] = useState([]);
   const [loading, setLoading] = useState(false);
-  const pageLimit = 10;
+  // const pageLimit = 10;
 
-  // const traceSummaryApiCall = 
+  // const traceSummaryApiCall =
 
   const traceSummaryApiCall = useCallback(async () => {
     setLoading(true);
@@ -165,30 +169,35 @@ const TraceBarChart = () => {
     setLoading(false);
   }, [lookBackVal]);
 
-  const createTimeInWords = (data) => {
-    // Iterate through data and update createdTime
-    const updatedData = data.map(item => {
-      const createdTime = new Date(item.createdTime); // Convert timestamp to Date object
-      const timeAgo = formatDistanceToNow(createdTime, { addSuffix: true });
-      return { ...item, createdTimeInWords: timeAgo };
-    });
-    return updatedData;
-  }
+  // const createTimeInWords = (data) => {
+  //   // Iterate through data and update createdTime
+  //   const updatedData = data.map((item) => {
+  //     const createdTime = new Date(item.createdTime); // Convert timestamp to Date object
+  //     const timeAgo = formatDistanceToNow(createdTime, { addSuffix: true });
+  //     return { ...item, createdTimeInWords: timeAgo };
+  //   });
+  //   return updatedData;
+  // };
 
-  const handleServiceTableApi = async (newpage, serviceName) => {
-    try {
-      const { data, totalCount } = await getRecentTraceList(newpage, pageLimit, serviceName);
-      console.log("data " + JSON.stringify(data) + " " + JSON.stringify(totalCount));
-      if (data.length !== 0) {
-        const updatedData = createTimeInWords(data);
-        setSelectedService(updatedData);
-        setDashboardPageCount(Math.ceil(totalCount / pageLimit));
-      }
-    } catch (error) {
-      console.log("Error " + error);
-    }
-
-  }
+  // const handleServiceTableApi = async (newpage, serviceName) => {
+  //   try {
+  //     const { data, totalCount } = await getRecentTraceList(
+  //       newpage,
+  //       pageLimit,
+  //       serviceName
+  //     );
+  //     console.log(
+  //       "data " + JSON.stringify(data) + " " + JSON.stringify(totalCount)
+  //     );
+  //     if (data.length !== 0) {
+  //       const updatedData = createTimeInWords(data);
+  //       setSelectedService(updatedData);
+  //       setDashboardPageCount(Math.ceil(totalCount / pageLimit));
+  //     }
+  //   } catch (error) {
+  //     console.log("Error " + error);
+  //   }
+  // };
 
   useEffect(() => {
     traceSummaryApiCall();
@@ -201,7 +210,7 @@ const TraceBarChart = () => {
     // const clickedBarData = errorSuccessData[selectedDataPointIndex];
     const clickedBarData = integrationdata[selectedDataPointIndex];
     console.log("serviceName " + serviceName);
-    handleServiceTableApi(1, serviceName);
+    // handleServiceTableApi(1, serviceName);
     // const peakLatency = peakLatencyData.find(
     //   (item) => item.serviceName === serviceName
     // ).peakLatency;
@@ -222,9 +231,7 @@ const TraceBarChart = () => {
       (item) => item.serviceName === serviceName
     ).totalSuccessCalls;
 
-    // setSelectedService(serviceName, peakLatency, errorCalls, successCalls);
-
-
+    setSelectedService(serviceName, peakLatency, errorCalls, successCalls);
 
     // if (selectedSeriesName === "Error Calls") {
     //   setErrorCalls(clickedBarData.errorCalls);
@@ -242,6 +249,16 @@ const TraceBarChart = () => {
       setErrorCalls(null);
     }
   };
+
+  const hasErrChartData = integrationdata.some(
+    (item) => item.totalErrorCalls !== 0
+  );
+  const hasApiChartData = integrationdata.some(
+    (item) => item.apiCallCount !== 0
+  );
+  const hasPeakChartData = integrationdata.some(
+    (item) => item.peakLatency !== 0
+  );
   return (
     <div>
       {loading ? (
@@ -250,7 +267,6 @@ const TraceBarChart = () => {
         <div>
           <div
             style={{
-              // height: "calc(93vh-70px)",
               maxHeight: "82vh",
               overflowY: "auto",
             }}
@@ -261,65 +277,67 @@ const TraceBarChart = () => {
                 <Grid item xs={12}>
                   <Card elevation={3} style={{ margin: "25px" }}>
                     <CardContent>
-                      <ErrSucssCallCountChart
-                        // ErrSuccessData={errorSuccessData}
-                        ErrSuccessData={integrationdata}
-                        onBarClick={handleBarClick}
-                      />
+                      {hasErrChartData ? (
+                        <ErrSucssCallCountChart
+                          ErrSuccessData={integrationdata}
+                          onBarClick={handleBarClick}
+                        />
+                      ) : (
+                        <div>No Data</div>
+                      )}
                     </CardContent>
                   </Card>
                 </Grid>
               </Grid>
               <ServiceDetails
                 selectedService={selectedService}
-                // APICallsData={
-                //   selectedService
-                //     ? apiCallsData.find(
-                //         (item) => item.serviceName === selectedService
-                //       ).apiCalls
-                //     : null
-                // }
                 APICallsData={
                   selectedService
                     ? integrationdata.find(
-                      (item) => item.serviceName === selectedService
-                    ).apiCallCount
+                        (item) => item.serviceName === selectedService
+                      ).apiCallCount
                     : null
                 }
-                // PeakLatencyData={
-                //   selectedService
-                //     ? peakLatencyData.find(
-                //         (item) => item.serviceName === selectedService
-                //       ).peakLatency
-                //     : null
-                // }
                 PeakLatencyData={
                   selectedService
                     ? integrationdata.find(
-                      (item) => item.serviceName === selectedService
-                    ).peakLatency
+                        (item) => item.serviceName === selectedService
+                      ).peakLatency
                     : null
                 }
                 ErrorData={errorCalls}
                 SuccessData={successCalls}
               />
-              <ServiceTable
-                // APICallsData={integrationdata}
-                selectedService={selectedService}
-              />
+              <ServiceTable selectedService={selectedService} />
               <Grid container spacing={2}>
                 {" "}
                 <Grid item xs={12} sm={6}>
                   <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}>
                     <CardContent>
-                      <ApiCallCount data={integrationdata} />
+                      {/* {integrationdata.map((items) =>
+                        items.apiCallCount !== 0 ? (
+                          <ApiCallCount data={integrationdata} />
+                        ) : (
+                          <div>No Data</div>
+                        )
+                      )} */}
+
+                      {hasApiChartData ? (
+                        <ApiCallCount data={integrationdata} />
+                      ) : (
+                        <div>No Data</div>
+                      )}
                     </CardContent>
                   </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Card elevation={3} style={{ margin: "25px 25px 10px 15px" }}>
                     <CardContent>
-                      <PeakLatencyChart data={integrationdata} />
+                      {hasPeakChartData ? (
+                        <PeakLatencyChart data={integrationdata} />
+                      ) : (
+                        <div>No Data</div>
+                      )}
                     </CardContent>
                   </Card>
                 </Grid>

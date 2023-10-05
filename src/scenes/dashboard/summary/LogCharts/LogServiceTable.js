@@ -138,10 +138,10 @@ const ServiceTable = ({ selectedService }) => {
 
   const [selectedServiceData, setselectedServiceData] = useState([]);
   const [loading, setLoading] = useState(false);
-  console.log("selectedServiceData", selectedServiceData);
+  // console.log("selectedServiceData", selectedServiceData);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(5);
-  const pageSize = 2;
+  const [totalPages, setTotalPages] = useState(0);
+  const pageSize = 5;
   const serviceName = selectedService;
 
   const handlePageChange = async (event, selectedPage) => {
@@ -157,8 +157,9 @@ const ServiceTable = ({ selectedService }) => {
           pageSize,
           serviceName
         );
-        console.log("logDataResponse", logDataResponse.data);
+        // console.log("logDataResponse", logDataResponse.data);
         setselectedServiceData(logDataResponse.data);
+        setTotalPages(Math.ceil(logDataResponse.totalCount / pageSize));
       } catch (error) {
         console.error("Error fetching log data:", error);
       }
@@ -178,21 +179,41 @@ const ServiceTable = ({ selectedService }) => {
           {selectedService && (
             <>
               {" "}
-              <TableContainer component={Paper}>
-                <Table>
-                  <TableHead style={{ backgroundColor: colors.primary[400] }}>
+              <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableHead>
                     <TableRow>
-                      <TableCell style={{ textAlign: "center" }}>
+                      <TableCell
+                        style={{
+                          textAlign: "center",
+                          backgroundColor: colors.primary[400],
+                        }}
+                      >
                         Service Name
                       </TableCell>
-                      <TableCell style={{ textAlign: "center" }}>
+                      <TableCell
+                        style={{
+                          textAlign: "center",
+                          backgroundColor: colors.primary[400],
+                        }}
+                      >
                         Trace Id
                       </TableCell>
 
-                      <TableCell style={{ textAlign: "center" }}>
+                      <TableCell
+                        style={{
+                          textAlign: "center",
+                          backgroundColor: colors.primary[400],
+                        }}
+                      >
                         created Time
                       </TableCell>
-                      <TableCell style={{ textAlign: "center" }}>
+                      <TableCell
+                        style={{
+                          textAlign: "center",
+                          backgroundColor: colors.primary[400],
+                        }}
+                      >
                         Action
                       </TableCell>
                     </TableRow>
@@ -232,6 +253,7 @@ const ServiceTable = ({ selectedService }) => {
                   onChange={handlePageChange}
                   variant="outlined"
                   shape="rounded"
+                  size="small"
                 />
               </Stack>
             </>

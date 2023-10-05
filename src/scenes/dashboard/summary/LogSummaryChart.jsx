@@ -8,7 +8,10 @@ import LogServiceDetails from "./LogCharts/LogServiceDetails";
 import LogServiceTable from "./LogCharts/LogServiceTable";
 import ErrorBarChart from "./LogCharts/ErrorBarChart";
 import Loading from "../../../global/Loading/Loading";
-import { getErroredLogDataForLastTwo, getLogSummaryData } from "../../../api/LogApiService";
+import {
+  getErroredLogDataForLastTwo,
+  getLogSummaryData,
+} from "../../../api/LogApiService";
 import { useEffect } from "react";
 import { GlobalContext } from "../../../global/globalContext/GlobalContext";
 import { useContext } from "react";
@@ -189,6 +192,16 @@ const LogBarChart = () => {
     setSelectedService(serviceName, LogWarn, LogErrorCount, LogDebugCount);
   };
 
+  const hasErrChartData = integrationdata.some(
+    (item) => item.errorCallCount !== 0
+  );
+  const hasDebugChartData = integrationdata.some(
+    (item) => item.debugCallCount !== 0
+  );
+  const hasWarnChartData = integrationdata.some(
+    (item) => item.warnCallCount !== 0
+  );
+
   return (
     <div>
       {loading ? (
@@ -204,15 +217,13 @@ const LogBarChart = () => {
             <Grid item xs={12}>
               <Card elevation={3} style={{ margin: "25px" }}>
                 <CardContent>
-                  {integrationdata.map((items) =>
-                    items.errorCallCount !== 0 ? (
-                      <ErrorBarChart
-                        data={integrationdata}
-                        onBarClick={handleBarClick}
-                      />
-                    ) : (
-                      <div>No Data</div>
-                    )
+                  {hasErrChartData ? (
+                    <ErrorBarChart
+                      data={integrationdata}
+                      onBarClick={handleBarClick}
+                    />
+                  ) : (
+                    <div>No Data</div>
                   )}
                 </CardContent>
               </Card>
@@ -252,12 +263,12 @@ const LogBarChart = () => {
             <Grid item xs={12} sm={6}>
               <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}>
                 <CardContent>
-                  {integrationdata.map((items) =>
-                    items.debugCallCount !== 0 ? (
-                      <DebugBarChart data={integrationdata} />
-                    ) : (
-                      <div>No Data</div>
-                    )
+                  {hasDebugChartData ? (
+                    // If any item has debugCallCount !== 0, display the chart
+                    <DebugBarChart data={integrationdata} />
+                  ) : (
+                    // If no item has debugCallCount !== 0, display "No Data" once
+                    <div>No Data</div>
                   )}
                 </CardContent>
               </Card>
@@ -265,12 +276,10 @@ const LogBarChart = () => {
             <Grid item xs={12} sm={6}>
               <Card elevation={3} style={{ margin: "25px 25px 10px 15px" }}>
                 <CardContent>
-                  {integrationdata.map((items) =>
-                    items.warnCallCount !== 0 ? (
-                      <WarnBarChart data={integrationdata} />
-                    ) : (
-                      <div>No Data</div>
-                    )
+                  {hasWarnChartData ? (
+                    <WarnBarChart data={integrationdata} />
+                  ) : (
+                    <div>No Data</div>
                   )}
                 </CardContent>
               </Card>
