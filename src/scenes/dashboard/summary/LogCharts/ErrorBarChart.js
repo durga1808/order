@@ -9,7 +9,7 @@ const ErrorBarChart = ({ data, onBarClick }) => {
     const selectedDataPointIndex = config.dataPointIndex;
     onBarClick(selectedDataPointIndex);
   };
-console.log("data",data);
+
   const options = {
     chart: {
       type: "bar",
