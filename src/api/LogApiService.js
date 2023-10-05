@@ -16,8 +16,13 @@ export const findLogByTraceId = async (traceId) => {
 
 export const getLogSummaryData = async (timeMinutesAgo) => {
   try {
+    // Get the list of service names from localStorage and parse it
+    const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+
+    // Construct the URL with the service names
+    const serviceNameListParam = serviceListData.join('&serviceNameList=');
     const response = await axios.get(
-      `${logUrl}/LogSumaryChartDataCount?timeAgoMinutes=${timeMinutesAgo}`
+      `${logUrl}/LogSumaryChartDataCount?&serviceNameList=${serviceNameListParam}timeAgoMinutes=${timeMinutesAgo}`
     );
     return response.data;
   } catch (error) {
@@ -49,8 +54,13 @@ export const getAllLogBySorts = async (
   sortOrder
 ) => {
   try {
+    // Get the list of service names from localStorage and parse it
+    const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+
+    // Construct the URL with the service names
+    const serviceNameListParam = serviceListData.join('&serviceNameList=');
     const response = await axios.get(
-      `${logUrl}/getallLogdata-sortorder?minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}&sortOrder=${sortOrder}`
+      `${logUrl}/getallLogdata-sortorder?minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}`
     );
     return response.data;
   } catch (error) {

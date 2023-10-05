@@ -21,7 +21,7 @@ const GlobalContextProvider = ({ children }) => {
     const [traceLoading, setTraceLoading] = useState(false);
     const [recentTrace, setRecentTrace] = useState([]);
     const [traceToLogError, setTraceToLogError] = useState("");
-    const [logData, setLogData] = useState([]);
+    const [globalLogData, setGlobalLogData] = useState([]);
     const [serviceList, setServiceList] = useState([]);
     const [dashboardPage, setDashboardPage] = useState(1);
     const [dashboardPageCount, setDashboardPageCount] = useState(0);
@@ -58,8 +58,8 @@ const GlobalContextProvider = ({ children }) => {
                 setRecentTrace,
                 traceToLogError,
                 setTraceToLogError,
-                logData,
-                setLogData,
+                globalLogData,
+                setGlobalLogData,
                 serviceList,
                 setServiceList,
                 dashboardPage,

@@ -11,7 +11,9 @@ import {
     IconButton,
     List,
     ListItem,
+    Pagination,
     Paper,
+    Stack,
     TablePagination,
     TextField,
     Tooltip,
@@ -33,6 +35,7 @@ import { SearchOutlined } from "@mui/icons-material";
 import { Drawer } from "@mui/material";
 import { tokens } from "../../theme";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import Loading from "../../global/Loading/Loading";
 
 const tableHeaderData = [
     {
@@ -86,11 +89,11 @@ const Loglists = () => {
     const mockData = ["Newest First", "Oldest First", "Error First"];
 
     const defaultOptions = mockData[0];
-
     const [selectedOption, setSelectedOption] = useState("new");
-    const [currentPage, setCurrentPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
     const [logData, setLogData] = useState([]);
+    const [loading, setLoading] = useState(false);
     const pageLimit = 10;
     const {
         setRecentTrace,
@@ -98,10 +101,16 @@ const Loglists = () => {
         setTraceGlobalEmpty,
         setTraceGlobalError,
         lookBackVal,
+        globalLogData
     } = useContext(GlobalContext);
     const navigate = useNavigate();
 
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
+
+
+    // const handleChangePage = (event, newPage) => {
+    //     setCurrentPage(newPage);
+    // };
 
     const handleViewButtonClick = () => {
         // Toggle the right drawer's open state
@@ -177,8 +186,8 @@ const Loglists = () => {
                         <Button
                             sx={{
                                 m: "8px",
-                                backgroundColor: "blue",
-                                color: "black",
+                                backgroundColor: colors.greenAccent[500],
+                                // color: "black",
                                 "&:hover": {
                                     backgroundColor: "#ffffff",
                                     color: "black",
@@ -196,8 +205,8 @@ const Loglists = () => {
                         <Button
                             sx={{
                                 m: "8px",
-                                backgroundColor: "blue",
-                                color: "black",
+                                backgroundColor: colors.greenAccent[500],
+                                // color: "black",
                                 "&:hover": {
                                     backgroundColor: "#ffffff",
                                     color: "black",
@@ -222,27 +231,39 @@ const Loglists = () => {
     }
 
     const mapLogData = (logData) => {
-        const slicedData = logData.slice(currentPage * 10, (currentPage + 1) * 10);
+        // const indexOfLastLog = currentPage * 10;
+        // const indexOfFirstLog = indexOfLastLog - 10;
+        // const slicedData = logData.slice(indexOfFirstLog, indexOfLastLog);
+        // const slicedData = logData.slice(currentPage * 10, (currentPage + 1) * 10);
         const finalData = [];
-        slicedData.forEach((data) => {
+        const seenTraceIds = new Set(); // Create a Set to track seen traceIds
+
+        logData.forEach((data) => {
             console.log(
-                "Marshell " + data.severityText,
+                "Marshall " + data.severityText,
                 data.createdTime,
                 data.traceId,
                 data.serviceName
             );
+
             data.scopeLogs.forEach((logs) => {
                 logs.logRecords.forEach((record) => {
-                    // console.log("Marshell " + data.severityText, data.createdTime, data.traceId, data.serviceName);
-                    finalData.push(
-                        createData(
-                            data.severityText,
-                            data.createdTime,
-                            data.traceId,
-                            data.serviceName,
-                            record.body.stringValue
-                        )
-                    );
+                    const traceId = data.traceId;
+
+                    // Check if this traceId has been processed already
+                    if (!seenTraceIds.has(traceId)) {
+                        finalData.push(
+                            createData(
+                                record.severityText,
+                                data.createdTime,
+                                record.traceId,
+                                data.serviceName,
+                                record.body.stringValue
+                            )
+                        );
+
+                        seenTraceIds.add(traceId); // Add the traceId to the set
+                    }
                 });
             });
         });
@@ -251,17 +272,19 @@ const Loglists = () => {
     };
 
     const handleGetAllLogData = useCallback(
+
         async (newpage) => {
+            setLoading(true)
             try {
                 setLogData([]);
                 const { data, totalCount } = await getAllLogBySorts(
                     lookBackVal.value,
-                    newpage + 1,
+                    newpage,
                     pageLimit,
                     selectedOption
                 );
                 if (data.length !== 0) {
-                    // console.log("DATA " + JSON.stringify(data));
+                    console.log("DATA " + JSON.stringify(data));
                     const finalOutput = mapLogData(data);
                     setLogData(finalOutput);
                     setTotalPageCount(Math.ceil(totalCount / pageLimit));
@@ -269,25 +292,27 @@ const Loglists = () => {
             } catch (error) {
                 console.log("error " + error);
             }
+            setLoading(false);
         },
         [lookBackVal, selectedOption]
     );
 
-    const handleChangePage = (event, newPage) => {
-        setCurrentPage(newPage);
-    };
+
 
     useEffect(() => {
-        handleGetAllLogData(currentPage);
-    }, [currentPage, handleGetAllLogData]);
+
+        if (globalLogData.length !== 0) {
+            const finalOutput = mapLogData(globalLogData);
+            setLogData(finalOutput);
+        } else {
+            handleGetAllLogData(currentPage);
+        }
+
+    }, [currentPage, handleGetAllLogData, globalLogData]);
 
     const handleSortOrderChange = (selectedValue) => {
         console.log("SORT " + selectedValue.value);
         setSelectedOption(selectedValue.value);
-    };
-
-    const handleActionButton = () => {
-        console.log("action button clicked");
     };
 
     const tableBodyData = [
@@ -336,6 +361,10 @@ const Loglists = () => {
     ];
 
     const [searchQuery, setSearchQuery] = useState("");
+
+    const handlePageChange = async (event, selectedPage) => {
+        setCurrentPage(selectedPage);
+    };
 
     const handleSearchChange = (event) => {
         const searchQuery = event.target.value;
@@ -397,7 +426,7 @@ const Loglists = () => {
             </Box>
 
             <Card sx={{ padding: "20px", height: "73vh" }}>
-                <TableContainer sx={{ maxWidth: 1200, maxHeight: "calc(75vh - 85px)", overflowY: "auto" }}>
+                <div>{loading ? <Loading /> : <> <TableContainer sx={{ maxWidth: 1200, maxHeight: "calc(75vh - 85px)", overflowY: "auto" }}>
                     <Table stickyHeader aria-label="sticky table">
                         <TableHead>
                             <TableRow>
@@ -459,7 +488,28 @@ const Loglists = () => {
                     </Table>
 
                 </TableContainer>
-                <TablePagination
+                    <Stack
+                        spacing={2}
+                        direction="row"
+                        justifyContent="center"
+                        style={{ marginTop: "20px" }}
+                    >
+                        <Pagination
+                            count={totalPageCount}
+                            page={currentPage}
+                            onChange={handlePageChange}
+                            variant="outlined"
+                            shape="rounded"
+                            size="small"
+                        />
+                    </Stack></>}
+                </div>
+            </Card>
+
+
+
+
+            {/* <TablePagination
                     rowsPerPageOptions={[5]}
                     component="div"
                     count={totalPageCount}
@@ -467,8 +517,8 @@ const Loglists = () => {
                     page={currentPage}
                     onPageChange={handleChangePage}
                 // onRowsPerPageChange={handleChangeRowsPerPage}
-                />
-            </Card>
+                /> */}
+
             <Drawer
                 anchor="right"
                 open={isRightDrawerOpen}
