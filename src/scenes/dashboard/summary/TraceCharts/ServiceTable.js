@@ -149,6 +149,9 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
+import { useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 import {
   Table,
   TableBody,
@@ -164,10 +167,15 @@ import { useTheme } from "@emotion/react";
 // import { getErroredLogDataForLastTwo } from "../../../../api/LogApiService";
 import Loading from "../../../../global/Loading/Loading";
 import { getRecentTraceList } from "../../../../api/TraceApiService";
+import { formatDistanceToNow } from "date-fns";
 
 const ServiceTable = ({ selectedService }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+
+  const { setSelected, setTraceData, setRecentTrace, dashboardPageCount, dashboardPage, setDashboardPage } = useContext(GlobalContext);
+  const navigate = useNavigate();
 
   const [selectedServiceData, setselectedServiceData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -180,6 +188,28 @@ const ServiceTable = ({ selectedService }) => {
   const handlePageChange = async (event, selectedPage) => {
     setCurrentPage(selectedPage);
   };
+
+  const createTimeInWords = (data) => {
+    // Iterate through data and update createdTime
+    const updatedData = data.map(item => {
+        const createdTime = new Date(item.createdTime); // Convert timestamp to Date object
+        const timeAgo = formatDistanceToNow(createdTime, { addSuffix: true });
+        return { ...item, createdTimeInWords: timeAgo };
+    });
+    return updatedData;
+}
+
+    const handleOpenTrace = (trace) => {
+      // const updatedData = createTimeInWords([trace]);
+    // console.log("TRACE " + JSON.stringify([trace] ));
+    setRecentTrace([trace]);
+    // setTraceData([trace]);
+    localStorage.setItem("routeName", "Traces");
+    setSelected("Traces");
+    navigate("/mainpage/traces");
+  }
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -200,7 +230,9 @@ const ServiceTable = ({ selectedService }) => {
     };
 
     fetchData();
-  }, [selectedService, currentPage]);
+  }, [serviceName, currentPage]);
+
+ 
 
   return (
     <div>
@@ -209,7 +241,7 @@ const ServiceTable = ({ selectedService }) => {
         <Loading />
       ) : (
         <div style={{ margin: "30px" }}>
-          {selectedService && (
+          {serviceName  && selectedServiceData.length > 0 ? (
             <>
               {" "}
               <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
@@ -266,7 +298,7 @@ const ServiceTable = ({ selectedService }) => {
                               {tableInfo.createdTime}
                             </TableCell>
                             <TableCell style={{ textAlign: "center" }}>
-                              <Button variant="primary">OPEN TRACE</Button>
+                              <Button variant="primary" onClick={() => handleOpenTrace(tableInfo)}>OPEN TRACE</Button>
                             </TableCell>
                           </TableRow>
                         ))
@@ -289,8 +321,8 @@ const ServiceTable = ({ selectedService }) => {
                   size="small"
                 />
               </Stack>
-            </>
-          )}
+            </>):serviceName?( <div style={{textAlign:"center",fontWeight:"bold"}}>There is no table data for this service</div>):null
+          }
         </div>
       )}
     </div>
