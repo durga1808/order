@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Drawer, Divider, IconButton } from "@mui/material";
 import { List, ListItem } from "@mui/material";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
@@ -20,8 +20,8 @@ const FilterDialog = ({ open, onClose }) => {
   const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
   const [selectedHttpCode, setSelectedHttpCode] = useState([]);
   const { setNeedFilterCall, needFilterCall, setTraceData, setFilterApiBody, setTraceGlobalEmpty, setTraceGlobalError, serviceList } = useContext(GlobalContext);
+  const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
 
-  const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
   const methods = ['POST', 'GET', 'PUT', 'DELETE'];
 
 
@@ -241,12 +241,12 @@ const FilterDialog = ({ open, onClose }) => {
 
               <AccordionDetails>
                 <FormGroup>
-                  {serviceList.map((service,index) => (
+                  {services.map((service, index) => (
                     <FormControlLabel
                       key={index}
                       control={<Checkbox
-                        checked={selectedService.includes(service.serviceName)}
-                        onChange={handleServiceToggle(service.serviceName)}
+                        checked={selectedService.includes(service)}
+                        onChange={handleServiceToggle(service)}
                         sx={{
                           color: "grey",
                           '&.Mui-checked': {
@@ -255,7 +255,7 @@ const FilterDialog = ({ open, onClose }) => {
                         }}
                       />
                       }
-                      label={service.serviceName}
+                      label={service}
                     />))}
                 </FormGroup>
               </AccordionDetails>

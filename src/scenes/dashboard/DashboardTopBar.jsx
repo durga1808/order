@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Tabs from "@mui/material/Tabs";
@@ -18,10 +18,11 @@ import { options } from "../../global/MockData/MockTraces";
 import Logfilter from "../logs/Logfilter";
 
 const DashboardTopBar = () => {
+
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
-  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace,setNeedLogFilterCall } = useContext(GlobalContext);
-  const [activeTab, setActiveTab] = useState(0);
+  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace, activeTab, setActiveTab,setNeedLogFilterCall } = useContext(GlobalContext);
+  // const [activeTab, setActiveTab] = useState(0);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
 
@@ -50,29 +51,32 @@ const DashboardTopBar = () => {
     setTraceGlobalError(null);
   };
 
+
   const handleTabChange = (event, newValue) => {
     if (newValue === 0) {
       navigate("/mainpage/dashboard");
+
     } else if (newValue === 1) {
       navigate("/mainpage/dashboard/logSummary");
+
     }
     setActiveTab(newValue);
   };
 
   const handleFilterClick = () => {
     // setFilterDialogOpen(true);
-    if(window.location.pathname === "/mainpage/logs"){
+    if (window.location.pathname === "/mainpage/logs") {
       setLogFilterDialogOpen(true);
-    } else if(window.location.pathname === "/mainpage/traces"){
+    } else if (window.location.pathname === "/mainpage/traces") {
       setFilterDialogOpen(true);
     }
   };
 
   const handleFilterDialogClose = () => {
     // setFilterDialogOpen(false);
-    if(window.location.pathname === "/mainpage/logs"){
+    if (window.location.pathname === "/mainpage/logs") {
       setLogFilterDialogOpen(false);
-    } else if(window.location.pathname === "/mainpage/traces"){
+    } else if (window.location.pathname === "/mainpage/traces") {
       setFilterDialogOpen(false);
     }
   };
@@ -153,7 +157,7 @@ const DashboardTopBar = () => {
       </AppBar>
       <FilterDialog open={filterDialogOpen} onClose={handleFilterDialogClose} />
 
-      <Logfilter open={logFilterDialogOpen} onClose={handleFilterDialogClose}  />
+      <Logfilter open={logFilterDialogOpen} onClose={handleFilterDialogClose} />
     </>
   );
 };

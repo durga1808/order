@@ -22,6 +22,7 @@ function Topbar() {
     // Handle the logout logic here
     // For example, clear authentication tokens, etc.
     console.log("Logged out");
+    // localStorage.setItem("serviceListData",JSON.stringify([]));
     // localStorage.setItem("userInfo","");
     navigate("/");
   };
