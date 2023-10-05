@@ -9,9 +9,9 @@ const Logfilter = ({ open, onClose}) => {
     const [selectedService, setSelectedService] = useState([]);
     const [selectedSeverity, setSelectedSeverity] = useState([]);
     const {logFilterApiBody, setLogFilterApiBody, needLogFilterCall, setNeedLogFilterCall} = useContext(GlobalContext);
-    const [services, setServices] = useState(localStorage.getItem("serviceListData"));
+    // const [services, setServices] = useState(localStorage.getItem("serviceListData"));
 
-    // const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
+    const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
 
     const severity = ['ERROR', 'WARNING', 'INFO'];
 
