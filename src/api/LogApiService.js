@@ -58,3 +58,35 @@ export const getAllLogBySorts = async (
     throw error;
   }
 };
+
+// export const LogFilter = async (data) => {
+//     try {
+//         console.log("log filter api call", data);
+//         const response = await axios.post(
+//             // `/LogFilterQuery`
+//             `${logUrl}/LogFilterQuery?minutesAgo=${}&page=${}&pageSize=${}`
+//             );
+//         return response.data;
+//     } catch (error) {
+//         console.error("Error retrieving users:", error);
+//         return error;
+//     }
+// };
+
+export const LogFilterOption = async (minutesAgo, page, pageSize, payload) => {
+  try {
+    const response = await axios.post(
+      `${logUrl}/LogFilterQuery?minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json", // Set the Content-Type header
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
+  }
+};

@@ -2,14 +2,18 @@ import React, { useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Divider, Drawer, FormControlLabel, FormGroup, IconButton, List, ListItem, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import { useContext } from 'react';
+import { GlobalContext } from '../../global/globalContext/GlobalContext';
 
 const Logfilter = ({ open, onClose}) => {
     const [selectedService, setSelectedService] = useState([]);
     const [selectedSeverity, setSelectedSeverity] = useState([]);
+    const {logFilterApiBody, setLogFilterApiBody, needLogFilterCall, setNeedLogFilterCall} = useContext(GlobalContext);
+    const [services, setServices] = useState(localStorage.getItem("serviceListData"));
 
-    const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
+    // const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
 
-    const severity = ['Error', 'Warning', 'Info'];
+    const severity = ['ERROR', 'WARNING', 'INFO'];
 
     const handleServiceToggle = (service) => () => {
         if (selectedService.includes(service)) {
@@ -43,9 +47,19 @@ const Logfilter = ({ open, onClose}) => {
             apiBody.severity = payload.severity;
         }
 
-        onClose();
 
         console.log('API Body:', apiBody);
+
+        if(Object.keys(apiBody).length !== 0) {
+          setLogFilterApiBody(apiBody);
+          setNeedLogFilterCall(true);
+        } else {
+          setNeedLogFilterCall(false);
+        }
+       
+
+        onClose();
+
     }
 
     const clearSelectedOptions = () => {

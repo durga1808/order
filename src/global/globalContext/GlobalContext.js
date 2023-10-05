@@ -25,6 +25,9 @@ const GlobalContextProvider = ({ children }) => {
     const [serviceList, setServiceList] = useState([]);
     const [dashboardPage, setDashboardPage] = useState(1);
     const [dashboardPageCount, setDashboardPageCount] = useState(0);
+    
+    const [logFilterApiBody, setLogFilterApiBody] = useState({});
+    const [needLogFilterCall, setNeedLogFilterCall] = useState(false);
 
     return (
         <GlobalContext.Provider
@@ -64,7 +67,11 @@ const GlobalContextProvider = ({ children }) => {
                 dashboardPage,
                 setDashboardPage,
                 dashboardPageCount,
-                setDashboardPageCount
+                setDashboardPageCount,
+                logFilterApiBody,
+                setLogFilterApiBody,
+                needLogFilterCall,
+                setNeedLogFilterCall,
             }}
         >
             {children}

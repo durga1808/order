@@ -27,7 +27,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { useCallback } from "react";
-import { getAllLogBySorts } from "../../api/LogApiService";
+import { LogFilterOption, getAllLogBySorts } from "../../api/LogApiService";
 import { useEffect } from "react";
 import { SearchOutlined } from "@mui/icons-material";
 import { Drawer } from "@mui/material";
@@ -98,6 +98,8 @@ const Loglists = () => {
     setTraceGlobalEmpty,
     setTraceGlobalError,
     lookBackVal,
+    logFilterApiBody,
+    needLogFilterCall
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -225,12 +227,12 @@ const Loglists = () => {
     const slicedData = logData.slice(currentPage * 10, (currentPage + 1) * 10);
     const finalData = [];
     slicedData.forEach((data) => {
-      console.log(
-        "Marshell " + data.severityText,
-        data.createdTime,
-        data.traceId,
-        data.serviceName
-      );
+      // console.log(
+      //   "Marshell " + data.severityText,
+      //   data.createdTime,
+      //   data.traceId,
+      //   data.serviceName
+      // );
       data.scopeLogs.forEach((logs) => {
         logs.logRecords.forEach((record) => {
           // console.log("Marshell " + data.severityText, data.createdTime, data.traceId, data.serviceName);
@@ -246,7 +248,7 @@ const Loglists = () => {
         });
       });
     });
-    console.log("Marshell " + JSON.stringify(finalData));
+    // console.log("Marshell " + JSON.stringify(finalData));
     return finalData;
   };
 
@@ -261,7 +263,7 @@ const Loglists = () => {
           selectedOption
         );
         if (data.length !== 0) {
-          // console.log("DATA " + JSON.stringify(data));
+          console.log("DATA " + JSON.stringify(data));
           const finalOutput = mapLogData(data);
           setLogData(finalOutput);
           setTotalPageCount(Math.ceil(totalCount / pageLimit));
@@ -273,13 +275,32 @@ const Loglists = () => {
     [lookBackVal, selectedOption]
   );
 
+  const logFilterApiCall = useCallback(async (newpage,payload) => {
+    try {
+      console.log("Filter callback ");
+      const {data, totalCount} = await LogFilterOption(lookBackVal.value, newpage + 1, pageLimit, payload);
+      if(data.length !== 0) {
+        const finalOutput = mapLogData(data);
+        setLogData(finalOutput);
+        console.log(finalOutput);
+        setTotalPageCount(Math.ceil(totalCount / pageLimit));
+      }
+    } catch (error) {
+        console.log("ERROR from log " + error);
+    } 
+  }, [])
+
   const handleChangePage = (event, newPage) => {
     setCurrentPage(newPage);
   };
 
   useEffect(() => {
-    handleGetAllLogData(currentPage);
-  }, [currentPage, handleGetAllLogData]);
+    if(needLogFilterCall) {
+      logFilterApiCall(currentPage, logFilterApiBody);
+    } else {
+      handleGetAllLogData(currentPage);
+    }
+  }, [currentPage, handleGetAllLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall]);
 
   const handleSortOrderChange = (selectedValue) => {
     console.log("SORT " + selectedValue.value);

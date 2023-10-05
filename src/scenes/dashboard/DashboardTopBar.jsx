@@ -20,7 +20,7 @@ import Logfilter from "../logs/Logfilter";
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
-  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace } = useContext(GlobalContext);
+  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace,setNeedLogFilterCall } = useContext(GlobalContext);
   const [activeTab, setActiveTab] = useState(0);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -45,6 +45,7 @@ const DashboardTopBar = () => {
     setTraceData([]);
     setSelectedTrace([]);
     setNeedFilterCall(false);
+    setNeedLogFilterCall(false);
     setTraceGlobalEmpty(null);
     setTraceGlobalError(null);
   };
