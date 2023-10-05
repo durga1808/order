@@ -58,3 +58,13 @@ export const getAllLogBySorts = async (
     throw error;
   }
 };
+
+export const searchLogs = async (keyword, minutesAgo, page, pageSize) => {
+  try {
+    const response = await axios.get(`${logUrl}/searchFunction?keyword=${keyword}&minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
+  }
+};
