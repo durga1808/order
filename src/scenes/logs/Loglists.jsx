@@ -29,7 +29,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { useCallback } from "react";
-import { getAllLogBySorts } from "../../api/LogApiService";
+import { LogFilterOption, getAllLogBySorts } from "../../api/LogApiService";
 import { useEffect } from "react";
 import { SearchOutlined } from "@mui/icons-material";
 import { Drawer } from "@mui/material";
@@ -101,7 +101,9 @@ const Loglists = () => {
         setTraceGlobalEmpty,
         setTraceGlobalError,
         lookBackVal,
-        globalLogData
+        globalLogData,
+        logFilterApiBody,
+        needLogFilterCall
     } = useContext(GlobalContext);
     const navigate = useNavigate();
 
@@ -297,18 +299,33 @@ const Loglists = () => {
         [lookBackVal, selectedOption]
     );
 
-
+    const logFilterApiCall = useCallback(async (newpage, payload) => {
+        try {
+            console.log("Filter callback ");
+            const { data, totalCount } = await LogFilterOption(lookBackVal.value, newpage + 1, pageLimit, payload);
+            if (data.length !== 0) {
+                const finalOutput = mapLogData(data);
+                setLogData(finalOutput);
+                console.log(finalOutput);
+                setTotalPageCount(Math.ceil(totalCount / pageLimit));
+            }
+        } catch (error) {
+            console.log("ERROR from log " + error);
+        }
+    }, [])
 
     useEffect(() => {
 
         if (globalLogData.length !== 0) {
             const finalOutput = mapLogData(globalLogData);
             setLogData(finalOutput);
+        } else if (needLogFilterCall) {
+            logFilterApiCall(currentPage, logFilterApiBody);
         } else {
             handleGetAllLogData(currentPage);
         }
 
-    }, [currentPage, handleGetAllLogData, globalLogData]);
+    }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall]);
 
     const handleSortOrderChange = (selectedValue) => {
         console.log("SORT " + selectedValue.value);
