@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import DebugBarChart from "./LogCharts/DebugBarChart";
 import WarnBarChart from "./LogCharts/WarnBarChart";
 import LogServiceDetails from "./LogCharts/LogServiceDetails";
@@ -17,6 +17,8 @@ import { async } from "q";
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const { lookBackVal } = useContext(GlobalContext);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [emptyMessage, setEmptyMessage] = useState("");
 
   // const DebugData = [
   //   {
@@ -155,23 +157,36 @@ const LogBarChart = () => {
   const [integrationdata, setintegrationdata] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const logSummaryApiCall = async () => {
-    setLoading(true);
-    var response = await getLogSummaryData(lookBackVal.value);
-    // const traceSummaryData = JSON.parse(JSON.stringify(response));
-    setintegrationdata(response);
-    // console.log("log summary data " + JSON.parse(JSON.stringify(response)));
-    setLoading(false);
-  };
+  const logSummaryApiCall = useCallback(async () => {
+    try {
+      setLoading(true);
+      var response = await getLogSummaryData(lookBackVal.value);
+      // const traceSummaryData = JSON.parse(JSON.stringify(response));
+      if (response.length !== 0) {
+        setintegrationdata(response);
+      } else {
+        setEmptyMessage("No Data to Show");
+      }
+
+      // console.log("log summary data " + JSON.parse(JSON.stringify(response)));
+      setLoading(false);
+    } catch (error) {
+      console.log("ERROR on Log summary " + error);
+      setErrorMessage("An Error Occurred!");
+      setLoading(false);
+    }
+  }, [lookBackVal]);
 
   // const errordataforlasttwo =async ()=>{
   //   const response = await getErroredLogDataForLastTwo(page,pageSize,serviceName);
   // }
 
   useEffect(() => {
+    setErrorMessage("");
+    setEmptyMessage("");
     logSummaryApiCall();
     // errordataforlasttwo();
-  }, []);
+  }, [logSummaryApiCall,setErrorMessage, setEmptyMessage]);
 
   const handleBarClick = (selectedDataPointIndex) => {
     const serviceName = integrationdata[selectedDataPointIndex].serviceName;
@@ -193,7 +208,15 @@ const LogBarChart = () => {
     <div>
       {loading ? (
         <Loading />
-      ) : integrationdata.length !== 0 ? (
+      ) : emptyMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+        <Typography variant="h5" fontWeight={"600"}>
+          {emptyMessage}
+        </Typography>
+      </div>) : errorMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+        <Typography variant="h5" fontWeight={"600"}>
+          {errorMessage}
+        </Typography>
+      </div>) : integrationdata.length !== 0 ? (
         <div
           style={{
             maxHeight: "82vh",
@@ -204,9 +227,10 @@ const LogBarChart = () => {
             <Grid item xs={12}>
               <Card elevation={3} style={{ margin: "25px" }}>
                 <CardContent>
-                  {integrationdata.map((items) =>
+                  {integrationdata.map((items, index) =>
                     items.errorCallCount !== 0 ? (
                       <ErrorBarChart
+                        key={index}
                         data={integrationdata}
                         onBarClick={handleBarClick}
                       />
@@ -223,22 +247,22 @@ const LogBarChart = () => {
             DebugCountData={
               selectedService
                 ? integrationdata.find(
-                    (item) => item.serviceName === selectedService
-                  ).debugCallCount
+                  (item) => item.serviceName === selectedService
+                ).debugCallCount
                 : null
             }
             WarnCountData={
               selectedService
                 ? integrationdata.find(
-                    (item) => item.serviceName === selectedService
-                  ).warnCallCount
+                  (item) => item.serviceName === selectedService
+                ).warnCallCount
                 : null
             }
             ErrCountData={
               selectedService
                 ? integrationdata.find(
-                    (item) => item.serviceName === selectedService
-                  ).errorCallCount
+                  (item) => item.serviceName === selectedService
+                ).errorCallCount
                 : null
             }
           />
@@ -252,9 +276,9 @@ const LogBarChart = () => {
             <Grid item xs={12} sm={6}>
               <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}>
                 <CardContent>
-                  {integrationdata.map((items) =>
+                  {integrationdata.map((items, index) =>
                     items.debugCallCount !== 0 ? (
-                      <DebugBarChart data={integrationdata} />
+                      <DebugBarChart key={index} data={integrationdata} />
                     ) : (
                       <div>No Data</div>
                     )
@@ -265,9 +289,9 @@ const LogBarChart = () => {
             <Grid item xs={12} sm={6}>
               <Card elevation={3} style={{ margin: "25px 25px 10px 15px" }}>
                 <CardContent>
-                  {integrationdata.map((items) =>
+                  {integrationdata.map((items, index) =>
                     items.warnCallCount !== 0 ? (
-                      <WarnBarChart data={integrationdata} />
+                      <WarnBarChart key={index} data={integrationdata} />
                     ) : (
                       <div>No Data</div>
                     )

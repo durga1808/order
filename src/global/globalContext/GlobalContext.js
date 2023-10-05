@@ -25,6 +25,7 @@ const GlobalContextProvider = ({ children }) => {
     const [serviceList, setServiceList] = useState([]);
     const [dashboardPage, setDashboardPage] = useState(1);
     const [dashboardPageCount, setDashboardPageCount] = useState(0);
+    const [activeTab, setActiveTab] = useState(0);
 
     return (
         <GlobalContext.Provider
@@ -64,7 +65,9 @@ const GlobalContextProvider = ({ children }) => {
                 dashboardPage,
                 setDashboardPage,
                 dashboardPageCount,
-                setDashboardPageCount
+                setDashboardPageCount,
+                activeTab,
+                setActiveTab
             }}
         >
             {children}

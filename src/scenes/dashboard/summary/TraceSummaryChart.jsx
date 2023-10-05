@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import ApiCallCount from "./TraceCharts/ApiCallCount";
 import PeakLatencyChart from "./TraceCharts/PeakLatencyChart";
 import ErrSucssCallCountChart from "./TraceCharts/ErrSucssCallCountChart";
@@ -19,7 +19,9 @@ const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
-  const { lookBackVal, setDashboardPageCount, dashboardPage } = useContext(GlobalContext);
+  const { lookBackVal, setDashboardPageCount, setActiveTab } = useContext(GlobalContext);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [emptyMessage, setEmptyMessage] = useState("");
 
   // const apiCallsData = [
   //   {
@@ -157,12 +159,24 @@ const TraceBarChart = () => {
   // const traceSummaryApiCall = 
 
   const traceSummaryApiCall = useCallback(async () => {
-    setLoading(true);
-    var response = await getTraceSummaryData(lookBackVal.value);
-    // const traceSummaryData = JSON.parse(JSON.stringify(response));
-    setintegrationdata(response);
-    console.log("Trace summary data " + JSON.stringify(response));
-    setLoading(false);
+    try {
+      setLoading(true);
+      var response = await getTraceSummaryData(lookBackVal.value);
+      // const traceSummaryData = JSON.parse(JSON.stringify(response));
+      if (response.length !== 0) {
+        setintegrationdata(response);
+        // setEmptyMessage("NO ERROR");
+      } else {
+        setEmptyMessage("No Data to show");
+      }
+
+      console.log("Trace summary data " + JSON.stringify(response));
+      setLoading(false);
+    } catch (error) {
+      console.log("error " + error);
+      setErrorMessage("An error Occurred!");
+      setLoading(false);
+    }
   }, [lookBackVal]);
 
   const createTimeInWords = (data) => {
@@ -191,9 +205,12 @@ const TraceBarChart = () => {
   }
 
   useEffect(() => {
+    setErrorMessage("");
+    setEmptyMessage("");
     traceSummaryApiCall();
+    setActiveTab(0);
     // setintegrationdata()
-  }, [traceSummaryApiCall]);
+  }, [traceSummaryApiCall, setActiveTab]);
 
   const handleBarClick = (selectedDataPointIndex, selectedSeriesName) => {
     // const serviceName = errorSuccessData[selectedDataPointIndex].serviceName;
@@ -246,7 +263,15 @@ const TraceBarChart = () => {
     <div>
       {loading ? (
         <Loading />
-      ) : integrationdata.length !== 0 ? (
+      ) : emptyMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+        <Typography variant="h5" fontWeight={"600"}>
+          {emptyMessage}
+        </Typography>
+      </div>) : errorMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+        <Typography variant="h5" fontWeight={"600"}>
+          {errorMessage}
+        </Typography>
+      </div>) : integrationdata.length !== 0 ? (
         <div>
           <div
             style={{
