@@ -36,6 +36,7 @@ import { Drawer } from "@mui/material";
 import { tokens } from "../../theme";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import Loading from "../../global/Loading/Loading";
+import { searchLogs } from "../../api/LogApiService";
 
 const tableHeaderData = [
     {
@@ -378,17 +379,53 @@ const Loglists = () => {
     ];
 
     const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
 
     const handlePageChange = async (event, selectedPage) => {
-        setCurrentPage(selectedPage);
+        setCurrentPage(Number(selectedPage));
     };
 
+    const handleSearch = async () => {
+      setLoading(true);
+      try {
+          const { data, totalCount } = await searchLogs(searchQuery, lookBackVal.value, currentPage, pageLimit);
+          // Process and set the search results
+          const finalOutput = mapLogData(data);
+          setSearchResults(finalOutput);
+          setTotalPageCount(Math.ceil(totalCount / pageLimit));
+          console.log("Search " + JSON.stringify(data));
+          console.log("API", finalOutput)
+      } catch (error) {
+          console.error("Error searching logs:", error);
+      } finally {
+          setLoading(false);
+      }
+  };
+  
     const handleSearchChange = (event) => {
-        const searchQuery = event.target.value;
-        setSearchQuery(searchQuery);
-
-        console.log("query " + searchQuery);
+      const searchQuery = event.target.value;
+      setSearchQuery(searchQuery);
     };
+    
+    const handleSearchKeyDown = (event) => {
+      if (event.key === "Enter") {
+        handleSearch();
+      }
+    };
+
+    useEffect(() => {
+      if (globalLogData.length !== 0 && !searchQuery) {
+        const finalOutput = mapLogData(globalLogData);
+        setLogData(finalOutput);
+      } else if (needLogFilterCall) {
+        logFilterApiCall(currentPage, logFilterApiBody);
+      } else if (searchQuery) {
+        setSearchResults([]); // Clear previous search results
+        handleSearch();
+      } else {
+        handleGetAllLogData(currentPage);
+      }
+    }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
 
     return (
         <div>
@@ -408,12 +445,9 @@ const Loglists = () => {
                     InputProps={{
                         endAdornment: <SearchOutlined />,
                     }}
+                    value={searchQuery}
                     onChange={handleSearchChange}
-                    onKeyDown={(event) => {
-                        if (event.key === "Enter") {
-                            handleSearchChange(event);
-                        }
-                    }}
+                    onKeyDown={handleSearchKeyDown}
                 />
 
                 {/* <FormControl variant="outlined" style={{ marginBottom: '10px', marginLeft: '10px', width: '15%' }}>
@@ -461,46 +495,91 @@ const Loglists = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {logData.map((row) => {
-                                return (
-                                    <TableRow
-                                        hover
-                                        role="checkbox"
-                                        tabIndex={-1}
-                                        key={row.traceid}
-                                    >
-                                        {tableHeaderData.map((column) => {
-                                            const value = row[column.id];
-                                            // return (
-                                            // <TableCell key={column.id} align={column.align}>
-                                            //     {value}
-                                            // </TableCell>
-                                            // )
-                                            if (column.id === "action") {
-                                                return (
-                                                    <TableCell
-                                                        key={column.id}
-                                                        align={column.align}
-                                                    // style={{ padding: "10px" }}
-                                                    >
-                                                        <Typography variant="h6" style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</Typography>
-                                                    </TableCell>
-                                                );
-                                            } else {
-                                                return (
-                                                    <TableCell
-                                                        key={column.id}
-                                                        align={column.align}
-                                                    // style={{ padding: "10px" }}
-                                                    >
-                                                        <Typography variant="h6" style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</Typography>
-                                                    </TableCell>
-                                                );
-                                            }
-                                        })}
-                                    </TableRow>
-                                );
-                            })}
+                        {searchResults.length > 0 ? (
+                                searchResults.map((row) => (
+                                    // return (
+                                        <TableRow
+                                            hover
+                                            role="checkbox"
+                                            tabIndex={-1}
+                                            key={row.traceid}
+                                        >
+                                            {tableHeaderData.map((column) => {
+                                                const value = row[column.id];
+                                                // return (
+                                                // <TableCell key={column.id} align={column.align}>
+                                                //     {value}
+                                                // </TableCell>
+                                                // )
+                                                if (column.id === "action") {
+                                                    return (
+                                                        <TableCell
+                                                            key={column.id}
+                                                            align={column.align}
+                                                        // style={{ padding: "10px" }}
+                                                        >
+                                                            <Typography variant="h6" style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</Typography>
+                                                        </TableCell>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <TableCell
+                                                            key={column.id}
+                                                            align={column.align}
+                                                        // style={{ padding: "10px" }}
+                                                        >
+                                                            <Typography variant="h6" style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</Typography>
+                                                        </TableCell>
+                                                    );
+                                                }
+                                            })}
+                                        </TableRow>
+                                    // );
+    
+                                ))
+                            ): (
+                                logData.map((row, index) => (
+                                    // return (
+                                        <TableRow
+                                            hover
+                                            role="checkbox"
+                                            tabIndex={-1}
+                                            key={index}
+                                        >
+                                            {tableHeaderData.map((column, index) => {
+                                                const value = row[column.id];
+                                                // return (
+                                                // <TableCell key={column.id} align={column.align}>
+                                                //     {value}
+                                                // </TableCell>
+                                                // )
+                                                if (column.id === "action") {
+                                                    return (
+                                                        <TableCell
+                                                            key={index}
+                                                            align={column.align}
+                                                        // style={{ padding: "10px" }}
+                                                        >
+                                                            <Typography variant="h6" style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</Typography>
+                                                        </TableCell>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <TableCell
+                                                            key={index}
+                                                            align={column.align}
+                                                        // style={{ padding: "10px" }}
+                                                        >
+                                                            <Typography variant="h6" style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</Typography>
+                                                        </TableCell>
+                                                    );
+                                                }
+                                            })}
+                                        </TableRow>
+                                    // );
+    
+                                ))
+                            )}
                         </TableBody>
                     </Table>
 
