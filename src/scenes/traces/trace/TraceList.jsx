@@ -100,7 +100,7 @@ const TraceList = () => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     // const [traceData, setTraceData] = useState([]);
-    const { setSelectedTrace, traceData, setTraceData, lookBackVal, needFilterCall, filterApiBody, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading, recentTrace, setLogData, setTraceToLogError, setSelected } = useContext(GlobalContext);
+    const { setSelectedTrace, traceData, setTraceData, lookBackVal, needFilterCall, filterApiBody, setTraceGlobalEmpty, setTraceGlobalError, setTraceLoading, recentTrace, setGlobalLogData, setTraceToLogError, setSelected } = useContext(GlobalContext);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
     const [selectedSortOrder, setSelectedSortOrder] = useState("new");
@@ -221,17 +221,16 @@ const TraceList = () => {
             const logData = await findLogByTraceId(traceId);
             console.log("Log Data " + JSON.stringify(logData));
             if (logData.length !== 0) {
-                setLogData(logData);
+                setGlobalLogData(logData);
+                localStorage.setItem("routeName", "Logs");
+                setSelected("Logs");
+                navigate("/mainpage/logs");
             } else {
                 setTraceToLogError("No Log for this TraceId!");
             }
         } catch (error) {
             setTraceToLogError("An error occurred!");
         }
-        localStorage.setItem("routeName", "Logs");
-        setSelected("Logs");
-        navigate("/mainpage/logs");
-
     }
 
     const handleSortOrderChange = (selectedValue) => {

@@ -9,8 +9,14 @@ export const TraceListPaginationApi = async (
     sortOrder
 ) => {
     try {
+        // Get the list of service names from localStorage and parse it
+        const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+
+        // Construct the URL with the service names
+        const serviceNameListParam = serviceListData.join('&serviceNameList=');
+        // console.log(`${traceURL}/getalldata-sortorder?minutesAgo=${interval}&page=${page}&pageSize=${itemsPerPage}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}`);
         const response = await axios.get(
-            `${traceURL}/getalldata-sortorder?minutesAgo=${interval}&page=${page}&pageSize=${itemsPerPage}&sortOrder=${sortOrder}`
+            `${traceURL}/getalldata-sortorder?minutesAgo=${interval}&page=${page}&pageSize=${itemsPerPage}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}`
         );
         return response.data;
     } catch (error) {
@@ -48,15 +54,21 @@ export const FindByTraceIdForSpans = async (traceId) => {
 };
 
 export const getTraceSummaryData = async (timeMinutesAgo) => {
-  try {
-    const response = await axios.get(
-      `${traceURL}/TraceSumaryChartDataCount?timeAgoMinutes=${timeMinutesAgo}`
-    )
-    return response.data;
-  } catch (error) {
-    console.error("Error retrieving users:", error);
-    throw error;
-  }
+    try {
+        // Get the list of service names from localStorage and parse it
+        const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+
+        // Construct the URL with the service names
+        const serviceNameListParam = serviceListData.join('&serviceNameList=');
+
+        const response = await axios.get(
+            `${traceURL}/TraceSumaryChartDataCount?serviceNameList=${serviceNameListParam}&timeAgoMinutes=${timeMinutesAgo}`
+        )
+        return response.data;
+    } catch (error) {
+        console.error("Error retrieving users:", error);
+        throw error;
+    }
 };
 
 
