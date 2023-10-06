@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useTheme } from "@mui/material";
 import ApiCallCount from "./TraceCharts/ApiCallCount";
 import PeakLatencyChart from "./TraceCharts/PeakLatencyChart";
 import ErrSucssCallCountChart from "./TraceCharts/ErrSucssCallCountChart";
@@ -17,6 +17,7 @@ import { useContext } from "react";
 import Loading from "../../../global/Loading/Loading";
 import { formatDistanceToNow } from "date-fns";
 import { useCallback } from "react";
+import { tokens } from "../../../theme";
 
 const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
@@ -275,6 +276,9 @@ const TraceBarChart = () => {
   const hasPeakChartData = integrationdata.some(
     (item) => item.peakLatency !== 0
   );
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   return (
     <div>
       {loading ? (
@@ -307,31 +311,40 @@ const TraceBarChart = () => {
                           onBarClick={handleBarClick}
                         />
                       ) : (
-                        <div>No Data</div>
+                        // <div>Error and Success Call Count Chart - No Data</div>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                          <Typography variant="h5" fontWeight={"600"}>
+                            Error and Success Call Count Chart - No Data
+                          </Typography>
+                        </div>
                       )}
                     </CardContent>
                   </Card>
                 </Grid>
               </Grid>
-              <ServiceDetails
-                selectedService={selectedService}
-                APICallsData={
-                  selectedService
-                    ? integrationdata.find(
+
+
+              {hasErrChartData ? (
+                <ServiceDetails
+                  selectedService={selectedService}
+                  APICallsData={
+                    selectedService
+                      ? integrationdata.find(
                         (item) => item.serviceName === selectedService
                       ).apiCallCount
-                    : null
-                }
-                PeakLatencyData={
-                  selectedService
-                    ? integrationdata.find(
+                      : null
+                  }
+                  PeakLatencyData={
+                    selectedService
+                      ? integrationdata.find(
                         (item) => item.serviceName === selectedService
                       ).peakLatency
-                    : null
-                }
-                ErrorData={errorCalls}
-                SuccessData={successCalls}
-              />
+                      : null
+                  }
+                  ErrorData={errorCalls}
+                  SuccessData={successCalls}
+                />
+              ) : null}
               <ServiceTable selectedService={selectedService} />
               <Grid container spacing={2}>
                 {" "}
@@ -349,7 +362,12 @@ const TraceBarChart = () => {
                       {hasApiChartData ? (
                         <ApiCallCount data={integrationdata} />
                       ) : (
-                        <div>No Data</div>
+                        // <div>Api Call Count Chart - No data</div>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                          <Typography variant="h5" fontWeight={"600"}>
+                            Api Call Count Chart - No data
+                          </Typography>
+                        </div>
                       )}
                     </CardContent>
                   </Card>
@@ -360,7 +378,13 @@ const TraceBarChart = () => {
                       {hasPeakChartData ? (
                         <PeakLatencyChart data={integrationdata} />
                       ) : (
-                        <div>No Data</div>
+                        // <div>PeakLatency Call Count Chart - No data</div>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                          <Typography variant="h5" fontWeight={"600"}>
+                            PeakLatency Call Count Chart - No data
+                          </Typography>
+                        </div>
+
                       )}
                     </CardContent>
                   </Card>

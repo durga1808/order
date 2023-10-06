@@ -1,9 +1,11 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
+import { tokens } from "../../../../theme";
 
 const ErrorBarChart = ({ data, onBarClick }) => {
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
@@ -35,26 +37,40 @@ const ErrorBarChart = ({ data, onBarClick }) => {
       title: {
         text: "List of Services",
         style: {
-          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-          fontFamily: "Red Hat Display, sans-serif",
+          color: colors.textColor[500],
+          fontSize: 12,
           fontWeight: 500,
+          fontFamily: "Red Hat Display"
         },
+      },
+      labels: {
+        rotate:-45,
+        style: {
+            colors: colors.textColor[500],
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: "Red Hat Display"
+          },
       },
     },
     yaxis: {
       title: {
         text: "Error Count",
         style: {
-          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-          fontFamily: "Red Hat Display, sans-serif",
+          color: colors.textColor[500],
+          fontSize: 12,
           fontWeight: 500,
+          fontFamily: "Red Hat Display"
         },
       },
 
       labels: {
         style: {
-          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
-        },
+            colors: colors.textColor[500],
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: "Red Hat Display"
+          },
       },
     },
     title: {
@@ -64,9 +80,10 @@ const ErrorBarChart = ({ data, onBarClick }) => {
       offsetX: 0,
       offsetY: 5,
       style: {
-        color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-        fontFamily: "Red Hat Display, sans-serif",
+        color: colors.textColor[500],
+        fontSize: 16,
         fontWeight: 500,
+        fontFamily: "Red Hat Display"
       },
     },
   };

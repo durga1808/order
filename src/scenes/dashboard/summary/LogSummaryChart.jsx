@@ -189,7 +189,7 @@ const LogBarChart = () => {
     setEmptyMessage("");
     logSummaryApiCall();
     // errordataforlasttwo();
-  }, [logSummaryApiCall,setErrorMessage, setEmptyMessage]);
+  }, [logSummaryApiCall, setErrorMessage, setEmptyMessage]);
 
   const handleBarClick = (selectedDataPointIndex) => {
     const serviceName = integrationdata[selectedDataPointIndex].serviceName;
@@ -246,36 +246,45 @@ const LogBarChart = () => {
                       onBarClick={handleBarClick}
                     />
                   ) : (
-                    <div>No Data</div>
+
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                      <Typography variant="h5" fontWeight={"600"}>
+                        Error Call Count Chart - No data
+                      </Typography>
+                    </div>
                   )}
                 </CardContent>
               </Card>
             </Grid>
           </Grid>
-          <LogServiceDetails
-            selectedService={selectedService}
-            DebugCountData={
-              selectedService
-                ? integrationdata.find(
-                  (item) => item.serviceName === selectedService
-                ).debugCallCount
-                : null
-            }
-            WarnCountData={
-              selectedService
-                ? integrationdata.find(
-                  (item) => item.serviceName === selectedService
-                ).warnCallCount
-                : null
-            }
-            ErrCountData={
-              selectedService
-                ? integrationdata.find(
-                  (item) => item.serviceName === selectedService
-                ).errorCallCount
-                : null
-            }
-          />
+
+          {hasErrChartData ? (
+            <LogServiceDetails
+              selectedService={selectedService}
+              DebugCountData={
+                selectedService
+                  ? integrationdata.find(
+                    (item) => item.serviceName === selectedService
+                  ).debugCallCount
+                  : null
+              }
+              WarnCountData={
+                selectedService
+                  ? integrationdata.find(
+                    (item) => item.serviceName === selectedService
+                  ).warnCallCount
+                  : null
+              }
+              ErrCountData={
+                selectedService
+                  ? integrationdata.find(
+                    (item) => item.serviceName === selectedService
+                  ).errorCallCount
+                  : null
+              }
+            />
+          ) : null}
+
 
           <LogServiceTable
             tableData={integrationdata}
@@ -291,7 +300,12 @@ const LogBarChart = () => {
                     <DebugBarChart data={integrationdata} />
                   ) : (
                     // If no item has debugCallCount !== 0, display "No Data" once
-                    <div>No Data</div>
+                    // <div>Debug Call Count Chart - No data</div>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                      <Typography variant="h5" fontWeight={"600"}>
+                        Debug Call Count Chart - No data
+                      </Typography>
+                    </div>
                   )}
                 </CardContent>
               </Card>
@@ -302,7 +316,12 @@ const LogBarChart = () => {
                   {hasWarnChartData ? (
                     <WarnBarChart data={integrationdata} />
                   ) : (
-                    <div>No Data</div>
+                    // <div>Warn Call Count Chart - No Data</div>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                      <Typography variant="h5" fontWeight={"600"}>
+                        Warn Call Count Chart - No Data
+                      </Typography>
+                    </div>
                   )}
                 </CardContent>
               </Card>

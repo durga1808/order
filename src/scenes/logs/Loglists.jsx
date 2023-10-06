@@ -556,7 +556,7 @@ const Loglists = () => {
                 </Box>
             </Box>
 
-            <Card sx={{ padding: "20px", height: "73vh" }}>
+            <Card sx={{ padding: "20px", height: "73vh",backgroundColor:colors.primary[500] }}>
                 <div>
                     {loading ? (
                         <Loading />
@@ -586,6 +586,7 @@ const Loglists = () => {
                                     maxWidth: 1200,
                                     maxHeight: "calc(75vh - 85px)",
                                     overflowY: "auto",
+                                    backgroundColor:colors.primary[500]
                                 }}
                             >
                                 <Table stickyHeader aria-label="sticky table">
@@ -595,7 +596,7 @@ const Loglists = () => {
                                                 <TableCell
                                                     key={column.id}
                                                     align={column.align}
-                                                    style={{ padding: "10px" }}
+                                                    style={{ padding: "10px", backgroundColor:colors.primary[500] }}
                                                 >
                                                     <Typography
                                                         variant="h5"
