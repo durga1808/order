@@ -29,6 +29,7 @@ const GlobalContextProvider = ({ children }) => {
     
     const [logFilterApiBody, setLogFilterApiBody] = useState({});
     const [needLogFilterCall, setNeedLogFilterCall] = useState(false);
+    const [recentLogData, setRecentLogData] = useState([]);
 
     return (
         <GlobalContext.Provider
@@ -75,6 +76,8 @@ const GlobalContextProvider = ({ children }) => {
                 setLogFilterApiBody,
                 needLogFilterCall,
                 setNeedLogFilterCall,
+                recentLogData,
+                setRecentLogData
             }}
         >
             {children}

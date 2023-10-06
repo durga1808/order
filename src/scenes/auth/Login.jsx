@@ -38,9 +38,13 @@ const Login = () => {
       if (serviceData !== 0) {
         setServiceList(serviceData);
         servicePayload(serviceData);
+        navigate("/mainpage/dashboard");
+      } else {
+        setErrorMessage("No Service assigned for this user");
       }
     } catch (error) {
       console.log("error " + error);
+      setErrorMessage("An error occurred");
     }
   }
 
@@ -83,7 +87,6 @@ const Login = () => {
       localStorage.setItem("userInfo", JSON.stringify(userAuth.data));
       getServiceListCall(userAuth.data);
       setLoading(false);
-      navigate("/mainpage/dashboard");
     }
     else if (userAuth.response.status === 401) {
       setLoading(false);

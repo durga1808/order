@@ -21,7 +21,7 @@ const DashboardTopBar = () => {
 
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
-  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace, activeTab, setActiveTab, setGlobalLogData,setNeedLogFilterCall } = useContext(GlobalContext);
+  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace, activeTab, setActiveTab, setGlobalLogData,setNeedLogFilterCall,setRecentLogData } = useContext(GlobalContext);
   // const [activeTab, setActiveTab] = useState(0);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -50,6 +50,7 @@ const DashboardTopBar = () => {
     setTraceGlobalEmpty(null);
     setTraceGlobalError(null);
     setGlobalLogData([]);
+    setRecentLogData([]);
   };
 
 

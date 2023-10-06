@@ -192,17 +192,17 @@ const ServiceTable = ({ selectedService }) => {
   const createTimeInWords = (data) => {
     // Iterate through data and update createdTime
     const updatedData = data.map(item => {
-        const createdTime = new Date(item.createdTime); // Convert timestamp to Date object
-        const timeAgo = formatDistanceToNow(createdTime, { addSuffix: true });
-        return { ...item, createdTimeInWords: timeAgo };
+      const createdTime = new Date(item.createdTime); // Convert timestamp to Date object
+      const timeAgo = formatDistanceToNow(createdTime, { addSuffix: true });
+      return { ...item, createdTimeInWords: timeAgo };
     });
     return updatedData;
-}
+  }
 
-    const handleOpenTrace = (trace) => {
-      // const updatedData = createTimeInWords([trace]);
+  const handleOpenTrace = (trace) => {
+    const updatedData = createTimeInWords([trace]);
     // console.log("TRACE " + JSON.stringify([trace] ));
-    setRecentTrace([trace]);
+    setRecentTrace(updatedData);
     // setTraceData([trace]);
     localStorage.setItem("routeName", "Traces");
     setSelected("Traces");
@@ -221,7 +221,8 @@ const ServiceTable = ({ selectedService }) => {
           serviceName
         );
         console.log("Response", logDataResponse.data);
-        setselectedServiceData(logDataResponse.data);
+        const updatedData = createTimeInWords(logDataResponse.data);
+        setselectedServiceData(updatedData);
         setTotalPages(Math.ceil(logDataResponse.totalCount / pageSize));
       } catch (error) {
         console.error("Error fetching log data:", error);
@@ -232,7 +233,7 @@ const ServiceTable = ({ selectedService }) => {
     fetchData();
   }, [serviceName, currentPage]);
 
- 
+
 
   return (
     <div>
@@ -241,7 +242,7 @@ const ServiceTable = ({ selectedService }) => {
         <Loading />
       ) : (
         <div style={{ margin: "30px" }}>
-          {serviceName  && selectedServiceData.length > 0 ? (
+          {serviceName && selectedServiceData.length > 0 ? (
             <>
               {" "}
               <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
@@ -286,22 +287,22 @@ const ServiceTable = ({ selectedService }) => {
                   <TableBody>
                     {selectedServiceData.length !== 0
                       ? selectedServiceData.map((tableInfo, index) => (
-                          <TableRow key={index}>
-                            <TableCell style={{ textAlign: "center" }}>
-                              {tableInfo.serviceName}
-                            </TableCell>
-                            <TableCell style={{ textAlign: "center" }}>
-                              {tableInfo.traceId}
-                            </TableCell>
+                        <TableRow key={index}>
+                          <TableCell style={{ textAlign: "center" }}>
+                            {tableInfo.serviceName}
+                          </TableCell>
+                          <TableCell style={{ textAlign: "center" }}>
+                            {tableInfo.traceId}
+                          </TableCell>
 
-                            <TableCell style={{ textAlign: "center" }}>
-                              {tableInfo.createdTime}
-                            </TableCell>
-                            <TableCell style={{ textAlign: "center" }}>
-                              <Button variant="primary" onClick={() => handleOpenTrace(tableInfo)}>OPEN TRACE</Button>
-                            </TableCell>
-                          </TableRow>
-                        ))
+                          <TableCell style={{ textAlign: "center" }}>
+                            {tableInfo.createdTimeInWords}
+                          </TableCell>
+                          <TableCell style={{ textAlign: "center" }}>
+                            <Button variant="primary" onClick={() => handleOpenTrace(tableInfo)}>OPEN TRACE</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
                       : null}
                   </TableBody>
                 </Table>
@@ -321,7 +322,7 @@ const ServiceTable = ({ selectedService }) => {
                   size="small"
                 />
               </Stack>
-            </>):serviceName?( <div style={{textAlign:"center",fontWeight:"bold"}}>There is no table data for this service</div>):null
+            </>) : serviceName ? (<div style={{ textAlign: "center", fontWeight: "bold" }}>There is no table data for this service</div>) : null
           }
         </div>
       )}

@@ -92,6 +92,7 @@ const Loglists = () => {
     const [selectedOption, setSelectedOption] = useState("new");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
+    const [selectedLogData, setSelectedLogData] = useState([]);
     const [logData, setLogData] = useState([]);
     const [loading, setLoading] = useState(false);
     const pageLimit = 10;
@@ -103,7 +104,8 @@ const Loglists = () => {
         lookBackVal,
         globalLogData,
         logFilterApiBody,
-        needLogFilterCall
+        needLogFilterCall,
+        recentLogData
     } = useContext(GlobalContext);
     const navigate = useNavigate();
 
@@ -114,9 +116,17 @@ const Loglists = () => {
     //     setCurrentPage(newPage);
     // };
 
-    const handleViewButtonClick = () => {
+    const handleViewButtonClick = (severity, time, traceid, serviceName, message) => {
         // Toggle the right drawer's open state
         setIsRightDrawerOpen(true);
+        const selectedLogDataObj = {
+            SeverityText: severity,
+            CreatedTime: time,
+            Traceid: traceid,
+            ServiceName: serviceName,
+            Message: message
+        }
+        setSelectedLogData([selectedLogDataObj]);
     };
 
     const closeDrawer = () => {
@@ -214,7 +224,7 @@ const Loglists = () => {
                                     color: "black",
                                 },
                             }}
-                            onClick={() => handleViewButtonClick()}
+                            onClick={() => handleViewButtonClick(severity, time, traceid, serviceName, message)}
                         >
                             View
                         </Button>
@@ -233,44 +243,37 @@ const Loglists = () => {
     }
 
     const mapLogData = (logData) => {
-        // const indexOfLastLog = currentPage * 10;
-        // const indexOfFirstLog = indexOfLastLog - 10;
-        // const slicedData = logData.slice(indexOfFirstLog, indexOfLastLog);
-        // const slicedData = logData.slice(currentPage * 10, (currentPage + 1) * 10);
-        const finalData = [];
-        const seenTraceIds = new Set(); // Create a Set to track seen traceIds
+        // Initialize an empty array to store the extracted data
+        const extractedData = [];
 
+        // Loop through the sample data
         logData.forEach((data) => {
-            console.log(
-                "Marshall " + data.severityText,
-                data.createdTime,
-                data.traceId,
-                data.serviceName
-            );
+            // Extract the relevant information from logRecords
+            data.scopeLogs.forEach((scopeLog) => {
+                scopeLog.logRecords.forEach((logRecord) => {
+                    // Extract the desired fields
+                    const extractedInfo = {
+                        severityText: logRecord.severityText,
+                        createdTime: data.createdTimeInWords,
+                        traceId: data.traceId,
+                        serviceName: data.serviceName,
+                        bodyValue: logRecord.body.stringValue,
+                    };
 
-            data.scopeLogs.forEach((logs) => {
-                logs.logRecords.forEach((record) => {
-                    const traceId = data.traceId;
-
-                    // Check if this traceId has been processed already
-                    if (!seenTraceIds.has(traceId)) {
-                        finalData.push(
-                            createData(
-                                record.severityText,
-                                data.createdTime,
-                                record.traceId,
-                                data.serviceName,
-                                record.body.stringValue
-                            )
-                        );
-
-                        seenTraceIds.add(traceId); // Add the traceId to the set
-                    }
+                    // Add the extracted information to the array
+                    extractedData.push(extractedInfo);
                 });
             });
         });
-        console.log("Marshell " + JSON.stringify(finalData));
+
+        const finalData = [];
+
+        extractedData.forEach((log) => {
+            finalData.push(createData(log.severityText, log.createdTime, log.traceId, log.serviceName, log.bodyValue));
+        })
+
         return finalData;
+
     };
 
     const handleGetAllLogData = useCallback(
@@ -287,7 +290,8 @@ const Loglists = () => {
                 );
                 if (data.length !== 0) {
                     console.log("DATA " + JSON.stringify(data));
-                    const finalOutput = mapLogData(data);
+                    const updatedData = createTimeInWords(data);
+                    const finalOutput = mapLogData(updatedData);
                     setLogData(finalOutput);
                     setTotalPageCount(Math.ceil(totalCount / pageLimit));
                 }
@@ -304,7 +308,8 @@ const Loglists = () => {
             console.log("Filter callback ");
             const { data, totalCount } = await LogFilterOption(lookBackVal.value, newpage + 1, pageLimit, payload);
             if (data.length !== 0) {
-                const finalOutput = mapLogData(data);
+                const updatedData = createTimeInWords(data);
+                const finalOutput = mapLogData(updatedData);
                 setLogData(finalOutput);
                 console.log(finalOutput);
                 setTotalPageCount(Math.ceil(totalCount / pageLimit));
@@ -312,15 +317,20 @@ const Loglists = () => {
         } catch (error) {
             console.log("ERROR from log " + error);
         }
-    }, [])
+    }, [lookBackVal, setLogData, setTotalPageCount, pageLimit])
 
     useEffect(() => {
 
         if (globalLogData.length !== 0) {
-            const finalOutput = mapLogData(globalLogData);
+            const updatedData = createTimeInWords(globalLogData);
+            const finalOutput = mapLogData(updatedData);
             setLogData(finalOutput);
         } else if (needLogFilterCall) {
             logFilterApiCall(currentPage, logFilterApiBody);
+        } else if (recentLogData !== 0) {
+            const updatedData = createTimeInWords(recentLogData);
+            const finalOutput = mapLogData(updatedData);
+            setLogData(finalOutput);
         } else {
             handleGetAllLogData(currentPage);
         }
@@ -577,16 +587,16 @@ const Loglists = () => {
                                     <StyledTableCell align="right">Value</StyledTableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
-                                {/* {selectedSpan.attributes.map((attribute, index) => (
-                  <StyledTableRow key={attribute.key}>
-                    <StyledTableCell component="th" scope="row">
-                      Severity
-                    </StyledTableCell>
-                    <StyledTableCell align="right"></StyledTableCell>
-                  </StyledTableRow>
-                ))} */}
-                            </TableBody>
+                            {selectedLogData.length !== 0 ? (<TableBody>
+                                {Object.entries(selectedLogData[0]).map(([key, value], index) => (
+                                    <StyledTableRow key={index}>
+                                        <StyledTableCell component="th" scope="row">
+                                            {key}
+                                        </StyledTableCell>
+                                        <StyledTableCell align="right">{value}</StyledTableCell>
+                                    </StyledTableRow>
+                                ))}
+                            </TableBody>) : null}
                         </Table>
                     </TableContainer>
                 </div>
