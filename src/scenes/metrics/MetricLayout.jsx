@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import GridLayout from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import "./MetricLayout.css";
 import LineChart from "./charts/LineChart";
+import Dropdown from "react-dropdown";
+import { GlobalContext } from "../../global/globalContext/GlobalContext";
 
 function MetricLayout() {
   const [layout, setLayout] = useState([
@@ -24,10 +26,55 @@ function MetricLayout() {
   // useEffect(() => {
   //   handleResize();
   // }, [layout]);
+const {lookBackVal}= useContext(GlobalContext);
+  
+ const options = [
+  {
+    "value": 30,
+    "label": "30 minutes"
+  },
+  {
+    "value": 60,
+    "label": "1 hour"
+  },
+  {
+    "value": 120,
+    "label": "2 hours"
+  },
+  {
+    "value": 240,
+    "label": "4 hours"
+  },
+  {
+    "value": 480,
+    "label": "8 hours"
+  },
+  {
+    "value": 720,
+    "label": "12 hours"
+  },
+  {
+    "value": 960,
+    "label": "16 hours"
+  },
+  {
+    "value": 1440,
+    "label": "24 hours"
+  }
+];
 
   return (
     <div className="scrollable-container">
+        
       <div className="resizable-grid-layout-container">
+      {/* <Dropdown
+              options={options}
+              placeholder="Lookback for"
+              value={lookBackVal.label}
+              // onChange={(val) => handleLookbackChange(val)}
+              arrowClosed={<span className="arrow-closed" />}
+              arrowOpen={<span className="arrow-open" />}
+            /> */}
         <GridLayout
           className="layout"
           layout={layout}

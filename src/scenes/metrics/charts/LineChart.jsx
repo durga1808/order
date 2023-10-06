@@ -9,7 +9,7 @@ const LineChart = ({ data }) => {
 
   const series = [
     {
-      name: "XYZ MOTORS",
+      name: data.title,
       data: data.data,
     },
   ];
@@ -18,7 +18,7 @@ const LineChart = ({ data }) => {
     chart: {
       type: "area",
       stacked: true,
-      offsetY: 30,
+      // offsetY: 30,
       zoom: {
         type: "x",
         enabled: true,
@@ -39,7 +39,7 @@ const LineChart = ({ data }) => {
       // text: "CPU UTILIZATION",
       text: data.title,
       align: "middle",
-      offsetY: 10,
+      // offsetY: 10,
       style: {
         color: theme.palette.mode === "dark" ? "#FFF" : "#000",
         fontFamily: "Red Hat Display, sans-serif",
@@ -131,16 +131,11 @@ const LineChart = ({ data }) => {
     },
   };
 
-  useEffect(() => {
-    const createdTime = new Date(1695875216150);
-    console.log(createdTime);
-  }, []);
-
   return (
-    <div style={{ maxHeight: "calc(100vh - 100px)", overflowY: "auto" }}>
+    <div>
       <div
         style={{
-          padding: "10px 20px 10px 20px",
+          padding: "10px 10px 10px 10px",
           border: "1px solid #ddd",
           backgroundColor: "#f9f9f9",
         }}
@@ -150,7 +145,7 @@ const LineChart = ({ data }) => {
             options={options}
             series={series}
             type="area"
-            height={300}
+            height={330}
           />
         </Box>
       </div>
