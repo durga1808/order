@@ -72,6 +72,10 @@ const ApiCallCount = ({ data }) => {
     chart: {
       height: 250,
       type: "bar",
+      stacked: false,
+    toolbar: {
+      show: false,
+    },
     },
     plotOptions: {
       bar: {
@@ -125,6 +129,13 @@ const ApiCallCount = ({ data }) => {
       style: {
         colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
       },
+    },
+    scrollbar: {
+      enabled: true,
+      offsetY: -2,
+      height: 6,
+      trackBorderWidth: 5,
+      thumbBorderWidth: 0,
     },
   };
 

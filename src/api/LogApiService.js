@@ -20,9 +20,12 @@ export const getLogSummaryData = async (timeMinutesAgo) => {
     const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
 
     // Construct the URL with the service names
-    const serviceNameListParam = serviceListData.join('&serviceNameList=');
+    // const serviceNameListParam = serviceListData.join('&serviceNameList=');
+
+    const serviceNameListParam='order-project'
+
     const response = await axios.get(
-      `${logUrl}/LogSumaryChartDataCount?&serviceNameList=${serviceNameListParam}timeAgoMinutes=${timeMinutesAgo}`
+      `${logUrl}/LogSumaryChartDataCount?&serviceNameList=${serviceNameListParam}&timeAgoMinutes=${timeMinutesAgo}`
     );
     return response.data;
   } catch (error) {
