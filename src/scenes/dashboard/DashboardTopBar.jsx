@@ -39,7 +39,7 @@ const DashboardTopBar = () => {
 
   const handleRefreshClick = () => {
     // Implement your refresh logic here
-    const defaultValue = 60;
+    const defaultValue = 120;
     const defaultLabel = options.find((option) => option.value === defaultValue);
     setLookBackVal(defaultLabel);
     setRecentTrace([]);
