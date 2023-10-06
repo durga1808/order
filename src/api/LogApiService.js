@@ -25,7 +25,7 @@ export const getLogSummaryData = async (timeMinutesAgo) => {
     const serviceNameListParam='order-project'
 
     const response = await axios.get(
-      `${logUrl}/LogSumaryChartDataCount?&serviceNameList=${serviceNameListParam}&timeAgoMinutes=${timeMinutesAgo}`
+      `${logUrl}/LogSumaryChartDataCount?&serviceNameList=${serviceNameListParam}timeAgoMinutes=${timeMinutesAgo}`
     );
     return response.data;
   } catch (error) {

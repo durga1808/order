@@ -132,19 +132,20 @@ import {
 } from "@mui/material";
 import { tokens } from "../../../../theme";
 import { useTheme } from "@emotion/react";
-import { getErroredLogDataForLastTwo } from "../../../../api/LogApiService";
+import { findLogByTraceId, getErroredLogDataForLastTwo } from "../../../../api/LogApiService";
 import Loading from "../../../../global/Loading/Loading";
+import { formatDistanceToNow } from "date-fns";
 
 const ServiceTable = ({ selectedService }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
 
-  
-  const { setSelected, setTraceData, setRecentTrace, dashboardPageCount, dashboardPage, setDashboardPage } = useContext(GlobalContext);
+
+  const { setSelected, setRecentLogData } = useContext(GlobalContext);
   const navigate = useNavigate();
 
-  
+
   const [selectedServiceData, setselectedServiceData] = useState([]);
   const [loading, setLoading] = useState(false);
   // console.log("selectedServiceData", selectedServiceData);
@@ -157,14 +158,34 @@ const ServiceTable = ({ selectedService }) => {
     setCurrentPage(selectedPage);
   };
 
-  const handleOpenTrace = (trace) => {
+  const createTimeInWords = (data) => {
+    // Iterate through data and update createdTime
+    const updatedData = data.map(item => {
+      const createdTime = new Date(item.createdTime); // Convert timestamp to Date object
+      const timeAgo = formatDistanceToNow(createdTime, { addSuffix: true });
+      return { ...item, createdTimeInWords: timeAgo };
+    });
+    return updatedData;
+  }
+
+  const handleOpenLog = async (log) => {
 
     // console.log("TRACE " + JSON.stringify([trace] ));
-    setRecentTrace([trace]);
+
     // setTraceData([trace]);
-    localStorage.setItem("routeName", "Traces");
-    setSelected("Traces");
-    navigate("/mainpage/traces");
+    console.log("TraceId " + log.traceId);
+    try {
+      const logData = await findLogByTraceId(log.traceId);
+      console.log("Log Data " + JSON.stringify(logData));
+      if (logData.length !== 0) {
+        setRecentLogData(logData);
+        localStorage.setItem("routeName", "Logs");
+        setSelected("Logs");
+        navigate("/mainpage/logs");
+      }
+    } catch (error) {
+      console.log("Error " + error);
+    }
   }
 
   useEffect(() => {
@@ -177,7 +198,8 @@ const ServiceTable = ({ selectedService }) => {
           serviceName
         );
         // console.log("logDataResponse", logDataResponse.data);
-        setselectedServiceData(logDataResponse.data);
+        const updatedData = createTimeInWords(logDataResponse.data);
+        setselectedServiceData(updatedData);
         setTotalPages(Math.ceil(logDataResponse.totalCount / pageSize));
       } catch (error) {
         console.error("Error fetching log data:", error);
@@ -195,7 +217,7 @@ const ServiceTable = ({ selectedService }) => {
         <Loading />
       ) : (
         <div style={{ margin: "30px" }}>
-          {selectedService && selectedServiceData.length > 0?(
+          {selectedService && selectedServiceData.length > 0 ? (
             <>
               {" "}
               <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
@@ -240,22 +262,22 @@ const ServiceTable = ({ selectedService }) => {
                   <TableBody>
                     {selectedServiceData.length !== 0
                       ? selectedServiceData.map((tableInfo, index) => (
-                          <TableRow key={index}>
-                            <TableCell style={{ textAlign: "center" }}>
-                              {tableInfo.serviceName}
-                            </TableCell>
-                            <TableCell style={{ textAlign: "center" }}>
-                              {tableInfo.traceId}
-                            </TableCell>
+                        <TableRow key={index}>
+                          <TableCell style={{ textAlign: "center" }}>
+                            {tableInfo.serviceName}
+                          </TableCell>
+                          <TableCell style={{ textAlign: "center" }}>
+                            {tableInfo.traceId}
+                          </TableCell>
 
-                            <TableCell style={{ textAlign: "center" }}>
-                              {tableInfo.createdTime}
-                            </TableCell>
-                            <TableCell style={{ textAlign: "center" }}>
-                              <Button variant="primary" onClick={() => handleOpenTrace(tableInfo)}>OPEN LOG</Button>
-                            </TableCell>
-                          </TableRow>
-                        ))
+                          <TableCell style={{ textAlign: "center" }}>
+                            {tableInfo.createdTimeInWords}
+                          </TableCell>
+                          <TableCell style={{ textAlign: "center" }}>
+                            <Button variant="primary" onClick={() => handleOpenLog(tableInfo)}>OPEN LOG</Button>
+                          </TableCell>
+                        </TableRow>
+                      ))
                       : null}
                   </TableBody>
                 </Table>
@@ -276,7 +298,7 @@ const ServiceTable = ({ selectedService }) => {
                 />
               </Stack>
             </>
-          ):serviceName?( <div style={{textAlign:"center",fontWeight:"bold"}}>There is no table data for this service</div>):null}
+          ) : serviceName ? (<div style={{ textAlign: "center", fontWeight: "bold" }}>There is no table data for this service</div>) : null}
         </div>
       )}
     </div>

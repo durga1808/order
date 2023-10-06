@@ -93,6 +93,7 @@ const Loglists = () => {
     const [selectedOption, setSelectedOption] = useState("new");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
+    const [selectedLogData, setSelectedLogData] = useState([]);
     const [logData, setLogData] = useState([]);
     const [loading, setLoading] = useState(false);
     const pageLimit = 10;
@@ -104,20 +105,37 @@ const Loglists = () => {
         lookBackVal,
         globalLogData,
         logFilterApiBody,
-        needLogFilterCall
+        needLogFilterCall,
+        recentLogData,
     } = useContext(GlobalContext);
     const navigate = useNavigate();
 
     const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
-
+    const [noMatchMessage, setNoMatchMessage] = useState("");
+    const [filterMessage, setFilterMessage] = useState("");
+    const [getAllMessage, setGetAllMessage] = useState("");
 
     // const handleChangePage = (event, newPage) => {
     //     setCurrentPage(newPage);
     // };
 
-    const handleViewButtonClick = () => {
+    const handleViewButtonClick = (
+        severity,
+        time,
+        traceid,
+        serviceName,
+        message
+    ) => {
         // Toggle the right drawer's open state
         setIsRightDrawerOpen(true);
+        const selectedLogDataObj = {
+            SeverityText: severity,
+            CreatedTime: time,
+            Traceid: traceid,
+            ServiceName: serviceName,
+            Message: message,
+        };
+        setSelectedLogData([selectedLogDataObj]);
     };
 
     const closeDrawer = () => {
@@ -215,7 +233,15 @@ const Loglists = () => {
                                     color: "black",
                                 },
                             }}
-                            onClick={() => handleViewButtonClick()}
+                            onClick={() =>
+                                handleViewButtonClick(
+                                    severity,
+                                    time,
+                                    traceid,
+                                    serviceName,
+                                    message
+                                )
+                            }
                         >
                             View
                         </Button>
@@ -234,50 +260,53 @@ const Loglists = () => {
     }
 
     const mapLogData = (logData) => {
-        // const indexOfLastLog = currentPage * 10;
-        // const indexOfFirstLog = indexOfLastLog - 10;
-        // const slicedData = logData.slice(indexOfFirstLog, indexOfLastLog);
-        // const slicedData = logData.slice(currentPage * 10, (currentPage + 1) * 10);
-        const finalData = [];
-        const seenTraceIds = new Set(); // Create a Set to track seen traceIds
+        // Initialize an empty array to store the extracted data
+        const extractedData = [];
 
+        // Loop through the sample data
         logData.forEach((data) => {
-            console.log(
-                "Marshall " + data.severityText,
-                data.createdTime,
-                data.traceId,
-                data.serviceName
-            );
+            // Extract the relevant information from logRecords
+            data.scopeLogs.forEach((scopeLog) => {
+                scopeLog.logRecords.forEach((logRecord) => {
+                    // Extract the desired fields
+                    const extractedInfo = {
+                        severityText: logRecord.severityText,
+                        createdTime: data.createdTimeInWords,
+                        traceId: data.traceId,
+                        serviceName: data.serviceName,
+                        bodyValue: logRecord.body.stringValue,
+                    };
 
-            data.scopeLogs.forEach((logs) => {
-                logs.logRecords.forEach((record) => {
-                    const traceId = data.traceId;
-
-                    // Check if this traceId has been processed already
-                    if (!seenTraceIds.has(traceId)) {
-                        finalData.push(
-                            createData(
-                                record.severityText,
-                                data.createdTime,
-                                record.traceId,
-                                data.serviceName,
-                                record.body.stringValue
-                            )
-                        );
-
-                        seenTraceIds.add(traceId); // Add the traceId to the set
-                    }
+                    // Add the extracted information to the array
+                    extractedData.push(extractedInfo);
                 });
             });
         });
-        console.log("Marshell " + JSON.stringify(finalData));
+
+        const finalData = [];
+
+        extractedData.forEach((log) => {
+            finalData.push(
+                createData(
+                    log.severityText,
+                    log.createdTime,
+                    log.traceId,
+                    log.serviceName,
+                    log.bodyValue
+                )
+            );
+        });
+
         return finalData;
     };
 
     const handleGetAllLogData = useCallback(
-
         async (newpage) => {
-            setLoading(true)
+            setLoading(true);
+            // setFilterMessage("");
+            // setGetAllMessage("");
+            // setNoMatchMessage("");
+            // setSearchResults("");
             try {
                 setLogData([]);
                 const { data, totalCount } = await getAllLogBySorts(
@@ -288,9 +317,12 @@ const Loglists = () => {
                 );
                 if (data.length !== 0) {
                     console.log("DATA " + JSON.stringify(data));
-                    const finalOutput = mapLogData(data);
+                    const updatedData = createTimeInWords(data);
+                    const finalOutput = mapLogData(updatedData);
                     setLogData(finalOutput);
                     setTotalPageCount(Math.ceil(totalCount / pageLimit));
+                } else {
+                    setGetAllMessage("No Log Data found!");
                 }
             } catch (error) {
                 console.log("error " + error);
@@ -300,33 +332,116 @@ const Loglists = () => {
         [lookBackVal, selectedOption]
     );
 
-    const logFilterApiCall = useCallback(async (newpage, payload) => {
+    const logFilterApiCall = useCallback(
+        async (newpage, payload) => {
+            setLoading(true);
+            try {
+                console.log("Filter callback ");
+                const { data, totalCount } = await LogFilterOption(
+                    lookBackVal.value,
+                    newpage + 1,
+                    pageLimit,
+                    payload
+                );
+                if (data.length !== 0) {
+                    const updatedData = createTimeInWords(data);
+                    const finalOutput = mapLogData(updatedData);
+                    setLogData(finalOutput);
+                    console.log(finalOutput);
+                    setTotalPageCount(Math.ceil(totalCount / pageLimit));
+                } else {
+                    setFilterMessage("No Matched data for this filter!");
+                }
+            } catch (error) {
+                console.log("ERROR from log " + error);
+            } finally {
+                setLoading(false);
+            }
+        },
+        [lookBackVal, setLogData, setTotalPageCount, pageLimit]
+    );
+
+    const [searchQuery, setSearchQuery] = useState("");
+    const [searchResults, setSearchResults] = useState([]);
+
+    const handlePageChange = async (event, selectedPage) => {
+        setCurrentPage(Number(selectedPage));
+    };
+
+    const handleSearch = async () => {
+        setLoading(true);
         try {
-            console.log("Filter callback ");
-            const { data, totalCount } = await LogFilterOption(lookBackVal.value, newpage + 1, pageLimit, payload);
+            const { data, totalCount } = await searchLogs(
+                searchQuery,
+                lookBackVal.value,
+                currentPage,
+                pageLimit
+            );
+            // Process and set the search results
             if (data.length !== 0) {
-                const finalOutput = mapLogData(data);
-                setLogData(finalOutput);
-                console.log(finalOutput);
+                const updatedData = createTimeInWords(data);
+                const finalOutput = mapLogData(updatedData);
+                setSearchResults(finalOutput);
                 setTotalPageCount(Math.ceil(totalCount / pageLimit));
+                console.log("Search " + JSON.stringify(data));
+                console.log("API", finalOutput);
+            } else {
+                setSearchResults([]);
+                setNoMatchMessage("No result matched for this search");
             }
         } catch (error) {
-            console.log("ERROR from log " + error);
+            console.error("Error searching logs:", error);
+        } finally {
+            setLoading(false);
         }
-    }, [])
+    };
+
+    const handleSearchChange = (event) => {
+        const searchQuery = event.target.value;
+        setSearchQuery(searchQuery);
+
+    };
+
+    const handleSearchKeyDown = (event) => {
+        if (event.key === "Enter") {
+            handleSearch();
+        }
+    };
 
     useEffect(() => {
-
-        if (globalLogData.length !== 0) {
-            const finalOutput = mapLogData(globalLogData);
+        setFilterMessage("");
+        setGetAllMessage("");
+        setNoMatchMessage("");
+        if (globalLogData.length !== 0 && !searchQuery) {
+            console.log("From Trace");
+            const updatedData = createTimeInWords(globalLogData);
+            const finalOutput = mapLogData(updatedData);
             setLogData(finalOutput);
         } else if (needLogFilterCall) {
+            console.log("From Filter");
             logFilterApiCall(currentPage, logFilterApiBody);
+        } else if (recentLogData.length !== 0) {
+            console.log("From recent log data");
+            const updatedData = createTimeInWords(recentLogData);
+            const finalOutput = mapLogData(updatedData);
+            setLogData(finalOutput);
+        } else if (searchQuery) {
+            // setSearchResults([]);
+            handleSearch();
         } else {
+            console.log("From get ALL");
             handleGetAllLogData(currentPage);
         }
-
-    }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall]);
+    }, [
+        currentPage,
+        handleGetAllLogData,
+        globalLogData,
+        logFilterApiBody,
+        logFilterApiCall,
+        needLogFilterCall,
+        recentLogData,
+        searchQuery,
+    ]);
 
     const handleSortOrderChange = (selectedValue) => {
         console.log("SORT " + selectedValue.value);
@@ -378,54 +493,19 @@ const Loglists = () => {
         ),
     ];
 
-    const [searchQuery, setSearchQuery] = useState("");
-    const [searchResults, setSearchResults] = useState([]);
-
-    const handlePageChange = async (event, selectedPage) => {
-        setCurrentPage(Number(selectedPage));
-    };
-
-    const handleSearch = async () => {
-      setLoading(true);
-      try {
-          const { data, totalCount } = await searchLogs(searchQuery, lookBackVal.value, currentPage, pageLimit);
-          // Process and set the search results
-          const finalOutput = mapLogData(data);
-          setSearchResults(finalOutput);
-          setTotalPageCount(Math.ceil(totalCount / pageLimit));
-          console.log("Search " + JSON.stringify(data));
-          console.log("API", finalOutput)
-      } catch (error) {
-          console.error("Error searching logs:", error);
-      } finally {
-          setLoading(false);
-      }
-  };
-  
-    const handleSearchChange = (event) => {
-      const searchQuery = event.target.value;
-      setSearchQuery(searchQuery);
-    };
-    
-    const handleSearchKeyDown = (event) => {
-      if (event.key === "Enter") {
-        handleSearch();
-      }
-    };
-
-    useEffect(() => {
-      if (globalLogData.length !== 0 && !searchQuery) {
-        const finalOutput = mapLogData(globalLogData);
-        setLogData(finalOutput);
-      } else if (needLogFilterCall) {
-        logFilterApiCall(currentPage, logFilterApiBody);
-      } else if (searchQuery) {
-        setSearchResults([]); // Clear previous search results
-        handleSearch();
-      } else {
-        handleGetAllLogData(currentPage);
-      }
-    }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
+    // useEffect(() => {
+    //   if (globalLogData.length !== 0 && !searchQuery) {
+    //     const finalOutput = mapLogData(globalLogData);
+    //     setLogData(finalOutput);
+    //   } else if (needLogFilterCall) {
+    //     logFilterApiCall(currentPage, logFilterApiBody);
+    //   } else if (searchQuery) {
+    //     setSearchResults([]); // Clear previous search results
+    //     handleSearch();
+    //   } else {
+    //     handleGetAllLogData(currentPage);
+    //   }
+    // }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
 
     return (
         <div>
@@ -477,133 +557,207 @@ const Loglists = () => {
             </Box>
 
             <Card sx={{ padding: "20px", height: "73vh" }}>
-                <div>{loading ? <Loading /> : <> <TableContainer sx={{ maxWidth: 1200, maxHeight: "calc(75vh - 85px)", overflowY: "auto" }}>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                                {tableHeaderData.map((column) => (
-                                    <TableCell
-                                        key={column.id}
-                                        align={column.align}
-                                        style={{ padding: "10px" }}
-                                    >
-                                        <Typography variant="h5" style={{ width: "130px", fontWeight: "800", padding: '10px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                                            {column.label}
-                                        </Typography>
-                                    </TableCell>
-                                ))}
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {searchResults.length > 0 ? (
-                                searchResults.map((row) => (
-                                    // return (
-                                        <TableRow
-                                            hover
-                                            role="checkbox"
-                                            tabIndex={-1}
-                                            key={row.traceid}
-                                        >
-                                            {tableHeaderData.map((column) => {
-                                                const value = row[column.id];
-                                                // return (
-                                                // <TableCell key={column.id} align={column.align}>
-                                                //     {value}
-                                                // </TableCell>
-                                                // )
-                                                if (column.id === "action") {
-                                                    return (
-                                                        <TableCell
-                                                            key={column.id}
-                                                            align={column.align}
-                                                        // style={{ padding: "10px" }}
-                                                        >
-                                                            <Typography variant="h6" style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</Typography>
-                                                        </TableCell>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <TableCell
-                                                            key={column.id}
-                                                            align={column.align}
-                                                        // style={{ padding: "10px" }}
-                                                        >
-                                                            <Typography variant="h6" style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</Typography>
-                                                        </TableCell>
-                                                    );
-                                                }
-                                            })}
+                <div>
+                    {loading ? (
+                        <Loading />
+                    ) : noMatchMessage ? (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+                            <Typography variant="h5" fontWeight={"600"}>
+                                {noMatchMessage}
+                            </Typography>
+                        </div>
+                    ) : filterMessage ? (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+                            <Typography variant="h5" fontWeight={"600"}>
+                                {filterMessage}
+                            </Typography>
+                        </div>
+                    ) : getAllMessage ? (
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+                            <Typography variant="h5" fontWeight={"600"}>
+                                {getAllMessage}
+                            </Typography>
+                        </div>
+                    ) : (
+                        <>
+                            {" "}
+                            <TableContainer
+                                sx={{
+                                    maxWidth: 1200,
+                                    maxHeight: "calc(75vh - 85px)",
+                                    overflowY: "auto",
+                                }}
+                            >
+                                <Table stickyHeader aria-label="sticky table">
+                                    <TableHead>
+                                        <TableRow>
+                                            {tableHeaderData.map((column) => (
+                                                <TableCell
+                                                    key={column.id}
+                                                    align={column.align}
+                                                    style={{ padding: "10px" }}
+                                                >
+                                                    <Typography
+                                                        variant="h5"
+                                                        style={{
+                                                            width: "130px",
+                                                            fontWeight: "800",
+                                                            padding: "10px",
+                                                            whiteSpace: "nowrap",
+                                                            overflow: "hidden",
+                                                            textOverflow: "ellipsis",
+                                                        }}
+                                                    >
+                                                        {column.label}
+                                                    </Typography>
+                                                </TableCell>
+                                            ))}
                                         </TableRow>
-                                    // );
-    
-                                ))
-                            ): (
-                                logData.map((row, index) => (
-                                    // return (
-                                        <TableRow
-                                            hover
-                                            role="checkbox"
-                                            tabIndex={-1}
-                                            key={index}
-                                        >
-                                            {tableHeaderData.map((column, index) => {
-                                                const value = row[column.id];
+                                    </TableHead>
+                                    <TableBody>
+                                        {searchResults.length > 0
+                                            ? searchResults.map((row) => (
                                                 // return (
-                                                // <TableCell key={column.id} align={column.align}>
-                                                //     {value}
-                                                // </TableCell>
-                                                // )
-                                                if (column.id === "action") {
-                                                    return (
-                                                        <TableCell
-                                                            key={index}
-                                                            align={column.align}
-                                                        // style={{ padding: "10px" }}
-                                                        >
-                                                            <Typography variant="h6" style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</Typography>
-                                                        </TableCell>
-                                                    );
-                                                } else {
-                                                    return (
-                                                        <TableCell
-                                                            key={index}
-                                                            align={column.align}
-                                                        // style={{ padding: "10px" }}
-                                                        >
-                                                            <Typography variant="h6" style={{ width: "150px", whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{value}</Typography>
-                                                        </TableCell>
-                                                    );
-                                                }
-                                            })}
-                                        </TableRow>
-                                    // );
-    
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
-
-                </TableContainer>
-                    <Stack
-                        spacing={2}
-                        direction="row"
-                        justifyContent="center"
-                        style={{ marginTop: "20px" }}
-                    >
-                        <Pagination
-                            count={totalPageCount}
-                            page={currentPage}
-                            onChange={handlePageChange}
-                            variant="outlined"
-                            shape="rounded"
-                            size="small"
-                        />
-                    </Stack></>}
+                                                <TableRow
+                                                    hover
+                                                    role="checkbox"
+                                                    tabIndex={-1}
+                                                    key={row.traceid}
+                                                >
+                                                    {tableHeaderData.map((column) => {
+                                                        const value = row[column.id];
+                                                        // return (
+                                                        // <TableCell key={column.id} align={column.align}>
+                                                        //     {value}
+                                                        // </TableCell>
+                                                        // )
+                                                        if (column.id === "action") {
+                                                            return (
+                                                                <TableCell
+                                                                    key={column.id}
+                                                                    align={column.align}
+                                                                // style={{ padding: "10px" }}
+                                                                >
+                                                                    <Typography
+                                                                        variant="h6"
+                                                                        style={{
+                                                                            width: "150px",
+                                                                            whiteSpace: "nowrap",
+                                                                            overflow: "hidden",
+                                                                            textOverflow: "ellipsis",
+                                                                        }}
+                                                                    >
+                                                                        {value}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            );
+                                                        } else {
+                                                            return (
+                                                                <TableCell
+                                                                    key={column.id}
+                                                                    align={column.align}
+                                                                // style={{ padding: "10px" }}
+                                                                >
+                                                                    <Typography
+                                                                        variant="h6"
+                                                                        style={{
+                                                                            width: "150px",
+                                                                            whiteSpace: "nowrap",
+                                                                            overflow: "hidden",
+                                                                            textOverflow: "ellipsis",
+                                                                        }}
+                                                                    >
+                                                                        {value}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            );
+                                                        }
+                                                    })}
+                                                </TableRow>
+                                                // );
+                                            ))
+                                            : logData.map((row, index) => (
+                                                // return (
+                                                <TableRow
+                                                    hover
+                                                    role="checkbox"
+                                                    tabIndex={-1}
+                                                    key={index}
+                                                >
+                                                    {tableHeaderData.map((column, index) => {
+                                                        const value = row[column.id];
+                                                        // return (
+                                                        // <TableCell key={column.id} align={column.align}>
+                                                        //     {value}
+                                                        // </TableCell>
+                                                        // )
+                                                        if (column.id === "action") {
+                                                            return (
+                                                                <TableCell
+                                                                    key={index}
+                                                                    align={column.align}
+                                                                // style={{ padding: "10px" }}
+                                                                >
+                                                                    <Typography
+                                                                        variant="h6"
+                                                                        style={{
+                                                                            width: "150px",
+                                                                            whiteSpace: "nowrap",
+                                                                            overflow: "hidden",
+                                                                            textOverflow: "ellipsis",
+                                                                        }}
+                                                                    >
+                                                                        {value}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            );
+                                                        } else {
+                                                            return (
+                                                                <TableCell
+                                                                    key={index}
+                                                                    align={column.align}
+                                                                // style={{ padding: "10px" }}
+                                                                >
+                                                                    <Typography
+                                                                        variant="h6"
+                                                                        style={{
+                                                                            width: "150px",
+                                                                            whiteSpace: "nowrap",
+                                                                            overflow: "hidden",
+                                                                            textOverflow: "ellipsis",
+                                                                        }}
+                                                                    >
+                                                                        {value}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            );
+                                                        }
+                                                    })}
+                                                </TableRow>
+                                                // );
+                                            ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                            <Stack
+                                spacing={2}
+                                direction="row"
+                                justifyContent="center"
+                                style={{ marginTop: "20px" }}
+                            >
+                                <Pagination
+                                    count={totalPageCount}
+                                    page={currentPage}
+                                    onChange={handlePageChange}
+                                    variant="outlined"
+                                    shape="rounded"
+                                    size="small"
+                                />
+                            </Stack>
+                        </>
+                    )}
                 </div>
             </Card>
-
-
-
 
             {/* <TablePagination
                     rowsPerPageOptions={[5]}
@@ -656,16 +810,20 @@ const Loglists = () => {
                                     <StyledTableCell align="right">Value</StyledTableCell>
                                 </TableRow>
                             </TableHead>
-                            <TableBody>
-                                {/* {selectedSpan.attributes.map((attribute, index) => (
-                  <StyledTableRow key={attribute.key}>
-                    <StyledTableCell component="th" scope="row">
-                      Severity
-                    </StyledTableCell>
-                    <StyledTableCell align="right"></StyledTableCell>
-                  </StyledTableRow>
-                ))} */}
-                            </TableBody>
+                            {selectedLogData.length !== 0 ? (
+                                <TableBody>
+                                    {Object.entries(selectedLogData[0]).map(
+                                        ([key, value], index) => (
+                                            <StyledTableRow key={index}>
+                                                <StyledTableCell component="th" scope="row">
+                                                    {key}
+                                                </StyledTableCell>
+                                                <StyledTableCell align="right">{value}</StyledTableCell>
+                                            </StyledTableRow>
+                                        )
+                                    )}
+                                </TableBody>
+                            ) : null}
                         </Table>
                     </TableContainer>
                 </div>

@@ -171,7 +171,7 @@ const LogBarChart = () => {
         setEmptyMessage("No Data to Show");
       }
 
-      // console.log("log summary data " + JSON.parse(JSON.stringify(response)));
+      console.log("log summary data " + JSON.stringify(response));
       setLoading(false);
     } catch (error) {
       console.log("ERROR on Log summary " + error);
