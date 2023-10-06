@@ -556,7 +556,7 @@ const Loglists = () => {
                 </Box>
             </Box>
 
-            <Card sx={{ padding: "20px", height: "73vh" }}>
+            <Card sx={{ padding: "20px", height: "71vh" }}>
                 <div>
                     {loading ? (
                         <Loading />
@@ -584,18 +584,18 @@ const Loglists = () => {
                             <TableContainer
                                 sx={{
                                     maxWidth: 1200,
-                                    maxHeight: "calc(75vh - 85px)",
+                                    maxHeight: "calc(73vh - 85px)",
                                     overflowY: "auto",
                                 }}
                             >
                                 <Table stickyHeader aria-label="sticky table">
                                     <TableHead>
                                         <TableRow>
-                                            {tableHeaderData.map((column) => (
+                                            {tableHeaderData.map((column, index) => (
                                                 <TableCell
-                                                    key={column.id}
+                                                    key={index}
                                                     align={column.align}
-                                                    style={{ padding: "10px" }}
+                                                    // style={{ padding: "10px" }}
                                                 >
                                                     <Typography
                                                         variant="h5"
@@ -616,15 +616,15 @@ const Loglists = () => {
                                     </TableHead>
                                     <TableBody>
                                         {searchResults.length > 0
-                                            ? searchResults.map((row) => (
+                                            ? searchResults.map((row, index) => (
                                                 // return (
                                                 <TableRow
                                                     hover
                                                     role="checkbox"
                                                     tabIndex={-1}
-                                                    key={row.traceid}
+                                                    key={index}
                                                 >
-                                                    {tableHeaderData.map((column) => {
+                                                    {tableHeaderData.map((column, index) => {
                                                         const value = row[column.id];
                                                         // return (
                                                         // <TableCell key={column.id} align={column.align}>
@@ -634,9 +634,9 @@ const Loglists = () => {
                                                         if (column.id === "action") {
                                                             return (
                                                                 <TableCell
-                                                                    key={column.id}
+                                                                    key={index}
                                                                     align={column.align}
-                                                                // style={{ padding: "10px" }}
+                                                                style={{ padding: "10px" }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
@@ -656,7 +656,7 @@ const Loglists = () => {
                                                                 <TableCell
                                                                     key={column.id}
                                                                     align={column.align}
-                                                                // style={{ padding: "10px" }}
+                                                                style={{ padding: "10px" }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
@@ -696,12 +696,12 @@ const Loglists = () => {
                                                                 <TableCell
                                                                     key={index}
                                                                     align={column.align}
-                                                                // style={{ padding: "10px" }}
+                                                                style={{ padding: "10px" }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
                                                                         style={{
-                                                                            width: "150px",
+                                                                            width: "180px",
                                                                             whiteSpace: "nowrap",
                                                                             overflow: "hidden",
                                                                             textOverflow: "ellipsis",
@@ -716,7 +716,7 @@ const Loglists = () => {
                                                                 <TableCell
                                                                     key={index}
                                                                     align={column.align}
-                                                                // style={{ padding: "10px" }}
+                                                                style={{ padding: "10px" }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
@@ -743,7 +743,7 @@ const Loglists = () => {
                                 spacing={2}
                                 direction="row"
                                 justifyContent="center"
-                                style={{ marginTop: "20px" }}
+                                style={{ marginTop: "10px", marginBottom: "10px" }}
                             >
                                 <Pagination
                                     count={totalPageCount}
@@ -818,7 +818,7 @@ const Loglists = () => {
                                                 <StyledTableCell component="th" scope="row">
                                                     {key}
                                                 </StyledTableCell>
-                                                <StyledTableCell align="right">{value}</StyledTableCell>
+                                                <StyledTableCell align="right" style={{ width: "50px"}}>{value}</StyledTableCell>
                                             </StyledTableRow>
                                         )
                                     )}
