@@ -89,6 +89,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
     {
       name: "Error Calls",
       data: ErrSuccessData.map((item) => item.totalErrorCalls),
+      color: "#FF0000",
     },
     {
       name: "Success Calls",
