@@ -322,16 +322,20 @@ const Loglists = () => {
     useEffect(() => {
 
         if (globalLogData.length !== 0) {
+            console.log("From Trace");
             const updatedData = createTimeInWords(globalLogData);
             const finalOutput = mapLogData(updatedData);
             setLogData(finalOutput);
         } else if (needLogFilterCall) {
+            console.log("From Filter");
             logFilterApiCall(currentPage, logFilterApiBody);
-        } else if (recentLogData !== 0) {
+        } else if (recentLogData.length !== 0) {
+            console.log("From recent log data");
             const updatedData = createTimeInWords(recentLogData);
             const finalOutput = mapLogData(updatedData);
             setLogData(finalOutput);
         } else {
+            console.log("From get ALL");
             handleGetAllLogData(currentPage);
         }
 
