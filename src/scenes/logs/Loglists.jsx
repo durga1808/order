@@ -510,7 +510,7 @@ const Loglists = () => {
                 <TextField
                     className="search-bar"
                     label="Search"
-                    variant="outlined"
+                    // variant="outlined"
                     size="large"
                     style={{ borderWidth: "4px", marginBottom: "10px", width: "80%" }}
                     InputProps={{
@@ -534,7 +534,7 @@ const Loglists = () => {
             </Box>
 
             <Card sx={{ padding: "20px", height: "71vh",
-            backgroundColor:colors.primary[500]
+            // backgroundColor:colors.primary[500]
              }}>
                 <div>
                     {loading ? (
@@ -597,17 +597,14 @@ const Loglists = () => {
                                     <TableBody>
                                         {searchResults.length > 0
                                             ? searchResults.map((row, index) => (
-                                                <TableRow
+                                                <StyledTableRow
                                                     hover
                                                     role="checkbox"
                                                     tabIndex={-1}
                                                     key={index}
-                                                    sx={{'&:nth-of-type(odd)': {
-                                                      backgroundColor: colors.primary[400],
-                                                    },
-                                                    '&:nth-of-type(even)': {
-                                                      backgroundColor: "#fff",
-                                                    }}}
+                                                    // style={{
+                                                    //   backgroundColor: index % 2 === 0 ? colors.primary[400] : "#fff",
+                                                    // }}
                                                 >
                                                     {tableHeaderData.map((column, index) => {
                                                         const value = row[column.id];
@@ -653,20 +650,24 @@ const Loglists = () => {
                                                             );
                                                         }
                                                     })}
-                                                </TableRow>
+                                                </StyledTableRow>
                                             ))
                                             : logData.map((row, index) => (
-                                                <TableRow
+                                                <StyledTableRow
                                                     hover
                                                     role="checkbox"
                                                     tabIndex={-1}
                                                     key={index}
-                                                    sx={{'&:nth-of-type(odd)': {
-                                                      backgroundColor: colors.primary[400],
-                                                    },
-                                                    '&:nth-of-type(even)': {
-                                                      backgroundColor: "#fff",
-                                                    }}}
+                                                  //   sx={{'&:nth-of-type(odd)': {
+                                                  //     backgroundColor: colors.primary[400],
+                                                  //   },
+                                                  //   '&:nth-of-type(even)': {
+                                                  //     backgroundColor: "#fff",
+                                                  //   }
+                                                  // }}
+                                                  // style={{
+                                                  //   backgroundColor: index % 2 === 0 ? colors.primary[400] : "#fff",
+                                                  // }}
                                                 >
                                                     {tableHeaderData.map((column, index) => {
                                                         const value = row[column.id];
@@ -712,7 +713,7 @@ const Loglists = () => {
                                                             );
                                                         }
                                                     })}
-                                                </TableRow>
+                                                </StyledTableRow>
                                             ))}
                                     </TableBody>
                                 </Table>
