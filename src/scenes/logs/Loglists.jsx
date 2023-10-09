@@ -512,7 +512,7 @@ const Loglists = () => {
                     id="outlined-multiline-flexible"
                     className="search-bar"
                     // label="Search"
-                    placeholder="Search"
+                    placeholder="Search for message"
                     // variant="outlined"
                     size="large"
                     style={{ borderWidth: "4px", marginBottom: "10px", width: "80%" }}
@@ -522,9 +522,6 @@ const Loglists = () => {
                               <SearchOutlined />
                           </IconButton>
                       ),
-                    }}
-                    InputLabelProps={{
-                        style: { color: 'inherit' }
                     }}
                       value={searchQuery}
                       onChange={handleSearchChange}
