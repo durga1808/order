@@ -129,6 +129,8 @@ import {
   TableRow,
   Paper,
   Button,
+  CircularProgress,
+  Typography,
 } from "@mui/material";
 import { tokens } from "../../../../theme";
 import { useTheme } from "@emotion/react";
@@ -213,9 +215,12 @@ const ServiceTable = ({ selectedService }) => {
   return (
     <div>
       {" "}
-      {loading ? (
-        <Loading />
-      ) : (
+      {loading ?  (<div style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: "center", width: "100%", height:"20vh" }}>
+            <CircularProgress style={{ color: colors.blueAccent[400] }} size={40} thickness={4} />
+            <Typography variant="h5" fontWeight={"600"} mt={2}>
+                LOADING.....
+            </Typography>
+        </div>)  : (
         <div style={{ margin: "30px" }}>
           {selectedService && selectedServiceData.length > 0 ? (
             <>

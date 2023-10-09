@@ -1,9 +1,11 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
+import { tokens } from "../../../../theme";
 
 const DebugBarChart = ({ data }) => {
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const DebugBarChartOption = {
     chart: {
@@ -19,14 +21,21 @@ const DebugBarChart = ({ data }) => {
     xaxis: {
       labels: {
         rotate: -45,
+        style: {
+          colors: colors.textColor[500],
+          fontSize: 12,
+          fontWeight: 500,
+          fontFamily: "Red Hat Display"
+        },
       },
       categories: data.map((item) => item.serviceName),
       title: {
         text: "List of Services",
         style: {
-          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-          fontFamily: "Red Hat Display, sans-serif",
+          color: colors.textColor[500],
+          fontSize: 12,
           fontWeight: 500,
+          fontFamily: "Red Hat Display"
         },
       },
     },
@@ -35,16 +44,20 @@ const DebugBarChart = ({ data }) => {
       title: {
         text: "Log Debug Count",
         style: {
-          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-          fontFamily: "Red Hat Display, sans-serif",
+          color: colors.textColor[500],
+          fontSize: 12,
           fontWeight: 500,
+          fontFamily: "Red Hat Display"
         },
       },
 
       labels: {
         style: {
-          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
-        },
+            colors: colors.textColor[500],
+            fontSize: 12,
+            fontWeight: 500,
+            fontFamily: "Red Hat Display"
+          },
       },
     },
 
@@ -54,16 +67,13 @@ const DebugBarChart = ({ data }) => {
       offsetX: 0,
       offsetY: 10,
       style: {
-        color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-        fontFamily: "Red Hat Display, sans-serif",
+        color: colors.textColor[500],
+        fontSize: 16,
         fontWeight: 500,
+        fontFamily: "Red Hat Display"
       },
     },
-    labels: {
-      style: {
-        colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
-      },
-    },
+   
   };
 
   const debugcountseries = [

@@ -63,6 +63,9 @@ export const tokens = (mode) => ({
       lightGreen: {
         500: "#65d57a",
       },
+      textColor: {
+        500: "#FFF"
+      },
       "navyBlueAccent": {
         "100": "#B2CCFF",
         "200": "#99B9FF",
@@ -133,6 +136,9 @@ export const tokens = (mode) => ({
       },
       lightGreen: {
         500: "#30A849",
+      },
+      textColor: {
+        500: "#000"
       },
       "navyBlueAccent": {
         "100": "#B2CCFF",

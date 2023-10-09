@@ -1,9 +1,11 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
+import { tokens } from "../../../../theme";
 
 const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
@@ -11,14 +13,15 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
     onBarClick(selectedDataPointIndex, selectedSeriesName); // Pass selected series name to the parent component
     console.log("ServiceName " + ErrSuccessData[selectedDataPointIndex].serviceName);
   };
-
-
-   console.log("ghhghh",ErrSuccessData);
-  
   const options = {
     chart: {
       type: "bar",
       events: { dataPointSelection: handleBarClick },
+    },
+    legend: {
+      labels: {
+        colors: colors.textColor[500], // Change legend text color here
+      },
     },
     plotOptions: {
       bar: {
@@ -31,9 +34,19 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       title: {
         text: "List of Services",
         style: {
-          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-          fontFamily: "Red Hat Display, sans-serif",
+          color: colors.textColor[500],
+          fontSize: 12,
           fontWeight: 500,
+          fontFamily: "Red Hat Display"
+        },
+      },
+      labels: {
+        rotate: -45,
+        style: {
+          colors: colors.textColor[500],
+          fontSize: 10,
+          fontWeight: 500,
+          fontFamily: "Red Hat Display"
         },
       },
     },
@@ -41,15 +54,19 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       title: {
         text: "Call Count",
         style: {
-          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-          fontFamily: "Red Hat Display, sans-serif",
+          color: colors.textColor[500],
+          fontSize: 12,
           fontWeight: 500,
+          fontFamily: "Red Hat Display"
         },
       },
 
       labels: {
         style: {
-          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          colors: colors.textColor[500],
+          fontSize: 10,
+          fontWeight: 500,
+          fontFamily: "Red Hat Display"
         },
       },
     },
@@ -60,9 +77,10 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       offsetX: 0,
       offsetY: 5,
       style: {
-        color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-        fontFamily: "Red Hat Display, sans-serif",
+        color: colors.textColor[500],
+        fontSize: 16,
         fontWeight: 500,
+        fontFamily: "Red Hat Display"
       },
     },
   };

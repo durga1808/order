@@ -7,66 +7,6 @@ const ApiCallCount = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  // const apiCallsOptions = {
-  //   chart: {
-  //     type: "bar",
-  //   },
-  //   plotOptions: {
-  //     bar: {
-  //       columnWidth: "30px",
-  //     },
-  //   },
-  //   zoom: {
-  //     type: "x",
-  //     enabled: true,
-  //     autoScaleYaxis: true,
-  //   },
-  //   xaxis: {
-  //     categories: data.map((item) => item.serviceName),
-  //     title: {
-  //       text: "List of Services",
-  //       style: {
-  //         color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-  //         fontFamily: "Red Hat Display, sans-serif",
-  //         fontWeight: 500,
-  //       },
-  //     },
-  //   },
-  //   yaxis: {
-  //     title: {
-  //       text: "API Calls Count",
-  //       style: {
-  //         color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-  //         fontFamily: "Red Hat Display, sans-serif",
-  //         fontWeight: 500,
-  //       },
-  //     },
-  //     labels: {
-  //       style: {
-  //         colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
-  //       },
-  //     },
-  //   },
-  //   title: {
-  //     text: "API Calls Count",
-  //     align: "middle",
-  //     // margin: 5,
-  //     offsetX: 0,
-  //     offsetY: 10,
-  //     style: {
-  //       color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-  //       fontFamily: "Red Hat Display, sans-serif",
-  //       fontWeight: 500,
-  //     },
-  //   },
-  // };
-
-  // const apiCallsSeries = [
-  //   {
-  //     name: "API Calls",
-  //     data: data.map((item) => item.apiCalls),
-  //   },
-  // ];
 
   const apiCallsOptions = {
     chart: {
@@ -86,43 +26,55 @@ const ApiCallCount = ({ data }) => {
     xaxis: {
       labels: {
         rotate: -45,
+        style: {
+          colors: colors.textColor[500],
+          fontSize: 10,
+          fontWeight: 500,
+          fontFamily: "Red Hat Display"
+        },
       },
       categories: data.map((item) => item.serviceName),
       title: {
         text: "List of Services",
         style: {
-          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-          fontFamily: "Red Hat Display, sans-serif",
+          color: colors.textColor[500],
+          fontSize: 12,
           fontWeight: 500,
+          fontFamily: "Red Hat Display"
         },
       },
+      
     },
     yaxis: {
       title: {
         text: "Call Count",
         style: {
-          color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-          fontFamily: "Red Hat Display, sans-serif",
+          color: colors.textColor[500],
+          fontSize: 12,
           fontWeight: 500,
+          fontFamily: "Red Hat Display"
         },
       },
 
       labels: {
         style: {
-          colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
+          colors: colors.textColor[500],
+          fontSize: 10,
+          fontWeight: 500,
+          fontFamily: "Red Hat Display"
         },
       },
     },
     title: {
       text: "API Calls Count",
       align: "middle",
-      // margin: 5,
       offsetX: 0,
       offsetY: 10,
       style: {
-        color: theme.palette.mode === "dark" ? "#FFF" : "#000",
-        fontFamily: "Red Hat Display, sans-serif",
+        color: colors.textColor[500],
+        fontSize: 16,
         fontWeight: 500,
+        fontFamily: "Red Hat Display"
       },
     },
     labels: {

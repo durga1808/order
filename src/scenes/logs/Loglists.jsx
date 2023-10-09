@@ -42,32 +42,26 @@ const tableHeaderData = [
     {
         id: "severity",
         label: "Severity",
-        // minWidth: 120,
     },
     {
         id: "time",
         label: "Time",
-        // minWidth: 170,
     },
     {
         id: "traceid",
         label: "Trace ID",
-        // minWidth: 120,
     },
     {
         id: "serviceName",
         label: "Service Name",
-        // minWidth: 170,
     },
     {
         id: "message",
         label: "Message",
-        // minWidth: 170,
     },
     {
         id: "action",
         label: "Action",
-        // minWidth: 170,
     },
 ];
 
@@ -89,7 +83,6 @@ const sortOrderOptions = [
 const Loglists = () => {
     const mockData = ["Newest First", "Oldest First", "Error First"];
 
-    const defaultOptions = mockData[0];
     const [selectedOption, setSelectedOption] = useState("new");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
@@ -208,7 +201,6 @@ const Loglists = () => {
                             sx={{
                                 m: "8px",
                                 backgroundColor: colors.greenAccent[500],
-                                // color: "black",
                                 "&:hover": {
                                     backgroundColor: "#ffffff",
                                     color: "black",
@@ -227,7 +219,6 @@ const Loglists = () => {
                             sx={{
                                 m: "8px",
                                 backgroundColor: colors.greenAccent[500],
-                                // color: "black",
                                 "&:hover": {
                                     backgroundColor: "#ffffff",
                                     color: "black",
@@ -519,7 +510,7 @@ const Loglists = () => {
                 <TextField
                     className="search-bar"
                     label="Search"
-                    variant="outlined"
+                    // variant="outlined"
                     size="large"
                     style={{ borderWidth: "4px", marginBottom: "10px", width: "80%" }}
                     InputProps={{
@@ -529,20 +520,6 @@ const Loglists = () => {
                     onChange={handleSearchChange}
                     onKeyDown={handleSearchKeyDown}
                 />
-
-                {/* <FormControl variant="outlined" style={{ marginBottom: '10px', marginLeft: '10px', width: '15%' }}>
-                    <InputLabel>Select an option</InputLabel>
-                    <Select
-                        value={selectedOption}
-                        onChange={handleChange}
-                        label="Select an option"
-                    >
-                        {mockData.map((mockDropdownData, index) => (
-                            <MenuItem key={index} value={mockDropdownData}>{mockDropdownData}</MenuItem>
-                        ))
-                        }
-                    </Select>
-                </FormControl> */}
 
                 <Box sx={{ margin: "5px 0 20px 0" }}>
                     <Dropdown
@@ -556,7 +533,9 @@ const Loglists = () => {
                 </Box>
             </Box>
 
-            <Card sx={{ padding: "20px", height: "71vh" }}>
+            <Card sx={{ padding: "20px", height: "71vh",
+            // backgroundColor:colors.primary[500]
+             }}>
                 <div>
                     {loading ? (
                         <Loading />
@@ -586,6 +565,7 @@ const Loglists = () => {
                                     maxWidth: 1200,
                                     maxHeight: "calc(73vh - 85px)",
                                     overflowY: "auto",
+                                    // backgroundColor:colors.primary[500]
                                 }}
                             >
                                 <Table stickyHeader aria-label="sticky table">
@@ -595,7 +575,7 @@ const Loglists = () => {
                                                 <TableCell
                                                     key={index}
                                                     align={column.align}
-                                                    // style={{ padding: "10px" }}
+                                                    // style={{ padding: "10px", backgroundColor:colors.primary[500] }}
                                                 >
                                                     <Typography
                                                         variant="h5"
@@ -617,20 +597,17 @@ const Loglists = () => {
                                     <TableBody>
                                         {searchResults.length > 0
                                             ? searchResults.map((row, index) => (
-                                                // return (
-                                                <TableRow
+                                                <StyledTableRow
                                                     hover
                                                     role="checkbox"
                                                     tabIndex={-1}
                                                     key={index}
+                                                    // style={{
+                                                    //   backgroundColor: index % 2 === 0 ? colors.primary[400] : "#fff",
+                                                    // }}
                                                 >
                                                     {tableHeaderData.map((column, index) => {
                                                         const value = row[column.id];
-                                                        // return (
-                                                        // <TableCell key={column.id} align={column.align}>
-                                                        //     {value}
-                                                        // </TableCell>
-                                                        // )
                                                         if (column.id === "action") {
                                                             return (
                                                                 <TableCell
@@ -673,24 +650,27 @@ const Loglists = () => {
                                                             );
                                                         }
                                                     })}
-                                                </TableRow>
-                                                // );
+                                                </StyledTableRow>
                                             ))
                                             : logData.map((row, index) => (
-                                                // return (
-                                                <TableRow
+                                                <StyledTableRow
                                                     hover
                                                     role="checkbox"
                                                     tabIndex={-1}
                                                     key={index}
+                                                  //   sx={{'&:nth-of-type(odd)': {
+                                                  //     backgroundColor: colors.primary[400],
+                                                  //   },
+                                                  //   '&:nth-of-type(even)': {
+                                                  //     backgroundColor: "#fff",
+                                                  //   }
+                                                  // }}
+                                                  // style={{
+                                                  //   backgroundColor: index % 2 === 0 ? colors.primary[400] : "#fff",
+                                                  // }}
                                                 >
                                                     {tableHeaderData.map((column, index) => {
                                                         const value = row[column.id];
-                                                        // return (
-                                                        // <TableCell key={column.id} align={column.align}>
-                                                        //     {value}
-                                                        // </TableCell>
-                                                        // )
                                                         if (column.id === "action") {
                                                             return (
                                                                 <TableCell
@@ -733,8 +713,7 @@ const Loglists = () => {
                                                             );
                                                         }
                                                     })}
-                                                </TableRow>
-                                                // );
+                                                </StyledTableRow>
                                             ))}
                                     </TableBody>
                                 </Table>
@@ -772,11 +751,8 @@ const Loglists = () => {
             <Drawer
                 anchor="right"
                 open={isRightDrawerOpen}
-                // onClose={() => setIsRightDrawerOpen(false)} // Close the drawer when clicking outside
-                // onClose={onClose}
                 onClose={closeDrawer}
             >
-                {/* close icon button */}
                 <List>
                     <ListItem
                         sx={{
@@ -787,7 +763,6 @@ const Loglists = () => {
                     >
                         <IconButton
                             color="inherit"
-                            //    onClick={onClose}
                             onClick={closeDrawer}
                         >
                             <ClearRoundedIcon />
@@ -796,9 +771,7 @@ const Loglists = () => {
                 </List>
 
                 <div style={{ width: "300px", padding: "20px" }}>
-                    {/* Content for the right drawer */}
                     <Typography variant="h6">Log Metadata</Typography>
-                    {/* Add your content here */}
                 </div>
 
                 <div style={{ marginTop: "20px", paddingBottom: "20px" }}>
