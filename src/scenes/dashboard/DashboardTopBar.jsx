@@ -20,22 +20,24 @@ import Logfilter from "../logs/Logfilter";
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
-  const {
-    lookBackVal,
-    setLookBackVal,
-    setNeedFilterCall,
-    setTraceGlobalError,
-    setTraceGlobalEmpty,
-    setTraceData,
-    setSelectedTrace,
-    setRecentTrace,
-    activeTab,
-    setActiveTab,
-    setGlobalLogData,
-    setNeedLogFilterCall,
-    setRecentLogData,
-  } = useContext(GlobalContext);
+  // const {
+  //   lookBackVal,
+  //   setLookBackVal,
+  //   setNeedFilterCall,
+  //   setTraceGlobalError,
+  //   setTraceGlobalEmpty,
+  //   setTraceData,
+  //   setSelectedTrace,
+  //   setRecentTrace,
+  //   activeTab,
+  //   setActiveTab,
+  //   setGlobalLogData,
+  //   setNeedLogFilterCall,
+  //   setRecentLogData,
+  // } = useContext(GlobalContext);
   const [refresh, setRefresh] = useState(false);
+  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace, activeTab, setActiveTab, setGlobalLogData,setNeedLogFilterCall,setRecentLogData, setSearchQuery } = useContext(GlobalContext);
+  // const [activeTab, setActiveTab] = useState(0);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
 
@@ -67,6 +69,7 @@ const DashboardTopBar = () => {
     setGlobalLogData([]);
     setRecentLogData([]);
     setRefresh(true);
+    setSearchQuery([]);
   };
 
   const handleTabChange = (event, newValue) => {

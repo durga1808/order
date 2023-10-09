@@ -31,6 +31,8 @@ const GlobalContextProvider = ({ children }) => {
     const [needLogFilterCall, setNeedLogFilterCall] = useState(false);
     const [recentLogData, setRecentLogData] = useState([]);
 
+    const [searchQuery, setSearchQuery] = useState("");
+
     return (
         <GlobalContext.Provider
             value={{
@@ -77,7 +79,9 @@ const GlobalContextProvider = ({ children }) => {
                 needLogFilterCall,
                 setNeedLogFilterCall,
                 recentLogData,
-                setRecentLogData
+                setRecentLogData,
+                searchQuery,
+                setSearchQuery
             }}
         >
             {children}

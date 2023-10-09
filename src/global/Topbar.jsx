@@ -6,7 +6,7 @@ import {
   CssBaseline,
   useTheme,
 } from "@mui/material";
-import { Brightness4, Brightness7 } from "@mui/icons-material";
+import { Brightness4, Brightness7, Person } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ColorModeContext, tokens } from "../theme";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +31,10 @@ function Topbar() {
     height: "45px", // Adjust this value to your desired height
   };
 
+  // userinfo get from local
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+  const user = userInfo.username;
+
   return (
     <div>
       <AppBar position="static" style={appBarStyles}>
@@ -54,9 +58,13 @@ function Topbar() {
           <IconButton aria-label="Account" onClick={handleLogout}>
             <LogoutIcon style={{ fontSize: "20px" }} />
           </IconButton>
+
+          <IconButton>
+            <Person style={{ fontSize: "20px" }} />
+          </IconButton>
+            <span>User: {user}</span>
         </Toolbar>
       </AppBar>
-      {/* The rest of your app content goes here */}
     </div>
   );
 }

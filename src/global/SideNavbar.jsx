@@ -97,12 +97,12 @@ const SideNavbar = () => {
             <Typography variant="h5">LOGS</Typography>
           </MenuItem>
 
-          <MenuItem icon={<Person />} rootStyles={{ position: "absolute", bottom: "2%", width: "100%" }}  >
+          {/* <MenuItem icon={<Person />} rootStyles={{ position: "absolute", bottom: "2%", width: "100%" }}  >
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "normal" }}>
             <Typography variant="h5">LoggedIn User</Typography>
             <Typography variant="h5">Role</Typography>
             </div>
-          </MenuItem>
+          </MenuItem> */}
 
         </Menu>
         {/* </ProSidebar> */}

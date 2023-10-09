@@ -352,7 +352,8 @@ const Loglists = () => {
         [lookBackVal, setLogData, setTotalPageCount, pageLimit]
     );
 
-    const [searchQuery, setSearchQuery] = useState("");
+    // const [searchQuery, setSearchQuery] = useState("");
+    const { searchQuery, setSearchQuery } = useContext(GlobalContext);
     const [searchResults, setSearchResults] = useState([]);
 
     const handlePageChange = async (event, selectedPage) => {
@@ -508,17 +509,23 @@ const Loglists = () => {
                 }}
             >
                 <TextField
+                    id="outlined-multiline-flexible"
                     className="search-bar"
-                    label="Search"
+                    // label="Search"
+                    placeholder="Search for message"
                     // variant="outlined"
                     size="large"
                     style={{ borderWidth: "4px", marginBottom: "10px", width: "80%" }}
                     InputProps={{
-                        endAdornment: <SearchOutlined />,
+                      endAdornment: (
+                          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
+                              <SearchOutlined />
+                          </IconButton>
+                      ),
                     }}
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    onKeyDown={handleSearchKeyDown}
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                      onKeyDown={handleSearchKeyDown}
                 />
 
                 <Box sx={{ margin: "5px 0 20px 0" }}>
@@ -575,7 +582,7 @@ const Loglists = () => {
                                                 <TableCell
                                                     key={index}
                                                     align={column.align}
-                                                    // style={{ padding: "10px", backgroundColor:colors.primary[500] }}
+                                                    style={{ backgroundColor:colors.greenAccent[500] }}
                                                 >
                                                     <Typography
                                                         variant="h5"
