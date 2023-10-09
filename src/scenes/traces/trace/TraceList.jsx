@@ -311,7 +311,10 @@ const TraceList = () => {
 
                                     <Typography variant="h7" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", margin: "15px 0 0 0 " }}>
                                         <span style={{ width: "150px" }} >{trace.createdTimeInWords}</span>
-                                        <span style={{ width: "200px" }} > <span style={{ fontWeight: "500", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
+
+
+                                   
+                                        <span style={{ width: "200px" ,color: trace.statusCode >= 400 && trace.statusCode <= 500 ?colors.redAccent[500]:colors.greenAccent[500]}} > <span style={{ fontWeight: "500", margin: "0 5px 0 0" }}>StatusCode:</span>{trace.statusCode}</span>
                                         <span style={{ width: "100px" }} > <span style={{ fontWeight: "500", margin: "0 2px 0 0" }}>Method:</span>{trace.methodName}</span>
                                     </Typography>
                                 </CardContent>

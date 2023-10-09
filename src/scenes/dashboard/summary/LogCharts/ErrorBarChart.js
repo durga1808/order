@@ -1,9 +1,12 @@
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
+import { tokens } from "../../../../theme";
+import "./ErrorBarChart.css";
 
 const ErrorBarChart = ({ data, onBarClick }) => {
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
