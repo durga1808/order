@@ -1,19 +1,19 @@
 .card-style {
-  background-color: #ffffff;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* background-color: #ffffff; */
+  /* border: 1px solid #e0e0e0; */
+  /* border-radius: 4px; */
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
   padding: 16px;
 }
 
 .card-style:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); */
   transform: scale(1.02);
 }
 
 .arrow-closed,
 .arrow-open {
-    border: solid #999;
+    /* border: solid #999; */
     border-width: 0 2px 2px 0;
     display: inline-block;
     padding: 4px;
@@ -38,8 +38,8 @@
 .Dropdown-control {
     position: relative;
     overflow: hidden;
-    background-color: white;
-    border: 1px solid #ccc;
+    /* background-color: white; */
+    /* border: 1px solid #ccc; */
     border-radius: 2px;
     box-sizing: border-box;
     color: #333;
@@ -58,8 +58,8 @@
 } */
 
 .Dropdown-menu {
-    background-color: white;
-    border: 1px solid #ccc;
+    /* background-color: white; */
+    /* border: 1px solid #ccc; */
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
     box-sizing: border-box;
     margin-top: -1px;
