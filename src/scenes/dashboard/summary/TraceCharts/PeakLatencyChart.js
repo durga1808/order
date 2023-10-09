@@ -7,16 +7,13 @@ const PeakLatencyChart = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-
   const peakLatencyOptions = {
-
     chart: {
       height: 250,
       type: "bar",
     },
     plotOptions: {
       bar: {
-
         columnWidth: "70%",
       },
     },
@@ -28,7 +25,7 @@ const PeakLatencyChart = ({ data }) => {
           colors: colors.textColor[500],
           fontSize: 10,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
       categories: data.map((item) => item.serviceName),
@@ -38,10 +35,9 @@ const PeakLatencyChart = ({ data }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
-
     },
     yaxis: {
       title: {
@@ -50,17 +46,16 @@ const PeakLatencyChart = ({ data }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
 
       labels: {
-
         style: {
           colors: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
     },
@@ -73,7 +68,7 @@ const PeakLatencyChart = ({ data }) => {
         color: colors.textColor[500],
         fontSize: 16,
         fontWeight: 500,
-        fontFamily: "Red Hat Display"
+        fontFamily: "Red Hat Display",
       },
     },
     labels: {
@@ -81,7 +76,6 @@ const PeakLatencyChart = ({ data }) => {
         colors: theme.palette.mode === "dark" ? "#FFF" : "#000",
       },
     },
-
   };
   const peakLatencySeries = [
     {
@@ -90,7 +84,7 @@ const PeakLatencyChart = ({ data }) => {
     },
   ];
   return (
-    <div>
+    <div data-theme={theme.palette.mode}>
       <ReactApexChart
         options={peakLatencyOptions}
         series={peakLatencySeries}

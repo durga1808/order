@@ -98,6 +98,7 @@ const ErrorBarChart = ({ data, onBarClick }) => {
 
   return (
     <div
+    data-theme={theme.palette.mode}
       style={{
         height: "250px",
         overflowX: "auto",

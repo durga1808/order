@@ -25,7 +25,7 @@ const DebugBarChart = ({ data }) => {
           colors: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
       categories: data.map((item) => item.serviceName),
@@ -35,7 +35,7 @@ const DebugBarChart = ({ data }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
     },
@@ -47,17 +47,17 @@ const DebugBarChart = ({ data }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
 
       labels: {
         style: {
-            colors: colors.textColor[500],
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Red Hat Display"
-          },
+          colors: colors.textColor[500],
+          fontSize: 12,
+          fontWeight: 500,
+          fontFamily: "Red Hat Display",
+        },
       },
     },
 
@@ -70,10 +70,9 @@ const DebugBarChart = ({ data }) => {
         color: colors.textColor[500],
         fontSize: 16,
         fontWeight: 500,
-        fontFamily: "Red Hat Display"
+        fontFamily: "Red Hat Display",
       },
     },
-   
   };
 
   const debugcountseries = [
@@ -83,7 +82,7 @@ const DebugBarChart = ({ data }) => {
     },
   ];
   return (
-    <div>
+    <div data-theme={theme.palette.mode}>
       <ReactApexChart
         options={DebugBarChartOption}
         series={debugcountseries}
@@ -96,12 +95,3 @@ const DebugBarChart = ({ data }) => {
 
 export default DebugBarChart;
 
-// import React from 'react'
-
-// const DebugBarChart = () => {
-//   return (
-//     <div>DebugBarChart</div>
-//   )
-// }
-
-// export default DebugBarChart

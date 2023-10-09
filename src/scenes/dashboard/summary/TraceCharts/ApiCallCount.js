@@ -7,15 +7,10 @@ const ApiCallCount = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-
   const apiCallsOptions = {
     chart: {
       height: 250,
       type: "bar",
-      stacked: false,
-    toolbar: {
-      show: false,
-    },
     },
     plotOptions: {
       bar: {
@@ -30,7 +25,7 @@ const ApiCallCount = ({ data }) => {
           colors: colors.textColor[500],
           fontSize: 10,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
       categories: data.map((item) => item.serviceName),
@@ -40,10 +35,9 @@ const ApiCallCount = ({ data }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
-      
     },
     yaxis: {
       title: {
@@ -52,7 +46,7 @@ const ApiCallCount = ({ data }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
 
@@ -61,7 +55,7 @@ const ApiCallCount = ({ data }) => {
           colors: colors.textColor[500],
           fontSize: 10,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
     },
@@ -74,7 +68,7 @@ const ApiCallCount = ({ data }) => {
         color: colors.textColor[500],
         fontSize: 16,
         fontWeight: 500,
-        fontFamily: "Red Hat Display"
+        fontFamily: "Red Hat Display",
       },
     },
     labels: {
@@ -98,7 +92,7 @@ const ApiCallCount = ({ data }) => {
     },
   ];
   return (
-    <div>
+    <div data-theme={theme.palette.mode}>
       <ReactApexChart
         options={apiCallsOptions}
         series={apiCallsSeries}

@@ -25,7 +25,7 @@ const WarnBarChart = ({ data }) => {
           colors: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
       categories: data.map((item) => item.serviceName),
@@ -35,7 +35,7 @@ const WarnBarChart = ({ data }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
     },
@@ -47,7 +47,7 @@ const WarnBarChart = ({ data }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
 
@@ -56,7 +56,7 @@ const WarnBarChart = ({ data }) => {
           colors: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
     },
@@ -70,7 +70,7 @@ const WarnBarChart = ({ data }) => {
         color: colors.textColor[500],
         fontSize: 16,
         fontWeight: 500,
-        fontFamily: "Red Hat Display"
+        fontFamily: "Red Hat Display",
       },
     },
     labels: {
@@ -86,7 +86,7 @@ const WarnBarChart = ({ data }) => {
     },
   ];
   return (
-    <div>
+    <div data-theme={theme.palette.mode}>
       <ReactApexChart
         options={WarnCountOptions}
         series={warncountSeries}
