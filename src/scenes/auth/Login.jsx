@@ -8,7 +8,6 @@ import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { getServiceList, loginUser } from "../../api/LoginApiService";
 import Loading from "../../global/Loading/Loading";
 
-
 const Login = () => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -16,9 +15,9 @@ const Login = () => {
 
   const { setServiceList, setSelected } = useContext(GlobalContext);
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('none');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("none");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [serviceListData, setServiceListData] = useState([]);
@@ -26,10 +25,10 @@ const Login = () => {
   const servicePayload = (serviceData) => {
     serviceData.forEach((item) => {
       serviceListData.push(item.serviceName);
-    })
-    localStorage.setItem("serviceListData",JSON.stringify(serviceListData));
+    });
+    localStorage.setItem("serviceListData", JSON.stringify(serviceListData));
     console.log("ServiceName " + serviceListData);
-  }
+  };
 
   const getServiceListCall = async (userInfo) => {
     try {
@@ -46,7 +45,7 @@ const Login = () => {
       console.log("error " + error);
       setErrorMessage("An error occurred");
     }
-  }
+  };
 
   const handleLogin = async () => {
     setLoading(true);
@@ -54,6 +53,7 @@ const Login = () => {
     setSelected("Dashboard");
     if (!username || !password || !role) {
       setErrorMessage("Please fill in all fields.");
+       setLoading(false);
       return;
     }
 
@@ -62,7 +62,7 @@ const Login = () => {
       password: password,
       roles: [role],
     };
-
+      console.log("Inside setTimeout");
     const userAuth = await loginUser(payload);
     // console.log(userAuth);
 
@@ -80,15 +80,13 @@ const Login = () => {
     //   }
     // })
 
-
     if (userAuth.status === 200) {
       console.log("login", username, password, role);
       // setUserInfo(userAuth.data);
       localStorage.setItem("userInfo", JSON.stringify(userAuth.data));
       getServiceListCall(userAuth.data);
       setLoading(false);
-    }
-    else if (userAuth.response.status === 401) {
+    } else if (userAuth.response.status === 401) {
       setLoading(false);
       setErrorMessage(userAuth.response.data);
     } else if (userAuth.response.status === 404) {
@@ -97,12 +95,14 @@ const Login = () => {
     } else if (userAuth.response.status === 403) {
       setLoading(false);
       setErrorMessage(userAuth.response.data);
-    }
-    else {
+    } else {
       setLoading(false);
       setErrorMessage("Something went wrong. Please try again later.");
     }
-  };
+
+  
+
+  }
 
 
   return (
@@ -114,17 +114,20 @@ const Login = () => {
         </label>
 
         <input id="tab-2" type="radio" name="tab" className="sign-up" />
-        <label for="tab-2" className="tab">
-
-        </label>
+        <label for="tab-2" className="tab"></label>
         <div className="login-form">
           <div className="sign-in-htm">
             <div className="group">
               <label for="user" className="label">
                 Username
               </label>
-              <input id="user" type="text" className="input" value={username}
-                onChange={(e) => setUsername(e.target.value)} />
+              <input
+                id="user"
+                type="text"
+                className="input"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
             </div>
 
             <div className="group">
@@ -136,32 +139,76 @@ const Login = () => {
                 className="input"
                 data-type="password"
                 type="password"
-                value={password} onChange={(e) => setPassword(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
             <div className="role1">
-              <label for="check">
-                ROLE
-              </label>
-              <select className="inner-dropdown-all" value={role} onChange={(e) => setRole(e.target.value)} >
-                <option className="inner-dropdown" value="none">None</option>
-                <option className="inner-dropdown" value="admin">Admin</option>
-                <option className="inner-dropdown" value="vendor">Vendor</option>
-                <option className="inner-dropdown" value="user">User</option>
+              <label for="check">ROLE</label>
+              <select
+                className="inner-dropdown-all"
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+              >
+                <option className="inner-dropdown" value="none">
+                  None
+                </option>
+                <option className="inner-dropdown" value="admin">
+                  Admin
+                </option>
+                <option className="inner-dropdown" value="vendor">
+                  Vendor
+                </option>
+                <option className="inner-dropdown" value="user">
+                  User
+                </option>
               </select>
             </div>
 
-            {errorMessage ? (<Typography variant="h6" style={{color:colors.redAccent[500], textAlign:"center",marginTop:"30px"}} >{errorMessage}</Typography>) : null}
+            {errorMessage ? (
+              <Typography
+                variant="h6"
+                style={{
+                  color: colors.redAccent[500],
+                  textAlign: "center",
+                  marginTop: "30px",
+                }}
+              >
+                {errorMessage}
+              </Typography>
+            ) : null}
 
-            {loading ? (<div style={{ display: 'flex', flexDirection: "column", justifyContent: 'center', alignItems: "center", width: "100%", height:"20vh" }}>
-            <CircularProgress style={{ color: colors.blueAccent[400] }} size={40} thickness={4} />
-            <Typography variant="h5" fontWeight={"600"} mt={2}>
-                LOADING.....
-            </Typography>
-        </div>) : (<div className="group">
-              <input type="submit" className="button" value="Login" onClick={() => handleLogin()} />
-            </div>)}
+            {loading ? (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100%",
+                  height: "20vh",
+                }}
+              >
+                <CircularProgress
+                  style={{ color: colors.blueAccent[400] }}
+                  size={40}
+                  thickness={4}
+                />
+                <Typography variant="h5" fontWeight={"600"} mt={2}>
+                  LOADING.....
+                </Typography>
+              </div>
+            ) : (
+              <div className="group">
+                <input
+                  type="submit"
+                  className="button"
+                  value="Login"
+                  onClick={() => handleLogin()}
+                />
+              </div>
+            )}
 
             {/* <div className="hr"></div>
             <div className="foot-lnk">
