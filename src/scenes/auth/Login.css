@@ -172,6 +172,9 @@ label{
 .button{
 	margin-top: 20px;
 }
+.button:hover {
+	cursor: pointer;
+}
 .inner-dropdown-all{
 	width: 200px; 
 	appearance: none; 
