@@ -81,9 +81,9 @@ const SideNavbar = () => {
             <Typography variant="h5">DASHBOARD</Typography>
           </MenuItem>
 
-          <Typography variant="h6" sx={{ m: "15px 10px 10px 20px" }}>
+          {/* <Typography variant="h6" sx={{ m: "15px 10px 10px 20px" }}>
             Data
-          </Typography>
+          </Typography> */}
 
           <MenuItem component={<Link to="/mainpage/traces" />} active={selected === "Traces"} icon={<TimelineOutlined />} onClick={() => {setSelected("Traces"); routeChange("Traces");}}  >
             <Typography variant="h5">TRACES</Typography>
