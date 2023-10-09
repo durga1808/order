@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged
+FROM docker.io/nginxinc/nginx-unprivileged
 
 USER root
 
