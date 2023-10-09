@@ -11,7 +11,9 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
     const selectedDataPointIndex = config.dataPointIndex;
     const selectedSeriesName = config.w.globals.seriesNames[config.seriesIndex]; // Get series name
     onBarClick(selectedDataPointIndex, selectedSeriesName); // Pass selected series name to the parent component
-    console.log("ServiceName " + ErrSuccessData[selectedDataPointIndex].serviceName);
+    console.log(
+      "ServiceName " + ErrSuccessData[selectedDataPointIndex].serviceName
+    );
   };
   const options = {
     chart: {
@@ -37,7 +39,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
       labels: {
@@ -46,7 +48,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
           colors: colors.textColor[500],
           fontSize: 10,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
     },
@@ -57,7 +59,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
 
@@ -66,7 +68,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
           colors: colors.textColor[500],
           fontSize: 10,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
     },
@@ -80,7 +82,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
         color: colors.textColor[500],
         fontSize: 16,
         fontWeight: 500,
-        fontFamily: "Red Hat Display"
+        fontFamily: "Red Hat Display",
       },
     },
   };
@@ -99,6 +101,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
 
   return (
     <div
+      data-theme={theme.palette.mode}
       style={{
         height: "250px",
         overflowX: "auto",

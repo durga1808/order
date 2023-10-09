@@ -2,6 +2,7 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../../../theme";
+import "./ErrorBarChart.css";
 
 const ErrorBarChart = ({ data, onBarClick }) => {
   const theme = useTheme();
@@ -97,6 +98,7 @@ const ErrorBarChart = ({ data, onBarClick }) => {
 
   return (
     <div
+    data-theme={theme.palette.mode}
       style={{
         height: "250px",
         overflowX: "auto",

@@ -18,9 +18,24 @@ import { options } from "../../global/MockData/MockTraces";
 import Logfilter from "../logs/Logfilter";
 
 const DashboardTopBar = () => {
-
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
+  // const {
+  //   lookBackVal,
+  //   setLookBackVal,
+  //   setNeedFilterCall,
+  //   setTraceGlobalError,
+  //   setTraceGlobalEmpty,
+  //   setTraceData,
+  //   setSelectedTrace,
+  //   setRecentTrace,
+  //   activeTab,
+  //   setActiveTab,
+  //   setGlobalLogData,
+  //   setNeedLogFilterCall,
+  //   setRecentLogData,
+  // } = useContext(GlobalContext);
+  const [refresh, setRefresh] = useState(false);
   const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace, activeTab, setActiveTab, setGlobalLogData,setNeedLogFilterCall,setRecentLogData, setSearchQuery } = useContext(GlobalContext);
   // const [activeTab, setActiveTab] = useState(0);
 
@@ -40,7 +55,9 @@ const DashboardTopBar = () => {
   const handleRefreshClick = () => {
     // Implement your refresh logic here
     const defaultValue = 120;
-    const defaultLabel = options.find((option) => option.value === defaultValue);
+    const defaultLabel = options.find(
+      (option) => option.value === defaultValue
+    );
     setLookBackVal(defaultLabel);
     setRecentTrace([]);
     setTraceData([]);
@@ -51,17 +68,15 @@ const DashboardTopBar = () => {
     setTraceGlobalError(null);
     setGlobalLogData([]);
     setRecentLogData([]);
+    setRefresh(true);
     setSearchQuery([]);
   };
-
 
   const handleTabChange = (event, newValue) => {
     if (newValue === 0) {
       navigate("/mainpage/dashboard");
-
     } else if (newValue === 1) {
       navigate("/mainpage/dashboard/logSummary");
-
     }
     setActiveTab(newValue);
   };
@@ -89,7 +104,7 @@ const DashboardTopBar = () => {
     setLookBackVal(val);
     setTraceGlobalEmpty(null);
     setTraceGlobalError(null);
-  }
+  };
 
   return (
     <>
@@ -97,11 +112,16 @@ const DashboardTopBar = () => {
         <Toolbar
           style={{
             display: "flex",
-            justifyContent: window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" ? "space-between" : "flex-end",
+            justifyContent:
+              window.location.pathname === "/mainpage/dashboard" ||
+              window.location.pathname === "/mainpage/dashboard/logSummary"
+                ? "space-between"
+                : "flex-end",
             backgroundColor: colors.primary[400],
           }}
         >
-          {window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" ? (
+          {window.location.pathname === "/mainpage/dashboard" ||
+          window.location.pathname === "/mainpage/dashboard/logSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -144,18 +164,18 @@ const DashboardTopBar = () => {
                 <RefreshOutlined style={iconStyle} />
               </IconButton>
             </Tooltip>
-            {window.location.pathname === "/mainpage/traces" || window.location.pathname === "/mainpage/logs" ? (
+            {window.location.pathname === "/mainpage/traces" ||
+            window.location.pathname === "/mainpage/logs" ? (
               <Tooltip title="Filter">
-                <IconButton onClick={handleFilterClick} style={FilterbuttonStyle}>
+                <IconButton
+                  onClick={handleFilterClick}
+                  style={FilterbuttonStyle}
+                >
                   <FilterListOutlined style={iconStyle} />
                 </IconButton>
-              </Tooltip>) : null}
+              </Tooltip>
+            ) : null}
           </Box>
-          {/* <div style={{ display: "flex" }}>
-          <Dropdown options={options} placeholder="Select an option" />
-
-            
-          </div> */}
         </Toolbar>
       </AppBar>
       <FilterDialog open={filterDialogOpen} onClose={handleFilterDialogClose} />

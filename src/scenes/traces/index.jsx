@@ -21,42 +21,61 @@ const Traces = () => {
       }}
     >
       {traceGlobalError ? (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "80vh",
+          }}
+        >
           <Typography variant="h5" fontWeight={"600"}>
             {traceGlobalError}
           </Typography>
         </div>
       ) : traceGlobalEmpty ? (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "80vh",
+          }}
+        >
           <Typography variant="h5" fontWeight={"600"}>
             {traceGlobalEmpty}
           </Typography>
         </div>
       ) : (
-        <>
+        <div style={{ display: "flex", width: "100%" }}>
           {/* Rest of your JSX structure */}
           {/* <TraceTopBar /> */}
-          <Box sx={{ m: "20px 20px 0 20px" }}>
-            <Card
-              sx={{
-                backgroundColor: colors.primary[400],
-                padding: "15px",
-                width: "600px",
-                height: "calc(90vh - 70px)",
-              }}
-            >
-              <TraceList />
-            </Card>
-          </Box>
 
-          <div>
+          <div style={{ width: "100%" }}>
+            <Box sx={{ m: "20px 20px 0 20px" }}>
+              <Card
+                sx={{
+                  backgroundColor: colors.primary[400],
+                  padding: "15px",
+                  width: "100%",
+                  height: "calc(90vh - 75px)",
+                }}
+              >
+                <TraceList />
+              </Card>
+            </Box>
+          </div>
+
+          <div style={{ width: "100%" }}>
             <Box sx={{ m: "20px 20px 20px 10px" }}>
               <Card
                 sx={{
                   backgroundColor: colors.primary[400],
                   padding: "15px",
-                  width: "600px",
-                  height: "calc(90vh - 70px)",
+                  width: "100%",
+                  height: "calc(90vh - 75px)",
                   overflowY: "auto",
                 }}
               >
@@ -69,7 +88,7 @@ const Traces = () => {
           </Box> */}
             </Box>
           </div>
-        </>
+        </div>
       )}
     </div>
   );
