@@ -21,15 +21,6 @@ const ErrorBarChart = ({ data, onBarClick }) => {
     plotOptions: {
       bar: {
         columnWidth: "30px",
-        colors: {
-          ranges: [
-            {
-              from: 0,
-              to: 60,
-              color: "#FF0000", // Set the entire bar color to red (#FF0000)
-            },
-          ],
-        },
       },
     },
     xaxis: {
@@ -41,17 +32,17 @@ const ErrorBarChart = ({ data, onBarClick }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
       labels: {
-        rotate:-45,
+        rotate: -45,
         style: {
-            colors: colors.textColor[500],
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Red Hat Display"
-          },
+          colors: colors.textColor[500],
+          fontSize: 12,
+          fontWeight: 500,
+          fontFamily: "Red Hat Display",
+        },
       },
     },
     yaxis: {
@@ -61,17 +52,17 @@ const ErrorBarChart = ({ data, onBarClick }) => {
           color: colors.textColor[500],
           fontSize: 12,
           fontWeight: 500,
-          fontFamily: "Red Hat Display"
+          fontFamily: "Red Hat Display",
         },
       },
 
       labels: {
         style: {
-            colors: colors.textColor[500],
-            fontSize: 12,
-            fontWeight: 500,
-            fontFamily: "Red Hat Display"
-          },
+          colors: colors.textColor[500],
+          fontSize: 12,
+          fontWeight: 500,
+          fontFamily: "Red Hat Display",
+        },
       },
     },
     title: {
@@ -84,7 +75,7 @@ const ErrorBarChart = ({ data, onBarClick }) => {
         color: colors.textColor[500],
         fontSize: 16,
         fontWeight: 500,
-        fontFamily: "Red Hat Display"
+        fontFamily: "Red Hat Display",
       },
     },
   };
@@ -93,12 +84,13 @@ const ErrorBarChart = ({ data, onBarClick }) => {
     {
       name: "Error Calls",
       data: data.map((item) => item.errorCallCount),
+      color: "#FF0000",
     },
   ];
 
   return (
     <div
-    data-theme={theme.palette.mode}
+      data-theme={theme.palette.mode}
       style={{
         height: "250px",
         overflowX: "auto",

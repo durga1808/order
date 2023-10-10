@@ -14,7 +14,7 @@ const PeakLatencyChart = ({ data }) => {
     },
     plotOptions: {
       bar: {
-        columnWidth: "70%",
+        columnWidth: "30px",
       },
     },
 

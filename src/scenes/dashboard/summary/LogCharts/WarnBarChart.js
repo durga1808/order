@@ -14,7 +14,7 @@ const WarnBarChart = ({ data }) => {
     },
     plotOptions: {
       bar: {
-        columnWidth: "70%",
+        columnWidth: "30px",
       },
     },
 
