@@ -234,7 +234,8 @@ const LogBarChart = () => {
           style={{
             maxHeight: "82vh",
             overflowY: "auto",
-            width: "100%"
+             minWidth: "100%"
+           
           }}
         >
           <Grid container spacing={2}>
