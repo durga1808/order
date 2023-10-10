@@ -307,7 +307,7 @@ const ServiceTable = ({ selectedService }) => {
                             {tableInfo.createdTimeInWords}
                           </TableCell>
                           <TableCell style={{ textAlign: "center" }}>
-                            <Button variant="primary" onClick={() => handleOpenTrace(tableInfo)}>OPEN TRACE</Button>
+                            <Button variant="primary" style={{backgroundColor: colors.greenAccent[500]}} onClick={() => handleOpenTrace(tableInfo)}>OPEN TRACE</Button>
                           </TableCell>
                         </TableRow>
                       ))
