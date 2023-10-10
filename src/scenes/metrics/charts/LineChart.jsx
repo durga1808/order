@@ -27,7 +27,7 @@ const LineChart = ({ data }) => {
       toolbar: {
         autoSelected: "zoom",
       },
-      background: colors.primary[400],
+      // background: colors.primary[400],
     },
     dataLabels: {
       enabled: false,
@@ -49,7 +49,7 @@ const LineChart = ({ data }) => {
     fill: {
       type: "gradient",
       gradient: {
-        shadeIntensity: 1,
+        // shadeIntensity: 1,
         inverseColors: false,
         opacityFrom: 0.5,
         opacityTo: 0,
@@ -119,16 +119,16 @@ const LineChart = ({ data }) => {
         fontSize: "12px",
       },
     },
-    theme: {
-      mode: theme.palette.mode,
-      palette: "palette1",
-      monochrome: {
-        enabled: false,
-        color: theme.palette.mode === "dark" ? "#FFF" : "#255aee",
-        shadeTo: theme.palette.mode === "dark" ? "dark" : "light",
-        shadeIntensity: 0.65,
-      },
-    },
+    // theme: {
+    //   mode: theme.palette.mode,
+    //   palette: "palette1",
+    //   monochrome: {
+    //     enabled: false,
+    //     // color: theme.palette.mode === "dark" ? "#FFF" : "#255aee",
+    //     // shadeTo: theme.palette.mode === "dark" ? "dark" : "light",
+    //     // shadeIntensity: 0.65,
+    //   },
+    // },
   };
 
   return (
@@ -136,8 +136,8 @@ const LineChart = ({ data }) => {
       <div
         style={{
           padding: "10px 10px 10px 10px",
-          border: "1px solid #ddd",
-          backgroundColor: "#f9f9f9",
+          // border: "1px solid #ddd",
+          // backgroundColor: "#f9f9f9",
         }}
       >
         <Box height="50vh" padding="10px" border="1px">
