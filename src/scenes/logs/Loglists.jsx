@@ -100,6 +100,7 @@ const Loglists = () => {
         logFilterApiBody,
         needLogFilterCall,
         recentLogData,
+        isCollapsed
     } = useContext(GlobalContext);
     const navigate = useNavigate();
 
@@ -499,10 +500,9 @@ const Loglists = () => {
     //   }
     // }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
 
-// Function to highlight search query in a message
 function highlightSearchQuery(message) {
   if (typeof searchQuery !== 'string') {
-    return message; // Return the original message if searchQuery is not a string
+    return message;
   }
 
   const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
@@ -514,8 +514,6 @@ function highlightSearchQuery(message) {
     )
   ));
 }
-
-    
 
     return (
         <div>
@@ -587,7 +585,8 @@ function highlightSearchQuery(message) {
                             {" "}
                             <TableContainer
                                 sx={{
-                                    maxWidth: 1200,
+                                    // maxWidth: 1200,
+                                    maxWidth: isCollapsed ? "100%" : "1200px",
                                     maxHeight: "calc(73vh - 85px)",
                                     overflowY: "auto",
                                     // backgroundColor:colors.primary[500]
