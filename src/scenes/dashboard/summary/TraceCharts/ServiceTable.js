@@ -256,6 +256,19 @@ const ServiceTable = ({ selectedService }) => {
               <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
                 <Table stickyHeader aria-label="sticky table">
                   <TableHead>
+                  <TableCell
+                  colSpan={4} // Set the colspan to 4 to center the text
+                  style={{
+                  textAlign: "center",
+                  fontWeight: "bold",                  
+          }}
+        > <Typography
+        variant="h5"
+        fontWeight="500"
+      >
+        ERRORED TRACE DATA TABLE 
+      </Typography>
+                    </TableCell>
                     <TableRow>
                       <TableCell
                         style={{

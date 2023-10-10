@@ -228,6 +228,19 @@ const ServiceTable = ({ selectedService }) => {
               <TableContainer component={Paper} sx={{ maxHeight: 300 }}>
                 <Table stickyHeader aria-label="sticky table">
                   <TableHead>
+                  <TableCell
+                  colSpan={4} // Set the colspan to 4 to center the text
+                  style={{
+                  textAlign: "center",
+                  fontWeight: "bold",                  
+          }}
+        > <Typography
+        variant="h5"
+        fontWeight="500"
+      >
+        ERRORED LOG DATA TABLE 
+      </Typography>
+                    </TableCell>
                     <TableRow>
                       <TableCell
                         style={{
@@ -279,7 +292,7 @@ const ServiceTable = ({ selectedService }) => {
                             {tableInfo.createdTimeInWords}
                           </TableCell>
                           <TableCell style={{ textAlign: "center" }}>
-                            <Button variant="primary" onClick={() => handleOpenLog(tableInfo)}>OPEN LOG</Button>
+                            <Button variant="primary" style={{backgroundColor: colors.greenAccent[500]}} onClick={() => handleOpenLog(tableInfo)}>OPEN LOG</Button>
                           </TableCell>
                         </TableRow>
                       ))

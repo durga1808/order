@@ -29,7 +29,7 @@ const MyComponent = ({
             <p>API Calls: {APICallsData}</p>
           </div>
           <div style={boxStyle}>
-            <p>Peak Latency: {PeakLatencyData} ms</p>
+            <p>Peak Latency: {PeakLatencyData}</p>
           </div>
           <div style={boxStyle}>
             {ErrorData !== null && <p>Error Calls: {ErrorData}</p>}
