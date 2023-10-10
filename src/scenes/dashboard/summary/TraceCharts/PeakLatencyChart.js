@@ -2,10 +2,13 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { tokens } from "../../../../theme";
 import { useTheme } from "@emotion/react";
+import { useContext } from "react";
+import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 
 const PeakLatencyChart = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { isCollapsed } = useContext(GlobalContext);
 
   const peakLatencyOptions = {
     chart: {
@@ -90,6 +93,7 @@ const PeakLatencyChart = ({ data }) => {
         series={peakLatencySeries}
         type="bar"
         height={250}
+        width={isCollapsed?640:550}
       />
     </div>
   );

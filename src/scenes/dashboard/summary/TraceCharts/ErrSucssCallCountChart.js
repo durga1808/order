@@ -2,10 +2,13 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../../../theme";
+import { useContext } from "react";
+import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 
 const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { isCollapsed } = useContext(GlobalContext);
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
@@ -114,6 +117,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
         series={series}
         type="bar"
         height={250}
+        width={isCollapsed?1350:1180}
       />
     </div>
   );

@@ -3,10 +3,13 @@ import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../../../theme";
 import "./ErrorBarChart.css";
+import { useContext } from "react";
+import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 
 const ErrorBarChart = ({ data, onBarClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { isCollapsed } = useContext(GlobalContext);
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
@@ -92,9 +95,10 @@ const ErrorBarChart = ({ data, onBarClick }) => {
     <div
       data-theme={theme.palette.mode}
       style={{
-        height: "250px",
-        overflowX: "auto",
-        overflowY: "hidden",
+        height: "250px", 
+        // marginLeft:"100px",
+        // overflowX: "auto",
+        // overflowY: "hidden",
         scrollbarColor: "blue",
       }}
     >
@@ -105,6 +109,7 @@ const ErrorBarChart = ({ data, onBarClick }) => {
         series={series}
         type="bar"
         height={250}
+        width={isCollapsed?1350:1180}
       />
       {/* </Card> */}
     </div>

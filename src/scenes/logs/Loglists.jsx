@@ -499,6 +499,24 @@ const Loglists = () => {
     //   }
     // }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
 
+// Function to highlight search query in a message
+function highlightSearchQuery(message) {
+  if (typeof searchQuery !== 'string') {
+    return message; // Return the original message if searchQuery is not a string
+  }
+
+  const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
+  return parts.map((part, index) => (
+    part.toLowerCase() === searchQuery.toLowerCase() ? (
+      <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
+    ) : (
+      <span key={index}>{part}</span>
+    )
+  ));
+}
+
+    
+
     return (
         <div>
             <Box
@@ -636,7 +654,28 @@ const Loglists = () => {
                                                                     </Typography>
                                                                 </TableCell>
                                                             );
-                                                        } else {
+                                                        } else if (column.id === "message") {
+                                                          return (
+                                                              <TableCell
+                                                                  key={index}
+                                                                  align={column.align}
+                                                              style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                            }}
+                                                              >
+                                                                  <Typography
+                                                                      variant="h6"
+                                                                      style={{
+                                                                          width: "150px",
+                                                                          whiteSpace: "nowrap",
+                                                                          overflow: "hidden",
+                                                                          textOverflow: "ellipsis",
+                                                                      }}
+                                                                  >
+                                                                      {highlightSearchQuery(value, searchQuery)}
+                                                                  </Typography>
+                                                              </TableCell>
+                                                          );
+                                                      } else {
                                                             return (
                                                                 <TableCell
                                                                     key={column.id}

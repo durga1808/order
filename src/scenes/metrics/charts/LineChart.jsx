@@ -1,11 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme, Box } from "@mui/material";
 import { tokens } from "../../../theme";
+import { GlobalContext } from "../../../global/globalContext/GlobalContext";
+
 
 const LineChart = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const { isCollapsed } = useContext(GlobalContext);
 
   const series = [
     {
@@ -146,6 +149,7 @@ const LineChart = ({ data }) => {
             series={series}
             type="area"
             height={330}
+            width={isCollapsed?1380:1210}
           />
         </Box>
       </div>
