@@ -91,7 +91,7 @@ const Loglists = () => {
     const [loading, setLoading] = useState(false);
     const pageLimit = 10;
     const {
-        setRecentTrace,
+        setLogTrace,
         setSelected,
         setTraceGlobalEmpty,
         setTraceGlobalError,
@@ -175,7 +175,7 @@ const Loglists = () => {
             console.log("TraceData " + JSON.stringify(correlatedTraceData));
             if (correlatedTraceData.data.length !== 0) {
                 const updatedData = createTimeInWords(correlatedTraceData.data);
-                setRecentTrace(updatedData);
+                setLogTrace(updatedData);
                 localStorage.setItem("routeName", "Traces");
                 setSelected("Traces");
                 navigate("/mainpage/traces");
@@ -404,7 +404,7 @@ const Loglists = () => {
         setFilterMessage("");
         setGetAllMessage("");
         setNoMatchMessage("");
-        if (globalLogData.length !== 0 && !searchQuery) {
+        if (globalLogData.length !== 0) {
             console.log("From Trace");
             const updatedData = createTimeInWords(globalLogData);
             const finalOutput = mapLogData(updatedData);

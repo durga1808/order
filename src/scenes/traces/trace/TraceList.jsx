@@ -128,10 +128,13 @@ const TraceList = () => {
     setGlobalLogData,
     setTraceToLogError,
     setSelected,
+    logTrace,
+    setRecentTrace,
+    setLogTrace
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
-  const [selectedSortOrder, setSelectedSortOrder] = useState("new");
+  const [selectedSortOrder, setSelectedSortOrder] = useState("error");
   const [loading, setLoading] = useState(false);
   // const [isEmptyData, setIsEmptyData] = useState(false);
   // const [emptyMessage, setEmptyMessage] = useState(null);
@@ -233,34 +236,6 @@ const TraceList = () => {
     ]
   );
 
-  const dashboardTraceMap = useCallback(() => {
-    console.log("Trace UseEffect called!" + recentTrace);
-    setTraceData(recentTrace);
-  }, [recentTrace, setTraceData]);
-
-  useEffect(() => {
-    console.log("Trace UseEffect called!");
-    setSelectedTrace([]);
-    if (needFilterCall) {
-      filterApiCall(currentPage, filterApiBody);
-    } else {
-      if (recentTrace.length === 0) {
-        apiCall(currentPage);
-      } else {
-        dashboardTraceMap();
-      }
-    }
-  }, [
-    currentPage,
-    needFilterCall,
-    apiCall,
-    filterApiCall,
-    filterApiBody,
-    recentTrace,
-    dashboardTraceMap,
-    setSelectedTrace,
-  ]);
-
   const handleCardClick = (traceId) => {
     console.log("Clicked");
     const spanApiCall = async (traceId) => {
@@ -277,6 +252,47 @@ const TraceList = () => {
     };
     spanApiCall(traceId);
   };
+
+  const dashboardTraceMap = useCallback(() => {
+    if (recentTrace.length !== 0) {
+      console.log("Trace UseEffect called!" + recentTrace);
+      setTraceData(recentTrace);
+    } else if (logTrace.length !== 0) {
+      setTraceData(logTrace);
+      handleCardClick(logTrace[0].traceId);
+    }
+  }, [recentTrace, setTraceData, logTrace]);
+
+  useEffect(() => {
+    console.log("Trace UseEffect called!");
+    setSelectedTrace([]);
+    if (needFilterCall) {
+      filterApiCall(currentPage, filterApiBody);
+    } else {
+      if (recentTrace.length === 0 && logTrace.length === 0) {
+        apiCall(currentPage);
+      } else {
+        dashboardTraceMap();
+      }
+    }
+
+    // return () => {
+    //   setRecentTrace([]);
+    //   setLogTrace([]);
+    // };
+  }, [
+    currentPage,
+    needFilterCall,
+    apiCall,
+    filterApiCall,
+    filterApiBody,
+    recentTrace,
+    dashboardTraceMap,
+    setSelectedTrace,
+    logTrace
+  ]);
+
+
 
   const handlePageChange = (event, newPage) => {
     console.log("PAGE " + newPage);
@@ -349,13 +365,15 @@ const TraceList = () => {
               </Box>
             ) : null}
           </Box>
-          <div className="scrollable-div" style={{  maxHeight: "calc(80vh - 85px)",
-                overflowY: "auto",}}>
+          <div className="scrollable-div" style={{
+            maxHeight: "calc(80vh - 85px)",
+            overflowY: "auto",
+          }}>
             {" "}
             <Box
               sx={{
-                marginRight:"8px"
-               
+                marginRight: "8px"
+
               }}
             >
               {traceData.map((trace, index) => (
