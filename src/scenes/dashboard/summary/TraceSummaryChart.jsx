@@ -297,6 +297,7 @@ const TraceBarChart = () => {
             style={{
               maxHeight: "82vh",
               overflowY: "auto",
+              width: "100%"
             }}
           >
             <div>
@@ -312,7 +313,7 @@ const TraceBarChart = () => {
                         />
                       ) : (
                         // <div>Error and Success Call Count Chart - No Data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250, width: "100%" }}>
                           <Typography variant="h5" fontWeight={"600"}>
                             Error and Success Call Count Chart - No Data
                           </Typography>
