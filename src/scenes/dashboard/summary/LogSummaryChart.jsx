@@ -234,6 +234,7 @@ const LogBarChart = () => {
           style={{
             maxHeight: "82vh",
             overflowY: "auto",
+            width: "100%"
           }}
         >
           <Grid container spacing={2}>
@@ -247,7 +248,7 @@ const LogBarChart = () => {
                     />
                   ) : (
 
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250, width: "100%" }}>
                       <Typography variant="h5" fontWeight={"600"}>
                         Error Call Count Chart - No data
                       </Typography>

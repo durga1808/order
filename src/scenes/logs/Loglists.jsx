@@ -610,7 +610,7 @@ const Loglists = () => {
                                                     tabIndex={-1}
                                                     key={index}
                                                     // style={{
-                                                    //   backgroundColor: index % 2 === 0 ? colors.primary[400] : "#fff",
+                                                    //   backgroundColor: row.severity === "ERROR" ? colors.redAccent[500] : "",
                                                     // }}
                                                 >
                                                     {tableHeaderData.map((column, index) => {
@@ -620,7 +620,8 @@ const Loglists = () => {
                                                                 <TableCell
                                                                     key={index}
                                                                     align={column.align}
-                                                                style={{ padding: "10px" }}
+                                                                style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                              }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
@@ -640,7 +641,8 @@ const Loglists = () => {
                                                                 <TableCell
                                                                     key={column.id}
                                                                     align={column.align}
-                                                                style={{ padding: "10px" }}
+                                                                style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                              }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
@@ -665,6 +667,9 @@ const Loglists = () => {
                                                     role="checkbox"
                                                     tabIndex={-1}
                                                     key={index}
+                                                    // style={{
+                                                    //   backgroundColor: row.severity === "ERROR" ? colors.redAccent[500] : "",
+                                                    // }}
                                                   //   sx={{'&:nth-of-type(odd)': {
                                                   //     backgroundColor: colors.primary[400],
                                                   //   },
@@ -683,7 +688,8 @@ const Loglists = () => {
                                                                 <TableCell
                                                                     key={index}
                                                                     align={column.align}
-                                                                style={{ padding: "10px" }}
+                                                                style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                              }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
@@ -703,7 +709,8 @@ const Loglists = () => {
                                                                 <TableCell
                                                                     key={index}
                                                                     align={column.align}
-                                                                style={{ padding: "10px" }}
+                                                                style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                              }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
