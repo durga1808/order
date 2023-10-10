@@ -23,9 +23,11 @@ const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
-  const { lookBackVal, setDashboardPageCount, setActiveTab } = useContext(GlobalContext);
+  const { lookBackVal, setActiveTab } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
+
+ 
 
   // const apiCallsData = [
   //   {

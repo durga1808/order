@@ -61,7 +61,9 @@ export const getTraceSummaryData = async (timeMinutesAgo) => {
         // Construct the URL with the service names
         // const serviceNameListParam = serviceListData.join('&serviceNameList=');
 
-        const serviceNameListParam= 'order-project';
+        const serviceNameListParam = serviceListData.join('&serviceNameList=');
+
+        console.log(`${traceURL}/TraceSumaryChartDataCount?serviceNameList=${serviceNameListParam}&timeAgoMinutes=${timeMinutesAgo}`)
 
         const response = await axios.get(
             `${traceURL}/TraceSumaryChartDataCount?serviceNameList=${serviceNameListParam}&timeAgoMinutes=${timeMinutesAgo}`

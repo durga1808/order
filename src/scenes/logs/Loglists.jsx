@@ -91,7 +91,7 @@ const Loglists = () => {
     const [loading, setLoading] = useState(false);
     const pageLimit = 10;
     const {
-        setRecentTrace,
+        setLogTrace,
         setSelected,
         setTraceGlobalEmpty,
         setTraceGlobalError,
@@ -175,7 +175,7 @@ const Loglists = () => {
             console.log("TraceData " + JSON.stringify(correlatedTraceData));
             if (correlatedTraceData.data.length !== 0) {
                 const updatedData = createTimeInWords(correlatedTraceData.data);
-                setRecentTrace(updatedData);
+                setLogTrace(updatedData);
                 localStorage.setItem("routeName", "Traces");
                 setSelected("Traces");
                 navigate("/mainpage/traces");
@@ -404,7 +404,7 @@ const Loglists = () => {
         setFilterMessage("");
         setGetAllMessage("");
         setNoMatchMessage("");
-        if (globalLogData.length !== 0 && !searchQuery) {
+        if (globalLogData.length !== 0) {
             console.log("From Trace");
             const updatedData = createTimeInWords(globalLogData);
             const finalOutput = mapLogData(updatedData);
@@ -498,6 +498,24 @@ const Loglists = () => {
     //     handleGetAllLogData(currentPage);
     //   }
     // }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
+
+// Function to highlight search query in a message
+function highlightSearchQuery(message) {
+  if (typeof searchQuery !== 'string') {
+    return message; // Return the original message if searchQuery is not a string
+  }
+
+  const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
+  return parts.map((part, index) => (
+    part.toLowerCase() === searchQuery.toLowerCase() ? (
+      <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
+    ) : (
+      <span key={index}>{part}</span>
+    )
+  ));
+}
+
+    
 
     return (
         <div>
@@ -636,7 +654,28 @@ const Loglists = () => {
                                                                     </Typography>
                                                                 </TableCell>
                                                             );
-                                                        } else {
+                                                        } else if (column.id === "message") {
+                                                          return (
+                                                              <TableCell
+                                                                  key={index}
+                                                                  align={column.align}
+                                                              style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                            }}
+                                                              >
+                                                                  <Typography
+                                                                      variant="h6"
+                                                                      style={{
+                                                                          width: "150px",
+                                                                          whiteSpace: "nowrap",
+                                                                          overflow: "hidden",
+                                                                          textOverflow: "ellipsis",
+                                                                      }}
+                                                                  >
+                                                                      {highlightSearchQuery(value, searchQuery)}
+                                                                  </Typography>
+                                                              </TableCell>
+                                                          );
+                                                      } else {
                                                             return (
                                                                 <TableCell
                                                                     key={column.id}
