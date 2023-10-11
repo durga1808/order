@@ -30,6 +30,7 @@ import setupAxiosInterceptor from "../../../api/SetupAxiosInterceptors";
 import Loading from "../../../global/Loading/Loading";
 import { findLogByTraceId } from "../../../api/LogApiService";
 import { useNavigate } from "react-router-dom";
+import PaginationItem from "@mui/material/PaginationItem";
 
 const mockTraces = [
   {
@@ -340,6 +341,13 @@ const TraceList = () => {
     setSelectedSortOrder(selectedValue.value);
   };
 
+
+  const customPageStyles = {
+
+    backgroundColor: colors.greenAccent[500], // Change 'blue' to your desired background color for the page numbers
+    color: colors.textColor[500], // Change 'black' to your desired text color for the page numbers
+  };
+
   return (
     <div>
       {loading ? (
@@ -360,14 +368,30 @@ const TraceList = () => {
             </Typography>
 
             <Box sx={{ margin: "10px 0 20px 0" }}>
-              <Pagination
+              {/* <Pagination
                 count={totalPageCount}
                 variant="outlined"
                 size="small"
                 shape="rounded"
                 page={currentPage}
                 onChange={handlePageChange}
-              />
+              /> */}
+              <Pagination
+                  count={totalPageCount}
+                  page={currentPage}
+                  onChange={handlePageChange}
+                  variant="outlined"
+                  shape="rounded"
+                  size="small"
+                  // style={customStyles}
+                  renderItem={(item) => (
+                    <PaginationItem
+                      component="div"
+                      {...item}
+                      style={item.type === "page" ? customPageStyles : {}}
+                    />
+                  )}
+                />
             </Box>
 
             {!needFilterCall ? (
