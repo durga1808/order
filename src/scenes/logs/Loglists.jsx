@@ -98,6 +98,7 @@ const Loglists = () => {
         logFilterApiBody,
         needLogFilterCall,
         recentLogData,
+        isCollapsed,
         logRender,
         setTraceRender
     } = useContext(GlobalContext);
@@ -521,23 +522,20 @@ const Loglists = () => {
     //   }
     // }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
 
-    // Function to highlight search query in a message
-    function highlightSearchQuery(message) {
-        if (typeof searchQuery !== 'string') {
-            return message; // Return the original message if searchQuery is not a string
-        }
+function highlightSearchQuery(message) {
+  if (typeof searchQuery !== 'string') {
+    return message;
+  }
 
-        const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
-        return parts.map((part, index) => (
-            part.toLowerCase() === searchQuery.toLowerCase() ? (
-                <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
-            ) : (
-                <span key={index}>{part}</span>
-            )
-        ));
-    }
-
-
+  const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
+  return parts.map((part, index) => (
+    part.toLowerCase() === searchQuery.toLowerCase() ? (
+      <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
+    ) : (
+      <span key={index}>{part}</span>
+    )
+  ));
+}
 
     return (
         <div>
@@ -610,7 +608,8 @@ const Loglists = () => {
                             {" "}
                             <TableContainer
                                 sx={{
-                                    maxWidth: 1200,
+                                    // maxWidth: 1200,
+                                    maxWidth: isCollapsed ? "100%" : "1200px",
                                     maxHeight: "calc(73vh - 85px)",
                                     overflowY: "auto",
                                     // backgroundColor:colors.primary[500]
