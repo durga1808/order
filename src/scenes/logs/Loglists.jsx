@@ -84,28 +84,28 @@ const sortOrderOptions = [
 ];
 
 const Loglists = () => {
-  const [selectedOption, setSelectedOption] = useState("error");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPageCount, setTotalPageCount] = useState(0);
-  const [selectedLogData, setSelectedLogData] = useState([]);
-  const [logData, setLogData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const pageLimit = 10;
-  const {
-    setLogTrace,
-    setSelected,
-    setTraceGlobalEmpty,
-    setTraceGlobalError,
-    lookBackVal,
-    globalLogData,
-    logFilterApiBody,
-    needLogFilterCall,
-    recentLogData,
-    isCollapsed,
-    logRender,
-    setTraceRender,
-  } = useContext(GlobalContext);
-  const navigate = useNavigate();
+    const [selectedOption, setSelectedOption] = useState("error");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPageCount, setTotalPageCount] = useState(0);
+    const [selectedLogData, setSelectedLogData] = useState([]);
+    const [logData, setLogData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const pageLimit = 10;
+    const {
+        setLogTrace,
+        setSelected,
+        setTraceGlobalEmpty,
+        setTraceGlobalError,
+        lookBackVal,
+        globalLogData,
+        logFilterApiBody,
+        needLogFilterCall,
+        logSummaryService,
+        isCollapsed,
+        logRender,
+        setTraceRender
+    } = useContext(GlobalContext);
+    const navigate = useNavigate();
 
   const [isRightDrawerOpen, setIsRightDrawerOpen] = useState(false);
   const [noMatchMessage, setNoMatchMessage] = useState("");
@@ -296,67 +296,73 @@ const Loglists = () => {
     return finalData;
   };
 
-  const handleGetAllLogData = useCallback(async () => {
-    setLoading(true);
-    // setFilterMessage("");
-    // setGetAllMessage("");
-    // setNoMatchMessage("");
-    // setSearchResults("");
-    try {
-      setLogData([]);
-      const { data, totalCount } = await getAllLogBySorts(
-        lookBackVal.value,
-        currentPage,
-        pageLimit,
-        selectedOption
-      );
-      if (data.length !== 0) {
-        console.log("DATA " + JSON.stringify(data));
-        const updatedData = createTimeInWords(data);
-        const finalOutput = mapLogData(updatedData);
-        setLogData(finalOutput);
-        setTotalPageCount(Math.ceil(totalCount / pageLimit));
-      } else {
-        setGetAllMessage("No Log Data found!");
-      }
-    } catch (error) {
-      console.log("error " + error);
-    }
-    setLoading(false);
-  }, [lookBackVal, selectedOption]);
+    const handleGetAllLogData = useCallback(
+        async (newpage) => {
+            setLoading(true);
+            // setFilterMessage("");
+            // setGetAllMessage("");
+            // setNoMatchMessage("");
+            // setSearchResults("");
+            try {
+                setLogData([]);
+                let serviceListData = [];
+                if (logSummaryService.length === 0) {
+                    serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+                } else {
+                    serviceListData = logSummaryService
+                }
+                const { data, totalCount } = await getAllLogBySorts(
+                    lookBackVal.value,
+                    newpage,
+                    pageLimit,
+                    selectedOption,
+                    serviceListData
+                );
+                if (data.length !== 0) {
+                    console.log("DATA " + JSON.stringify(data));
+                    const updatedData = createTimeInWords(data);
+                    const finalOutput = mapLogData(updatedData);
+                    setLogData(finalOutput);
+                    setTotalPageCount(Math.ceil(totalCount / pageLimit));
+                } else {
+                    setGetAllMessage("No Log Data found!");
+                }
+            } catch (error) {
+                console.log("error " + error);
+            }
+            setLoading(false);
+        },
+        [lookBackVal, selectedOption, logSummaryService]
+    );
 
-  const logFilterApiCall = useCallback(async () => {
-    setLoading(true);
-    try {
-      console.log("Filter callback ");
-      const { data, totalCount } = await LogFilterOption(
-        lookBackVal.value,
-        currentPage + 1,
-        pageLimit,
-        logFilterApiBody
-      );
-      if (data.length !== 0) {
-        const updatedData = createTimeInWords(data);
-        const finalOutput = mapLogData(updatedData);
-        setLogData(finalOutput);
-        console.log(finalOutput);
-        setTotalPageCount(Math.ceil(totalCount / pageLimit));
-      } else {
-        setFilterMessage("No Matched data for this filter!");
-      }
-    } catch (error) {
-      console.log("ERROR from log " + error);
-    } finally {
-      setLoading(false);
-    }
-  }, [
-    lookBackVal,
-    setLogData,
-    setTotalPageCount,
-    pageLimit,
-    currentPage,
-    logFilterApiBody,
-  ]);
+    const logFilterApiCall = useCallback(
+        async () => {
+            setLoading(true);
+            try {
+                console.log("Filter callback ");
+                const { data, totalCount } = await LogFilterOption(
+                    lookBackVal.value,
+                    currentPage,
+                    pageLimit,
+                    logFilterApiBody
+                );
+                if (data.length !== 0) {
+                    const updatedData = createTimeInWords(data);
+                    const finalOutput = mapLogData(updatedData);
+                    setLogData(finalOutput);
+                    console.log(finalOutput);
+                    setTotalPageCount(Math.ceil(totalCount / pageLimit));
+                } else {
+                    setFilterMessage("No Matched data for this filter!");
+                }
+            } catch (error) {
+                console.log("ERROR from log " + error);
+            } finally {
+                setLoading(false);
+            }
+        },
+        [lookBackVal, setLogData, setTotalPageCount, pageLimit, currentPage, logFilterApiBody]
+    );
 
   // const [searchQuery, setSearchQuery] = useState("");
   const { searchQuery, setSearchQuery } = useContext(GlobalContext);
@@ -439,35 +445,27 @@ const Loglists = () => {
   //     searchQuery,
   // ]);
 
-  useEffect(() => {
-    setFilterMessage("");
-    setGetAllMessage("");
-    setNoMatchMessage("");
-    setTraceRender(false);
-    if (needLogFilterCall) {
-      console.log("From Filter");
-      logFilterApiCall();
-    } else if (globalLogData.length !== 0 && logRender) {
-      console.log("From Trace");
-      const updatedData = createTimeInWords(globalLogData);
-      const finalOutput = mapLogData(updatedData);
-      setLogData(finalOutput);
-    } else if (searchQuery) {
-      // setSearchResults([]);
-      handleSearch();
-    } else {
-      console.log("From get ALL");
-      handleGetAllLogData();
-    }
-  }, [
-    needLogFilterCall,
-    logFilterApiCall,
-    globalLogData,
-    setTraceRender,
-    handleGetAllLogData,
-    logRender,
-    searchQuery,
-  ]);
+    useEffect(() => {
+        setFilterMessage("");
+        setGetAllMessage("");
+        setNoMatchMessage("");
+        setTraceRender(false);
+        if (needLogFilterCall) {
+            console.log("From Filter");
+            logFilterApiCall();
+        } else if (globalLogData.length !== 0 && logRender) {
+            console.log("From Trace");
+            const updatedData = createTimeInWords(globalLogData);
+            const finalOutput = mapLogData(updatedData);
+            setLogData(finalOutput);
+        } else if (searchQuery) {
+            // setSearchResults([]);
+            handleSearch();
+        } else {
+            console.log("From get ALL");
+            handleGetAllLogData(currentPage);
+        }
+    }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage])
 
   const handleSortOrderChange = (selectedValue) => {
     console.log("SORT " + selectedValue.value);
@@ -533,22 +531,20 @@ const Loglists = () => {
   //   }
   // }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
 
-  function highlightSearchQuery(message) {
-    if (typeof searchQuery !== "string") {
-      return message;
-    }
+    function highlightSearchQuery(message) {
+        if (typeof searchQuery !== 'string') {
+            return message;
+        }
 
-    const parts = message.split(new RegExp(`(${searchQuery})`, "gi"));
-    return parts.map((part, index) =>
-      part.toLowerCase() === searchQuery.toLowerCase() ? (
-        <span key={index} style={{ backgroundColor: "yellow" }}>
-          {part}
-        </span>
-      ) : (
-        <span key={index}>{part}</span>
-      )
-    );
-  }
+        const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
+        return parts.map((part, index) => (
+            part.toLowerCase() === searchQuery.toLowerCase() ? (
+                <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
+            ) : (
+                <span key={index}>{part}</span>
+            )
+        ));
+    }
 
   const customStyles = {
     // "& .Mui-selected": {

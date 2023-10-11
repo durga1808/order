@@ -52,11 +52,12 @@ export const getAllLogBySorts = async (
   minutesAgo,
   page,
   pageSize,
-  sortOrder
+  sortOrder,
+  serviceListData
 ) => {
   try {
     // Get the list of service names from localStorage and parse it
-    const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+    
 
     // Construct the URL with the service names
     const serviceNameListParam = serviceListData.join('&serviceNameList=');
@@ -86,6 +87,7 @@ export const getAllLogBySorts = async (
 
 export const LogFilterOption = async (minutesAgo, page, pageSize, payload) => {
   try {
+    console.log(`${logUrl}/LogFilterQuery?minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}` + JSON.stringify(payload));
     const response = await axios.post(
       `${logUrl}/LogFilterQuery?minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}`,
       payload,
