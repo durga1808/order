@@ -8,7 +8,7 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { spanData } from "../../../../global/MockData/SpanData";
 import "./SpanFlow.css";
-import { Card, Typography, useTheme } from "@mui/material";
+import { Box, Card, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../../../theme";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
@@ -263,6 +263,13 @@ const SpanFlow = () => {
                 <Typography variant="h5" fontWeight="600" >Details for Selected Trace </Typography>
                 <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", textAlign: "center", margin: "10px" }} >
                   <Typography variant="h6"  >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
+                  <Card sx={{ width: "65%", backgroundColor: colors.greenAccent[500], display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px" }}>
+                    {orderedSpans.map((span) => (
+                      <div key={span.spanId}>
+                        <div style={{ width: "fit-content", margin: "5px", overflowX: "auto" }}>{calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms</div>
+                      </div>
+                    ))}
+                  </Card>
                   <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
                 </div>
               </div>
