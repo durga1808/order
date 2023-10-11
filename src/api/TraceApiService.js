@@ -6,11 +6,12 @@ export const TraceListPaginationApi = async (
     page,
     itemsPerPage,
     interval,
-    sortOrder
+    sortOrder,
+    serviceListData
 ) => {
     try {
         // Get the list of service names from localStorage and parse it
-        const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+        // const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
 
         // Construct the URL with the service names
         const serviceNameListParam = serviceListData.join('&serviceNameList=');

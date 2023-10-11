@@ -97,7 +97,7 @@ const Loglists = () => {
         globalLogData,
         logFilterApiBody,
         needLogFilterCall,
-        recentLogData,
+        logSummaryService,
         isCollapsed,
         logRender,
         setTraceRender
@@ -294,7 +294,7 @@ const Loglists = () => {
     };
 
     const handleGetAllLogData = useCallback(
-        async () => {
+        async (newpage) => {
             setLoading(true);
             // setFilterMessage("");
             // setGetAllMessage("");
@@ -302,11 +302,18 @@ const Loglists = () => {
             // setSearchResults("");
             try {
                 setLogData([]);
+                let serviceListData = [];
+                if (logSummaryService.length === 0) {
+                    serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+                } else {
+                    serviceListData = logSummaryService
+                }
                 const { data, totalCount } = await getAllLogBySorts(
                     lookBackVal.value,
-                    currentPage,
+                    newpage,
                     pageLimit,
-                    selectedOption
+                    selectedOption,
+                    serviceListData
                 );
                 if (data.length !== 0) {
                     console.log("DATA " + JSON.stringify(data));
@@ -322,7 +329,7 @@ const Loglists = () => {
             }
             setLoading(false);
         },
-        [lookBackVal, selectedOption]
+        [lookBackVal, selectedOption, logSummaryService]
     );
 
     const logFilterApiCall = useCallback(
@@ -332,7 +339,7 @@ const Loglists = () => {
                 console.log("Filter callback ");
                 const { data, totalCount } = await LogFilterOption(
                     lookBackVal.value,
-                    currentPage + 1,
+                    currentPage,
                     pageLimit,
                     logFilterApiBody
                 );
@@ -454,9 +461,9 @@ const Loglists = () => {
             handleSearch();
         } else {
             console.log("From get ALL");
-            handleGetAllLogData();
+            handleGetAllLogData(currentPage);
         }
-    }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery])
+    }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage])
 
     const handleSortOrderChange = (selectedValue) => {
         console.log("SORT " + selectedValue.value);
@@ -522,20 +529,20 @@ const Loglists = () => {
     //   }
     // }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
 
-function highlightSearchQuery(message) {
-  if (typeof searchQuery !== 'string') {
-    return message;
-  }
+    function highlightSearchQuery(message) {
+        if (typeof searchQuery !== 'string') {
+            return message;
+        }
 
-  const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
-  return parts.map((part, index) => (
-    part.toLowerCase() === searchQuery.toLowerCase() ? (
-      <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
-    ) : (
-      <span key={index}>{part}</span>
-    )
-  ));
-}
+        const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
+        return parts.map((part, index) => (
+            part.toLowerCase() === searchQuery.toLowerCase() ? (
+                <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
+            ) : (
+                <span key={index}>{part}</span>
+            )
+        ));
+    }
 
     return (
         <div>

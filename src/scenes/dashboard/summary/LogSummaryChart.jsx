@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
-  const { lookBackVal, setSelected, setNeedLogFilterCall, setLogFilterApiBody } = useContext(GlobalContext);
+  const { lookBackVal, setSelected, logSummaryService } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -73,11 +73,12 @@ const LogBarChart = () => {
     // ).debugCallCount;
 
     // setSelectedService(serviceName, LogWarn, LogErrorCount, LogDebugCount);
-    const logApiBody = {
-      serviceName: [serviceName]
-    }
-    setNeedLogFilterCall(true);
-    setLogFilterApiBody(logApiBody);
+    // const logApiBody = {
+    //   serviceName: [serviceName]
+    // }
+    // setNeedLogFilterCall(true);
+    // setLogFilterApiBody(logApiBody);
+    logSummaryService.push(serviceName);
     localStorage.setItem("routeName", "Logs");
     setSelected("Logs");
     navigate("/mainpage/logs");

@@ -24,7 +24,7 @@ const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
-  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, setNeedFilterCall, setFilterApiBody } = useContext(GlobalContext);
+  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -86,11 +86,12 @@ const TraceBarChart = () => {
     //   setSuccessCalls(clickedBarData.totalSuccessCalls);
     //   setErrorCalls(null);
     // }
-    const apiBody = {
-      serviceName: [serviceName]
-    }
-    setNeedFilterCall(true);
-    setFilterApiBody(apiBody);
+    // const apiBody = {
+    //   serviceName: [serviceName]
+    // }
+    // setNeedFilterCall(true);
+    // setFilterApiBody(apiBody);
+    traceSummaryService.push(serviceName);
     localStorage.setItem("routeName", "Traces");
     setSelected("Traces");
     navigate("/mainpage/traces");

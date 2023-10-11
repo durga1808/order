@@ -130,7 +130,8 @@ const TraceList = () => {
     setSelected,
     logTrace,
     traceRender,
-    setLogRender
+    setLogRender,
+    traceSummaryService
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -157,13 +158,22 @@ const TraceList = () => {
     async () => {
       try {
         console.log("Trace api called!");
-        // setTraceLoading(true);
+        // Get the list of service names from localStorage and parse it
+        let serviceListData = [];
+        if (traceSummaryService.length === 0) {
+          console.log("called default");
+          serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+        } else {
+          console.log("called dashboard");
+          serviceListData = traceSummaryService
+        }
         setLoading(true);
         const { data, totalCount } = await TraceListPaginationApi(
           currentPage,
           pageLimit,
           lookBackVal.value,
-          selectedSortOrder
+          selectedSortOrder,
+          serviceListData
         );
         const updatedData = createTimeInWords(data);
 
@@ -185,6 +195,7 @@ const TraceList = () => {
     },
     [
       pageLimit,
+      traceSummaryService,
       currentPage,
       lookBackVal,
       selectedSortOrder,
@@ -302,7 +313,7 @@ const TraceList = () => {
     setLogRender(false);
     if (needFilterCall) {
       filterApiCall();
-    } else if ((recentTrace.length === 0 && logTrace.length === 0) || !traceRender) {
+    } else if (logTrace.length === 0 || !traceRender) {
       apiCall();
     } else {
       dashboardTraceMap();
