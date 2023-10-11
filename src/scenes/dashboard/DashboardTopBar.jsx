@@ -36,7 +36,7 @@ const DashboardTopBar = () => {
   //   setRecentLogData,
   // } = useContext(GlobalContext);
   const [refresh, setRefresh] = useState(false);
-  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace, activeTab, setActiveTab, setGlobalLogData,setNeedLogFilterCall,setRecentLogData, setSearchQuery,setLogTrace } = useContext(GlobalContext);
+  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace, activeTab, setActiveTab, setGlobalLogData, setNeedLogFilterCall, setRecentLogData, setSearchQuery, setLogTrace, setTraceRender, setLogRender,setMetricRender } = useContext(GlobalContext);
   // const [activeTab, setActiveTab] = useState(0);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -71,6 +71,9 @@ const DashboardTopBar = () => {
     setRefresh(true);
     setSearchQuery([]);
     setLogTrace([]);
+    setTraceRender(false);
+    setLogRender(false);
+    setMetricRender(false);
   };
 
   const handleTabChange = (event, newValue) => {
@@ -103,6 +106,7 @@ const DashboardTopBar = () => {
   const handleLookbackChange = (val) => {
     console.log("VAL " + JSON.stringify(val.value));
     setLookBackVal(val);
+    setMetricRender(false);
     setTraceGlobalEmpty(null);
     setTraceGlobalError(null);
   };
@@ -115,14 +119,14 @@ const DashboardTopBar = () => {
             display: "flex",
             justifyContent:
               window.location.pathname === "/mainpage/dashboard" ||
-              window.location.pathname === "/mainpage/dashboard/logSummary"
+                window.location.pathname === "/mainpage/dashboard/logSummary"
                 ? "space-between"
                 : "flex-end",
             backgroundColor: colors.primary[400],
           }}
         >
           {window.location.pathname === "/mainpage/dashboard" ||
-          window.location.pathname === "/mainpage/dashboard/logSummary" ? (
+            window.location.pathname === "/mainpage/dashboard/logSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -166,7 +170,7 @@ const DashboardTopBar = () => {
               </IconButton>
             </Tooltip>
             {window.location.pathname === "/mainpage/traces" ||
-            window.location.pathname === "/mainpage/logs" ? (
+              window.location.pathname === "/mainpage/logs" ? (
               <Tooltip title="Filter">
                 <IconButton
                   onClick={handleFilterClick}

@@ -15,7 +15,7 @@ const LogServiceDetails = ({
     borderRadius: "5px",
     textAlign: "center",
     overflow: "hidden",
-    width: selectedService ? "150px" : "300px", // Set a fixed width for the box (change this to your desired width)
+    width: selectedService ? "150px" : "350px", // Set a fixed width for the box (change this to your desired width)
     height: "50px", // Set a fixed height for the box (change this to your desired height)
     whiteSpace: "nowrap", // Prevents content from wrapping to the next line
     margin: "0 auto",
@@ -37,7 +37,7 @@ const LogServiceDetails = ({
         </>
       ) : (
         <div style={boxStyle}>
-          <p>Please click any one bar for API details.</p>
+          <p>Please click on Error bar to get more information!</p>
         </div>
       )}
     </div>

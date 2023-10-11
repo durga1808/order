@@ -129,8 +129,8 @@ const TraceList = () => {
     setTraceToLogError,
     setSelected,
     logTrace,
-    setRecentTrace,
-    setLogTrace
+    traceRender,
+    setLogRender
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -154,13 +154,13 @@ const TraceList = () => {
   // setupAxiosInterceptor(setTraceLoading);
 
   const apiCall = useCallback(
-    async (newpage) => {
+    async () => {
       try {
         console.log("Trace api called!");
         // setTraceLoading(true);
         setLoading(true);
         const { data, totalCount } = await TraceListPaginationApi(
-          newpage,
+          currentPage,
           pageLimit,
           lookBackVal.value,
           selectedSortOrder
@@ -185,6 +185,7 @@ const TraceList = () => {
     },
     [
       pageLimit,
+      currentPage,
       lookBackVal,
       selectedSortOrder,
       setTraceData,
@@ -195,16 +196,16 @@ const TraceList = () => {
   );
 
   const filterApiCall = useCallback(
-    async (newpage, payload) => {
+    async () => {
       try {
         console.log("Trace filter called!");
         // setTraceLoading(true);
         setLoading(true);
         const { data, totalCount } = await TraceFilterOption(
           lookBackVal.value,
-          newpage,
+          currentPage,
           pageLimit,
-          payload
+          filterApiBody
         );
         const updatedData = createTimeInWords(data);
 
@@ -228,6 +229,8 @@ const TraceList = () => {
     },
     [
       pageLimit,
+      currentPage,
+      filterApiBody,
       lookBackVal,
       setTraceData,
       setTotalPageCount,
@@ -263,35 +266,49 @@ const TraceList = () => {
     }
   }, [recentTrace, setTraceData, logTrace]);
 
+  // useEffect(() => {
+  //   console.log("Trace UseEffect called!");
+  //   setSelectedTrace([]);
+  //   if (needFilterCall) {
+  //     filterApiCall(currentPage, filterApiBody);
+  //   } else {
+  //     if (recentTrace.length === 0 && logTrace.length === 0) {
+  //       apiCall(currentPage);
+  //     } else {
+  //       dashboardTraceMap();
+  //     }
+  //   }
+
+  //   // return () => {
+  //   //   setRecentTrace([]);
+  //   //   setLogTrace([]);
+  //   // };
+  // }, [
+  //   currentPage,
+  //   needFilterCall,
+  //   apiCall,
+  //   filterApiCall,
+  //   filterApiBody,
+  //   recentTrace,
+  //   dashboardTraceMap,
+  //   setSelectedTrace,
+  //   logTrace
+  // ]);
+
   useEffect(() => {
-    console.log("Trace UseEffect called!");
+    setTraceGlobalEmpty("");
+    setTraceGlobalError("");
     setSelectedTrace([]);
+    setLogRender(false);
     if (needFilterCall) {
-      filterApiCall(currentPage, filterApiBody);
+      filterApiCall();
+    } else if ((recentTrace.length === 0 && logTrace.length === 0) || !traceRender) {
+      apiCall();
     } else {
-      if (recentTrace.length === 0 && logTrace.length === 0) {
-        apiCall(currentPage);
-      } else {
-        dashboardTraceMap();
-      }
+      dashboardTraceMap();
     }
 
-    // return () => {
-    //   setRecentTrace([]);
-    //   setLogTrace([]);
-    // };
-  }, [
-    currentPage,
-    needFilterCall,
-    apiCall,
-    filterApiCall,
-    filterApiBody,
-    recentTrace,
-    dashboardTraceMap,
-    setSelectedTrace,
-    logTrace
-  ]);
-
+  }, [apiCall, filterApiCall, needFilterCall, dashboardTraceMap, traceRender, setLogRender]);
 
 
   const handlePageChange = (event, newPage) => {
@@ -305,6 +322,7 @@ const TraceList = () => {
       const logData = await findLogByTraceId(traceId);
       console.log("Log Data " + JSON.stringify(logData));
       if (logData.length !== 0) {
+        setLogRender(true);
         setGlobalLogData(logData);
         localStorage.setItem("routeName", "Logs");
         setSelected("Logs");

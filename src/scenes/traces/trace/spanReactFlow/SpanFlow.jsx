@@ -66,6 +66,19 @@ const SpanFlow = () => {
   //   scrollToSection();
   // }, [setSelectedSpan, orderedSpans]);
 
+  const calculateDurationInMs = (startTimeUnix, endTimeUnix) => {
+    const startTimeUnixNano = parseInt(startTimeUnix, 10);
+    const endTimeUnixNano = parseInt(endTimeUnix, 10);
+
+    const startTime = new Date(startTimeUnixNano / 1000000); // Convert nanoseconds to milliseconds
+    const endTime = new Date(endTimeUnixNano / 1000000); // Convert nanoseconds to milliseconds
+
+    // Calculate the duration in milliseconds
+    const duration = endTime - startTime;
+
+    return duration;
+  }
+
   const onNodeClick = useCallback((event, node) => {
     // Find the selected span data based on the clicked node
     const spanId = node.id.replace("span-", "");
@@ -193,7 +206,11 @@ const SpanFlow = () => {
               ? "output"
               : "default",
         data: {
-          label: span.name,
+          label: (
+            <>
+              {span.name} <strong style={{color:colors.redAccent[500]}} >({calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms)</strong>
+            </>
+          )
         },
         position: { x: nodeX, y: nodeY },
         className: "nodeStyle",
@@ -227,7 +244,7 @@ const SpanFlow = () => {
       // const orderedSpansData = sortingParentChildOrder(selectedTrace.spans);
       setOrderedSpans(selectedTrace.spans);
       dynamicNodeCreation(selectedTrace.spans);
-      
+
     }
     // setLoading(false);
   }, [selectedTrace, setSelectedSpan]);

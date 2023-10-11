@@ -81,9 +81,7 @@ const sortOrderOptions = [
 ];
 
 const Loglists = () => {
-    const mockData = ["Newest First", "Oldest First", "Error First"];
-
-    const [selectedOption, setSelectedOption] = useState("new");
+    const [selectedOption, setSelectedOption] = useState("error");
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPageCount, setTotalPageCount] = useState(0);
     const [selectedLogData, setSelectedLogData] = useState([]);
@@ -100,6 +98,8 @@ const Loglists = () => {
         logFilterApiBody,
         needLogFilterCall,
         recentLogData,
+        logRender,
+        setTraceRender
     } = useContext(GlobalContext);
     const navigate = useNavigate();
 
@@ -175,6 +175,7 @@ const Loglists = () => {
             console.log("TraceData " + JSON.stringify(correlatedTraceData));
             if (correlatedTraceData.data.length !== 0) {
                 const updatedData = createTimeInWords(correlatedTraceData.data);
+                setTraceRender(true);
                 setLogTrace(updatedData);
                 localStorage.setItem("routeName", "Traces");
                 setSelected("Traces");
@@ -292,7 +293,7 @@ const Loglists = () => {
     };
 
     const handleGetAllLogData = useCallback(
-        async (newpage) => {
+        async () => {
             setLoading(true);
             // setFilterMessage("");
             // setGetAllMessage("");
@@ -302,7 +303,7 @@ const Loglists = () => {
                 setLogData([]);
                 const { data, totalCount } = await getAllLogBySorts(
                     lookBackVal.value,
-                    newpage,
+                    currentPage,
                     pageLimit,
                     selectedOption
                 );
@@ -324,15 +325,15 @@ const Loglists = () => {
     );
 
     const logFilterApiCall = useCallback(
-        async (newpage, payload) => {
+        async () => {
             setLoading(true);
             try {
                 console.log("Filter callback ");
                 const { data, totalCount } = await LogFilterOption(
                     lookBackVal.value,
-                    newpage + 1,
+                    currentPage + 1,
                     pageLimit,
-                    payload
+                    logFilterApiBody
                 );
                 if (data.length !== 0) {
                     const updatedData = createTimeInWords(data);
@@ -349,7 +350,7 @@ const Loglists = () => {
                 setLoading(false);
             }
         },
-        [lookBackVal, setLogData, setTotalPageCount, pageLimit]
+        [lookBackVal, setLogData, setTotalPageCount, pageLimit, currentPage, logFilterApiBody]
     );
 
     // const [searchQuery, setSearchQuery] = useState("");
@@ -400,21 +401,51 @@ const Loglists = () => {
         }
     };
 
+    // useEffect(() => {
+
+    //     if (globalLogData.length !== 0) {
+    //         console.log("From Trace");
+    //         const updatedData = createTimeInWords(globalLogData);
+    //         const finalOutput = mapLogData(updatedData);
+    //         setLogData(finalOutput);
+    //     } else if (needLogFilterCall) {
+    //         console.log("From Filter");
+    //         logFilterApiCall(currentPage, logFilterApiBody);
+    //     } else if (recentLogData.length !== 0) {
+    //         console.log("From recent log data");
+    //         const updatedData = createTimeInWords(recentLogData);
+    //         const finalOutput = mapLogData(updatedData);
+    //         setLogData(finalOutput);
+    //     } else if (searchQuery) {
+    //         // setSearchResults([]);
+    //         handleSearch();
+    //     } else {
+    //         console.log("From get ALL");
+    //         handleGetAllLogData(currentPage);
+    //     }
+    // }, [
+    //     currentPage,
+    //     setTraceRender,
+    //     handleGetAllLogData,
+    //     globalLogData,
+    //     logFilterApiBody,
+    //     logFilterApiCall,
+    //     needLogFilterCall,
+    //     recentLogData,
+    //     searchQuery,
+    // ]);
+
     useEffect(() => {
         setFilterMessage("");
         setGetAllMessage("");
         setNoMatchMessage("");
-        if (globalLogData.length !== 0) {
+        setTraceRender(false);
+        if (needLogFilterCall) {
+            console.log("From Filter");
+            logFilterApiCall();
+        } else if (globalLogData.length !== 0 && logRender) {
             console.log("From Trace");
             const updatedData = createTimeInWords(globalLogData);
-            const finalOutput = mapLogData(updatedData);
-            setLogData(finalOutput);
-        } else if (needLogFilterCall) {
-            console.log("From Filter");
-            logFilterApiCall(currentPage, logFilterApiBody);
-        } else if (recentLogData.length !== 0) {
-            console.log("From recent log data");
-            const updatedData = createTimeInWords(recentLogData);
             const finalOutput = mapLogData(updatedData);
             setLogData(finalOutput);
         } else if (searchQuery) {
@@ -422,18 +453,9 @@ const Loglists = () => {
             handleSearch();
         } else {
             console.log("From get ALL");
-            handleGetAllLogData(currentPage);
+            handleGetAllLogData();
         }
-    }, [
-        currentPage,
-        handleGetAllLogData,
-        globalLogData,
-        logFilterApiBody,
-        logFilterApiCall,
-        needLogFilterCall,
-        recentLogData,
-        searchQuery,
-    ]);
+    }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery])
 
     const handleSortOrderChange = (selectedValue) => {
         console.log("SORT " + selectedValue.value);
@@ -499,23 +521,23 @@ const Loglists = () => {
     //   }
     // }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
 
-// Function to highlight search query in a message
-function highlightSearchQuery(message) {
-  if (typeof searchQuery !== 'string') {
-    return message; // Return the original message if searchQuery is not a string
-  }
+    // Function to highlight search query in a message
+    function highlightSearchQuery(message) {
+        if (typeof searchQuery !== 'string') {
+            return message; // Return the original message if searchQuery is not a string
+        }
 
-  const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
-  return parts.map((part, index) => (
-    part.toLowerCase() === searchQuery.toLowerCase() ? (
-      <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
-    ) : (
-      <span key={index}>{part}</span>
-    )
-  ));
-}
+        const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
+        return parts.map((part, index) => (
+            part.toLowerCase() === searchQuery.toLowerCase() ? (
+                <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
+            ) : (
+                <span key={index}>{part}</span>
+            )
+        ));
+    }
 
-    
+
 
     return (
         <div>
@@ -535,15 +557,15 @@ function highlightSearchQuery(message) {
                     size="large"
                     style={{ borderWidth: "4px", marginBottom: "10px", width: "80%" }}
                     InputProps={{
-                      endAdornment: (
-                          <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
-                              <SearchOutlined />
-                          </IconButton>
-                      ),
+                        endAdornment: (
+                            <IconButton type="button" sx={{ p: '10px' }} aria-label="search" onClick={handleSearch}>
+                                <SearchOutlined />
+                            </IconButton>
+                        ),
                     }}
-                      value={searchQuery}
-                      onChange={handleSearchChange}
-                      onKeyDown={handleSearchKeyDown}
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    onKeyDown={handleSearchKeyDown}
                 />
 
                 <Box sx={{ margin: "5px 0 20px 0" }}>
@@ -558,9 +580,10 @@ function highlightSearchQuery(message) {
                 </Box>
             </Box>
 
-            <Card sx={{ padding: "20px", height: "71vh",
-            // backgroundColor:colors.primary[500]
-             }}>
+            <Card sx={{
+                padding: "20px", height: "71vh",
+                // backgroundColor:colors.primary[500]
+            }}>
                 <div>
                     {loading ? (
                         <Loading />
@@ -600,7 +623,7 @@ function highlightSearchQuery(message) {
                                                 <TableCell
                                                     key={index}
                                                     align={column.align}
-                                                    style={{ backgroundColor:colors.greenAccent[500] }}
+                                                    style={{ backgroundColor: colors.greenAccent[500] }}
                                                 >
                                                     <Typography
                                                         variant="h5"
@@ -627,9 +650,9 @@ function highlightSearchQuery(message) {
                                                     role="checkbox"
                                                     tabIndex={-1}
                                                     key={index}
-                                                    // style={{
-                                                    //   backgroundColor: row.severity === "ERROR" ? colors.redAccent[500] : "",
-                                                    // }}
+                                                // style={{
+                                                //   backgroundColor: row.severity === "ERROR" ? colors.redAccent[500] : "",
+                                                // }}
                                                 >
                                                     {tableHeaderData.map((column, index) => {
                                                         const value = row[column.id];
@@ -638,8 +661,9 @@ function highlightSearchQuery(message) {
                                                                 <TableCell
                                                                     key={index}
                                                                     align={column.align}
-                                                                style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
-                                                              }}
+                                                                    style={{
+                                                                        padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                                    }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
@@ -655,33 +679,35 @@ function highlightSearchQuery(message) {
                                                                 </TableCell>
                                                             );
                                                         } else if (column.id === "message") {
-                                                          return (
-                                                              <TableCell
-                                                                  key={index}
-                                                                  align={column.align}
-                                                              style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
-                                                            }}
-                                                              >
-                                                                  <Typography
-                                                                      variant="h6"
-                                                                      style={{
-                                                                          width: "150px",
-                                                                          whiteSpace: "nowrap",
-                                                                          overflow: "hidden",
-                                                                          textOverflow: "ellipsis",
-                                                                      }}
-                                                                  >
-                                                                      {highlightSearchQuery(value, searchQuery)}
-                                                                  </Typography>
-                                                              </TableCell>
-                                                          );
-                                                      } else {
+                                                            return (
+                                                                <TableCell
+                                                                    key={index}
+                                                                    align={column.align}
+                                                                    style={{
+                                                                        padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                                    }}
+                                                                >
+                                                                    <Typography
+                                                                        variant="h6"
+                                                                        style={{
+                                                                            width: "150px",
+                                                                            whiteSpace: "nowrap",
+                                                                            overflow: "hidden",
+                                                                            textOverflow: "ellipsis",
+                                                                        }}
+                                                                    >
+                                                                        {highlightSearchQuery(value, searchQuery)}
+                                                                    </Typography>
+                                                                </TableCell>
+                                                            );
+                                                        } else {
                                                             return (
                                                                 <TableCell
                                                                     key={column.id}
                                                                     align={column.align}
-                                                                style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
-                                                              }}
+                                                                    style={{
+                                                                        padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                                    }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
@@ -706,19 +732,19 @@ function highlightSearchQuery(message) {
                                                     role="checkbox"
                                                     tabIndex={-1}
                                                     key={index}
-                                                    // style={{
-                                                    //   backgroundColor: row.severity === "ERROR" ? colors.redAccent[500] : "",
-                                                    // }}
-                                                  //   sx={{'&:nth-of-type(odd)': {
-                                                  //     backgroundColor: colors.primary[400],
-                                                  //   },
-                                                  //   '&:nth-of-type(even)': {
-                                                  //     backgroundColor: "#fff",
-                                                  //   }
-                                                  // }}
-                                                  // style={{
-                                                  //   backgroundColor: index % 2 === 0 ? colors.primary[400] : "#fff",
-                                                  // }}
+                                                // style={{
+                                                //   backgroundColor: row.severity === "ERROR" ? colors.redAccent[500] : "",
+                                                // }}
+                                                //   sx={{'&:nth-of-type(odd)': {
+                                                //     backgroundColor: colors.primary[400],
+                                                //   },
+                                                //   '&:nth-of-type(even)': {
+                                                //     backgroundColor: "#fff",
+                                                //   }
+                                                // }}
+                                                // style={{
+                                                //   backgroundColor: index % 2 === 0 ? colors.primary[400] : "#fff",
+                                                // }}
                                                 >
                                                     {tableHeaderData.map((column, index) => {
                                                         const value = row[column.id];
@@ -727,8 +753,9 @@ function highlightSearchQuery(message) {
                                                                 <TableCell
                                                                     key={index}
                                                                     align={column.align}
-                                                                style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
-                                                              }}
+                                                                    style={{
+                                                                        padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                                    }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
@@ -748,8 +775,9 @@ function highlightSearchQuery(message) {
                                                                 <TableCell
                                                                     key={index}
                                                                     align={column.align}
-                                                                style={{ padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
-                                                              }}
+                                                                    style={{
+                                                                        padding: "10px", color: column.id === "severity" && row.severity === "ERROR" ? "red" : "inherit",
+                                                                    }}
                                                                 >
                                                                     <Typography
                                                                         variant="h6"
@@ -844,7 +872,7 @@ function highlightSearchQuery(message) {
                                                 <StyledTableCell component="th" scope="row">
                                                     {key}
                                                 </StyledTableCell>
-                                                <StyledTableCell align="right" style={{ width: "50px"}}>{value}</StyledTableCell>
+                                                <StyledTableCell align="right" style={{ width: "50px" }}>{value}</StyledTableCell>
                                             </StyledTableRow>
                                         )
                                     )}

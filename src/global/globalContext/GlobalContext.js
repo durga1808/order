@@ -27,10 +27,14 @@ const GlobalContextProvider = ({ children }) => {
     const [dashboardPageCount, setDashboardPageCount] = useState(0);
     const [activeTab, setActiveTab] = useState(0);
     const [logTrace, setLogTrace] = useState([]);
-    
+
     const [logFilterApiBody, setLogFilterApiBody] = useState({});
     const [needLogFilterCall, setNeedLogFilterCall] = useState(false);
     const [recentLogData, setRecentLogData] = useState([]);
+    const [traceRender, setTraceRender] = useState(false);
+    const [logRender, setLogRender] = useState(false);
+    const [metricRender, setMetricRender] = useState(false);
+    const [selectedTraceService, setSelectedTraceService] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -84,7 +88,15 @@ const GlobalContextProvider = ({ children }) => {
                 searchQuery,
                 setSearchQuery,
                 logTrace,
-                setLogTrace
+                setLogTrace,
+                setTraceRender,
+                traceRender,
+                logRender,
+                setLogRender,
+                metricRender,
+                setMetricRender,
+                selectedTraceService,
+                setSelectedTraceService
             }}
         >
             {children}

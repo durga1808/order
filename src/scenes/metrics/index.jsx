@@ -51,15 +51,17 @@ const Metrics = () => {
     },
   ];
 
-  const services = [
-    "order-project",
-    "vendor-project",
-    "ProviderService",
-    "DeliveryService",
-  ];
+  // const services = [
+  //   "order-project",
+  //   "vendor-project",
+  //   "ProviderService",
+  //   "DeliveryService",
+  // ];
+
+  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender } = useContext(GlobalContext);
+  const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
   const options = services.map((serve) => serve);
-  const { lookBackVal } = useContext(GlobalContext);
-  const [selectedService, setSelectedService] = useState("order-project");
+  const [selectedService, setSelectedService] = useState((services && services.length > 0) ? services[0] : null);
   const [cpuUsageData, setCpuUsageData] = useState([]);
   const [memoryUsageData, setMemoryUsageData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -129,15 +131,20 @@ const Metrics = () => {
       console.log("metric data Error " + error);
       setErrorMessage("An error occurred!");
     } finally {
+      setMetricRender(true);
       setLoading(false);
     }
-  }, [selectedService, lookBackVal]);
+  }, [selectedService, lookBackVal, setMetricRender]);
 
   useEffect(() => {
     setErrorMessage("");
     setEmptyMessage("");
-    getAllMetricsData();
-  }, [getAllMetricsData]);
+    if (!metricRender) {
+      getAllMetricsData();
+    }
+    setTraceRender(false);
+    setLogRender(false);
+  }, [getAllMetricsData, setTraceRender, setLogRender, metricRender]);
 
   return (
     // <MetricLayout/>
