@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
 import "./Login.css";
-import { Button, CircularProgress, Typography, useTheme } from "@mui/material";
+import { Button, CircularProgress, FormControl, MenuItem, Typography, useTheme } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import { LoginInfo } from "../../global/MockData/LoginMock";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { getServiceList, loginUser } from "../../api/LoginApiService";
 import Loading from "../../global/Loading/Loading";
+import observai from "../../assets/observai.png"
 
 const Login = () => {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ const Login = () => {
     setLoading(true);
     localStorage.setItem("routeName", "Dashboard");
     setSelected("Dashboard");
-    if (!username || !password || !role) {
+    if (!username || !password) {
       setErrorMessage("Please fill in all fields.");
        setLoading(false);
       return;
@@ -60,32 +61,17 @@ const Login = () => {
     const payload = {
       username: username,
       password: password,
-      roles: [role],
+      // roles: [role],
     };
       console.log("Inside setTimeout");
     const userAuth = await loginUser(payload);
-    // console.log(userAuth);
-
-    // console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
-    // LoginInfo.forEach((userInfo) => {    // LoginInfo is mock data
-    //   if (userInfo.username === username) {
-    //     if (userInfo.password === password) {
-    //       if (userInfo.roles.includes(role)) {
-    //         console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
-    //         localStorage.setItem("routeName", "Dashboard");
-    //         setSelected("Dashboard");
-    //         navigate("/mainpage/dashboard");
-    //       }
-    //     }
-    //   }
-    // })
 
     if (userAuth.status === 200) {
       console.log("login", username, password, role);
-      // setUserInfo(userAuth.data);
       localStorage.setItem("userInfo", JSON.stringify(userAuth.data));
       getServiceListCall(userAuth.data);
       setLoading(false);
+      console.log(payload)
     } else if (userAuth.response.status === 401) {
       setLoading(false);
       setErrorMessage(userAuth.response.data);
@@ -98,162 +84,74 @@ const Login = () => {
     } else {
       setLoading(false);
       setErrorMessage("Something went wrong. Please try again later.");
-    }
-
-  
+    }  
 
   }
 
-
   return (
-    <div className="login-wrap">
-      <div className="login-html">
-        <input id="tab-1" type="radio" name="tab" className="sign-in" checked />
-        <label for="tab-1" className="tab">
-          Login
-        </label>
+    <div className="login-container">
 
-        <input id="tab-2" type="radio" name="tab" className="sign-up" />
-        <label for="tab-2" className="tab"></label>
-        <div className="login-form">
-          <div className="sign-in-htm">
-            <div className="group">
-              <label for="user" className="label">
-                Username
-              </label>
-              <input
-                id="user"
-                type="text"
-                className="input"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
+      <div className="login-form-container">
+        <div className="login-card">
+          <h1>LOGIN</h1>
+          <input
+            type="text"
+            placeholder="USERNAME"
+            value={username}
+            style={{ fontFamily: "Red Hat Display", fontSize: "16px" }}
+            onChange={(e) => setUsername(e.target.value)}
+          />
 
-            <div className="group">
-              <label for="pass" className="label">
-                Password
-              </label>
-              <input
-                id="pass"
-                className="input"
-                data-type="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+          <input
+            type="password"
+            placeholder="PASSWORD"
+            value={password}
+            style={{ fontFamily: "Red Hat Display", fontSize: "16px" }}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-            <div className="role1">
-              <label for="check">ROLE</label>
-              <select
-                className="inner-dropdown-all"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              >
-                <option className="inner-dropdown" value="none">
-                  None
-                </option>
-                <option className="inner-dropdown" value="admin">
-                  Admin
-                </option>
-                <option className="inner-dropdown" value="vendor">
-                  Vendor
-                </option>
-                <option className="inner-dropdown" value="user">
-                  User
-                </option>
-              </select>
-            </div>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-            {errorMessage ? (
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: 18,
+                margin: 5,
+              }}
+            >
               <Typography
                 variant="h6"
-                style={{
-                  color: colors.redAccent[500],
-                  textAlign: "center",
-                  marginTop: "30px",
-                }}
+                style={{ fontFamily: "Red Hat Display, sans-serif" }}
               >
-                {errorMessage}
+                Loading...
               </Typography>
-            ) : null}
+            </div>
+          ) : (
+            <Button
+              sx={{
+                m: 2,
+                width: "10%",
+                backgroundColor: colors.greenAccent[500],
+                color: colors.grey[100],
+                "&:hover": {
+                  backgroundColor: "#ffffff",
+                  color: colors.primary[600],
+                },
+              }}
+              variant="contained"
+              onClick={() => handleLogin()}
+            >
+              LOGIN
+            </Button>
+          )}
 
-            {loading ? (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "100%",
-                  height: "20vh",
-                }}
-              >
-                <CircularProgress
-                  style={{ color: colors.blueAccent[400] }}
-                  size={40}
-                  thickness={4}
-                />
-                <Typography variant="h5" fontWeight={"600"} mt={2}>
-                  LOADING.....
-                </Typography>
-              </div>
-            ) : (
-              <div className="group">
-                <input
-                  type="submit"
-                  className="button"
-                  value="Login"
-                  onClick={() => handleLogin()}
-                />
-              </div>
-            )}
-
-            {/* <div className="hr"></div>
-            <div className="foot-lnk">
-              <a href="#forgot">Forgot Password?</a>
-            </div> */}
-          </div>
-          {/* <div className="sign-up-htm">
-            <div className="group">
-              <label for="user" className="label">
-                Username
-              </label>
-              <input id="user" type="text" className="input" />
-            </div>
-            <div className="group">
-              <label for="pass" className="label">
-                Password
-              </label>
-              <input
-                id="pass"
-                type="password"
-                className="input"
-                data-type="password"
-              />
-            </div>
-            <div className="group">
-              <label for="pass" className="label">
-                Repeat Password
-              </label>
-              <input
-                id="pass"
-                type="password"
-                className="input"
-                data-type="password"
-              />
-            </div>
-            <div className="group">
-              <label for="pass" className="label">
-                Email Address
-              </label>
-              <input id="pass" type="text" className="input" />
-            </div>
-            <div className="group">
-              <input type="submit" className="button" value="Sign Up" />
-            </div>
-          </div> */}
+        </div>
+        <div className="login-card-details">
+          <img src={observai} alt="observai" style={{ width: "450px", height: "250px" }}/>
+          <p style={{ padding: "10px" }}>Observability</p>
         </div>
       </div>
     </div>
