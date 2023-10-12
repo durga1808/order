@@ -393,21 +393,30 @@ const TraceList = () => {
                 onChange={handlePageChange}
               /> */}
               <Pagination
-                  count={totalPageCount}
-                  page={currentPage}
-                  onChange={handlePageChange}
-                  variant="outlined"
-                  shape="rounded"
-                  size="small"
-                  // style={customStyles}
-                  renderItem={(item) => (
-                    <PaginationItem
-                      component="div"
-                      {...item}
-                      style={item.type === "page" ? customPageStyles : {}}
-                    />
-                  )}
-                />
+  count={totalPageCount}
+  page={currentPage}
+  onChange={handlePageChange}
+  variant="outlined"
+  shape="rounded"
+  size="small"
+  renderItem={(item) => (
+    <PaginationItem
+      component="div"
+      {...item}
+      style={{
+        backgroundColor:
+          item.type === "page" && item.page !== currentPage
+            ? colors.greenAccent[500]
+            : colors.greenAccent[900],
+        color:
+          item.type === "page" && item.page === currentPage
+            ? colors.textColor[500]
+            : colors.textColor[500],
+      }}
+    />
+      )}
+/>
+
             </Box>
 
             {!needFilterCall ? (
