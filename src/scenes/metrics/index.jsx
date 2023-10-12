@@ -149,69 +149,74 @@ const Metrics = () => {
 
   return (
     // <MetricLayout/>
-    <div style={{ height: "calc(93vh - 70px)", overflowY: "auto" }}>
-      <div style={{ margin: "15px 10px 5px 10px" }}>
-        <Select
-          value={selectedService}
-          onChange={handleServiceChange}
-          displayEmpty
-          inputProps={{ "aria-label": "Select Service" }}
-        >
-          <MenuItem value="" disabled>
-            Services
-          </MenuItem>
-          {options.map((service, index) => (
-            <MenuItem key={index} value={service}>
-              {service}
-            </MenuItem>
-          ))}
-        </Select>
-      </div>
-      {loading ? (
-        <Loading />
-      ) : emptyMessage ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            height: "80vh",
-          }}
-        >
-          <Typography variant="h5" fontWeight={"600"}>
-            {emptyMessage}
-          </Typography>
-        </div>
-      ) : errorMessage ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            height: "80vh",
-          }}
-        >
-          <Typography variant="h5" fontWeight={"600"}>
-            {errorMessage}
-          </Typography>
-        </div>
-      ) : (
-        <div>
-          {mockMetrics.map((mock, index) => (
-            <Card
-              key={index}
-              // padding="10px"
-              // sx={{backgroundColor:"#000"}}
-              style={{ margin: "10px 10px 15px 10px" }}
+    <>
+      <div style={{ height: "calc(93vh - 70px)", overflowY: "auto" }}>
+        <div style={{ margin: "5px 10px 5px 10px" }}>
+          <div>
+            <div style={{ fontSize: '12px' }}>ServiceBy</div>
+            <Select
+              value={selectedService}
+              onChange={handleServiceChange}
+              displayEmpty
+              inputProps={{ "aria-label": "Select Service" }}
             >
-              <LineChart data={mock} />
-            </Card>
-          ))}
+              <MenuItem value="" disabled>
+                Services
+              </MenuItem>
+              {options.map((service, index) => (
+                <MenuItem key={index} value={service}>
+                  {service}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
         </div>
-      )}
-    </div>
+        {loading ? (
+          <Loading />
+        ) : emptyMessage ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "80vh",
+            }}
+          >
+            <Typography variant="h5" fontWeight={"600"}>
+              {emptyMessage}
+            </Typography>
+          </div>
+        ) : errorMessage ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "80vh",
+            }}
+          >
+            <Typography variant="h5" fontWeight={"600"}>
+              {errorMessage}
+            </Typography>
+          </div>
+        ) : (
+          <div>
+            {mockMetrics.map((mock, index) => (
+              <Card
+                key={index}
+                // padding="10px"
+                // sx={{backgroundColor:"#000"}}
+                style={{ margin: "10px 10px 15px 10px" }}
+              >
+                <LineChart data={mock} />
+              </Card>
+            ))}
+          </div>
+        )}
+      </div></>
+
   );
 };
 
