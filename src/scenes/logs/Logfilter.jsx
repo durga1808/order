@@ -13,7 +13,7 @@ const Logfilter = ({ open, onClose }) => {
 
   // const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
 
-  const severity = ['ERROR', 'WARNING', 'INFO', 'SEVERE'];
+  const severity = ['ERROR', 'SEVERE', 'WARNING', 'INFO'];
 
   const handleServiceToggle = (service) => () => {
     if (selectedService.includes(service)) {
@@ -34,7 +34,7 @@ const Logfilter = ({ open, onClose }) => {
   const handleApplyButtonClick = () => {
     const payload = {
       service: selectedService,
-      severity: selectedSeverity
+      severityText: selectedSeverity
     }
 
     const apiBody = {};
@@ -43,8 +43,8 @@ const Logfilter = ({ open, onClose }) => {
       apiBody.serviceName = payload.service;
     }
 
-    if (payload.severity !== null && Array.isArray(payload.severity) && payload.severity.length > 0) {
-      apiBody.severity = payload.severity;
+    if (payload.severityText !== null && Array.isArray(payload.severityText) && payload.severityText.length > 0) {
+      apiBody.severityText = payload.severityText;
     }
 
 
