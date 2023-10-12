@@ -888,6 +888,22 @@ const Loglists = () => {
                       variant="outlined"
                       shape="rounded"
                       size="small"
+                      renderItem={(item) => (
+                        <PaginationItem
+                          component="div"
+                          {...item}
+                          style={{
+                            backgroundColor:
+                              item.type === "page" && item.page !== currentPage
+                                ? colors.greenAccent[500]
+                                : colors.greenAccent[900],
+                            color:
+                              item.type === "page" && item.page === currentPage
+                                ? colors.textColor[500]
+                                : colors.textColor[500],
+                          }}
+                        />
+                      )}
                     />
                   </Stack>
                 </div>
