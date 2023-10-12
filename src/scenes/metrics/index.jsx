@@ -153,7 +153,7 @@ const Metrics = () => {
       <div style={{ height: "calc(93vh - 70px)", overflowY: "auto" }}>
         <div style={{ margin: "5px 10px 5px 10px" }}>
           <div>
-            <div style={{ fontSize: '12px' }}>ServiceBy</div>
+            <div style={{ fontSize: '12px', paddingBottom: '5px' }}>ServiceBy</div>
             <Select
               value={selectedService}
               onChange={handleServiceChange}
