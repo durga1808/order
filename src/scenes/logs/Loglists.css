@@ -59,3 +59,19 @@
     -webkit-overflow-scrolling: touch;
     font-size: 15px;
 }
+
+
+::-webkit-scrollbar {
+    height: 5px; /* Height of the scrollbar */
+  }
+  
+  /* Handle (thumb) of the scrollbar */
+  ::-webkit-scrollbar-thumb {
+    background-color: #888; /* Color of the scrollbar handle */
+    border-radius: 6px; /* Radius of the scrollbar handle */
+  }
+  
+  /* Track (background) of the scrollbar */
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1; /* Color of the scrollbar track */
+  }

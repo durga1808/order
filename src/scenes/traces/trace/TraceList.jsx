@@ -93,19 +93,19 @@ const mockTraces = [
 
 const sortOrderOptions = [
   {
-    label: "Newest First",
+    label: "Newest",
     value: "new",
   },
   {
-    label: "Oldest First",
+    label: "Oldest",
     value: "old",
   },
   {
-    label: "Error First",
+    label: "Error",
     value: "error",
   },
   {
-    label: "Peaked Latency First",
+    label: "Peaked Latency",
     value: "peakLatency",
   },
 ];
@@ -368,7 +368,8 @@ const TraceList = () => {
           <Box
             display="flex"
             flexDirection="row"
-            justifyContent="space-between"
+            justifyContent= "space-evenly"
+            alignItems= "center"
           >
             <Typography
               variant="h4"
@@ -378,7 +379,11 @@ const TraceList = () => {
               Traces ({traceData.length})
             </Typography>
 
-            <Box sx={{ margin: "10px 0 20px 0" }}>
+            <Box sx={{  display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+              alignItems: "center",
+              margin: "10px 0 20px 0" }}>
               {/* <Pagination
                 count={totalPageCount}
                 variant="outlined"
@@ -406,7 +411,14 @@ const TraceList = () => {
             </Box>
 
             {!needFilterCall ? (
-              <Box sx={{ margin: "5px 0 20px 0" }}>
+              <Box sx={{
+                display: "flex",
+                flexDirection: "row", 
+                alignItems: "center",
+                justifyContent: "space-between",
+                 margin: "5px 0 20px 0" }}>
+                 <div style={{ alignItems: "center", marginBottom: '5px' }}>
+            <label style={{ fontSize: '12px',  marginBottom: '5px' }}>SortBy</label>
                 <Dropdown
                   options={sortOrderOptions}
                   placeholder="Sort Order"
@@ -415,6 +427,7 @@ const TraceList = () => {
                   value={selectedSortOrder}
                   onChange={handleSortOrderChange}
                 />
+                  </div>
               </Box>
             ) : null}
           </Box>
