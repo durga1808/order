@@ -72,12 +72,14 @@ const Metrics = () => {
 
   const handleServiceChange = (event) => {
     console.log("Service " + event.target.value);
+    setMetricRender(false);
     setSelectedService(event.target.value);
   };
 
   const handleMetricData = (metricData) => {
     const processedData = metricData.map((metric) => {
       const timestamp = new Date(metric.date).getTime(); // Convert date string to timestamp
+
 
       return {
         x: timestamp,
@@ -117,10 +119,11 @@ const Metrics = () => {
     },
   ];
 
-  const getAllMetricsData = useCallback(async () => {
+  const getAllMetricsData = useCallback(async (service) => {
     setLoading(true);
     try {
-      const metricData = await getMetricDataApi(selectedService, lookBackVal.value);
+      console.log("Selected service " + service);
+      const metricData = await getMetricDataApi(service, lookBackVal.value);
       if (metricData.length !== 0) {
         console.log("metric data " + JSON.stringify(metricData));
         handleMetricData(metricData);
@@ -134,18 +137,18 @@ const Metrics = () => {
       setMetricRender(true);
       setLoading(false);
     }
-  }, [selectedService, lookBackVal, setMetricRender]);
+  }, [lookBackVal, setMetricRender]);
 
   useEffect(() => {
     setErrorMessage("");
     setEmptyMessage("");
     if (!metricRender) {
-      getAllMetricsData();
+      getAllMetricsData(selectedService);
     }
-    getAllMetricsData();
+    // getAllMetricsData();
     setTraceRender(false);
     setLogRender(false);
-  }, [getAllMetricsData, setTraceRender, setLogRender, metricRender]);
+  }, [getAllMetricsData, setTraceRender, setLogRender, metricRender,selectedService]);
 
   return (
     // <MetricLayout/>

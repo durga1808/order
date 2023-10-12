@@ -132,6 +132,7 @@ const TraceList = () => {
     logTrace,
     traceRender,
     setLogRender,
+    setMetricRender,
     traceSummaryService
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
@@ -308,10 +309,9 @@ const TraceList = () => {
   // ]);
 
   useEffect(() => {
-    setTraceGlobalEmpty("");
-    setTraceGlobalError("");
     setSelectedTrace([]);
     setLogRender(false);
+    setMetricRender(false);
     if (needFilterCall) {
       filterApiCall();
     } else if (logTrace.length === 0 || !traceRender) {
@@ -320,7 +320,7 @@ const TraceList = () => {
       dashboardTraceMap();
     }
 
-  }, [apiCall, filterApiCall, needFilterCall, dashboardTraceMap, traceRender, setLogRender]);
+  }, [apiCall, filterApiCall, needFilterCall, dashboardTraceMap, traceRender, setLogRender, logTrace, setSelectedTrace,setMetricRender]);
 
 
   const handlePageChange = (event, newPage) => {
@@ -388,21 +388,21 @@ const TraceList = () => {
                 onChange={handlePageChange}
               /> */}
               <Pagination
-                  count={totalPageCount}
-                  page={currentPage}
-                  onChange={handlePageChange}
-                  variant="outlined"
-                  shape="rounded"
-                  size="small"
-                  // style={customStyles}
-                  renderItem={(item) => (
-                    <PaginationItem
-                      component="div"
-                      {...item}
-                      style={item.type === "page" ? customPageStyles : {}}
-                    />
-                  )}
-                />
+                count={totalPageCount}
+                page={currentPage}
+                onChange={handlePageChange}
+                variant="outlined"
+                shape="rounded"
+                size="small"
+                // style={customStyles}
+                renderItem={(item) => (
+                  <PaginationItem
+                    component="div"
+                    {...item}
+                    style={item.type === "page" ? customPageStyles : {}}
+                  />
+                )}
+              />
             </Box>
 
             {!needFilterCall ? (

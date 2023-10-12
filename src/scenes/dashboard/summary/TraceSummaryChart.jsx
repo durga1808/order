@@ -24,7 +24,7 @@ const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
-  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService } = useContext(GlobalContext);
+  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService,setMetricRender } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -55,11 +55,12 @@ const TraceBarChart = () => {
   useEffect(() => {
     setErrorMessage("");
     setEmptyMessage("");
+    setMetricRender(false);
     traceSummaryApiCall();
     setActiveTab(0);
     setTraceRender(false);
     setLogRender(false)
-  }, [traceSummaryApiCall, setActiveTab, setTraceRender, setLogRender]);
+  }, [traceSummaryApiCall, setActiveTab, setTraceRender, setLogRender,setMetricRender]);
 
   const handleBarClick = (selectedDataPointIndex, selectedSeriesName) => {
     ///DONT REMOVE THIS CODE-----------------//
