@@ -142,6 +142,7 @@ const Metrics = () => {
     if (!metricRender) {
       getAllMetricsData();
     }
+    getAllMetricsData();
     setTraceRender(false);
     setLogRender(false);
   }, [getAllMetricsData, setTraceRender, setLogRender, metricRender]);
