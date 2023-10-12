@@ -147,10 +147,13 @@ const DashboardTopBar = () => {
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-around",
+              alignItems: "center",
+              justifyContent: "space-between",
               mr: "5px",
             }}
           >
+            <div style={{ alignItems: "center", marginBottom: '20px' }}>
+            <label style={{ fontSize: '12px',  marginBottom: '5px' }}>TimeBy</label>
             <Dropdown
               options={options}
               placeholder="Lookback for"
@@ -159,6 +162,8 @@ const DashboardTopBar = () => {
               arrowClosed={<span className="arrow-closed" />}
               arrowOpen={<span className="arrow-open" />}
             />
+             </div>
+            <div style={{ display: "flex", alignItems: "center" }}>
             <Tooltip title="Refresh">
               <IconButton
                 onClick={handleRefreshClick}
@@ -170,6 +175,7 @@ const DashboardTopBar = () => {
                 <RefreshOutlined style={iconStyle} />
               </IconButton>
             </Tooltip>
+            </div>
             {window.location.pathname === "/mainpage/traces" ||
               window.location.pathname === "/mainpage/logs" ? (
               <Tooltip title="Filter">

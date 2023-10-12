@@ -568,6 +568,7 @@ const Loglists = () => {
           display: "flex",
           flexDirection: "row",
           justifyContent: "space-evenly",
+          alignItems: "center",
         }}
       >
         <TextField
@@ -595,7 +596,14 @@ const Loglists = () => {
           onKeyDown={handleSearchKeyDown}
         />
 
-        <Box sx={{ margin: "5px 0 20px 0" }}>
+        <Box sx={{ 
+          display: "flex",
+          flexDirection: "row", 
+          alignItems: "center",
+          justifyContent: "space-between",
+          margin: "5px 0 20px 0" }}>
+          <div style={{ alignItems: "center", marginBottom: '5px' }}>
+            <label style={{ fontSize: '12px',  marginBottom: '5px' }}>SortBy</label>
           <Dropdown
             options={sortOrderOptions}
             placeholder="Sort Order"
@@ -604,6 +612,7 @@ const Loglists = () => {
             value={selectedOption}
             onChange={handleSortOrderChange}
           />
+           </div>
         </Box>
       </Box>
 
