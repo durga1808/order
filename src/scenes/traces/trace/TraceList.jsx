@@ -93,19 +93,19 @@ const mockTraces = [
 
 const sortOrderOptions = [
   {
-    label: "Newest First",
+    label: "Newest",
     value: "new",
   },
   {
-    label: "Oldest First",
+    label: "Oldest",
     value: "old",
   },
   {
-    label: "Error First",
+    label: "Error",
     value: "error",
   },
   {
-    label: "Peaked Latency First",
+    label: "Peaked Latency",
     value: "peakLatency",
   },
 ];
