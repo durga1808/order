@@ -110,7 +110,8 @@ const Loglists = () => {
     setIsCollapsed,
     isCardVisible,
     setIsCardVisible,
-    setMetricRender
+    setMetricRender,
+    setLogRender
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -411,6 +412,7 @@ const Loglists = () => {
 
   const handleSearchChange = (event) => {
     const searchQuery = event.target.value;
+    setLogRender(true);
     setSearchQuery(searchQuery);
   };
 
@@ -468,7 +470,7 @@ const Loglists = () => {
       const updatedData = createTimeInWords(globalLogData);
       const finalOutput = mapLogData(updatedData);
       setLogData(finalOutput);
-    } else if (searchQuery) {
+    } else if (searchQuery && logRender) {
       // setSearchResults([]);
       handleSearch();
     } else {
@@ -726,7 +728,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                            row.severity === "ERROR"
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -753,7 +755,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                            row.severity === "ERROR"
+                                          (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -783,7 +785,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                            row.severity === "ERROR"
+                                          (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -823,7 +825,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                            row.severity === "ERROR"
+                                          (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -850,7 +852,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                            row.severity === "ERROR"
+                                          (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -895,12 +897,12 @@ const Loglists = () => {
                           style={{
                             backgroundColor:
                               item.type === "page" && item.page !== currentPage
-                                ? colors.greenAccent[500]
-                                : colors.greenAccent[900],
+                                ? colors.greenAccent[900]
+                                : colors.greenAccent[500],
                             color:
                               item.type === "page" && item.page === currentPage
                                 ? colors.textColor[500]
-                                : colors.textColor[500],
+                                : colors.textColor[900],
                           }}
                         />
                       )}

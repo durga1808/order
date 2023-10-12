@@ -408,8 +408,8 @@ const TraceList = () => {
                     style={{
                       backgroundColor:
                         item.type === "page" && item.page !== currentPage
-                          ? colors.greenAccent[500]
-                          : colors.greenAccent[900],
+                          ? colors.greenAccent[900]
+                          : colors.greenAccent[500],
                       color:
                         item.type === "page" && item.page === currentPage
                           ? colors.textColor[500]
