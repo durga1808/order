@@ -132,6 +132,7 @@ const TraceList = () => {
     logTrace,
     traceRender,
     setLogRender,
+    setMetricRender,
     traceSummaryService
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
@@ -308,10 +309,9 @@ const TraceList = () => {
   // ]);
 
   useEffect(() => {
-    setTraceGlobalEmpty("");
-    setTraceGlobalError("");
     setSelectedTrace([]);
     setLogRender(false);
+    setMetricRender(false);
     if (needFilterCall) {
       filterApiCall();
     } else if (logTrace.length === 0 || !traceRender) {
@@ -320,7 +320,7 @@ const TraceList = () => {
       dashboardTraceMap();
     }
 
-  }, [apiCall, filterApiCall, needFilterCall, dashboardTraceMap, traceRender, setLogRender]);
+  }, [apiCall, filterApiCall, needFilterCall, dashboardTraceMap, traceRender, setLogRender, logTrace, setSelectedTrace, setMetricRender]);
 
 
   const handlePageChange = (event, newPage) => {
@@ -368,8 +368,8 @@ const TraceList = () => {
           <Box
             display="flex"
             flexDirection="row"
-            justifyContent= "space-evenly"
-            alignItems= "center"
+            justifyContent="space-evenly"
+            alignItems="center"
           >
             <Typography
               variant="h4"
@@ -379,11 +379,13 @@ const TraceList = () => {
               Traces ({traceData.length})
             </Typography>
 
-            <Box sx={{  display: "flex",
+            <Box sx={{
+              display: "flex",
               flexDirection: "row",
               justifyContent: "space-evenly",
               alignItems: "center",
-              margin: "10px 0 20px 0" }}>
+              margin: "10px 0 20px 0"
+            }}>
               {/* <Pagination
                 count={totalPageCount}
                 variant="outlined"
@@ -393,50 +395,50 @@ const TraceList = () => {
                 onChange={handlePageChange}
               /> */}
               <Pagination
-  count={totalPageCount}
-  page={currentPage}
-  onChange={handlePageChange}
-  variant="outlined"
-  shape="rounded"
-  size="small"
-  renderItem={(item) => (
-    <PaginationItem
-      component="div"
-      {...item}
-      style={{
-        backgroundColor:
-          item.type === "page" && item.page !== currentPage
-            ? colors.greenAccent[500]
-            : colors.greenAccent[900],
-        color:
-          item.type === "page" && item.page === currentPage
-            ? colors.textColor[500]
-            : colors.textColor[500],
-      }}
-    />
-      )}
-/>
-
+                count={totalPageCount}
+                page={currentPage}
+                onChange={handlePageChange}
+                variant="outlined"
+                shape="rounded"
+                size="small"
+                renderItem={(item) => (
+                  <PaginationItem
+                    component="div"
+                    {...item}
+                    style={{
+                      backgroundColor:
+                        item.type === "page" && item.page !== currentPage
+                          ? colors.greenAccent[900]
+                          : colors.greenAccent[500],
+                      color:
+                        item.type === "page" && item.page === currentPage
+                          ? colors.textColor[500]
+                          : colors.textColor[500],
+                    }}
+                  />
+                )}
+              />
             </Box>
 
             {!needFilterCall ? (
               <Box sx={{
                 display: "flex",
-                flexDirection: "row", 
+                flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-                 margin: "5px 0 20px 0" }}>
-                 <div style={{ alignItems: "center", marginBottom: '5px' }}>
-            <label style={{ fontSize: '12px',  marginBottom: '5px' }}>SortBy</label>
-                <Dropdown
-                  options={sortOrderOptions}
-                  placeholder="Sort Order"
-                  arrowClosed={<span className="arrow-closed" />}
-                  arrowOpen={<span className="arrow-open" />}
-                  value={selectedSortOrder}
-                  onChange={handleSortOrderChange}
-                />
-                  </div>
+                margin: "5px 0 20px 0"
+              }}>
+                <div style={{ alignItems: "center", marginBottom: '5px' }}>
+                  <label style={{ fontSize: '12px', marginBottom: '5px' }}>SortBy</label>
+                  <Dropdown
+                    options={sortOrderOptions}
+                    placeholder="Sort Order"
+                    arrowClosed={<span className="arrow-closed" />}
+                    arrowOpen={<span className="arrow-open" />}
+                    value={selectedSortOrder}
+                    onChange={handleSortOrderChange}
+                  />
+                </div>
               </Box>
             ) : null}
           </Box>

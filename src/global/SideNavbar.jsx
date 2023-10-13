@@ -22,8 +22,13 @@ const SideNavbar = () => {
     localStorage.setItem("routeName", routeName);
   };
 
-  const { isCollapsed, setIsCollapsed } = useContext(GlobalContext);
+  const { isCollapsed, setIsCollapsed,isCardVisible,setIsCardVisible } = useContext(GlobalContext);
   const { selected, setSelected } = useContext(GlobalContext);
+
+  const handleclose = ()=>{
+    setIsCardVisible(false)
+    setIsCollapsed(!isCollapsed)
+  }
 
   return (
     <Box>
@@ -47,7 +52,7 @@ const SideNavbar = () => {
           },
         }} >
           <MenuItem
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={handleclose }
             icon={isCollapsed ? <MenuOutlined /> : undefined}
             style={{
               margin: "10px 0 20px 0",

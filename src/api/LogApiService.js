@@ -57,10 +57,10 @@ export const getAllLogBySorts = async (
 ) => {
   try {
     // Get the list of service names from localStorage and parse it
-    
-
-    // Construct the URL with the service names
     const serviceNameListParam = serviceListData.join('&serviceNameList=');
+    console.log("GET ALL " + `${logUrl}/getallLogdata-sortorder?minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}`);
+    // Construct the URL with the service names
+    
     const response = await axios.get(
       `${logUrl}/getallLogdata-sortorder?minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}`
     );

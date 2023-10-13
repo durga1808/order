@@ -5,6 +5,7 @@ const GlobalContext = createContext();
 
 const GlobalContextProvider = ({ children }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCardVisible,setIsCardVisible] = useState(false)
     const [selected, setSelected] = useState(localStorage.getItem("routeName"));
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedTrace, setSelectedTrace] = useState({});
@@ -45,6 +46,8 @@ const GlobalContextProvider = ({ children }) => {
             value={{
                 isCollapsed,
                 setIsCollapsed,
+                isCardVisible,
+                setIsCardVisible,
                 selected,
                 setSelected,
                 selectedOptions,
