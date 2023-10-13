@@ -111,7 +111,8 @@ const Loglists = () => {
     isCardVisible,
     setIsCardVisible,
     setMetricRender,
-    setLogRender
+    setLogRender,
+    setTraceSummaryService
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -460,6 +461,7 @@ const Loglists = () => {
     setFilterMessage("");
     setGetAllMessage("");
     setNoMatchMessage("");
+    setTraceSummaryService([]);
     setTraceRender(false);
     setMetricRender(false);
     if (needLogFilterCall) {
@@ -477,7 +479,7 @@ const Loglists = () => {
       console.log("From get ALL");
       handleGetAllLogData(currentPage);
     }
-  }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage, setMetricRender])
+  }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage, setMetricRender,setTraceSummaryService])
 
   const handleSortOrderChange = (selectedValue) => {
     console.log("SORT " + selectedValue.value);

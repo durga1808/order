@@ -163,10 +163,10 @@ const TraceList = () => {
         // Get the list of service names from localStorage and parse it
         let serviceListData = [];
         if (traceSummaryService.length === 0) {
-          console.log("called default");
+          console.log("called default" + traceSummaryService);
           serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
         } else {
-          console.log("called dashboard");
+          console.log("called dashboard" + traceSummaryService);
           serviceListData = traceSummaryService
         }
         setLoading(true);
