@@ -111,7 +111,8 @@ const Loglists = () => {
     isCardVisible,
     setIsCardVisible,
     setMetricRender,
-    setLogRender
+    setLogRender,
+    setTraceSummaryService
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -460,6 +461,7 @@ const Loglists = () => {
     setFilterMessage("");
     setGetAllMessage("");
     setNoMatchMessage("");
+    setTraceSummaryService([]);
     setTraceRender(false);
     setMetricRender(false);
     if (needLogFilterCall) {
@@ -477,7 +479,7 @@ const Loglists = () => {
       console.log("From get ALL");
       handleGetAllLogData(currentPage);
     }
-  }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage, setMetricRender])
+  }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage, setMetricRender, setTraceSummaryService])
 
   const handleSortOrderChange = (selectedValue) => {
     console.log("SORT " + selectedValue.value);
@@ -606,17 +608,17 @@ const Loglists = () => {
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
             />
-
-            <Box sx={{ margin: "5px 0 20px 0" }}>
-              <Dropdown
-                options={sortOrderOptions}
-                placeholder="Sort Order"
-                arrowClosed={<span className="arrow-closed" />}
-                arrowOpen={<span className="arrow-open" />}
-                value={selectedOption}
-                onChange={handleSortOrderChange}
-              />
-            </Box>
+            {!needLogFilterCall ? (
+              <Box sx={{ margin: "5px 0 20px 0" }}>
+                <Dropdown
+                  options={sortOrderOptions}
+                  placeholder="Sort Order"
+                  arrowClosed={<span className="arrow-closed" />}
+                  arrowOpen={<span className="arrow-open" />}
+                  value={selectedOption}
+                  onChange={handleSortOrderChange}
+                />
+              </Box>) : null}
           </Box>
           <Card
             sx={{
@@ -755,7 +757,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -785,7 +787,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -825,7 +827,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -852,7 +854,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -934,6 +936,7 @@ const Loglists = () => {
                   </IconButton>
                 </div>
                 <div>
+                {selectedLogData && selectedLogData[0] ? (
                   <TableContainer component={Paper}>
                     <Table
                     // sx={{ minHeight: "60vh" }}
@@ -992,6 +995,11 @@ const Loglists = () => {
                       </TableBody>
                     </Table>
                   </TableContainer>
+                ) : (
+                    <Typography variant="h5" fontWeight={"600"}>
+    No log metadata available.
+  </Typography>
+                ) }
                 </div>
               </CardContent>
             </Card>

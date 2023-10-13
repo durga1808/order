@@ -90,7 +90,7 @@ const DebugBarChart = ({ data }) => {
         options={DebugBarChartOption}
         series={debugcountseries}
         type="bar"
-        height={250}
+        height={225}
         width={isCollapsed?640:550}
       />
     </div>

@@ -162,27 +162,28 @@ const TraceList = () => {
 
   // setupAxiosInterceptor(setTraceLoading);
 
-  const apiCall = useCallback(async () => {
-    try {
-      console.log("Trace api called!");
-      // Get the list of service names from localStorage and parse it
-      let serviceListData = [];
-      if (traceSummaryService.length === 0) {
-        console.log("called default");
-        serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
-      } else {
-        console.log("called dashboard");
-        serviceListData = traceSummaryService;
-      }
-      setLoading(true);
-      const { data, totalCount } = await TraceListPaginationApi(
-        currentPage,
-        pageLimit,
-        lookBackVal.value,
-        selectedSortOrder,
-        serviceListData
-      );
-      const updatedData = createTimeInWords(data);
+  const apiCall = useCallback(
+    async () => {
+      try {
+        console.log("Trace api called!");
+        // Get the list of service names from localStorage and parse it
+        let serviceListData = [];
+        if (traceSummaryService.length === 0) {
+          console.log("called default" + traceSummaryService);
+          serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+        } else {
+          console.log("called dashboard" + traceSummaryService);
+          serviceListData = traceSummaryService
+        }
+        setLoading(true);
+        const { data, totalCount } = await TraceListPaginationApi(
+          currentPage,
+          pageLimit,
+          lookBackVal.value,
+          selectedSortOrder,
+          serviceListData
+        );
+        const updatedData = createTimeInWords(data);
 
       if (updatedData.length === 0) {
         setTraceGlobalEmpty("No Data to Display!");

@@ -151,7 +151,7 @@ const Login = () => {
         </div>
         <div className="login-card-details">
           <img src={observai} alt="observai" style={{ width: "450px", height: "250px" }}/>
-          <Typography variant="h5" style={{ padding: "10px" }}>Three  pillars of Observability . Unify Trace , Metrics, Log <br /> in one place with ZAGA Observability. <br /> A full-stack hybrid cloud Observability solution <br /> built to optimize performance, ensure availability, and reduce remediation time.</Typography>
+          <Typography variant="h5" style={{ padding: "10px", textAlign: "justify" }}>Three  pillars of Observability . Unify Trace , Metrics, Log in one place with ZAGA Observability. A full-stack hybrid cloud Observability solution built to optimize performance, ensure availability, and reduce remediation time.</Typography>
         </div>
       </div>
     </div>
