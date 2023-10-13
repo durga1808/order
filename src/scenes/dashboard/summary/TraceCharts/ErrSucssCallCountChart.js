@@ -57,7 +57,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
     },
     yaxis: {
       title: {
-        text: "Call Count",
+        text: "Count",
         style: {
           color: colors.textColor[500],
           fontSize: 12,
@@ -76,7 +76,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       },
     },
     title: {
-      text: "Error and Success Calls",
+      text: "Error and Success Counts",
       align: "center",
       margin: 5,
       offsetX: 0,
@@ -92,12 +92,12 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
 
   const series = [
     {
-      name: "Error Calls",
+      name: "Error Count",
       data: ErrSuccessData.map((item) => item.totalErrorCalls),
       color: "#FF0000",
     },
     {
-      name: "Success Calls",
+      name: "Success Count",
       data: ErrSuccessData.map((item) => item.totalSuccessCalls),
     },
   ];

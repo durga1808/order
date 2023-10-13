@@ -36,7 +36,7 @@ const DashboardTopBar = () => {
   //   setRecentLogData,
   // } = useContext(GlobalContext);
   const [refresh, setRefresh] = useState(false);
-  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace, activeTab, setActiveTab, setGlobalLogData, setNeedLogFilterCall, setRecentLogData, setSearchQuery, setLogTrace, setTraceRender, setLogRender, setMetricRender, setTraceSummaryService } = useContext(GlobalContext);
+  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace, activeTab, setActiveTab, setGlobalLogData, setNeedLogFilterCall, setRecentLogData, setSearchQuery, setLogTrace, setTraceRender, setLogRender, setMetricRender, setTraceSummaryService,setLogSummaryService,setFilterApiBody,setLogFilterApiBody } = useContext(GlobalContext);
   // const [activeTab, setActiveTab] = useState(0);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -67,6 +67,8 @@ const DashboardTopBar = () => {
     setTraceGlobalEmpty(null);
     setTraceGlobalError(null);
     setGlobalLogData([]);
+    setFilterApiBody({});
+    setLogFilterApiBody({});
     setRecentLogData([]);
     setRefresh(true);
     setSearchQuery([]);
@@ -75,6 +77,7 @@ const DashboardTopBar = () => {
     setLogRender(false);
     setMetricRender(false);
     setTraceSummaryService([]);
+    setLogSummaryService([]);
   };
 
   const handleTabChange = (event, newValue) => {

@@ -24,7 +24,7 @@ const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
-  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService,setMetricRender } = useContext(GlobalContext);
+  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService, setMetricRender, setTraceSummaryService,setLogSummaryService } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -43,10 +43,10 @@ const TraceBarChart = () => {
         setEmptyMessage("No Data to show");
       }
 
-      console.log("Trace summary data " + JSON.stringify(response));
+      // console.log("Trace summary data " + JSON.stringify(response));
       setLoading(false);
     } catch (error) {
-      console.log("error " + error);
+      // console.log("error " + error);
       setErrorMessage("An error Occurred!");
       setLoading(false);
     }
@@ -55,16 +55,19 @@ const TraceBarChart = () => {
   useEffect(() => {
     setErrorMessage("");
     setEmptyMessage("");
+    setTraceSummaryService([]);
+    setLogSummaryService([]);
     setMetricRender(false);
     traceSummaryApiCall();
     setActiveTab(0);
     setTraceRender(false);
     setLogRender(false)
-  }, [traceSummaryApiCall, setActiveTab, setTraceRender, setLogRender,setMetricRender]);
+  }, [traceSummaryApiCall, setActiveTab, setTraceRender, setLogRender, setMetricRender,setTraceSummaryService,setLogSummaryService]);
 
   const handleBarClick = (selectedDataPointIndex, selectedSeriesName) => {
     ///DONT REMOVE THIS CODE-----------------//
     const serviceName = integrationdata[selectedDataPointIndex].serviceName;
+    console.log("ServiceName from Trace summary" + serviceName);
     // const clickedBarData = integrationdata[selectedDataPointIndex];
     // console.log("serviceName " + serviceName);
 
@@ -100,6 +103,9 @@ const TraceBarChart = () => {
 
   const hasErrChartData = integrationdata.some(
     (item) => item.totalErrorCalls !== 0
+  );
+  const hasSuccChartData = integrationdata.some(
+    (item) => item.totalSuccessCalls !== 0
   );
   const hasApiChartData = integrationdata.some(
     (item) => item.apiCallCount !== 0
@@ -137,16 +143,16 @@ const TraceBarChart = () => {
                 <Grid item xs={12}>
                   <Card elevation={3} style={{ margin: "25px" }}>
                     <CardContent>
-                      {hasErrChartData ? (
+                      {hasErrChartData || hasSuccChartData? (
                         <ErrSucssCallCountChart
                           ErrSuccessData={integrationdata}
                           onBarClick={handleBarClick}
                         />
                       ) : (
                         // <div>Error and Success Call Count Chart - No Data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250, width: "100%" }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 240, width: "100%" }}>
                           <Typography variant="h5" fontWeight={"600"}>
-                            Error and Success Call Count Chart - No Data
+                            Error and Success Count Chart - No Data
                           </Typography>
                         </div>
                       )}
@@ -156,7 +162,7 @@ const TraceBarChart = () => {
               </Grid>
 
 
-              {hasErrChartData ? (
+              {/* {hasErrChartData ? (
                 <ServiceDetails
                   selectedService={selectedService}
                   APICallsData={
@@ -177,11 +183,11 @@ const TraceBarChart = () => {
                   SuccessData={successCalls}
                 />
               ) : null}
-              <ServiceTable selectedService={selectedService} />
+              <ServiceTable selectedService={selectedService} /> */}
               <Grid container spacing={2}>
                 {" "}
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}>
+                  <Card elevation={3} style={{ margin: "5px 15px 10px 25px" }}>
                     <CardContent>
                       {/* {integrationdata.map((items) =>
                         items.apiCallCount !== 0 ? (
@@ -195,9 +201,9 @@ const TraceBarChart = () => {
                         <ApiCallCount data={integrationdata} />
                       ) : (
                         // <div>Api Call Count Chart - No data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 240 }}>
                           <Typography variant="h5" fontWeight={"600"}>
-                            Api Call Count Chart - No data
+                            Api Count Chart - No data
                           </Typography>
                         </div>
                       )}
@@ -205,15 +211,15 @@ const TraceBarChart = () => {
                   </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={3} style={{ margin: "25px 25px 10px 15px" }}>
+                  <Card elevation={3} style={{ margin: "5px 25px 10px 15px" }}>
                     <CardContent>
                       {hasPeakChartData ? (
                         <PeakLatencyChart data={integrationdata} />
                       ) : (
                         // <div>PeakLatency Call Count Chart - No data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 240 }}>
                           <Typography variant="h5" fontWeight={"600"}>
-                            PeakLatency Call Count Chart - No data
+                            PeakLatency Count Chart - No data
                           </Typography>
                         </div>
 

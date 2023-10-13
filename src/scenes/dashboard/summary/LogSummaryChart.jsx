@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
-  const { lookBackVal, setSelected, logSummaryService } = useContext(GlobalContext);
+  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -42,7 +42,7 @@ const LogBarChart = () => {
       console.log("log summary data " + JSON.stringify(response));
       setLoading(false);
     } catch (error) {
-      console.log("ERROR on Log summary " + error);
+      // console.log("ERROR on Log summary " + error);
       setErrorMessage("An Error Occurred!");
       setLoading(false);
     }
@@ -56,8 +56,9 @@ const LogBarChart = () => {
     setErrorMessage("");
     setEmptyMessage("");
     logSummaryApiCall();
+    setLogSummaryService([]);
     // errordataforlasttwo();
-  }, [logSummaryApiCall, setErrorMessage, setEmptyMessage]);
+  }, [logSummaryApiCall, setErrorMessage, setEmptyMessage, setLogSummaryService]);
 
   const handleBarClick = (selectedDataPointIndex) => {
     const serviceName = integrationdata[selectedDataPointIndex].serviceName;
@@ -128,7 +129,7 @@ const LogBarChart = () => {
 
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250, width: "100%" }}>
                       <Typography variant="h5" fontWeight={"600"}>
-                        Error Call Count Chart - No data
+                        Error Count Chart - No data
                       </Typography>
                     </div>
                   )}
@@ -137,7 +138,7 @@ const LogBarChart = () => {
             </Grid>
           </Grid>
 
-          {hasErrChartData ? (
+          {/* {hasErrChartData ? (
             <LogServiceDetails
               selectedService={selectedService}
               DebugCountData={
@@ -168,11 +169,11 @@ const LogBarChart = () => {
           <LogServiceTable
             tableData={integrationdata}
             selectedService={selectedService} // Pass selected service to ServiceTable
-          />
+          /> */}
           <Grid container spacing={2}>
             {" "}
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}>
+              <Card elevation={3} style={{ margin: "5px 15px 10px 25px" }}>
                 <CardContent>
                   {hasDebugChartData ? (
                     // If any item has debugCallCount !== 0, display the chart
@@ -180,9 +181,9 @@ const LogBarChart = () => {
                   ) : (
                     // If no item has debugCallCount !== 0, display "No Data" once
                     // <div>Debug Call Count Chart - No data</div>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 240 }}>
                       <Typography variant="h5" fontWeight={"600"}>
-                        Debug Call Count Chart - No data
+                        Debug Count Chart - No data
                       </Typography>
                     </div>
                   )}
@@ -190,15 +191,15 @@ const LogBarChart = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "25px 25px 10px 15px" }}>
+              <Card elevation={3} style={{ margin: "5px 25px 10px 15px" }}>
                 <CardContent>
                   {hasWarnChartData ? (
                     <WarnBarChart data={integrationdata} />
                   ) : (
                     // <div>Warn Call Count Chart - No Data</div>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 240 }}>
                       <Typography variant="h5" fontWeight={"600"}>
-                        Warn Call Count Chart - No Data
+                        Warn Count Chart - No Data
                       </Typography>
                     </div>
                   )}

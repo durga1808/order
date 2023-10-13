@@ -111,7 +111,8 @@ const Loglists = () => {
     isCardVisible,
     setIsCardVisible,
     setMetricRender,
-    setLogRender
+    setLogRender,
+    setTraceSummaryService
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -457,9 +458,7 @@ const Loglists = () => {
   // ]);
 
   useEffect(() => {
-    setFilterMessage("");
-    setGetAllMessage("");
-    setNoMatchMessage("");
+    setTraceSummaryService([]);
     setTraceRender(false);
     setMetricRender(false);
     if (needLogFilterCall) {
@@ -467,6 +466,8 @@ const Loglists = () => {
       logFilterApiCall();
     } else if (globalLogData.length !== 0 && logRender) {
       console.log("From Trace");
+      setIsCardVisible(false);
+      setIsCollapsed(false);
       const updatedData = createTimeInWords(globalLogData);
       const finalOutput = mapLogData(updatedData);
       setLogData(finalOutput);
@@ -477,7 +478,13 @@ const Loglists = () => {
       console.log("From get ALL");
       handleGetAllLogData(currentPage);
     }
-  }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage, setMetricRender])
+
+    return () => {
+      setFilterMessage("");
+      setGetAllMessage("");
+      setNoMatchMessage("");
+    }
+  }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage, setMetricRender, setTraceSummaryService])
 
   const handleSortOrderChange = (selectedValue) => {
     console.log("SORT " + selectedValue.value);
@@ -606,18 +613,30 @@ const Loglists = () => {
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
             />
+            {!needLogFilterCall ? (
 
-            <Box sx={{ margin: "5px 0 20px 0" }}>
-              <Dropdown
-                options={sortOrderOptions}
-                placeholder="Sort Order"
-                arrowClosed={<span className="arrow-closed" />}
-                arrowOpen={<span className="arrow-open" />}
-                value={selectedOption}
-                onChange={handleSortOrderChange}
-              />
-            </Box>
+              <Box sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                margin: "-10px 0 10px 0"
+              }}>
+                <div style={{ alignItems: "center" }}>
+                  <label style={{ fontSize: '12px' }}>SortBy</label>
+                  <Dropdown
+                    options={sortOrderOptions}
+                    placeholder="Sort Order"
+                    arrowClosed={<span className="arrow-closed" />}
+                    arrowOpen={<span className="arrow-open" />}
+                    value={selectedOption}
+                    onChange={handleSortOrderChange}
+                  />
+                </div>
+              </Box>
+            ) : null}
           </Box>
+
           <Card
             sx={{
               padding: "20px",
@@ -755,7 +774,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -785,7 +804,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -825,7 +844,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -852,7 +871,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -912,6 +931,7 @@ const Loglists = () => {
               )}
             </div>
           </Card>
+
         </Grid>
         {isCardVisible && (
           <Grid item xs={3}>
@@ -919,6 +939,8 @@ const Loglists = () => {
             <Card
               sx={{
                 height: "79.5vh",
+                paddingBottom:"30px",
+                overflowY:"auto"
               }}
             >
               <CardContent>
@@ -933,12 +955,13 @@ const Loglists = () => {
                     <CloseIcon />
                   </IconButton>
                 </div>
-                <div>
+                <div style={{paddingBottom:"30px"}}>
                 {selectedLogData && selectedLogData[0] ? (
                   <TableContainer component={Paper}>
                     <Table
+                    sx={{minHeight: "50vh" ,overflowX:"hidden"}}
                     // sx={{ minHeight: "60vh" }}
-                    // aria-label="customized table"
+                     aria-label="customized table"
                     >
                       <TableHead>
                         <TableRow>
@@ -957,47 +980,47 @@ const Loglists = () => {
                             </Typography>
                           </StyledTableCell>
 
-                          <StyledTableCell>
-                            <Typography
-                              variant="h5"
-                              style={{
-                                fontWeight: "700",
-                                padding: "5px",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                              }}
-                            >
-                              Value
-                            </Typography>
-                          </StyledTableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {Object.entries(selectedLogData[0]).map(
-                          ([key, value], index) => (
-                            <StyledTableRow
-                              hover
-                              role="checkbox"
-                              tabIndex={-1}
-                              key={index}
-                            >
-                              <StyledTableCell style={{ minWidth: "10px" }}>
-                                {key}
-                              </StyledTableCell>
-                              <StyledTableCell style={{ minWidth: "10px" }}>
-                                {value}
-                              </StyledTableCell>
-                            </StyledTableRow>
-                          )
-                        )}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                ) : (
+                            <StyledTableCell>
+                              <Typography
+                                variant="h5"
+                                style={{
+                                  fontWeight: "700",
+                                  padding: "5px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                }}
+                              >
+                                Value
+                              </Typography>
+                            </StyledTableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {Object.entries(selectedLogData[0]).map(
+                            ([key, value], index) => (
+                              <StyledTableRow
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                key={index}
+                              >
+                                <StyledTableCell style={{ minWidth: "10px" }}>
+                                  {key}
+                                </StyledTableCell>
+                                <StyledTableCell style={{ minWidth: "10px" }}>
+                                  {value}
+                                </StyledTableCell>
+                              </StyledTableRow>
+                            )
+                          )}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  ) : (
                     <Typography variant="h5" fontWeight={"600"}>
-    No log metadata available.
-  </Typography>
-                ) }
+                      No log metadata available.
+                    </Typography>
+                  )}
                 </div>
               </CardContent>
             </Card>

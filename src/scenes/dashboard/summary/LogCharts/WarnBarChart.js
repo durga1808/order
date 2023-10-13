@@ -94,7 +94,7 @@ const WarnBarChart = ({ data }) => {
         options={WarnCountOptions}
         series={warncountSeries}
         type="bar"
-        height={250}
+        height={225}
         width={isCollapsed?640:550}
       />
     </div>

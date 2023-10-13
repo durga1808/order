@@ -34,7 +34,7 @@ const SideNavbar = () => {
     <Box>
       {/* <ProSidebar collapsed={collapsed}> */}
       <Sidebar collapsed={isCollapsed} rootStyles={{ height: "100vh",borderRight: "none",  }} >
-        <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100vh", backgroundColor: colors.primary[400],  }} menuItemStyles={{
+        <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100vh", backgroundColor: colors.primary[400] }} menuItemStyles={{
           button: ({ level, active, disabled }) => {
             if (level === 0) {
               return {

@@ -44,7 +44,7 @@ const ApiCallCount = ({ data }) => {
     },
     yaxis: {
       title: {
-        text: "Call Count",
+        text: "Count",
         style: {
           color: colors.textColor[500],
           fontSize: 12,
@@ -63,7 +63,7 @@ const ApiCallCount = ({ data }) => {
       },
     },
     title: {
-      text: "API Calls Count",
+      text: "API Counts",
       align: "middle",
       offsetX: 0,
       offsetY: 10,
@@ -90,7 +90,7 @@ const ApiCallCount = ({ data }) => {
 
   const apiCallsSeries = [
     {
-      name: "API Calls",
+      name: "API Count",
       data: data.map((item) => item.apiCallCount),
     },
   ];
@@ -100,7 +100,7 @@ const ApiCallCount = ({ data }) => {
         options={apiCallsOptions}
         series={apiCallsSeries}
         type="bar"
-        height={250}
+        height={225}
         width={isCollapsed?640:550}
       />
     </div>

@@ -58,7 +58,7 @@ const Metrics = () => {
   //   "DeliveryService",
   // ];
 
-  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender } = useContext(GlobalContext);
+  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService } = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
   const options = services.map((serve) => serve);
   const [selectedService, setSelectedService] = useState((services && services.length > 0) ? services[0] : null);
@@ -142,13 +142,15 @@ const Metrics = () => {
   useEffect(() => {
     setErrorMessage("");
     setEmptyMessage("");
+    setTraceSummaryService([]);
+    setLogSummaryService([]);
     if (!metricRender) {
       getAllMetricsData(selectedService);
     }
     // getAllMetricsData();
     setTraceRender(false);
     setLogRender(false);
-  }, [getAllMetricsData, setTraceRender, setLogRender, metricRender,selectedService]);
+  }, [getAllMetricsData, setTraceRender, setLogRender, metricRender,selectedService,setTraceSummaryService,setLogSummaryService]);
 
   return (
     // <MetricLayout/>
