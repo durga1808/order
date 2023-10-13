@@ -19,6 +19,7 @@ import { useState } from "react";
 import { spanData } from "../../../global/MockData/SpanData";
 import { useContext } from "react";
 import { GlobalContext } from "../../../global/globalContext/GlobalContext";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
   FindByTraceIdForSpans,
   TraceFilterOption,
@@ -31,6 +32,7 @@ import Loading from "../../../global/Loading/Loading";
 import { findLogByTraceId } from "../../../api/LogApiService";
 import { useNavigate } from "react-router-dom";
 import PaginationItem from "@mui/material/PaginationItem";
+import OutboundSharpIcon from '@mui/icons-material/OutboundSharp';
 
 const mockTraces = [
   {
@@ -133,12 +135,16 @@ const TraceList = () => {
     traceRender,
     setLogRender,
     setMetricRender,
-    traceSummaryService
+    traceSummaryService,
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
   const [selectedSortOrder, setSelectedSortOrder] = useState("error");
   const [loading, setLoading] = useState(false);
+  const [activeTraceIcon, setActiveTraceIcon] = useState(false);
+
+  const [activeTraceId, setActiveTraceId] = useState(null);
+
   // const [isEmptyData, setIsEmptyData] = useState(false);
   // const [emptyMessage, setEmptyMessage] = useState(null);
   // const [error, setError] = useState(null);
@@ -156,103 +162,97 @@ const TraceList = () => {
 
   // setupAxiosInterceptor(setTraceLoading);
 
-  const apiCall = useCallback(
-    async () => {
-      try {
-        console.log("Trace api called!");
-        // Get the list of service names from localStorage and parse it
-        let serviceListData = [];
-        if (traceSummaryService.length === 0) {
-          console.log("called default");
-          serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
-        } else {
-          console.log("called dashboard");
-          serviceListData = traceSummaryService
-        }
-        setLoading(true);
-        const { data, totalCount } = await TraceListPaginationApi(
-          currentPage,
-          pageLimit,
-          lookBackVal.value,
-          selectedSortOrder,
-          serviceListData
-        );
-        const updatedData = createTimeInWords(data);
-
-        if (updatedData.length === 0) {
-          setTraceGlobalEmpty("No Data to Display!");
-        } else {
-          setTraceData(updatedData);
-          setTotalPageCount(Math.ceil(totalCount / pageLimit));
-        }
-
-        // setTraceLoading(false);
-        setLoading(false);
-      } catch (error) {
-        console.log("ERROR " + error);
-        setTraceGlobalError("An error occurred");
-        // setTraceLoading(false);
-        setLoading(false);
+  const apiCall = useCallback(async () => {
+    try {
+      console.log("Trace api called!");
+      // Get the list of service names from localStorage and parse it
+      let serviceListData = [];
+      if (traceSummaryService.length === 0) {
+        console.log("called default");
+        serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+      } else {
+        console.log("called dashboard");
+        serviceListData = traceSummaryService;
       }
-    },
-    [
-      pageLimit,
-      traceSummaryService,
-      currentPage,
-      lookBackVal,
-      selectedSortOrder,
-      setTraceData,
-      setTotalPageCount,
-      setTraceGlobalEmpty,
-      setTraceGlobalError,
-    ]
-  );
+      setLoading(true);
+      const { data, totalCount } = await TraceListPaginationApi(
+        currentPage,
+        pageLimit,
+        lookBackVal.value,
+        selectedSortOrder,
+        serviceListData
+      );
+      const updatedData = createTimeInWords(data);
 
-  const filterApiCall = useCallback(
-    async () => {
-      try {
-        console.log("Trace filter called!");
-        // setTraceLoading(true);
-        setLoading(true);
-        const { data, totalCount } = await TraceFilterOption(
-          lookBackVal.value,
-          currentPage,
-          pageLimit,
-          filterApiBody
-        );
-        const updatedData = createTimeInWords(data);
-
-        if (updatedData.length === 0) {
-          setTraceGlobalEmpty(
-            `No Data Matched for this filter! Please click on refresh / select different queries to filter!`
-          );
-        } else {
-          setTraceData(updatedData);
-          setTotalPageCount(Math.ceil(totalCount / pageLimit));
-        }
-
-        setLoading(false);
-        // setTraceLoading(false);
-      } catch (error) {
-        console.log("ERROR " + error);
-        setTraceGlobalError("An error occurred On Filter");
-        // setTraceLoading(false);
-        setLoading(false);
+      if (updatedData.length === 0) {
+        setTraceGlobalEmpty("No Data to Display!");
+      } else {
+        setTraceData(updatedData);
+        setTotalPageCount(Math.ceil(totalCount / pageLimit));
       }
-    },
-    [
-      pageLimit,
-      currentPage,
-      filterApiBody,
-      lookBackVal,
-      setTraceData,
-      setTotalPageCount,
-      setTraceGlobalEmpty,
-      setTraceGlobalError,
-    ]
-  );
 
-  const handleCardClick = (traceId) => {
+      // setTraceLoading(false);
+      setLoading(false);
+    } catch (error) {
+      console.log("ERROR " + error);
+      setTraceGlobalError("An error occurred");
+      // setTraceLoading(false);
+      setLoading(false);
+    }
+  }, [
+    pageLimit,
+    traceSummaryService,
+    currentPage,
+    lookBackVal,
+    selectedSortOrder,
+    setTraceData,
+    setTotalPageCount,
+    setTraceGlobalEmpty,
+    setTraceGlobalError,
+  ]);
+
+  const filterApiCall = useCallback(async () => {
+    try {
+      console.log("Trace filter called!");
+      // setTraceLoading(true);
+      setLoading(true);
+      const { data, totalCount } = await TraceFilterOption(
+        lookBackVal.value,
+        currentPage,
+        pageLimit,
+        filterApiBody
+      );
+      const updatedData = createTimeInWords(data);
+
+      if (updatedData.length === 0) {
+        setTraceGlobalEmpty(
+          `No Data Matched for this filter! Please click on refresh / select different queries to filter!`
+        );
+      } else {
+        setTraceData(updatedData);
+        setTotalPageCount(Math.ceil(totalCount / pageLimit));
+      }
+
+      setLoading(false);
+      // setTraceLoading(false);
+    } catch (error) {
+      console.log("ERROR " + error);
+      setTraceGlobalError("An error occurred On Filter");
+      // setTraceLoading(false);
+      setLoading(false);
+    }
+  }, [
+    pageLimit,
+    currentPage,
+    filterApiBody,
+    lookBackVal,
+    setTraceData,
+    setTotalPageCount,
+    setTraceGlobalEmpty,
+    setTraceGlobalError,
+  ]);
+
+  const handleCardClick = (traceId, index) => {
     console.log("Clicked");
     const spanApiCall = async (traceId) => {
       try {
@@ -267,6 +267,8 @@ const TraceList = () => {
       }
     };
     spanApiCall(traceId);
+    setActiveTraceId(traceId);
+    setActiveTraceIcon(true);
   };
 
   const dashboardTraceMap = useCallback(() => {
@@ -319,9 +321,17 @@ const TraceList = () => {
     } else {
       dashboardTraceMap();
     }
-
-  }, [apiCall, filterApiCall, needFilterCall, dashboardTraceMap, traceRender, setLogRender, logTrace, setSelectedTrace, setMetricRender]);
-
+  }, [
+    apiCall,
+    filterApiCall,
+    needFilterCall,
+    dashboardTraceMap,
+    traceRender,
+    setLogRender,
+    logTrace,
+    setSelectedTrace,
+    setMetricRender,
+  ]);
 
   const handlePageChange = (event, newPage) => {
     console.log("PAGE " + newPage);
@@ -352,9 +362,7 @@ const TraceList = () => {
     setSelectedSortOrder(selectedValue.value);
   };
 
-
   const customPageStyles = {
-
     backgroundColor: colors.greenAccent[500], // Change 'blue' to your desired background color for the page numbers
     color: colors.textColor[500], // Change 'black' to your desired text color for the page numbers
   };
@@ -379,13 +387,15 @@ const TraceList = () => {
               Traces ({traceData.length})
             </Typography>
 
-            <Box sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-              alignItems: "center",
-              margin: "10px 0 20px 0"
-            }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                alignItems: "center",
+                margin: "10px 0 20px 0",
+              }}
+            >
               {/* <Pagination
                 count={totalPageCount}
                 variant="outlined"
@@ -421,15 +431,19 @@ const TraceList = () => {
             </Box>
 
             {!needFilterCall ? (
-              <Box sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                margin: "5px 0 20px 0"
-              }}>
-                <div style={{ alignItems: "center", marginBottom: '5px' }}>
-                  <label style={{ fontSize: '12px', marginBottom: '5px' }}>SortBy</label>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  margin: "5px 0 20px 0",
+                }}
+              >
+                <div style={{ alignItems: "center", marginBottom: "5px" }}>
+                  <label style={{ fontSize: "12px", marginBottom: "5px" }}>
+                    SortBy
+                  </label>
                   <Dropdown
                     options={sortOrderOptions}
                     placeholder="Sort Order"
@@ -442,15 +456,17 @@ const TraceList = () => {
               </Box>
             ) : null}
           </Box>
-          <div className="scrollable-div" style={{
-            maxHeight: "calc(80vh - 85px)",
-            overflowY: "auto",
-          }}>
+          <div
+            className="scrollable-div"
+            style={{
+              maxHeight: "calc(80vh - 85px)",
+              overflowY: "auto",
+            }}
+          >
             {" "}
             <Box
               sx={{
-                marginRight: "8px"
-
+                marginRight: "8px",
               }}
             >
               {traceData.map((trace, index) => (
@@ -490,7 +506,10 @@ const TraceList = () => {
                         </span>{" "}
                         {trace.operationName}
                       </span>
-                      <span>{trace.duration}ms</span>
+                      <span>
+                        {trace.duration}ms{" "}
+                        {trace.traceId === activeTraceId ?activeTraceIcon ? <OutboundSharpIcon  /> : null:null}
+                      </span>
                     </Typography>
                   </Box>
                   <CardContent>
@@ -546,7 +565,7 @@ const TraceList = () => {
                         // component={Link}
                         // to={`/mainpage/logs`}
                         variant="contained"
-                        onClick={() => handleCardClick(trace.traceId)}
+                        onClick={() => handleCardClick(trace.traceId, index)}
                       >
                         <Typography variant="h8">Open Spans</Typography>
                       </Button>
