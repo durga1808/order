@@ -939,7 +939,8 @@ const Loglists = () => {
             <Card
               sx={{
                 height: "79.5vh",
-                paddingBottom:"30px"
+                paddingBottom:"30px",
+                overflowY:"auto"
               }}
             >
               <CardContent>
@@ -958,7 +959,7 @@ const Loglists = () => {
                 {selectedLogData && selectedLogData[0] ? (
                   <TableContainer component={Paper}>
                     <Table
-                    sx={{minHeight: "61.5vh" ,overflowX:"hidden",}}
+                    sx={{minHeight: "50vh" ,overflowX:"hidden"}}
                     // sx={{ minHeight: "60vh" }}
                      aria-label="customized table"
                     >
