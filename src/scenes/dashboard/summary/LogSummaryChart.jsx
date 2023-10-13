@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
-  const { lookBackVal, setSelected, logSummaryService } = useContext(GlobalContext);
+  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -56,8 +56,9 @@ const LogBarChart = () => {
     setErrorMessage("");
     setEmptyMessage("");
     logSummaryApiCall();
+    setLogSummaryService([]);
     // errordataforlasttwo();
-  }, [logSummaryApiCall, setErrorMessage, setEmptyMessage]);
+  }, [logSummaryApiCall, setErrorMessage, setEmptyMessage, setLogSummaryService]);
 
   const handleBarClick = (selectedDataPointIndex) => {
     const serviceName = integrationdata[selectedDataPointIndex].serviceName;

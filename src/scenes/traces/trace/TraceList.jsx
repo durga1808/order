@@ -133,7 +133,8 @@ const TraceList = () => {
     traceRender,
     setLogRender,
     setMetricRender,
-    traceSummaryService
+    traceSummaryService,
+    setLogSummaryService,
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -312,6 +313,7 @@ const TraceList = () => {
     setSelectedTrace([]);
     setLogRender(false);
     setMetricRender(false);
+    setLogSummaryService([]);
     if (needFilterCall) {
       filterApiCall();
     } else if (logTrace.length === 0 || !traceRender) {
@@ -320,7 +322,7 @@ const TraceList = () => {
       dashboardTraceMap();
     }
 
-  }, [apiCall, filterApiCall, needFilterCall, dashboardTraceMap, traceRender, setLogRender, logTrace, setSelectedTrace, setMetricRender]);
+  }, [apiCall, filterApiCall, needFilterCall, dashboardTraceMap, traceRender, setLogRender, logTrace, setSelectedTrace, setMetricRender, setLogSummaryService]);
 
 
   const handlePageChange = (event, newPage) => {

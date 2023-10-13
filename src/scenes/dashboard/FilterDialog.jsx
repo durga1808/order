@@ -96,7 +96,7 @@ const FilterDialog = ({ open, onClose }) => {
     setSelectedHttpMethod([]);
     setSelectedService([]);
     setMinDurationValue(0);
-    setMaxDurationValue(1000);
+    setMaxDurationValue(10000);
   };
 
   const handleChange = (event, newValue) => {

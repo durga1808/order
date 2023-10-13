@@ -458,9 +458,6 @@ const Loglists = () => {
   // ]);
 
   useEffect(() => {
-    setFilterMessage("");
-    setGetAllMessage("");
-    setNoMatchMessage("");
     setTraceSummaryService([]);
     setTraceRender(false);
     setMetricRender(false);
@@ -469,6 +466,8 @@ const Loglists = () => {
       logFilterApiCall();
     } else if (globalLogData.length !== 0 && logRender) {
       console.log("From Trace");
+      setIsCardVisible(false);
+      setIsCollapsed(false);
       const updatedData = createTimeInWords(globalLogData);
       const finalOutput = mapLogData(updatedData);
       setLogData(finalOutput);
@@ -478,6 +477,12 @@ const Loglists = () => {
     } else {
       console.log("From get ALL");
       handleGetAllLogData(currentPage);
+    }
+
+    return () => {
+      setFilterMessage("");
+      setGetAllMessage("");
+      setNoMatchMessage("");
     }
   }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage, setMetricRender, setTraceSummaryService])
 
@@ -609,17 +614,29 @@ const Loglists = () => {
               onKeyDown={handleSearchKeyDown}
             />
             {!needLogFilterCall ? (
-              <Box sx={{ margin: "5px 0 20px 0" }}>
-                <Dropdown
-                  options={sortOrderOptions}
-                  placeholder="Sort Order"
-                  arrowClosed={<span className="arrow-closed" />}
-                  arrowOpen={<span className="arrow-open" />}
-                  value={selectedOption}
-                  onChange={handleSortOrderChange}
-                />
-              </Box>) : null}
+
+              <Box sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                margin: "-10px 0 10px 0"
+              }}>
+                <div style={{ alignItems: "center" }}>
+                  <label style={{ fontSize: '12px' }}>SortBy</label>
+                  <Dropdown
+                    options={sortOrderOptions}
+                    placeholder="Sort Order"
+                    arrowClosed={<span className="arrow-closed" />}
+                    arrowOpen={<span className="arrow-open" />}
+                    value={selectedOption}
+                    onChange={handleSortOrderChange}
+                  />
+                </div>
+              </Box>
+            ) : null}
           </Box>
+
           <Card
             sx={{
               padding: "20px",
@@ -914,6 +931,7 @@ const Loglists = () => {
               )}
             </div>
           </Card>
+
         </Grid>
         {isCardVisible && (
           <Grid item xs={3}>
@@ -936,70 +954,70 @@ const Loglists = () => {
                   </IconButton>
                 </div>
                 <div>
-                {selectedLogData && selectedLogData[0] ? (
-                  <TableContainer component={Paper}>
-                    <Table
-                    // sx={{ minHeight: "60vh" }}
-                    // aria-label="customized table"
-                    >
-                      <TableHead>
-                        <TableRow>
-                          <StyledTableCell>
-                            {" "}
-                            <Typography
-                              variant="h5"
-                              style={{
-                                fontWeight: "700",
-                                padding: "5px",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                              }}
-                            >
-                              Field
-                            </Typography>
-                          </StyledTableCell>
+                  {selectedLogData && selectedLogData[0] ? (
+                    <TableContainer component={Paper}>
+                      <Table
+                      // sx={{ minHeight: "60vh" }}
+                      // aria-label="customized table"
+                      >
+                        <TableHead>
+                          <TableRow>
+                            <StyledTableCell>
+                              {" "}
+                              <Typography
+                                variant="h5"
+                                style={{
+                                  fontWeight: "700",
+                                  padding: "5px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                }}
+                              >
+                                Field
+                              </Typography>
+                            </StyledTableCell>
 
-                          <StyledTableCell>
-                            <Typography
-                              variant="h5"
-                              style={{
-                                fontWeight: "700",
-                                padding: "5px",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                              }}
-                            >
-                              Value
-                            </Typography>
-                          </StyledTableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {Object.entries(selectedLogData[0]).map(
-                          ([key, value], index) => (
-                            <StyledTableRow
-                              hover
-                              role="checkbox"
-                              tabIndex={-1}
-                              key={index}
-                            >
-                              <StyledTableCell style={{ minWidth: "10px" }}>
-                                {key}
-                              </StyledTableCell>
-                              <StyledTableCell style={{ minWidth: "10px" }}>
-                                {value}
-                              </StyledTableCell>
-                            </StyledTableRow>
-                          )
-                        )}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                ) : (
+                            <StyledTableCell>
+                              <Typography
+                                variant="h5"
+                                style={{
+                                  fontWeight: "700",
+                                  padding: "5px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                }}
+                              >
+                                Value
+                              </Typography>
+                            </StyledTableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {Object.entries(selectedLogData[0]).map(
+                            ([key, value], index) => (
+                              <StyledTableRow
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                key={index}
+                              >
+                                <StyledTableCell style={{ minWidth: "10px" }}>
+                                  {key}
+                                </StyledTableCell>
+                                <StyledTableCell style={{ minWidth: "10px" }}>
+                                  {value}
+                                </StyledTableCell>
+                              </StyledTableRow>
+                            )
+                          )}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  ) : (
                     <Typography variant="h5" fontWeight={"600"}>
-    No log metadata available.
-  </Typography>
-                ) }
+                      No log metadata available.
+                    </Typography>
+                  )}
                 </div>
               </CardContent>
             </Card>
