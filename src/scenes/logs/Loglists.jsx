@@ -479,7 +479,7 @@ const Loglists = () => {
       console.log("From get ALL");
       handleGetAllLogData(currentPage);
     }
-  }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage, setMetricRender,setTraceSummaryService])
+  }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage, setMetricRender, setTraceSummaryService])
 
   const handleSortOrderChange = (selectedValue) => {
     console.log("SORT " + selectedValue.value);
@@ -608,17 +608,17 @@ const Loglists = () => {
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
             />
-
-            <Box sx={{ margin: "5px 0 20px 0" }}>
-              <Dropdown
-                options={sortOrderOptions}
-                placeholder="Sort Order"
-                arrowClosed={<span className="arrow-closed" />}
-                arrowOpen={<span className="arrow-open" />}
-                value={selectedOption}
-                onChange={handleSortOrderChange}
-              />
-            </Box>
+            {!needLogFilterCall ? (
+              <Box sx={{ margin: "5px 0 20px 0" }}>
+                <Dropdown
+                  options={sortOrderOptions}
+                  placeholder="Sort Order"
+                  arrowClosed={<span className="arrow-closed" />}
+                  arrowOpen={<span className="arrow-open" />}
+                  value={selectedOption}
+                  onChange={handleSortOrderChange}
+                />
+              </Box>) : null}
           </Box>
           <Card
             sx={{
@@ -757,7 +757,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -787,7 +787,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -827,7 +827,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
@@ -854,7 +854,7 @@ const Loglists = () => {
                                         padding: "10px",
                                         color:
                                           column.id === "severity" &&
-                                          (row.severity === "SEVERE" || row.severity === "ERROR")
+                                            (row.severity === "SEVERE" || row.severity === "ERROR")
                                             ? "red"
                                             : "inherit",
                                       }}
