@@ -42,7 +42,7 @@ const LogBarChart = () => {
       console.log("log summary data " + JSON.stringify(response));
       setLoading(false);
     } catch (error) {
-      console.log("ERROR on Log summary " + error);
+      // console.log("ERROR on Log summary " + error);
       setErrorMessage("An Error Occurred!");
       setLoading(false);
     }

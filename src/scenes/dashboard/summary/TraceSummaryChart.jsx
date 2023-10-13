@@ -43,10 +43,10 @@ const TraceBarChart = () => {
         setEmptyMessage("No Data to show");
       }
 
-      console.log("Trace summary data " + JSON.stringify(response));
+      // console.log("Trace summary data " + JSON.stringify(response));
       setLoading(false);
     } catch (error) {
-      console.log("error " + error);
+      // console.log("error " + error);
       setErrorMessage("An error Occurred!");
       setLoading(false);
     }
@@ -104,6 +104,9 @@ const TraceBarChart = () => {
   const hasErrChartData = integrationdata.some(
     (item) => item.totalErrorCalls !== 0
   );
+  const hasSuccChartData = integrationdata.some(
+    (item) => item.totalSuccessCalls !== 0
+  );
   const hasApiChartData = integrationdata.some(
     (item) => item.apiCallCount !== 0
   );
@@ -140,7 +143,7 @@ const TraceBarChart = () => {
                 <Grid item xs={12}>
                   <Card elevation={3} style={{ margin: "25px" }}>
                     <CardContent>
-                      {hasErrChartData ? (
+                      {hasErrChartData || hasSuccChartData? (
                         <ErrSucssCallCountChart
                           ErrSuccessData={integrationdata}
                           onBarClick={handleBarClick}

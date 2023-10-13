@@ -939,6 +939,7 @@ const Loglists = () => {
             <Card
               sx={{
                 height: "79.5vh",
+                paddingBottom:"30px"
               }}
             >
               <CardContent>
@@ -953,29 +954,30 @@ const Loglists = () => {
                     <CloseIcon />
                   </IconButton>
                 </div>
-                <div>
-                  {selectedLogData && selectedLogData[0] ? (
-                    <TableContainer component={Paper}>
-                      <Table
-                      // sx={{ minHeight: "60vh" }}
-                      // aria-label="customized table"
-                      >
-                        <TableHead>
-                          <TableRow>
-                            <StyledTableCell>
-                              {" "}
-                              <Typography
-                                variant="h5"
-                                style={{
-                                  fontWeight: "700",
-                                  padding: "5px",
-                                  whiteSpace: "nowrap",
-                                  overflow: "hidden",
-                                }}
-                              >
-                                Field
-                              </Typography>
-                            </StyledTableCell>
+                <div style={{paddingBottom:"30px"}}>
+                {selectedLogData && selectedLogData[0] ? (
+                  <TableContainer component={Paper}>
+                    <Table
+                    sx={{minHeight: "61.5vh" ,overflowX:"hidden",}}
+                    // sx={{ minHeight: "60vh" }}
+                     aria-label="customized table"
+                    >
+                      <TableHead>
+                        <TableRow>
+                          <StyledTableCell>
+                            {" "}
+                            <Typography
+                              variant="h5"
+                              style={{
+                                fontWeight: "700",
+                                padding: "5px",
+                                whiteSpace: "nowrap",
+                                overflow: "hidden",
+                              }}
+                            >
+                              Field
+                            </Typography>
+                          </StyledTableCell>
 
                             <StyledTableCell>
                               <Typography
