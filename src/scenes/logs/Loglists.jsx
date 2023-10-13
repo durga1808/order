@@ -934,6 +934,7 @@ const Loglists = () => {
                   </IconButton>
                 </div>
                 <div>
+                {selectedLogData && selectedLogData[0] ? (
                   <TableContainer component={Paper}>
                     <Table
                     // sx={{ minHeight: "60vh" }}
@@ -992,6 +993,11 @@ const Loglists = () => {
                       </TableBody>
                     </Table>
                   </TableContainer>
+                ) : (
+                    <Typography variant="h5" fontWeight={"600"}>
+    No log metadata available.
+  </Typography>
+                ) }
                 </div>
               </CardContent>
             </Card>
