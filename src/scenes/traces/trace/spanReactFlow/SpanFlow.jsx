@@ -260,19 +260,22 @@ const SpanFlow = () => {
           ) :
             <div>
               <div style={{ padding: "5px" }} >
-                <Typography variant="h5" fontWeight="600" >Details for Selected Trace </Typography>
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", textAlign: "center", margin: "10px" }} >
+                {/* <Typography variant="h5" fontWeight="600" >Details for Selected Trace </Typography> */}
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", textAlign: "center", margin: "0px" }} >
                   <Typography variant="h6"  >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
-                  <Card sx={{ width: "65%", backgroundColor: colors.greenAccent[500], display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px" }}>
+                  <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
+                  </div>
+                  <Card sx={{ width: "100%", backgroundColor: colors.greenAccent[500], display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px 20px 10px 0px" }}>
                     {orderedSpans.map((span) => (
                       <div key={span.spanId}>
                         <div style={{ width: "fit-content", margin: "5px", overflowX: "auto" }}>{calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms</div>
                       </div>
                     ))}
                   </Card>
-                  <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
-                </div>
+                  {/* <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography> */}
+                
               </div>
+              <div style={{ maxHeight: "calc(70vh - 70px)" ,overflowY:"auto" }} >
               <div style={{ height: "450px", width: "100%", border: "solid #000 1px", padding: 10 }}>
                 <ReactFlow
                   nodes={nodes}
@@ -288,6 +291,7 @@ const SpanFlow = () => {
               </div>
               <div id="span-info" ref={sectionRef} >
                 <SpanInfo />
+              </div>
               </div>
             </div>
           }

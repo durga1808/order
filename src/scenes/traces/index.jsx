@@ -76,7 +76,7 @@ const Traces = () => {
                   padding: "15px",
                   width: "100%",
                   height: "calc(90vh - 75px)",
-                  overflowY: "auto",
+                  // overflowY: "auto",
                 }}
               >
                 <SpanFlow />
