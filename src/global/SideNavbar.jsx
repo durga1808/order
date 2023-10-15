@@ -16,47 +16,79 @@ import { GlobalContext } from "./globalContext/GlobalContext";
 const SideNavbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const isDarkMode = theme.palette.mode === 'dark';
+  const isDarkMode = theme.palette.mode === "dark";
 
   const routeChange = (routeName) => {
     localStorage.setItem("routeName", routeName);
   };
 
-  const { isCollapsed, setIsCollapsed,isCardVisible,setIsCardVisible } = useContext(GlobalContext);
+  const { isCollapsed, setIsCollapsed, isCardVisible, setIsCardVisible } =
+    useContext(GlobalContext);
   const { selected, setSelected } = useContext(GlobalContext);
 
-  const handleclose = ()=>{
-    setIsCardVisible(false)
-    setIsCollapsed(!isCollapsed)
-  }
+  const handleclose = () => {
+    setIsCardVisible(false);
+    setIsCollapsed(!isCollapsed);
+  };
 
   return (
     <Box>
       {/* <ProSidebar collapsed={collapsed}> */}
-      <Sidebar collapsed={isCollapsed} rootStyles={{ height: "100vh",borderRight: "none",  }} >
-        <Menu iconShape="square" rootStyles={{ display: "flex", flexDirection: "column", height: "100vh", backgroundColor: colors.primary[400] }} menuItemStyles={{
-          button: ({ level, active, disabled }) => {
-            if (level === 0) {
-              return {
-                color: active ? colors.lightGreen[500] : colors.primary[100],
+      <Sidebar
+        collapsed={isCollapsed}
+        rootStyles={{ height: "100vh", borderRight: "none" }}
+      >
+        <Menu
+          iconShape="square"
+          rootStyles={{
+            display: "flex",
+            flexDirection: "column",
+            height: "100vh",
+            backgroundColor: colors.primary[400],
+          }}
+          menuItemStyles={{
+            button: ({ level, active, disabled }) => {
+              const baseStyles = {
+                color: colors.tabColor[500],
                 fontWeight: active ? "bold" : "normal",
-                // backgroundColor: active ? "#000" : "#fff",
-                "&:hover": {
-                  backgroundColor: "#335B8C !important",
-                  color: "white !important",
-                  borderRadius: "8px !important",
-                  fontWeight: "bold !important",
-                },
+                transition: "0.4s ease",
               };
-            }
-          },
-        }} >
+
+              if (level === 0) {
+                return {
+                  ...baseStyles,
+                  "&:hover": {
+                    backgroundColor: colors.hoverColor[500],
+                    // backgroundColor:colors.tabIndicator[500],
+                    borderRadius: "10px",
+                  },
+                };
+              }
+
+              // if (level === 0) {
+              //   return {
+              //     color: colors.textColor[500],
+
+              //     fontWeight: active ? "bold" : "normal",
+
+              //     "&:hover": {
+              //       backgroundColor: "#339999 !important",
+              //       color: "white !important",
+              //       borderRadius: "25px !important",
+              //       fontWeight: "bold !important",
+
+              //     },
+              //   };
+              // }
+            },
+          }}
+        >
           <MenuItem
-            onClick={handleclose }
+            onClick={handleclose}
             icon={isCollapsed ? <MenuOutlined /> : undefined}
-            style={{
-              margin: "10px 0 20px 0",
-            }}
+            
+          
+            style={{margin:"20px 10px 10px 13px",padding:"10px"}}
           >
             <Box
               display="flex"
@@ -64,24 +96,29 @@ const SideNavbar = () => {
               alignItems="center"
               ml="1px"
             >
-              <Typography
-                variant="h4"
-                fontWeight="500"
-                marginRight={1}
-              >
+              <Typography variant="h4" fontWeight="500" marginLeft={1}>
                 OBSERVABILITY
               </Typography>
-              <IconButton onClick={() => setIsCollapsed(!isCollapsed)} icon={isCollapsed ? <MenuOutlined /> : undefined} >
-                <MenuOutlined />
+              <IconButton
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                icon={isCollapsed ? <MenuOutlined /> : undefined}
+              >
+                <MenuOutlined
+                  style={{ color: colors.tabColor[500] }}
+                />
               </IconButton>
             </Box>
           </MenuItem>
 
           <MenuItem
             component={<Link to="/mainpage/dashboard" />}
+            style={{margin:"0 10px 0 14px",padding:"10px"}}
             active={selected === "Dashboard"}
             icon={<DashboardOutlined />}
-            onClick={() => {setSelected("Dashboard"); routeChange("Dashboard");}}
+            onClick={() => {
+              setSelected("Dashboard");
+              routeChange("Dashboard");
+            }}
           >
             <Typography variant="h5">DASHBOARD</Typography>
           </MenuItem>
@@ -90,15 +127,42 @@ const SideNavbar = () => {
             Data
           </Typography> */}
 
-          <MenuItem component={<Link to="/mainpage/traces" />} active={selected === "Traces"} icon={<TimelineOutlined />} onClick={() => {setSelected("Traces"); routeChange("Traces");}}  >
+          <MenuItem
+            component={<Link to="/mainpage/traces" />}
+            style={{margin:"0 10px 0 14px",padding:"10px"}}
+            active={selected === "Traces"}
+            icon={<TimelineOutlined />}
+            onClick={() => {
+              setSelected("Traces");
+              routeChange("Traces");
+            }}
+          >
             <Typography variant="h5">TRACES</Typography>
           </MenuItem>
 
-          <MenuItem component={<Link to="/mainpage/metrics" />} active={selected === "Metrics" } icon={<AnalyticsOutlined />} onClick={() => {setSelected("Metrics"); routeChange("Metrics");}}  >
+          <MenuItem
+            component={<Link to="/mainpage/metrics" />}
+            style={{margin:"0 10px 0 14px",padding:"10px"}}
+            active={selected === "Metrics"}
+            icon={<AnalyticsOutlined />}
+            onClick={() => {
+              setSelected("Metrics");
+              routeChange("Metrics");
+            }}
+          >
             <Typography variant="h5">METRICS</Typography>
           </MenuItem>
 
-          <MenuItem component={<Link to="/mainpage/logs" />} active={selected === "Logs" } icon={<ReceiptOutlined />} onClick={() => {setSelected("Logs"); routeChange("Logs");}}  >
+          <MenuItem
+            component={<Link to="/mainpage/logs" />}
+            style={{margin:"0 10px 0 14px",padding:"10px"}}
+            active={selected === "Logs"}
+            icon={<ReceiptOutlined />}
+            onClick={() => {
+              setSelected("Logs");
+              routeChange("Logs");
+            }}
+          >
             <Typography variant="h5">LOGS</Typography>
           </MenuItem>
 
@@ -108,7 +172,6 @@ const SideNavbar = () => {
             <Typography variant="h5">Role</Typography>
             </div>
           </MenuItem> */}
-
         </Menu>
         {/* </ProSidebar> */}
       </Sidebar>

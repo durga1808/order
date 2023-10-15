@@ -42,6 +42,7 @@ function Topbar() {
           sx={{
             justifyContent: "flex-end",
             backgroundColor: colors.primary[400],
+            // backgroundColor: colors.primary[400],
             marginTop: "-10px",
           }}
         >
@@ -50,19 +51,19 @@ function Topbar() {
             onClick={colorMode.toggleColorMode}
           >
             {theme.palette.mode === "light" ? (
-              <Brightness7 style={{ fontSize: "20px" }} />
+              <Brightness7 style={{ fontSize: "20px",color:colors.tabColor[500]}} />
             ) : (
               <Brightness4 style={{ fontSize: "20px" }} />
             )}
           </IconButton>
           <IconButton aria-label="Account" onClick={handleLogout}>
-            <LogoutIcon style={{ fontSize: "20px" }} />
+            <LogoutIcon style={{ fontSize: "20px",color:colors.tabColor[500] }} />
           </IconButton>
 
           <IconButton>
-            <Person style={{ fontSize: "20px" }} />
+            <Person style={{ fontSize: "20px" ,color:colors.tabColor[500]}} />
           </IconButton>
-            <span>User: {user}</span>
+            <span style={{color:colors.tabColor[500]}}>User: {user}</span>
         </Toolbar>
       </AppBar>
     </div>

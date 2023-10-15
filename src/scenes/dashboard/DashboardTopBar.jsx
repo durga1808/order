@@ -36,7 +36,30 @@ const DashboardTopBar = () => {
   //   setRecentLogData,
   // } = useContext(GlobalContext);
   const [refresh, setRefresh] = useState(false);
-  const { lookBackVal, setLookBackVal, setNeedFilterCall, setTraceGlobalError, setTraceGlobalEmpty, setTraceData, setSelectedTrace, setRecentTrace, activeTab, setActiveTab, setGlobalLogData, setNeedLogFilterCall, setRecentLogData, setSearchQuery, setLogTrace, setTraceRender, setLogRender, setMetricRender, setTraceSummaryService,setLogSummaryService,setFilterApiBody,setLogFilterApiBody } = useContext(GlobalContext);
+  const {
+    lookBackVal,
+    setLookBackVal,
+    setNeedFilterCall,
+    setTraceGlobalError,
+    setTraceGlobalEmpty,
+    setTraceData,
+    setSelectedTrace,
+    setRecentTrace,
+    activeTab,
+    setActiveTab,
+    setGlobalLogData,
+    setNeedLogFilterCall,
+    setRecentLogData,
+    setSearchQuery,
+    setLogTrace,
+    setTraceRender,
+    setLogRender,
+    setMetricRender,
+    setTraceSummaryService,
+    setLogSummaryService,
+    setFilterApiBody,
+    setLogFilterApiBody,
+  } = useContext(GlobalContext);
   // const [activeTab, setActiveTab] = useState(0);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -45,11 +68,12 @@ const DashboardTopBar = () => {
   const colors = tokens(theme.palette.mode);
 
   const FilterbuttonStyle = {
-    backgroundColor: colors.primary[800], // Use your desired gray color
+    backgroundColor: "#339999",
   };
 
   const iconStyle = {
     fontSize: "22px", // Adjust the font size as needed
+    color:colors.textColor[500]
   };
 
   const handleRefreshClick = () => {
@@ -123,27 +147,34 @@ const DashboardTopBar = () => {
             display: "flex",
             justifyContent:
               window.location.pathname === "/mainpage/dashboard" ||
-                window.location.pathname === "/mainpage/dashboard/logSummary"
+              window.location.pathname === "/mainpage/dashboard/logSummary"
                 ? "space-between"
                 : "flex-end",
             backgroundColor: colors.primary[400],
+            // backgroundColor:"#A4332D",
           }}
         >
           {window.location.pathname === "/mainpage/dashboard" ||
-            window.location.pathname === "/mainpage/dashboard/logSummary" ? (
+          window.location.pathname === "/mainpage/dashboard/logSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
               TabIndicatorProps={{
                 sx: {
-                  backgroundColor: colors.lightGreen[500],
+                  height: 4,
+                  borderRadius:3,
+                  backgroundColor:colors.tabIndicator[500]
                 },
               }}
               textColor="inherit"
+
               indicatorColor="primary"
             >
-              <Tab label="Trace Summary" />
-              <Tab label="Log Summary" />
+              <Tab
+                label="Trace Summary"
+                sx={{ color: colors.tabColor[500] }}
+              />
+              <Tab label="Log Summary" sx={{ color: colors.tabColor[500] }} />
             </Tabs>
           ) : null}
           <Box
@@ -155,32 +186,34 @@ const DashboardTopBar = () => {
               mr: "5px",
             }}
           >
-            <div style={{ alignItems: "center", marginBottom: '20px' }}>
-            <label style={{ fontSize: '12px',  marginBottom: '5px' }}>TimeBy</label>
-            <Dropdown
-              options={options}
-              placeholder="Lookback for"
-              value={lookBackVal.label}
-              onChange={(val) => handleLookbackChange(val)}
-              arrowClosed={<span className="arrow-closed" />}
-              arrowOpen={<span className="arrow-open" />}
-            />
-             </div>
+            <div style={{ alignItems: "center", marginBottom: "20px" }}>
+              <label style={{ fontSize: "12px", marginBottom: "5px" ,color:colors.tabColor[500]}}>
+                TimeBy
+              </label>
+              <Dropdown
+                options={options}
+                placeholder="Lookback for"
+                value={lookBackVal.label}
+                onChange={(val) => handleLookbackChange(val)}
+                arrowClosed={<span className="arrow-closed" />}
+                arrowOpen={<span className="arrow-open" />}
+              />
+            </div>
             <div style={{ display: "flex", alignItems: "center" }}>
-            <Tooltip title="Refresh">
-              <IconButton
-                onClick={handleRefreshClick}
-                color="black"
-                aria-label="refresh"
-                sx={{ mr: "15px" }}
-                style={FilterbuttonStyle}
-              >
-                <RefreshOutlined style={iconStyle} />
-              </IconButton>
-            </Tooltip>
+              <Tooltip title="Refresh">
+                <IconButton
+                  onClick={handleRefreshClick}
+                  // color="black"
+                  aria-label="Refresh"
+                  // sx={{ mr: "10px" }}
+                  style={FilterbuttonStyle}
+                >
+                  <RefreshOutlined style={iconStyle} />
+                </IconButton>
+              </Tooltip>
             </div>
             {window.location.pathname === "/mainpage/traces" ||
-              window.location.pathname === "/mainpage/logs" ? (
+            window.location.pathname === "/mainpage/logs" ? (
               <Tooltip title="Filter">
                 <IconButton
                   onClick={handleFilterClick}

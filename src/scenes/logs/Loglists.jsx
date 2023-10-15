@@ -152,7 +152,7 @@ const Loglists = () => {
 
   const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: colors.greenAccent[500],
+      backgroundColor: colors.primary[400],
       color: theme.palette.common.black,
     },
     [`&.${tableCellClasses.body}`]: {
@@ -162,7 +162,7 @@ const Loglists = () => {
 
   const StyledTableRow = styled(TableRow)(() => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: colors.primary[400],
+      // backgroundColor: colors.hoverColor[500],
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -216,10 +216,11 @@ const Loglists = () => {
             <Button
               sx={{
                 m: "8px",
-                backgroundColor: colors.greenAccent[500],
+                backgroundColor: colors.primary[400],
+                color:colors.textColor[500],
                 "&:hover": {
-                  backgroundColor: "#ffffff",
-                  color: "black",
+                  // backgroundColor: "#Black",
+                  // color: "#00000",
                 },
               }}
               onClick={() =>
@@ -234,7 +235,8 @@ const Loglists = () => {
             <Button
               sx={{
                 m: "8px",
-                backgroundColor: colors.greenAccent[500],
+                backgroundColor: colors.primary[400],
+                color:colors.textColor[500],
                 "&:hover": {
                   backgroundColor: "#ffffff",
                   color: "black",
@@ -707,7 +709,8 @@ const Loglists = () => {
                               key={index}
                               align={column.align}
                               style={{
-                                backgroundColor: colors.greenAccent[500],
+                                backgroundColor: colors.primary[400],
+                                
                               }}
                             >
                               <Typography
@@ -719,6 +722,7 @@ const Loglists = () => {
                                   whiteSpace: "nowrap",
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
+                                  
                                 }}
                               >
                                 {column.label}

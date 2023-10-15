@@ -57,7 +57,7 @@ const Traces = () => {
             <Box sx={{ m: "20px 20px 0 20px" }}>
               <Card
                 sx={{
-                  backgroundColor: colors.primary[400],
+                  backgroundColor: colors.primary[500],
                   padding: "15px",
                   width: "100%",
                   height: "calc(90vh - 75px)",
@@ -72,7 +72,7 @@ const Traces = () => {
             <Box sx={{ m: "20px 20px 20px 10px" }}>
               <Card
                 sx={{
-                  backgroundColor: colors.primary[400],
+                  backgroundColor: colors.primary[500],
                   padding: "15px",
                   width: "100%",
                   height: "calc(90vh - 75px)",
