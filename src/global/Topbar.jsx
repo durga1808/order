@@ -51,17 +51,17 @@ function Topbar() {
             onClick={colorMode.toggleColorMode}
           >
             {theme.palette.mode === "light" ? (
-              <Brightness7 style={{ fontSize: "20px",color:colors.tabColor[500]}} />
+              <Brightness7 style={{ fontSize: "20px",color:"#FFF"}} />
             ) : (
               <Brightness4 style={{ fontSize: "20px" }} />
             )}
           </IconButton>
           <IconButton aria-label="Account" onClick={handleLogout}>
-            <LogoutIcon style={{ fontSize: "20px",color:colors.tabColor[500] }} />
+            <LogoutIcon style={{ fontSize: "20px",color:"#FFF" }} />
           </IconButton>
 
           <IconButton>
-            <Person style={{ fontSize: "20px" ,color:colors.tabColor[500]}} />
+            <Person style={{ fontSize: "20px" ,color:"#FFF"}} />
           </IconButton>
             <span style={{color:colors.tabColor[500]}}>User: {user}</span>
         </Toolbar>

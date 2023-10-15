@@ -265,7 +265,7 @@ const SpanFlow = () => {
                   <Typography variant="h6"  >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
                   <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
                   </div>
-                  <Card sx={{ width: "100%", backgroundColor: colors.greenAccent[500], display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px 20px 10px 0px" }}>
+                  <Card sx={{ width: "100%", color:"#FFF",backgroundColor: colors.primary[400], display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px 20px 10px 0px" }}>
                     {orderedSpans.map((span) => (
                       <div key={span.spanId}>
                         <div style={{ width: "fit-content", margin: "5px", overflowX: "auto" }}>{calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms</div>

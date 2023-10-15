@@ -17,9 +17,11 @@ import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { options } from "../../global/MockData/MockTraces";
 import Logfilter from "../logs/Logfilter";
 
+
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
+
   // const {
   //   lookBackVal,
   //   setLookBackVal,
@@ -68,12 +70,13 @@ const DashboardTopBar = () => {
   const colors = tokens(theme.palette.mode);
 
   const FilterbuttonStyle = {
+    // marginLeft: "20px",
     backgroundColor: "#339999",
   };
 
   const iconStyle = {
-    fontSize: "22px", // Adjust the font size as needed
-    color:colors.textColor[500]
+    fontSize: "22px",
+    color: "#FFF",
   };
 
   const handleRefreshClick = () => {
@@ -162,19 +165,15 @@ const DashboardTopBar = () => {
               TabIndicatorProps={{
                 sx: {
                   height: 4,
-                  borderRadius:3,
-                  backgroundColor:colors.tabIndicator[500]
+                  borderRadius: 3,
+                  backgroundColor: colors.tabIndicator[500],
                 },
               }}
               textColor="inherit"
-
               indicatorColor="primary"
             >
-              <Tab
-                label="Trace Summary"
-                sx={{ color: colors.tabColor[500] }}
-              />
-              <Tab label="Log Summary" sx={{ color: colors.tabColor[500] }} />
+              <Tab label="Trace Summary" sx={{ color: "#FFF"}} />
+              <Tab label="Log Summary" sx={{ color: "#FFF" }} />
             </Tabs>
           ) : null}
           <Box
@@ -187,7 +186,13 @@ const DashboardTopBar = () => {
             }}
           >
             <div style={{ alignItems: "center", marginBottom: "20px" }}>
-              <label style={{ fontSize: "12px", marginBottom: "5px" ,color:colors.tabColor[500]}}>
+              <label
+                style={{
+                  fontSize: "12px",
+                  marginBottom: "5px",
+                  color: colors.tabColor[500],
+                }}
+              >
                 TimeBy
               </label>
               <Dropdown
@@ -199,13 +204,17 @@ const DashboardTopBar = () => {
                 arrowOpen={<span className="arrow-open" />}
               />
             </div>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                marginRight: "20px",
+              }}
+            >
               <Tooltip title="Refresh">
                 <IconButton
                   onClick={handleRefreshClick}
-                  // color="black"
                   aria-label="Refresh"
-                  // sx={{ mr: "10px" }}
                   style={FilterbuttonStyle}
                 >
                   <RefreshOutlined style={iconStyle} />

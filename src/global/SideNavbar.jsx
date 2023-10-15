@@ -49,7 +49,7 @@ const SideNavbar = () => {
           menuItemStyles={{
             button: ({ level, active, disabled }) => {
               const baseStyles = {
-                color: colors.tabColor[500],
+                color: "#FFF",
                 fontWeight: active ? "bold" : "normal",
                 transition: "0.4s ease",
               };

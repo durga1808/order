@@ -212,7 +212,7 @@ const Metrics = () => {
               <Card
                 key={index}
                 // padding="10px"
-                // sx={{backgroundColor:"#000"}}
+                sx={{backgroundColor:colors.primary[500]}}
                 style={{ margin: "10px 10px 15px 10px" }}
               >
                 <LineChart data={mock} />

@@ -643,6 +643,7 @@ const Loglists = () => {
             sx={{
               padding: "20px",
               height: "71vh",
+              backgroundColor:colors.primary[500]
             }}
           >
             <div>
@@ -692,13 +693,14 @@ const Loglists = () => {
                 </div>
               ) : (
                 <div
-                  className={`mui-table ${isRightDrawerOpen ? "shrink" : ""}`}
+                  // style={{backgroundColor:colors.primary[500]}}
                 >
                   {" "}
                   <TableContainer
                     sx={{
                       maxHeight: "calc(73vh - 85px)",
                       overflowY: "auto",
+                      // backgroundColor:colors.primary[500]
                     }}
                   >
                     <Table stickyHeader aria-label="sticky table">
@@ -710,6 +712,7 @@ const Loglists = () => {
                               align={column.align}
                               style={{
                                 backgroundColor: colors.primary[400],
+                                color:colors.tabColor[500],
                                 
                               }}
                             >
@@ -920,8 +923,9 @@ const Loglists = () => {
                           style={{
                             backgroundColor:
                               item.type === "page" && item.page !== currentPage
-                                ? colors.greenAccent[900]
-                                : colors.greenAccent[500],
+                                ? colors.primary[500]
+                                 : "#80c0c0",
+                                
                             color:
                               item.type === "page" && item.page === currentPage
                                 ? colors.textColor[500]

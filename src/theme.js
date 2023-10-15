@@ -64,6 +64,7 @@ export const tokens = (mode) => ({
         lightGreen: {
           500: "#65d57a",
         },
+
         textColor: {
           500: "#FFF",
         },

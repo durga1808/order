@@ -413,8 +413,8 @@ const TraceList = () => {
                     style={{
                       backgroundColor:
                         item.type === "page" && item.page !== currentPage
-                          ? colors.greenAccent[900]
-                          : colors.greenAccent[500],
+                          ? colors.primary[400]
+                          : colors.primary[400],
                       color:
                         item.type === "page" && item.page === currentPage
                           ? colors.textColor[500]
@@ -486,7 +486,7 @@ const TraceList = () => {
                         backgroundColor:
                           trace.statusCode >= 400 && trace.statusCode <= 500
                             ? colors.redAccent[500]
-                            : colors.greenAccent[500],
+                            : colors.primary[400],
                         color:
                           trace.statusCode >= 400 && trace.statusCode <= 500
                             ? "#FFF"
@@ -503,7 +503,7 @@ const TraceList = () => {
                       </span>
                       <span>
                         {trace.duration}ms{" "}
-                        {trace.traceId === activeTraceId ?activeTraceIcon ? <OutboundSharpIcon  /> : null:null}
+                        {trace.traceId === activeTraceId ?activeTraceIcon ? <OutboundSharpIcon style={{color:"#FFF"}} /> : null:null}
                       </span>
                     </Typography>
                   </Box>
@@ -525,7 +525,7 @@ const TraceList = () => {
                           backgroundColor:
                             trace.statusCode >= 400 && trace.statusCode <= 500
                               ? colors.redAccent[500]
-                              : colors.greenAccent[500],
+                              : colors.primary[400],
                           color:
                             trace.statusCode >= 400 && trace.statusCode <= 500
                               ? "#FFF"
@@ -547,7 +547,7 @@ const TraceList = () => {
                           backgroundColor:
                             trace.statusCode >= 400 && trace.statusCode <= 500
                               ? colors.redAccent[500]
-                              : colors.greenAccent[500],
+                              : colors.primary[400],
                           color:
                             trace.statusCode >= 400 && trace.statusCode <= 500
                               ? "#FFF"

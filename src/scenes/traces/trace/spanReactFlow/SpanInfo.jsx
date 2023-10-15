@@ -16,7 +16,7 @@ const SpanInfo = () => {
 
     const StyledTableCell = styled(TableCell)(() => ({
         [`&.${tableCellClasses.head}`]: {
-            backgroundColor: colors.greenAccent[500],
+            backgroundColor: colors.primary[400],
             color: theme.palette.common.black,
         },
         [`&.${tableCellClasses.body}`]: {
@@ -26,7 +26,7 @@ const SpanInfo = () => {
 
     const StyledTableRow = styled(TableRow)(() => ({
         '&:nth-of-type(odd)': {
-            backgroundColor: colors.primary[400],
+            backgroundColor: colors.primary[500],
         },
         // hide last border
         '&:last-child td, &:last-child th': {
