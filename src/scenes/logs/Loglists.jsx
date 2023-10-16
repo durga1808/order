@@ -26,7 +26,7 @@ import {
 } from "@mui/material";
 import Dropdown from "react-dropdown";
 import "./Loglists.css";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FindByTraceIdForSpans } from "../../api/TraceApiService";
 import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -112,7 +112,8 @@ const Loglists = () => {
     setIsCardVisible,
     setMetricRender,
     setLogRender,
-    setTraceSummaryService
+    setTraceSummaryService,
+    setClearLogFilter,
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -209,26 +210,32 @@ const Loglists = () => {
   };
 
   function createData(severity, time, traceid, serviceName, message) {
+
+    traceid = traceid === "" ? "No Trace ID" : traceid;
+
     const actionButton = (
       <div>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Tooltip>
-            <Button
-              sx={{
-                m: "8px",
-                backgroundColor: colors.primary[400],
-                color:colors.textColor[500],
-                "&:hover": {
-                  // backgroundColor: "#Black",
-                  // color: "#00000",
-                },
-              }}
-              onClick={() =>
-                traceid !== "" ? handleLogToTrace(traceid) : handleNoTrace()
-              }
-            >
-              Trace
-            </Button>
+            <span>
+              <Button
+                sx={{
+                  m: "8px",
+                  backgroundColor: colors.primary[400],
+                  color: colors.textColor[500],
+                  "&:hover": {
+                    // backgroundColor: "#Black",
+                    // color: "#00000",
+                  },
+                }}
+                disabled={traceid === "No Trace ID"}
+                onClick={() =>
+                  traceid !== "" ? handleLogToTrace(traceid) : handleNoTrace()
+                }
+              >
+                Trace
+              </Button>
+            </span>
           </Tooltip>
 
           <Tooltip>
@@ -236,7 +243,8 @@ const Loglists = () => {
               sx={{
                 m: "8px",
                 backgroundColor: colors.primary[400],
-                color:colors.textColor[500],
+                color: colors.textColor[500],
+                color: colors.textColor[500],
                 "&:hover": {
                   backgroundColor: "#ffffff",
                   color: "black",
@@ -351,6 +359,7 @@ const Loglists = () => {
   const logFilterApiCall = useCallback(
     async () => {
       setLoading(true);
+      console.log("Filter Body " + logFilterApiBody);
       try {
         console.log("Filter callback ");
         const { data, totalCount } = await LogFilterOption(
@@ -380,6 +389,7 @@ const Loglists = () => {
   // const [searchQuery, setSearchQuery] = useState("");
   const { searchQuery, setSearchQuery } = useContext(GlobalContext);
   const [searchResults, setSearchResults] = useState([]);
+  const [filteredOptions, setFilteredOptions] = useState([]);
 
   const handlePageChange = async (event, selectedPage) => {
     setCurrentPage(Number(selectedPage));
@@ -459,14 +469,30 @@ const Loglists = () => {
   //     searchQuery,
   // ]);
 
+  const createFilterData = () => {
+    const filteredData = [];
+    Object.entries(logFilterApiBody).map(([key, value], index) => {
+      value.forEach((val,index) => {
+        filteredData.push(val);
+      })
+    })
+    console.log("Filtered Data " + filteredData);
+    return filteredData;
+  }
+
   useEffect(() => {
     setTraceSummaryService([]);
     setTraceRender(false);
     setMetricRender(false);
+    console.log("Filtered Data useEffect" + filteredOptions);
     if (needLogFilterCall) {
+      setFilteredOptions(createFilterData());
       console.log("From Filter");
+      setIsCardVisible(false);
+      setIsCollapsed(false);
       logFilterApiCall();
     } else if (globalLogData.length !== 0 && logRender) {
+      setClearLogFilter(false);
       console.log("From Trace");
       setIsCardVisible(false);
       setIsCollapsed(false);
@@ -474,9 +500,11 @@ const Loglists = () => {
       const finalOutput = mapLogData(updatedData);
       setLogData(finalOutput);
     } else if (searchQuery && logRender) {
+      setClearLogFilter(false);
       // setSearchResults([]);
       handleSearch();
     } else {
+      setClearLogFilter(false);
       console.log("From get ALL");
       handleGetAllLogData(currentPage);
     }
@@ -485,8 +513,19 @@ const Loglists = () => {
       setFilterMessage("");
       setGetAllMessage("");
       setNoMatchMessage("");
-    }
-  }, [needLogFilterCall, logFilterApiCall, globalLogData, setTraceRender, handleGetAllLogData, logRender, searchQuery, currentPage, setMetricRender, setTraceSummaryService])
+    };
+  }, [
+    needLogFilterCall,
+    logFilterApiCall,
+    globalLogData,
+    setTraceRender,
+    handleGetAllLogData,
+    logRender,
+    searchQuery,
+    currentPage,
+    setMetricRender,
+    setTraceSummaryService,
+  ]);
 
   const handleSortOrderChange = (selectedValue) => {
     console.log("SORT " + selectedValue.value);
@@ -553,18 +592,20 @@ const Loglists = () => {
   // }, [currentPage, handleGetAllLogData, globalLogData, logFilterApiBody, logFilterApiCall, needLogFilterCall, searchQuery]);
 
   function highlightSearchQuery(message) {
-    if (typeof searchQuery !== 'string') {
+    if (typeof searchQuery !== "string") {
       return message;
     }
 
-    const parts = message.split(new RegExp(`(${searchQuery})`, 'gi'));
-    return parts.map((part, index) => (
+    const parts = message.split(new RegExp(`(${searchQuery})`, "gi"));
+    return parts.map((part, index) =>
       part.toLowerCase() === searchQuery.toLowerCase() ? (
-        <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
+        <span key={index} style={{ backgroundColor: "yellow" }}>
+          {part}
+        </span>
       ) : (
         <span key={index}>{part}</span>
       )
-    ));
+    );
   }
 
   const customStyles = {
@@ -590,7 +631,7 @@ const Loglists = () => {
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-evenly",
+              justifyContent: needLogFilterCall ? "flex-start" : "space-around"
             }}
           >
             <TextField
@@ -598,7 +639,7 @@ const Loglists = () => {
               className="search-bar"
               placeholder="Search for message"
               size="large"
-              style={{ borderWidth: "4px", marginBottom: "10px", width: "80%" }}
+              style={{ borderWidth: "4px", marginBottom: "5px", width: "80%" }}
               InputProps={{
                 endAdornment: (
                   <IconButton
@@ -639,8 +680,32 @@ const Loglists = () => {
               </Box>
             ) : null}
           </Box>
+          {needLogFilterCall ? (<div style={{ marginBottom: "5px" }}  >
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start" }} >
+              <Typography variant="h6" fontWeight={"600"}>
+                Filtered By:
+              </Typography>
+              {filteredOptions.map((option, index) => (
+                <React.Fragment key={index} >
+                  <Typography style={{ marginLeft: "5px" }} variant="h6" fontWeight={"600"}>
+                    {option}
+                  </Typography>
+                  {index < filteredOptions.length - 1 && <span>, </span>}
+                </React.Fragment>
+              ))}
+              {/* <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start" }}  >
+              <Typography variant="h6" fontWeight={"600"}>
+                Selected Severities:
+              </Typography>
+              <Typography style={{ marginLeft: "10px" }} variant="h6" fontWeight={"600"}>
+                ERROR, SEVERE
+              </Typography>
+            </div> */}
+            </div>
 
+          </div>) : null}
           <Card
+         
             sx={{
               padding: "20px",
               height: "68vh",
@@ -694,7 +759,7 @@ const Loglists = () => {
                 </div>
               ) : (
                 <div
-                  // style={{backgroundColor:colors.primary[500]}}
+                // style={{backgroundColor:colors.primary[500]}}
                 >
                   {" "}
                   <TableContainer
@@ -713,8 +778,7 @@ const Loglists = () => {
                               align={column.align}
                               style={{
                                 backgroundColor: colors.primary[400],
-                                color:colors.tabColor[500],
-                                
+                                color: colors.tabColor[500],
                               }}
                             >
                               <Typography
@@ -726,7 +790,6 @@ const Loglists = () => {
                                   whiteSpace: "nowrap",
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",
-                                  
                                 }}
                               >
                                 {column.label}
@@ -738,169 +801,174 @@ const Loglists = () => {
                       <TableBody>
                         {searchResults.length > 0
                           ? searchResults.map((row, index) => (
-                            <StyledTableRow
-                              hover
-                              role="checkbox"
-                              tabIndex={-1}
-                              key={index}
-                            >
-                              {tableHeaderData.map((column, index) => {
-                                const value = row[column.id];
-                                if (column.id === "action") {
-                                  return (
-                                    <TableCell
-                                      key={index}
-                                      align={column.align}
-                                      style={{
-                                        padding: "10px",
-                                        color:
-                                          column.id === "severity" &&
-                                            (row.severity === "SEVERE" || row.severity === "ERROR")
-                                            ? "red"
-                                            : "inherit",
-                                      }}
-                                    >
-                                      <Typography
-                                        variant="h6"
+                              <StyledTableRow
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                key={index}
+                              >
+                                {tableHeaderData.map((column, index) => {
+                                  const value = row[column.id];
+                                  if (column.id === "action") {
+                                    return (
+                                      <TableCell
+                                        key={index}
+                                        align={column.align}
                                         style={{
-                                          width: "150px",
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
+                                          padding: "10px",
+                                          color:
+                                            column.id === "severity" &&
+                                            (row.severity === "SEVERE" ||
+                                              row.severity === "ERROR")
+                                              ? "red"
+                                              : "inherit",
                                         }}
                                       >
-                                        {value}
-                                      </Typography>
-                                    </TableCell>
-                                  );
-                                } else if (column.id === "message") {
-                                  return (
-                                    <TableCell
-                                      key={index}
-                                      align={column.align}
-                                      style={{
-                                        padding: "10px",
-                                        color:
-                                          column.id === "severity" &&
-                                            (row.severity === "SEVERE" || row.severity === "ERROR")
-                                            ? "red"
-                                            : "inherit",
-                                      }}
-                                    >
-                                      <Typography
-                                        variant="h6"
+                                        <Typography
+                                          variant="h6"
+                                          style={{
+                                            width: "150px",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                          }}
+                                        >
+                                          {value}
+                                        </Typography>
+                                      </TableCell>
+                                    );
+                                  } else if (column.id === "message") {
+                                    return (
+                                      <TableCell
+                                        key={index}
+                                        align={column.align}
                                         style={{
-                                          width: "150px",
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
+                                          padding: "10px",
+                                          color:
+                                            column.id === "severity" &&
+                                            (row.severity === "SEVERE" ||
+                                              row.severity === "ERROR")
+                                              ? "red"
+                                              : "inherit",
                                         }}
                                       >
-                                        {highlightSearchQuery(
-                                          value,
-                                          searchQuery
-                                        )}
-                                      </Typography>
-                                    </TableCell>
-                                  );
-                                } else {
-                                  return (
-                                    <TableCell
-                                      key={column.id}
-                                      align={column.align}
-                                      style={{
-                                        padding: "10px",
-                                        color:
-                                          column.id === "severity" &&
-                                            (row.severity === "SEVERE" || row.severity === "ERROR")
-                                            ? "red"
-                                            : "inherit",
-                                      }}
-                                    >
-                                      <Typography
-                                        variant="h6"
+                                        <Typography
+                                          variant="h6"
+                                          style={{
+                                            width: "150px",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                          }}
+                                        >
+                                          {highlightSearchQuery(
+                                            value,
+                                            searchQuery
+                                          )}
+                                        </Typography>
+                                      </TableCell>
+                                    );
+                                  } else {
+                                    return (
+                                      <TableCell
+                                        key={column.id}
+                                        align={column.align}
                                         style={{
-                                          width: "150px",
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
+                                          padding: "10px",
+                                          color:
+                                            column.id === "severity" &&
+                                            (row.severity === "SEVERE" ||
+                                              row.severity === "ERROR")
+                                              ? "red"
+                                              : "inherit",
                                         }}
                                       >
-                                        {value}
-                                      </Typography>
-                                    </TableCell>
-                                  );
-                                }
-                              })}
-                            </StyledTableRow>
-                          ))
+                                        <Typography
+                                          variant="h6"
+                                          style={{
+                                            width: "150px",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                          }}
+                                        >
+                                          {value}
+                                        </Typography>
+                                      </TableCell>
+                                    );
+                                  }
+                                })}
+                              </StyledTableRow>
+                            ))
                           : logData.map((row, index) => (
-                            <StyledTableRow
-                              hover
-                              role="checkbox"
-                              tabIndex={-1}
-                              key={index}
-                            >
-                              {tableHeaderData.map((column, index) => {
-                                const value = row[column.id];
-                                if (column.id === "action") {
-                                  return (
-                                    <TableCell
-                                      key={index}
-                                      align={column.align}
-                                      style={{
-                                        padding: "10px",
-                                        color:
-                                          column.id === "severity" &&
-                                            (row.severity === "SEVERE" || row.severity === "ERROR")
-                                            ? "red"
-                                            : "inherit",
-                                      }}
-                                    >
-                                      <Typography
-                                        variant="h6"
+                              <StyledTableRow
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                key={index}
+                              >
+                                {tableHeaderData.map((column, index) => {
+                                  const value = row[column.id];
+                                  if (column.id === "action") {
+                                    return (
+                                      <TableCell
+                                        key={index}
+                                        align={column.align}
                                         style={{
-                                          width: "180px",
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
+                                          padding: "10px",
+                                          color:
+                                            column.id === "severity" &&
+                                            (row.severity === "SEVERE" ||
+                                              row.severity === "ERROR")
+                                              ? "red"
+                                              : "inherit",
                                         }}
                                       >
-                                        {value}
-                                      </Typography>
-                                    </TableCell>
-                                  );
-                                } else {
-                                  return (
-                                    <TableCell
-                                      key={index}
-                                      align={column.align}
-                                      style={{
-                                        padding: "10px",
-                                        color:
-                                          column.id === "severity" &&
-                                            (row.severity === "SEVERE" || row.severity === "ERROR")
-                                            ? "red"
-                                            : "inherit",
-                                      }}
-                                    >
-                                      <Typography
-                                        variant="h6"
+                                        <Typography
+                                          variant="h6"
+                                          style={{
+                                            width: "180px",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                          }}
+                                        >
+                                          {value}
+                                        </Typography>
+                                      </TableCell>
+                                    );
+                                  } else {
+                                    return (
+                                      <TableCell
+                                        key={index}
+                                        align={column.align}
                                         style={{
-                                          width: "150px",
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
+                                          padding: "10px",
+                                          color:
+                                            column.id === "severity" &&
+                                            (row.severity === "SEVERE" ||
+                                              row.severity === "ERROR")
+                                              ? "red"
+                                              : "inherit",
                                         }}
                                       >
-                                        {value}
-                                      </Typography>
-                                    </TableCell>
-                                  );
-                                }
-                              })}
-                            </StyledTableRow>
-                          ))}
+                                        <Typography
+                                          variant="h6"
+                                          style={{
+                                            width: "150px",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                          }}
+                                        >
+                                          {value}
+                                        </Typography>
+                                      </TableCell>
+                                    );
+                                  }
+                                })}
+                              </StyledTableRow>
+                            ))}
                       </TableBody>
                     </Table>
                   </TableContainer>
@@ -924,13 +992,12 @@ const Loglists = () => {
                           style={{
                             backgroundColor:
                               item.type === "page" && item.page !== currentPage
-                                ? colors.primary[500]
-                                 : "#80c0c0",
-                                
+                                ? null
+                                : colors.primary[400],
                             color:
                               item.type === "page" && item.page === currentPage
-                                ? colors.textColor[500]
-                                : colors.textColor[900],
+                                ? "#FFF"
+                                : null,
                           }}
                         />
                       )}
@@ -940,7 +1007,6 @@ const Loglists = () => {
               )}
             </div>
           </Card>
-
         </Grid>
         {isCardVisible && (
           <Grid item xs={3}>
@@ -948,8 +1014,8 @@ const Loglists = () => {
             <Card
               sx={{
                 height: "79.5vh",
-                paddingBottom:"30px",
-                overflowY:"auto"
+                paddingBottom: "30px",
+                overflowY: "auto",
               }}
             >
               <CardContent>
@@ -964,30 +1030,30 @@ const Loglists = () => {
                     <CloseIcon />
                   </IconButton>
                 </div>
-                <div style={{paddingBottom:"30px"}}>
-                {selectedLogData && selectedLogData[0] ? (
-                  <TableContainer component={Paper}>
-                    <Table
-                    sx={{minHeight: "50vh" ,overflowX:"hidden"}}
-                    // sx={{ minHeight: "60vh" }}
-                     aria-label="customized table"
-                    >
-                      <TableHead>
-                        <TableRow>
-                          <StyledTableCell>
-                            {" "}
-                            <Typography
-                              variant="h5"
-                              style={{
-                                fontWeight: "700",
-                                padding: "5px",
-                                whiteSpace: "nowrap",
-                                overflow: "hidden",
-                              }}
-                            >
-                              Field
-                            </Typography>
-                          </StyledTableCell>
+                <div style={{ paddingBottom: "30px" }}>
+                  {selectedLogData && selectedLogData[0] ? (
+                    <TableContainer component={Paper}>
+                      <Table
+                        sx={{ minHeight: "50vh", overflowX: "hidden" }}
+                        // sx={{ minHeight: "60vh" }}
+                        aria-label="customized table"
+                      >
+                        <TableHead>
+                          <TableRow>
+                            <StyledTableCell>
+                              {" "}
+                              <Typography
+                                variant="h5"
+                                style={{
+                                  fontWeight: "700",
+                                  padding: "5px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden",
+                                }}
+                              >
+                                Field
+                              </Typography>
+                            </StyledTableCell>
 
                             <StyledTableCell>
                               <Typography

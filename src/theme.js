@@ -73,10 +73,13 @@ export const tokens = (mode) => ({
         },
 
         tabIndicator: {
-          500: "#000137",
+          500: "#A9A9A9",
         },
         hoverColor: {
           500: "#848482",
+        },
+        spanBackground: {
+          500: "#101624",
         },
         navyBlueAccent: {
           100: "#B2CCFF",
@@ -160,6 +163,9 @@ export const tokens = (mode) => ({
         },
         hoverColor: {
           500: "#339999",
+        },
+        spanBackground: {
+          500: "#FFF",
         },
         navyBlueAccent: {
           100: "#B2CCFF",

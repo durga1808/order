@@ -14,24 +14,18 @@ import { useNavigate } from "react-router-dom";
 function Topbar() {
   const navigate = useNavigate();
   const theme = useTheme();
-  // console.log("theme color " + theme.palette.mode);
+  
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
   const handleLogout = () => {
-    // Handle the logout logic here
-    // For example, clear authentication tokens, etc.
-    console.log("Logged out");
-    // localStorage.setItem("serviceListData",JSON.stringify([]));
-    // localStorage.setItem("userInfo","");
     navigate("/");
   };
   const appBarStyles = {
-    // Set the height of the AppBar
-    height: "45px", // Adjust this value to your desired height
+    height: "45px",
   };
 
-  // userinfo get from local
+  
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const user = userInfo.username;
 
@@ -42,7 +36,7 @@ function Topbar() {
           sx={{
             justifyContent: "flex-end",
             backgroundColor: colors.primary[400],
-            // backgroundColor: colors.primary[400],
+
             marginTop: "-10px",
           }}
         >
@@ -51,19 +45,19 @@ function Topbar() {
             onClick={colorMode.toggleColorMode}
           >
             {theme.palette.mode === "light" ? (
-              <Brightness7 style={{ fontSize: "20px",color:"#FFF"}} />
+              <Brightness7 style={{ fontSize: "20px", color: "#FFF" }} />
             ) : (
               <Brightness4 style={{ fontSize: "20px" }} />
             )}
           </IconButton>
           <IconButton aria-label="Account" onClick={handleLogout}>
-            <LogoutIcon style={{ fontSize: "20px",color:"#FFF" }} />
+            <LogoutIcon style={{ fontSize: "20px", color: "#FFF" }} />
           </IconButton>
 
           <IconButton>
-            <Person style={{ fontSize: "20px" ,color:"#FFF"}} />
+            <Person style={{ fontSize: "20px", color: "#FFF" }} />
           </IconButton>
-            <span style={{color:colors.tabColor[500]}}>User: {user}</span>
+          <span style={{ color: colors.tabColor[500] }}>User: {user}</span>
         </Toolbar>
       </AppBar>
     </div>

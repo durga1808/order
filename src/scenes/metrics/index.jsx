@@ -222,6 +222,7 @@ const Metrics = () => {
             {mockMetrics.map((mock, index) => (
               <Card
                 key={index}
+                elevation={6}
                 // padding="10px"
                 sx={{backgroundColor:colors.primary[500]}}
                 style={{ margin: "20px" }}

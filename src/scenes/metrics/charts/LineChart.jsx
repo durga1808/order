@@ -14,6 +14,7 @@ const LineChart = ({ data }) => {
     {
       name: data.title,
       data: data.data,
+      color:colors.primary[400]
     },
   ];
 
@@ -21,7 +22,7 @@ const LineChart = ({ data }) => {
     chart: {
       type: "area",
       stacked: true,
-      // offsetY: 30,
+     
       zoom: {
         type: "x",
         enabled: true,
@@ -30,8 +31,10 @@ const LineChart = ({ data }) => {
       toolbar: {
         autoSelected: "zoom",
       },
+      
       // background: colors.primary[400],
     },
+   
     dataLabels: {
       enabled: false,
     },

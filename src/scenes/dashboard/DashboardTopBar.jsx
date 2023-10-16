@@ -17,7 +17,6 @@ import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { options } from "../../global/MockData/MockTraces";
 import Logfilter from "../logs/Logfilter";
 
-
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
@@ -60,9 +59,10 @@ const DashboardTopBar = () => {
     setTraceSummaryService,
     setLogSummaryService,
     setFilterApiBody,
+    setClearTraceFilter,
     setLogFilterApiBody,
+    setClearLogFilter
   } = useContext(GlobalContext);
-  // const [activeTab, setActiveTab] = useState(0);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
 
@@ -70,8 +70,7 @@ const DashboardTopBar = () => {
   const colors = tokens(theme.palette.mode);
 
   const FilterbuttonStyle = {
-    // marginLeft: "20px",
-    backgroundColor: "#339999",
+    backgroundColor: theme.palette.mode==="light"?"#339999":"#A9A9A9",
   };
 
   const iconStyle = {
@@ -80,7 +79,6 @@ const DashboardTopBar = () => {
   };
 
   const handleRefreshClick = () => {
-    // Implement your refresh logic here
     const defaultValue = 120;
     const defaultLabel = options.find(
       (option) => option.value === defaultValue
@@ -103,6 +101,8 @@ const DashboardTopBar = () => {
     setTraceRender(false);
     setLogRender(false);
     setMetricRender(false);
+    setClearTraceFilter(true);
+    setClearLogFilter(true);
     setTraceSummaryService([]);
     setLogSummaryService([]);
   };
@@ -172,7 +172,7 @@ const DashboardTopBar = () => {
               textColor="inherit"
               indicatorColor="primary"
             >
-              <Tab label="Trace Summary" sx={{ color: "#FFF"}} />
+              <Tab label="Trace Summary" sx={{ color: "#FFF" }} />
               <Tab label="Log Summary" sx={{ color: "#FFF" }} />
             </Tabs>
           ) : null}
