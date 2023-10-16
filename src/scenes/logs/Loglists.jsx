@@ -709,7 +709,7 @@ const Loglists = () => {
             sx={{
               padding: "20px",
               height: "68vh",
-              backgroundColor:colors.primary[500]
+              // backgroundColor:colors.primary[500]
             }}
           >
             <div>
