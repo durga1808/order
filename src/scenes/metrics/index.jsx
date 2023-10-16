@@ -224,7 +224,7 @@ const Metrics = () => {
                 key={index}
                 elevation={6}
                 // padding="10px"
-                sx={{backgroundColor:colors.primary[500]}}
+                // sx={{backgroundColor:colors.primary[500]}}
                 style={{ margin: "20px" }}
               >
                 <LineChart data={mock} />
