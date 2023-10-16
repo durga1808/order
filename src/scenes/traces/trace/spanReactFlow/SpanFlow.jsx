@@ -267,7 +267,7 @@ const SpanFlow = () => {
                   <Typography variant="h6"  >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
                   <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
                   </div>
-                  <Card sx={{ width: "100%", color:"#FFF",backgroundColor:selectedTrace.statusCode >= 400 && selectedTrace.statusCode <= 500 ? colors.redAccent[400]:colors.primary[400], display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px 20px 10px 0px" }}>
+                  <Card sx={{ width: "100%", color:"#FFF",backgroundColor:selectedTrace.statusCode >= 400 && selectedTrace.statusCode <= 500 ? colors.redAccent[500]:colors.primary[400], display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px 20px 10px 0px" }}>
                     {orderedSpans.map((span) => (
                       <div key={span.spanId}>
                         <div style={{ width: "fit-content", margin: "5px", overflowX: "auto" }}>{calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms</div>
@@ -278,7 +278,7 @@ const SpanFlow = () => {
                 
               </div>
               <div style={{ maxHeight: "calc(70vh - 70px)" ,overflowY:"auto" }} >
-              <div style={{ height: "450px", width: "100%", border: "solid #000 1px", padding: 10 }}>
+              <div style={{ height: "450px", width: "100%", border: "solid #000 1px",}}>
                 <ReactFlow
                   nodes={nodes}
                   edges={edges}
@@ -286,9 +286,9 @@ const SpanFlow = () => {
                   defaultEdgeOptions={edgeOptions}
                   onNodesChange={onNodesChange}
                   onEdgesChange={onEdgesChange}
-                  
+                  // style={{backgroundColor:colors.primary[400]}}
                 >
-                  <Background style={{backgroundColor:"white"}} />
+                  <Background style={{backgroundColor:colors.spanBackground[500]}} />
                   <Controls />
                 </ReactFlow>
               </div>

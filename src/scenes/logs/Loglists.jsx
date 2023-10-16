@@ -657,10 +657,12 @@ const Loglists = () => {
             ) : null}
           </Box>
           <Card
+         
             sx={{
               padding: "20px",
               height: "71vh",
-              backgroundColor: colors.primary[500],
+
+              // backgroundColor: colors.primary[500],
             }}
           >
             <div>
