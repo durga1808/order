@@ -158,9 +158,9 @@ const Metrics = () => {
 
   return (
     <>
-      <div style={{ height: "calc(93vh - 70px)", overflowY: "auto" }}>
+      <div style={{ height: "calc(92vh - 70px)", overflowY: "auto" }}>
         <div style={{ margin: "5px 10px 5px 10px" }}>
-          <div>
+          <div style={{ padding: "10px"}}>
             <div style={{ fontSize: '12px', paddingBottom: '5px' }}>ServiceBy</div>
             {/* <Select
               value={selectedService}
@@ -224,7 +224,7 @@ const Metrics = () => {
                 key={index}
                 // padding="10px"
                 sx={{backgroundColor:colors.primary[500]}}
-                style={{ margin: "10px 10px 15px 10px" }}
+                style={{ margin: "20px" }}
               >
                 <LineChart data={mock} />
               </Card>

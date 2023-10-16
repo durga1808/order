@@ -139,8 +139,6 @@ const LineChart = ({ data }) => {
       <div
         style={{
           padding: "10px 10px 10px 10px",
-          // border: "1px solid #ddd",
-          // backgroundColor: "#f9f9f9",
         }}
       >
         <Box height="50vh" padding="10px" border="1px">
@@ -149,7 +147,8 @@ const LineChart = ({ data }) => {
             series={series}
             type="area"
             height={330}
-            width={isCollapsed?1380:1210}
+            // width={isCollapsed?1380:1210}
+            width={isCollapsed?1370:1200}
           />
         </Box>
       </div>

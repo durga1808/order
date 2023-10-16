@@ -456,7 +456,7 @@ const TraceList = () => {
           <div
             className="scrollable-div"
             style={{
-              maxHeight: "calc(80vh - 85px)",
+              maxHeight: "calc(73vh - 85px)",
               overflowY: "auto",
             }}
           >
@@ -471,7 +471,7 @@ const TraceList = () => {
                   className="tracelist-card"
                   key={index}
                   sx={{
-                    margin: "10px 0 20px 0",
+                    margin: "10px 0 10px 0",
                     width: "calc(560px-10px)",
                     height: "fit-content",
                     backgroundColor: colors.primary[500],
