@@ -23,6 +23,7 @@ const SpanFlow = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedTrace, setSelectedSpan, traceLoading } = useContext(GlobalContext);
+  console.log("stscode",selectedTrace);
   const [loading, setLoading] = useState(false);
 
   const onNodesChange = useCallback(
@@ -110,7 +111,8 @@ const SpanFlow = () => {
 
 
   const edgeOptions = {
-    animated: true,
+    // animated: true,
+    // backgroundColor:colors.primary[400]
   };
 
   const sortingParentChildOrder = (spanData) => {
@@ -265,7 +267,7 @@ const SpanFlow = () => {
                   <Typography variant="h6"  >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
                   <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
                   </div>
-                  <Card sx={{ width: "100%", color:"#FFF",backgroundColor: colors.primary[400], display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px 20px 10px 0px" }}>
+                  <Card sx={{ width: "100%", color:"#FFF",backgroundColor:selectedTrace.statusCode >= 400 && selectedTrace.statusCode <= 500 ? colors.redAccent[400]:colors.primary[400], display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px 20px 10px 0px" }}>
                     {orderedSpans.map((span) => (
                       <div key={span.spanId}>
                         <div style={{ width: "fit-content", margin: "5px", overflowX: "auto" }}>{calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms</div>
@@ -284,8 +286,9 @@ const SpanFlow = () => {
                   defaultEdgeOptions={edgeOptions}
                   onNodesChange={onNodesChange}
                   onEdgesChange={onEdgesChange}
+                  
                 >
-                  <Background />
+                  <Background style={{backgroundColor:"white"}} />
                   <Controls />
                 </ReactFlow>
               </div>

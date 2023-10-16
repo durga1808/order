@@ -49,8 +49,11 @@ const SideNavbar = () => {
           menuItemStyles={{
             button: ({ level, active, disabled }) => {
               const baseStyles = {
-                color: "#FFF",
                 fontWeight: active ? "bold" : "normal",
+                backgroundColor: active ? colors.hoverColor[500] : "",
+                borderRadius: "10px",
+                color: "#FFF",
+
                 transition: "0.4s ease",
               };
 
@@ -59,7 +62,7 @@ const SideNavbar = () => {
                   ...baseStyles,
                   "&:hover": {
                     backgroundColor: colors.hoverColor[500],
-                    // backgroundColor:colors.tabIndicator[500],
+                    color: "#FFF",
                     borderRadius: "10px",
                   },
                 };
@@ -86,9 +89,7 @@ const SideNavbar = () => {
           <MenuItem
             onClick={handleclose}
             icon={isCollapsed ? <MenuOutlined /> : undefined}
-            
-          
-            style={{margin:"20px 10px 10px 13px",padding:"10px"}}
+            style={{ margin: "20px 10px 10px 13px", padding: "10px" }}
           >
             <Box
               display="flex"
@@ -103,16 +104,14 @@ const SideNavbar = () => {
                 onClick={() => setIsCollapsed(!isCollapsed)}
                 icon={isCollapsed ? <MenuOutlined /> : undefined}
               >
-                <MenuOutlined
-                  style={{ color: colors.tabColor[500] }}
-                />
+                <MenuOutlined style={{ color: colors.tabColor[500] }} />
               </IconButton>
             </Box>
           </MenuItem>
 
           <MenuItem
             component={<Link to="/mainpage/dashboard" />}
-            style={{margin:"0 10px 0 14px",padding:"10px"}}
+            style={{ margin: "0 10px 0 14px", padding: "10px" }}
             active={selected === "Dashboard"}
             icon={<DashboardOutlined />}
             onClick={() => {
@@ -129,7 +128,7 @@ const SideNavbar = () => {
 
           <MenuItem
             component={<Link to="/mainpage/traces" />}
-            style={{margin:"0 10px 0 14px",padding:"10px"}}
+            style={{ margin: "0 10px 0 14px", padding: "10px" }}
             active={selected === "Traces"}
             icon={<TimelineOutlined />}
             onClick={() => {
@@ -142,7 +141,7 @@ const SideNavbar = () => {
 
           <MenuItem
             component={<Link to="/mainpage/metrics" />}
-            style={{margin:"0 10px 0 14px",padding:"10px"}}
+            style={{ margin: "0 10px 0 14px", padding: "10px" }}
             active={selected === "Metrics"}
             icon={<AnalyticsOutlined />}
             onClick={() => {
@@ -155,7 +154,7 @@ const SideNavbar = () => {
 
           <MenuItem
             component={<Link to="/mainpage/logs" />}
-            style={{margin:"0 10px 0 14px",padding:"10px"}}
+            style={{ margin: "0 10px 0 14px", padding: "10px" }}
             active={selected === "Logs"}
             icon={<ReceiptOutlined />}
             onClick={() => {

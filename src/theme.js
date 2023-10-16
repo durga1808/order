@@ -73,7 +73,7 @@ export const tokens = (mode) => ({
         },
 
         tabIndicator: {
-          500: "#000137",
+          500: "#A9A9A9",
         },
         hoverColor: {
           500: "#848482",
