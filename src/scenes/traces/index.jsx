@@ -61,8 +61,7 @@ const Traces = () => {
                   // backgroundColor: colors.primary[500],
                   padding: "15px",
                   width: "100%",
-                  height: "calc(88vh - 75px)",
-                 
+                  height: "calc(87vh - 75px)",
                 }}
               >
                 <TraceList />
@@ -78,7 +77,7 @@ const Traces = () => {
                   // backgroundColor: colors.primary[500],
                   padding: "15px",
                   width: "100%",
-                  height: "calc(88vh - 75px)",
+                  height: "calc(87vh - 75px)",
                   // overflowY: "auto",
                 }}
               >

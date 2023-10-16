@@ -657,17 +657,16 @@ const Loglists = () => {
               onKeyDown={handleSearchKeyDown}
             />
             {!needLogFilterCall ? (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  margin: "-10px 0 10px 0",
-                }}
-              >
-                <div style={{ alignItems: "center" }}>
-                  <label style={{ fontSize: "12px" }}>SortBy</label>
+
+              <Box sx={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                // margin: "-10px 0 10px 0"
+              }}>
+                <div style={{ alignItems: "center", marginBottom: "10px" }}>
+                  <label style={{ fontSize: '12px' }}>SortBy</label>
                   <Dropdown
                     options={sortOrderOptions}
                     placeholder="Sort Order"
@@ -675,6 +674,7 @@ const Loglists = () => {
                     arrowOpen={<span className="arrow-open" />}
                     value={selectedOption}
                     onChange={handleSortOrderChange}
+                    // style={{ marginTop: "5px"}}
                   />
                 </div>
               </Box>
@@ -708,9 +708,8 @@ const Loglists = () => {
          
             sx={{
               padding: "20px",
-              height: "71vh",
-
-              // backgroundColor: colors.primary[500],
+              height: "68vh",
+              backgroundColor:colors.primary[500]
             }}
           >
             <div>
@@ -765,7 +764,7 @@ const Loglists = () => {
                   {" "}
                   <TableContainer
                     sx={{
-                      maxHeight: "calc(73vh - 85px)",
+                      maxHeight: "calc(71vh - 85px)",
                       overflowY: "auto",
                       // backgroundColor:colors.primary[500]
                     }}
