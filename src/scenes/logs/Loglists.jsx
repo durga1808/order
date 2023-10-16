@@ -113,7 +113,7 @@ const Loglists = () => {
     setMetricRender,
     setLogRender,
     setTraceSummaryService,
-    setClearLogFilter,,
+    setClearLogFilter,
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
