@@ -187,7 +187,7 @@ const TraceBarChart = () => {
               <Grid container spacing={2}>
                 {" "}
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={3} style={{ margin: "5px 15px 10px 25px" }}>
+                  <Card elevation={4} style={{ margin: "5px 15px 10px 25px" }}>
                     <CardContent>
                       {/* {integrationdata.map((items) =>
                         items.apiCallCount !== 0 ? (
