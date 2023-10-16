@@ -118,6 +118,7 @@ const TraceList = () => {
   const colors = tokens(theme.palette.mode);
   // const [traceData, setTraceData] = useState([]);
   const {
+    setIsCollapsed,
     setSelectedTrace,
     traceData,
     setTraceData,
@@ -323,6 +324,7 @@ const TraceList = () => {
       apiCall();
     } else {
       dashboardTraceMap();
+      setIsCollapsed(false);
     }
 
   }, [apiCall, filterApiCall, needFilterCall, dashboardTraceMap, traceRender, setLogRender, logTrace, setSelectedTrace, setMetricRender, setLogSummaryService]);
