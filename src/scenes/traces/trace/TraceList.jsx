@@ -138,6 +138,7 @@ const TraceList = () => {
     setMetricRender,
     traceSummaryService,
     setLogSummaryService,
+    setClearTraceFilter,
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -321,8 +322,10 @@ const TraceList = () => {
     if (needFilterCall) {
       filterApiCall();
     } else if (logTrace.length === 0 || !traceRender) {
+      setClearTraceFilter(false);
       apiCall();
     } else {
+      setClearTraceFilter(false);
       dashboardTraceMap();
       setIsCollapsed(false);
     }

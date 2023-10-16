@@ -26,7 +26,7 @@ import {
 } from "@mui/material";
 import Dropdown from "react-dropdown";
 import "./Loglists.css";
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FindByTraceIdForSpans } from "../../api/TraceApiService";
 import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
@@ -113,6 +113,7 @@ const Loglists = () => {
     setMetricRender,
     setLogRender,
     setTraceSummaryService,
+    setClearLogFilter,
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -209,26 +210,32 @@ const Loglists = () => {
   };
 
   function createData(severity, time, traceid, serviceName, message) {
+
+    traceid = traceid === "" ? "No Trace ID" : traceid;
+
     const actionButton = (
       <div>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
           <Tooltip>
-            <Button
-              sx={{
-                m: "8px",
-                backgroundColor: colors.primary[400],
-                color: colors.textColor[500],
-                "&:hover": {
-                  // backgroundColor: "#Black",
-                  // color: "#00000",
-                },
-              }}
-              onClick={() =>
-                traceid !== "" ? handleLogToTrace(traceid) : handleNoTrace()
-              }
-            >
-              Trace
-            </Button>
+            <span>
+              <Button
+                sx={{
+                  m: "8px",
+                  backgroundColor: colors.primary[400],
+                  color: colors.textColor[500],
+                  "&:hover": {
+                    // backgroundColor: "#Black",
+                    // color: "#00000",
+                  },
+                }}
+                disabled={traceid === "No Trace ID"}
+                onClick={() =>
+                  traceid !== "" ? handleLogToTrace(traceid) : handleNoTrace()
+                }
+              >
+                Trace
+              </Button>
+            </span>
           </Tooltip>
 
           <Tooltip>
@@ -236,6 +243,7 @@ const Loglists = () => {
               sx={{
                 m: "8px",
                 backgroundColor: colors.primary[400],
+                color: colors.textColor[500],
                 color: colors.textColor[500],
                 "&:hover": {
                   backgroundColor: "#ffffff",
@@ -348,42 +356,40 @@ const Loglists = () => {
     [lookBackVal, selectedOption, logSummaryService]
   );
 
-  const logFilterApiCall = useCallback(async () => {
-    setLoading(true);
-    try {
-      console.log("Filter callback ");
-      const { data, totalCount } = await LogFilterOption(
-        lookBackVal.value,
-        currentPage,
-        pageLimit,
-        logFilterApiBody
-      );
-      if (data.length !== 0) {
-        const updatedData = createTimeInWords(data);
-        const finalOutput = mapLogData(updatedData);
-        setLogData(finalOutput);
-        console.log(finalOutput);
-        setTotalPageCount(Math.ceil(totalCount / pageLimit));
-      } else {
-        setFilterMessage("No Matched data for this filter!");
+  const logFilterApiCall = useCallback(
+    async () => {
+      setLoading(true);
+      console.log("Filter Body " + logFilterApiBody);
+      try {
+        console.log("Filter callback ");
+        const { data, totalCount } = await LogFilterOption(
+          lookBackVal.value,
+          currentPage,
+          pageLimit,
+          logFilterApiBody
+        );
+        if (data.length !== 0) {
+          const updatedData = createTimeInWords(data);
+          const finalOutput = mapLogData(updatedData);
+          setLogData(finalOutput);
+          console.log(finalOutput);
+          setTotalPageCount(Math.ceil(totalCount / pageLimit));
+        } else {
+          setFilterMessage("No Matched data for this filter!");
+        }
+      } catch (error) {
+        console.log("ERROR from log " + error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.log("ERROR from log " + error);
-    } finally {
-      setLoading(false);
-    }
-  }, [
-    lookBackVal,
-    setLogData,
-    setTotalPageCount,
-    pageLimit,
-    currentPage,
-    logFilterApiBody,
-  ]);
+    },
+    [lookBackVal, setLogData, setTotalPageCount, pageLimit, currentPage, logFilterApiBody]
+  );
 
   // const [searchQuery, setSearchQuery] = useState("");
   const { searchQuery, setSearchQuery } = useContext(GlobalContext);
   const [searchResults, setSearchResults] = useState([]);
+  const [filteredOptions, setFilteredOptions] = useState([]);
 
   const handlePageChange = async (event, selectedPage) => {
     setCurrentPage(Number(selectedPage));
@@ -463,14 +469,30 @@ const Loglists = () => {
   //     searchQuery,
   // ]);
 
+  const createFilterData = () => {
+    const filteredData = [];
+    Object.entries(logFilterApiBody).map(([key, value], index) => {
+      value.forEach((val,index) => {
+        filteredData.push(val);
+      })
+    })
+    console.log("Filtered Data " + filteredData);
+    return filteredData;
+  }
+
   useEffect(() => {
     setTraceSummaryService([]);
     setTraceRender(false);
     setMetricRender(false);
+    console.log("Filtered Data useEffect" + filteredOptions);
     if (needLogFilterCall) {
+      setFilteredOptions(createFilterData());
       console.log("From Filter");
+      setIsCardVisible(false);
+      setIsCollapsed(false);
       logFilterApiCall();
     } else if (globalLogData.length !== 0 && logRender) {
+      setClearLogFilter(false);
       console.log("From Trace");
       setIsCardVisible(false);
       setIsCollapsed(false);
@@ -478,9 +500,11 @@ const Loglists = () => {
       const finalOutput = mapLogData(updatedData);
       setLogData(finalOutput);
     } else if (searchQuery && logRender) {
+      setClearLogFilter(false);
       // setSearchResults([]);
       handleSearch();
     } else {
+      setClearLogFilter(false);
       console.log("From get ALL");
       handleGetAllLogData(currentPage);
     }
@@ -607,7 +631,7 @@ const Loglists = () => {
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "space-evenly",
+              justifyContent: needLogFilterCall ? "flex-start" : "space-around"
             }}
           >
             <TextField
@@ -615,7 +639,7 @@ const Loglists = () => {
               className="search-bar"
               placeholder="Search for message"
               size="large"
-              style={{ borderWidth: "4px", marginBottom: "10px", width: "80%" }}
+              style={{ borderWidth: "4px", marginBottom: "5px", width: "80%" }}
               InputProps={{
                 endAdornment: (
                   <IconButton
@@ -656,6 +680,30 @@ const Loglists = () => {
               </Box>
             ) : null}
           </Box>
+          {needLogFilterCall ? (<div style={{ marginBottom: "5px" }}  >
+            <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start" }} >
+              <Typography variant="h6" fontWeight={"600"}>
+                Filtered By:
+              </Typography>
+              {filteredOptions.map((option, index) => (
+                <React.Fragment key={index} >
+                  <Typography style={{ marginLeft: "5px" }} variant="h6" fontWeight={"600"}>
+                    {option}
+                  </Typography>
+                  {index < filteredOptions.length - 1 && <span>, </span>}
+                </React.Fragment>
+              ))}
+              {/* <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start" }}  >
+              <Typography variant="h6" fontWeight={"600"}>
+                Selected Severities:
+              </Typography>
+              <Typography style={{ marginLeft: "10px" }} variant="h6" fontWeight={"600"}>
+                ERROR, SEVERE
+              </Typography>
+            </div> */}
+            </div>
+
+          </div>) : null}
           <Card
          
             sx={{

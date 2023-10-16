@@ -59,7 +59,9 @@ const DashboardTopBar = () => {
     setTraceSummaryService,
     setLogSummaryService,
     setFilterApiBody,
+    setClearTraceFilter,
     setLogFilterApiBody,
+    setClearLogFilter
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -99,6 +101,8 @@ const DashboardTopBar = () => {
     setTraceRender(false);
     setLogRender(false);
     setMetricRender(false);
+    setClearTraceFilter(true);
+    setClearLogFilter(true);
     setTraceSummaryService([]);
     setLogSummaryService([]);
   };

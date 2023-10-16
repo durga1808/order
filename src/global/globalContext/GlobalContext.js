@@ -38,6 +38,8 @@ const GlobalContextProvider = ({ children }) => {
     const [selectedTraceService, setSelectedTraceService] = useState([]);
     const [traceSummaryService, setTraceSummaryService] = useState([]);
     const [logSummaryService, setLogSummaryService] = useState([]);
+    const [clearTraceFilter, setClearTraceFilter] = useState(false);
+    const [clearLogFilter, setClearLogFilter] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -105,7 +107,11 @@ const GlobalContextProvider = ({ children }) => {
                 traceSummaryService,
                 setTraceSummaryService,
                 logSummaryService,
-                setLogSummaryService
+                setLogSummaryService,
+                clearTraceFilter,
+                setClearTraceFilter,
+                clearLogFilter,
+                setClearLogFilter
             }}
         >
             {children}
