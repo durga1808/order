@@ -118,6 +118,7 @@ const TraceList = () => {
   const colors = tokens(theme.palette.mode);
   // const [traceData, setTraceData] = useState([]);
   const {
+    setIsCollapsed,
     setSelectedTrace,
     traceData,
     setTraceData,
@@ -326,6 +327,7 @@ const TraceList = () => {
     } else {
       setClearTraceFilter(false);
       dashboardTraceMap();
+      setIsCollapsed(false);
     }
 
   }, [apiCall, filterApiCall, needFilterCall, dashboardTraceMap, traceRender, setLogRender, logTrace, setSelectedTrace, setMetricRender, setLogSummaryService]);
@@ -416,12 +418,14 @@ const TraceList = () => {
                     style={{
                       backgroundColor:
                         item.type === "page" && item.page !== currentPage
-                          ? colors.primary[400]
+                          ?null
                           : colors.primary[400],
                       color:
                         item.type === "page" && item.page === currentPage
-                          ? colors.textColor[500]
-                          : colors.textColor[500],
+                          ?"#FFF"
+                          : null,
+
+                      // backgroundColor:colors.primary[]
                     }}
                   />
                 )}

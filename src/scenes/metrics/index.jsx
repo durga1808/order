@@ -1,11 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import MetricLayout from "./MetricLayout";
 import LineChart from "./charts/LineChart";
-// import { Box } from "@mui/material";
 import Box from "@mui/material/Box";
-import { Card, MenuItem, Select, Typography, colors, useTheme } from "@mui/material";
+import { Card, Typography, useTheme } from "@mui/material";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
 import { useContext } from "react";
 import "./MetricLayout.css";
 import { getMetricDataApi } from "../../api/MetricApiService";
@@ -70,16 +69,22 @@ const Metrics = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const handleServiceChange = (event) => {
-    console.log("Service " + event.target.value);
+  // const handleServiceChange = (event) => {
+  //   console.log("Service " + event.target.value);
+  //   setMetricRender(false);
+  //   setSelectedService(event.target.value);
+  // };
+
+  const handleServiceChange = (selectedOption) => {
+    const selectedService = selectedOption.value;
+    console.log("Service " + selectedService);
     setMetricRender(false);
-    setSelectedService(event.target.value);
+    setSelectedService(selectedService);
   };
 
   const handleMetricData = (metricData) => {
     const processedData = metricData.map((metric) => {
       const timestamp = new Date(metric.date).getTime(); // Convert date string to timestamp
-
 
       return {
         x: timestamp,
@@ -147,19 +152,17 @@ const Metrics = () => {
     if (!metricRender) {
       getAllMetricsData(selectedService);
     }
-    // getAllMetricsData();
     setTraceRender(false);
     setLogRender(false);
   }, [getAllMetricsData, setTraceRender, setLogRender, metricRender,selectedService,setTraceSummaryService,setLogSummaryService]);
 
   return (
-    // <MetricLayout/>
     <>
       <div style={{ height: "calc(93vh - 70px)", overflowY: "auto" }}>
         <div style={{ margin: "5px 10px 5px 10px" }}>
           <div>
             <div style={{ fontSize: '12px', paddingBottom: '5px' }}>ServiceBy</div>
-            <Select
+            {/* <Select
               value={selectedService}
               onChange={handleServiceChange}
               displayEmpty
@@ -173,7 +176,15 @@ const Metrics = () => {
                   {service}
                 </MenuItem>
               ))}
-            </Select>
+            </Select> */}
+
+            <Dropdown
+              options={options}
+              value={selectedService}
+              arrowClosed={<span className="arrow-closed" />}
+              arrowOpen={<span className="arrow-open" />}
+              onChange={handleServiceChange}
+            />
           </div>
         </div>
         {loading ? (
