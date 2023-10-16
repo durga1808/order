@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Divider, Drawer, FormControlLabel, FormGroup, IconButton, List, ListItem, Typography } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
@@ -8,7 +8,7 @@ import { GlobalContext } from '../../global/globalContext/GlobalContext';
 const Logfilter = ({ open, onClose }) => {
   const [selectedService, setSelectedService] = useState([]);
   const [selectedSeverity, setSelectedSeverity] = useState([]);
-  const { setLogFilterApiBody, setNeedLogFilterCall } = useContext(GlobalContext);
+  const { setLogFilterApiBody, setNeedLogFilterCall,clearLogFilter, setClearLogFilter } = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
 
   // const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
@@ -23,6 +23,11 @@ const Logfilter = ({ open, onClose }) => {
     }
   };
 
+  const clearSelectedOptions = () => {
+    setSelectedService([]);
+    setSelectedSeverity([]);
+  }
+
   const handleSeverityToggle = (severity) => () => {
     if (selectedSeverity.includes(severity)) {
       setSelectedSeverity(selectedSeverity.filter((item) => item !== severity));
@@ -30,6 +35,12 @@ const Logfilter = ({ open, onClose }) => {
       setSelectedSeverity([...selectedSeverity, severity]);
     }
   }
+
+  useEffect(() => {
+    if(clearLogFilter){
+      clearSelectedOptions();
+    }
+  }, [clearLogFilter])
 
   const handleApplyButtonClick = () => {
     const payload = {
@@ -54,17 +65,13 @@ const Logfilter = ({ open, onClose }) => {
       setLogFilterApiBody(apiBody);
       setNeedLogFilterCall(true);
     } else {
+      setClearLogFilter(false);
       setNeedLogFilterCall(false);
     }
 
 
     onClose();
 
-  }
-
-  const clearSelectedOptions = () => {
-    setSelectedService([]);
-    setSelectedSeverity([]);
   }
 
   return (
