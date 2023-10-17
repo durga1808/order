@@ -6,7 +6,7 @@ import Tab from "@mui/material/Tab";
 import FilterDialog from "./FilterDialog";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, TextField } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-dropdown";
@@ -16,6 +16,10 @@ import { FilterListOutlined, RefreshOutlined } from "@mui/icons-material";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { options } from "../../global/MockData/MockTraces";
 import Logfilter from "../logs/Logfilter";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { DemoItem } from '@mui/x-date-pickers/internals/demo';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { format } from "date-fns";
 
 const DashboardTopBar = () => {
   const navigate = useNavigate();
@@ -61,22 +65,30 @@ const DashboardTopBar = () => {
     setFilterApiBody,
     setClearTraceFilter,
     setLogFilterApiBody,
-    setClearLogFilter
+    setClearLogFilter,
+    selectedStartDate,
+    setSelectedStartDate,
+    selectedEndDate,
+    setSelectedEndDate
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const FilterbuttonStyle = {
-    backgroundColor: theme.palette.mode==="light"?"#339999":"#A9A9A9",
+    backgroundColor: theme.palette.mode === "light" ? "#339999" : "#A9A9A9",
   };
 
   const iconStyle = {
     fontSize: "22px",
     color: "#FFF",
   };
+
+  const formattedDate = format(new Date(), 'yyyy-MM-dd');
 
   const handleRefreshClick = () => {
     const defaultValue = 120;
@@ -105,6 +117,10 @@ const DashboardTopBar = () => {
     setClearLogFilter(true);
     setTraceSummaryService([]);
     setLogSummaryService([]);
+    setSelectedStartDate(formattedDate);
+    setSelectedEndDate(formattedDate);
+    setStartDate(new Date());
+    setEndDate(new Date());
   };
 
   const handleTabChange = (event, newValue) => {
@@ -142,6 +158,21 @@ const DashboardTopBar = () => {
     setTraceGlobalError(null);
   };
 
+  const handleStartDateChange = (date) => {
+    const formattedDate = format(date, 'yyyy-MM-dd');
+    console.log("Formatted Date " + formattedDate);
+    setSelectedStartDate(formattedDate);
+    setStartDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    const formattedDate = format(date, 'yyyy-MM-dd');
+    console.log("Formatted Date " + formattedDate);
+    setSelectedEndDate(formattedDate);
+    setEndDate(date);
+  };
+
+
   return (
     <>
       <AppBar position="static" elevation={0}>
@@ -150,7 +181,7 @@ const DashboardTopBar = () => {
             display: "flex",
             justifyContent:
               window.location.pathname === "/mainpage/dashboard" ||
-              window.location.pathname === "/mainpage/dashboard/logSummary"
+                window.location.pathname === "/mainpage/dashboard/logSummary"
                 ? "space-between"
                 : "flex-end",
             backgroundColor: colors.primary[400],
@@ -158,7 +189,7 @@ const DashboardTopBar = () => {
           }}
         >
           {window.location.pathname === "/mainpage/dashboard" ||
-          window.location.pathname === "/mainpage/dashboard/logSummary" ? (
+            window.location.pathname === "/mainpage/dashboard/logSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -204,6 +235,62 @@ const DashboardTopBar = () => {
                 arrowOpen={<span className="arrow-open" />}
               />
             </div>
+            <div style={{ alignItems: "center", marginBottom: "20px", marginRight: "20px" }}>
+              <label
+                style={{
+                  fontSize: "12px",
+                  marginBottom: "5px",
+                  color: colors.tabColor[500],
+                }}
+              >Start Date</label>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    position: 'relative',
+                  }}
+                >
+                  <DatePicker
+                    sx={{
+                      width: 150,
+                    }}
+                    value={startDate}
+                    onChange={handleStartDateChange}
+                  />
+                </Box>
+              </LocalizationProvider>
+            </div>
+            <div style={{ alignItems: "center", marginBottom: "20px", marginRight: "20px" }}>
+              <label
+                style={{
+                  fontSize: "12px",
+                  marginBottom: "5px",
+                  color: colors.tabColor[500],
+                }}
+              >End Date</label>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Box
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    position: 'relative',
+                  }}
+                >
+                  <DatePicker
+                    value={endDate}
+                    onChange={handleEndDateChange}
+                    sx={{
+                      width: 150,
+                    }}
+                  />
+                </Box>
+              </LocalizationProvider>
+            </div>
             <div
               style={{
                 display: "flex",
@@ -222,7 +309,7 @@ const DashboardTopBar = () => {
               </Tooltip>
             </div>
             {window.location.pathname === "/mainpage/traces" ||
-            window.location.pathname === "/mainpage/logs" ? (
+              window.location.pathname === "/mainpage/logs" ? (
               <Tooltip title="Filter">
                 <IconButton
                   onClick={handleFilterClick}

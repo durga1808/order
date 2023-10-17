@@ -44,6 +44,24 @@ export const TraceFilterOption = async (lookback, page, pageSize, payload) => {
     }
 };
 
+export const TraceFilterOptionWithDate = async (startDate, endDate, page, pageSize, payload) => {
+    try {
+        const response = await axios.post(
+            `${traceURL}/TraceQueryFilter?from=${endDate}&page=${page}&pageSize=${pageSize}&to=${startDate}`,
+            payload,
+            {
+                headers: {
+                    "Content-Type": "application/json", // Set the Content-Type header
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error retrieving users:", error);
+        throw error;
+    }
+};
+
 export const FindByTraceIdForSpans = async (traceId) => {
     try {
         const response = await axios.get(`${traceURL}/findByTraceId?traceId=${traceId}`);

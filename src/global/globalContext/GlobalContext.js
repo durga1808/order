@@ -1,11 +1,12 @@
 import React, { createContext, useState } from "react";
 import { options } from "../MockData/MockTraces";
+import { format } from "date-fns";
 
 const GlobalContext = createContext();
 
 const GlobalContextProvider = ({ children }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
-    const [isCardVisible,setIsCardVisible] = useState(false)
+    const [isCardVisible, setIsCardVisible] = useState(false)
     const [selected, setSelected] = useState(localStorage.getItem("routeName"));
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [selectedTrace, setSelectedTrace] = useState({});
@@ -40,6 +41,9 @@ const GlobalContextProvider = ({ children }) => {
     const [logSummaryService, setLogSummaryService] = useState([]);
     const [clearTraceFilter, setClearTraceFilter] = useState(false);
     const [clearLogFilter, setClearLogFilter] = useState(false);
+    const formattedDate = format(new Date(), 'yyyy-MM-dd');
+    const [selectedStartDate, setSelectedStartDate] = useState(formattedDate);
+    const [selectedEndDate, setSelectedEndDate] = useState(formattedDate);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -111,7 +115,11 @@ const GlobalContextProvider = ({ children }) => {
                 clearTraceFilter,
                 setClearTraceFilter,
                 clearLogFilter,
-                setClearLogFilter
+                setClearLogFilter,
+                selectedStartDate,
+                setSelectedStartDate,
+                selectedEndDate,
+                setSelectedEndDate
             }}
         >
             {children}
