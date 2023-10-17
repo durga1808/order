@@ -11,6 +11,7 @@ import Loading from "../../../global/Loading/Loading";
 import {
   getErroredLogDataForLastTwo,
   getLogSummaryData,
+  getLogSummaryDataWithDate,
 } from "../../../api/LogApiService";
 import { useEffect } from "react";
 import { GlobalContext } from "../../../global/globalContext/GlobalContext";
@@ -20,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
-  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService } = useContext(GlobalContext);
+  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService,selectedStartDate, selectedEndDate } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -31,7 +32,7 @@ const LogBarChart = () => {
   const logSummaryApiCall = useCallback(async () => {
     try {
       setLoading(true);
-      var response = await getLogSummaryData(lookBackVal.value);
+      var response = await getLogSummaryDataWithDate(selectedStartDate,selectedEndDate);
       // const traceSummaryData = JSON.parse(JSON.stringify(response));
       if (response.length !== 0) {
         setintegrationdata(response);
@@ -46,7 +47,7 @@ const LogBarChart = () => {
       setErrorMessage("An Error Occurred!");
       setLoading(false);
     }
-  }, [lookBackVal]);
+  }, [selectedStartDate,selectedEndDate]);
 
   // const errordataforlasttwo =async ()=>{
   //   const response = await getErroredLogDataForLastTwo(page,pageSize,serviceName);

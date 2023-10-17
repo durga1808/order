@@ -32,6 +32,24 @@ export const getLogSummaryData = async (timeMinutesAgo) => {
   }
 };
 
+export const getLogSummaryDataWithDate = async (startDate,endDate) => {
+  try {
+    // Get the list of service names from localStorage and parse it
+    const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+
+    // Construct the URL with the service names
+    const serviceNameListParam = serviceListData.join('&serviceNameList=');
+    console.log(`${logUrl}/LogSummaryChartDataCount?from=${endDate}&serviceNameList=${serviceNameListParam}&to=${startDate}`);
+    const response = await axios.get(
+      `${logUrl}/LogSummaryChartDataCount?from=${endDate}&serviceNameList=${serviceNameListParam}&to=${startDate}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
+  }
+};
+
 export const getErroredLogDataForLastTwo = async (
   page,
   pageSize,
@@ -60,9 +78,33 @@ export const getAllLogBySorts = async (
     const serviceNameListParam = serviceListData.join('&serviceNameList=');
     console.log("GET ALL " + `${logUrl}/getallLogdata-sortorder?minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}`);
     // Construct the URL with the service names
-    
+
     const response = await axios.get(
       `${logUrl}/getallLogdata-sortorder?minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
+  }
+};
+
+export const getAllLogBySortsWithDate = async (
+  startDate,
+  endDate,
+  page,
+  pageSize,
+  sortOrder,
+  serviceListData
+) => {
+  try {
+    // Get the list of service names from localStorage and parse it
+    const serviceNameListParam = serviceListData.join('&serviceNameList=');
+    console.log("GET ALL " + `${logUrl}/getallLogdata-sortorder?endDate=${startDate}&page=${page}&pageSize=${pageSize}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}&startDate=${endDate}`);
+    // Construct the URL with the service names
+
+    const response = await axios.get(
+      `${logUrl}/getallLogdata-sortorder?endDate=${startDate}&page=${page}&pageSize=${pageSize}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}&startDate=${endDate}`
     );
     return response.data;
   } catch (error) {
@@ -104,9 +146,39 @@ export const LogFilterOption = async (minutesAgo, page, pageSize, payload) => {
   }
 };
 
+
+export const LogFilterOptionWithDate = async (startDate, endDate, page, pageSize, payload) => {
+  try {
+    console.log(`${logUrl}/filterLogs?endDate=${startDate}&page=${page}&pageSize=${pageSize}&startDate=${endDate}` + JSON.stringify(payload));
+    const response = await axios.post(
+      `${logUrl}/filterLogs?endDate=${startDate}&page=${page}&pageSize=${pageSize}&startDate=${endDate}`,
+      payload,
+      {
+        headers: {
+          "Content-Type": "application/json", // Set the Content-Type header
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
+  }
+};
+
 export const searchLogs = async (keyword, minutesAgo, page, pageSize) => {
   try {
     const response = await axios.get(`${logUrl}/searchFunction?keyword=${keyword}&minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
+  }
+};
+
+export const searchLogsWithDate = async (keyword, startDate, endDate, page, pageSize) => {
+  try {
+    const response = await axios.get(`${logUrl}/searchFunction?endDate=${startDate}&keyword=${keyword}&page=${page}&pageSize=${pageSize}&startDate=${endDate}`);
     return response.data;
   } catch (error) {
     console.error("Error retrieving users:", error);
