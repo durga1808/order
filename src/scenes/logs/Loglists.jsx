@@ -226,6 +226,8 @@ const Loglists = () => {
                   "&:hover": {
                     // backgroundColor: "#Black",
                     // color: "#00000",
+                    backgroundColor: "#ffffff",
+                  color: "black",
                   },
                 }}
                 disabled={traceid === "No Trace ID"}
@@ -243,7 +245,6 @@ const Loglists = () => {
               sx={{
                 m: "8px",
                 backgroundColor: colors.primary[400],
-                color: colors.textColor[500],
                 color: colors.textColor[500],
                 "&:hover": {
                   backgroundColor: "#ffffff",
@@ -663,7 +664,7 @@ const Loglists = () => {
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-                // margin: "-10px 0 10px 0"
+                margin: "-10px 0 10px 0"
               }}>
                 <div style={{ alignItems: "center", marginBottom: "10px" }}>
                   <label style={{ fontSize: '12px' }}>SortBy</label>
