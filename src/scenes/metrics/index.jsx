@@ -128,6 +128,9 @@ const Metrics = () => {
     setLoading(true);
     try {
       console.log("Selected service " + service);
+      console.log("startTImne in passinf=====",selectedStartDate);
+      console.log("endTImne in passinf=====",selectedEndDate);
+      
       const metricData = await getMetricDataApi(service, selectedStartDate, selectedEndDate);
       if (metricData.length !== 0) {
         console.log("metric data " + JSON.stringify(metricData));
