@@ -167,6 +167,7 @@ const DashboardTopBar = () => {
   const handleStartDateChange = (date) => {
     const formattedDate = format(date, 'yyyy-MM-dd');
     console.log("Formatted Date " + formattedDate);
+    setMetricRender(false);
     setSelectedStartDate(formattedDate);
     setStartDate(date);
   };
@@ -174,6 +175,7 @@ const DashboardTopBar = () => {
   const handleEndDateChange = (date) => {
     const formattedDate = format(date, 'yyyy-MM-dd');
     console.log("Formatted Date " + formattedDate);
+    setMetricRender(false);
     setSelectedEndDate(formattedDate);
     setEndDate(date);
   };
