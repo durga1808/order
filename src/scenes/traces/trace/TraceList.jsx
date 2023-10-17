@@ -25,6 +25,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {
   FindByTraceIdForSpans,
   TraceFilterOption,
+  TraceFilterOptionWithDate,
   TraceListPaginationApi,
 } from "../../../api/TraceApiService";
 import { formatDistanceToNow, parseISO } from "date-fns";
@@ -143,6 +144,8 @@ const TraceList = () => {
     traceSummaryService,
     setLogSummaryService,
     setClearTraceFilter,
+    selectedStartDate,
+    selectedEndDate
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -224,8 +227,9 @@ const TraceList = () => {
       console.log("Trace filter called!");
       // setTraceLoading(true);
       setLoading(true);
-      const { data, totalCount } = await TraceFilterOption(
-        lookBackVal.value,
+      const { data, totalCount } = await TraceFilterOptionWithDate(
+        selectedStartDate,
+        selectedEndDate,
         currentPage,
         pageLimit,
         filterApiBody
@@ -253,7 +257,8 @@ const TraceList = () => {
     pageLimit,
     currentPage,
     filterApiBody,
-    lookBackVal,
+    selectedStartDate,
+    selectedEndDate,
     setTraceData,
     setTotalPageCount,
     setTraceGlobalEmpty,
