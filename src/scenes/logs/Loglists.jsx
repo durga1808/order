@@ -657,7 +657,7 @@ const Loglists = () => {
             elevation={6}
             sx={{
               padding: "20px",
-              height: "68vh",
+              height: "66vh",
             }}
           >
             <div>

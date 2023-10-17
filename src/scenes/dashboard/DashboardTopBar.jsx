@@ -299,11 +299,21 @@ const DashboardTopBar = () => {
             </div>
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                marginRight: "20px",
+                alignItems: "center", marginBottom: "20px", marginRight: "20px" 
               }}
             >
+              <label style={{fontSize: "12px",
+                  marginBottom: "5px",
+                  color: colors.tabColor[500],}}>Refresh</label>
+              <Box
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    position: 'relative',
+                  }}
+                >
               <Tooltip title="Refresh">
                 <IconButton
                   onClick={handleRefreshClick}
@@ -313,17 +323,35 @@ const DashboardTopBar = () => {
                   <RefreshOutlined style={iconStyle} />
                 </IconButton>
               </Tooltip>
+              </Box>
             </div>
             {window.location.pathname === "/mainpage/traces" ||window.location.pathname === "/mainpage/metrics"||
             window.location.pathname === "/mainpage/logs" ? (
-              <Tooltip title="Filter">
-                <IconButton
-                  onClick={handleFilterClick}
-                  style={FilterbuttonStyle}
-                >
-                  <FilterListOutlined style={iconStyle} />
-                </IconButton>
-              </Tooltip>
+              <div
+              style={{
+                alignItems: "center", marginBottom: "20px", marginRight: "20px" 
+              }}
+              >
+                <label style={{fontSize: "12px", marginBottom: "5px", color: colors.tabColor[500]}}>Filter</label>
+                <Box
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      position: 'relative',
+                    }}
+                  >
+                  <Tooltip title="Filter">
+                    <IconButton
+                      onClick={handleFilterClick}
+                      style={FilterbuttonStyle}
+                    >
+                      <FilterListOutlined style={iconStyle} />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </div>
             ) : null}
           </Box>
         </Toolbar>
