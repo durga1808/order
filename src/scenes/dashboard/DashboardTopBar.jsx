@@ -249,7 +249,7 @@ const DashboardTopBar = () => {
                   color: colors.tabColor[500],
                 }}
               >Start Date</label>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <LocalizationProvider  dateAdapter={AdapterDateFns}>
                 <Box
                   sx={{
                     width: '100%',
@@ -257,11 +257,15 @@ const DashboardTopBar = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     position: 'relative',
+                   
+                   
                   }}
                 >
                   <DatePicker
                     sx={{
                       width: 150,
+                      backgroundColor:theme.palette.mode==="light"?"#FFF":"2C3539",
+                      
                     }}
                     value={startDate}
                     onChange={handleStartDateChange}
@@ -292,6 +296,7 @@ const DashboardTopBar = () => {
                     onChange={handleEndDateChange}
                     sx={{
                       width: 150,
+                      backgroundColor:theme.palette.mode==="light"?"#FFF":"2C3539"
                     }}
                   />
                 </Box>
