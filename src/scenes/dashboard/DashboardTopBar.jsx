@@ -16,6 +16,7 @@ import { FilterListOutlined, RefreshOutlined } from "@mui/icons-material";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { options } from "../../global/MockData/MockTraces";
 import Logfilter from "../logs/Logfilter";
+import Metricfilter from "../metrics/Metricfilter";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
@@ -73,6 +74,7 @@ const DashboardTopBar = () => {
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
+  const [metricFilterDialogOpen, setmetricFilterDialogOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
@@ -138,6 +140,8 @@ const DashboardTopBar = () => {
       setLogFilterDialogOpen(true);
     } else if (window.location.pathname === "/mainpage/traces") {
       setFilterDialogOpen(true);
+    }else if(window.location.pathname === "/mainpage/metrics"){
+      setmetricFilterDialogOpen(true);
     }
   };
 
@@ -147,6 +151,8 @@ const DashboardTopBar = () => {
       setLogFilterDialogOpen(false);
     } else if (window.location.pathname === "/mainpage/traces") {
       setFilterDialogOpen(false);
+    }else if(window.location.pathname === "/mainpage/metrics"){
+      setmetricFilterDialogOpen(false);
     }
   };
 
@@ -308,8 +314,8 @@ const DashboardTopBar = () => {
                 </IconButton>
               </Tooltip>
             </div>
-            {window.location.pathname === "/mainpage/traces" ||
-              window.location.pathname === "/mainpage/logs" ? (
+            {window.location.pathname === "/mainpage/traces" ||window.location.pathname === "/mainpage/metrics"||
+            window.location.pathname === "/mainpage/logs" ? (
               <Tooltip title="Filter">
                 <IconButton
                   onClick={handleFilterClick}
@@ -323,6 +329,8 @@ const DashboardTopBar = () => {
         </Toolbar>
       </AppBar>
       <FilterDialog open={filterDialogOpen} onClose={handleFilterDialogClose} />
+
+      <Metricfilter open={metricFilterDialogOpen} onClose={handleFilterDialogClose}/> 
 
       <Logfilter open={logFilterDialogOpen} onClose={handleFilterDialogClose} />
     </>

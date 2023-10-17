@@ -9,6 +9,8 @@ import {
   CardHeader,
   Pagination,
   Button,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import "./TraceList.css";
 import { tokens } from "../../../theme";
@@ -34,6 +36,8 @@ import { findLogByTraceId } from "../../../api/LogApiService";
 import { useNavigate } from "react-router-dom";
 import PaginationItem from "@mui/material/PaginationItem";
 import OutboundSharpIcon from '@mui/icons-material/OutboundSharp';
+import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 
 const mockTraces = [
   {
@@ -362,10 +366,15 @@ const TraceList = () => {
     }
   };
 
-  const handleSortOrderChange = (selectedValue) => {
-    console.log("SORT " + selectedValue.value);
-    setSelectedSortOrder(selectedValue.value);
-  };
+  // const handleSortOrderChange = (selectedValue) => {
+  //   console.log("SORT " + selectedValue.value);
+  //   setSelectedSortOrder(selectedValue.value);
+  // };
+
+  const handleSortOrderChange = (event) => {
+    console.log("SORT " + event);
+    setSelectedSortOrder(event.target.value);
+  }
 
   const customPageStyles = {
     backgroundColor: colors.greenAccent[500], // Change 'blue' to your desired background color for the page numbers
@@ -377,7 +386,7 @@ const TraceList = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div>
+        <div >
           <Box
             display="flex"
             flexDirection="row"
@@ -447,18 +456,32 @@ const TraceList = () => {
                   margin: "5px 0 20px 0",
                 }}
               >
-                <div style={{ alignItems: "center", marginBottom: "5px" }}>
+                <div style={{ display: "flex", flexDirection: "column", marginBottom: "5px" }}>
                   <label style={{ fontSize: "12px", marginBottom: "5px" }}>
                     SortBy
                   </label>
-                  <Dropdown
+                  {/* <Dropdown
                     options={sortOrderOptions}
                     placeholder="Sort Order"
                     arrowClosed={<span className="arrow-closed" />}
                     arrowOpen={<span className="arrow-open" />}
                     value={selectedSortOrder}
                     onChange={handleSortOrderChange}
-                  />
+                  /> */}
+                  <Select
+                    value={selectedSortOrder}
+                    onChange={handleSortOrderChange}
+                    sx={{ width: "150px", height: "41px" }}
+                  >
+                    <MenuItem value="" disabled>
+                      Sort Order
+                    </MenuItem>
+                    {sortOrderOptions.map((option, index) => (
+                      <MenuItem key={index} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </div>
               </Box>
             ) : null}
@@ -478,13 +501,14 @@ const TraceList = () => {
             >
               {traceData.map((trace, index) => (
                 <Card
+                elevation={4}
                   className="tracelist-card"
                   key={index}
                   sx={{
                     margin: "10px 0 20px 0",
                     width: "calc(560px-10px)",
                     height: "fit-content",
-                    backgroundColor: colors.primary[500],
+                    
                   }}
                 >
                   {/* <CardActionArea> */}
@@ -515,7 +539,7 @@ const TraceList = () => {
                       </span>
                       <span>
                         {trace.duration}ms{" "}
-                        {trace.traceId === activeTraceId ?activeTraceIcon ? <OutboundSharpIcon style={{color:"#FFF"}} /> : null:null}
+                        {trace.traceId === activeTraceId ?activeTraceIcon ? <ArrowForwardOutlinedIcon style={{color:"#000",}} /> : null:null}
                       </span>
                     </Typography>
                   </Box>

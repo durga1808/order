@@ -58,7 +58,7 @@ const Traces = () => {
               <Card
                elevation={4}
                 sx={{
-                  // backgroundColor: colors.primary[500],
+                  // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
                   width: "100%",
                   height: "calc(87vh - 75px)",
@@ -74,7 +74,7 @@ const Traces = () => {
               <Card
                elevation={4}
                 sx={{
-                  // backgroundColor: colors.primary[500],
+                  // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
                   width: "100%",
                   height: "calc(87vh - 75px)",
