@@ -26,6 +26,31 @@ export const TraceListPaginationApi = async (
     }
 };
 
+export const TraceListPaginationApiWithDate = async (
+    page,
+    itemsPerPage,
+    startDate,
+    endDate,
+    sortOrder,
+    serviceListData
+) => {
+    try {
+        // Get the list of service names from localStorage and parse it
+        // const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+
+        // Construct the URL with the service names
+        const serviceNameListParam = serviceListData.join('&serviceNameList=');
+        // console.log(`${traceURL}/getalldata-sortorder?minutesAgo=${interval}&page=${page}&pageSize=${itemsPerPage}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}`);
+        const response = await axios.get(
+            `${traceURL}/getalldata-sortorder?from=${endDate}&page=${page}&pageSize=${itemsPerPage}&serviceNameList=${serviceNameListParam}&sortOrder=${sortOrder}&to=${startDate}`
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Error retrieving users:", error);
+        throw error;
+    }
+};
+
 export const TraceFilterOption = async (lookback, page, pageSize, payload) => {
     try {
         const response = await axios.post(
@@ -86,6 +111,28 @@ export const getTraceSummaryData = async (timeMinutesAgo) => {
 
         const response = await axios.get(
             `${traceURL}/TraceSumaryChartDataCount?serviceNameList=${serviceNameListParam}&timeAgoMinutes=${timeMinutesAgo}`
+        )
+        return response.data;
+    } catch (error) {
+        console.error("Error retrieving users:", error);
+        throw error;
+    }
+};
+
+export const getTraceSummaryDataWithDate = async (startDate,endDate) => {
+    try {
+        // Get the list of service names from localStorage and parse it
+        const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+
+        // Construct the URL with the service names
+        // const serviceNameListParam = serviceListData.join('&serviceNameList=');
+
+        const serviceNameListParam = serviceListData.join('&serviceNameList=');
+
+        console.log(`${traceURL}/TraceSumaryChartDataCount?from=${endDate}&serviceNameList=${serviceNameListParam}&to=${startDate}`)
+
+        const response = await axios.get(
+            `${traceURL}/TraceSumaryChartDataCount?from=${endDate}&serviceNameList=${serviceNameListParam}&to=${startDate}`
         )
         return response.data;
     } catch (error) {

@@ -10,6 +10,7 @@ import ServiceTable from "./TraceCharts/ServiceTable";
 import {
   getRecentTraceList,
   getTraceSummaryData,
+  getTraceSummaryDataWithDate,
 } from "../../../api/TraceApiService";
 import { GlobalContext } from "../../../global/globalContext/GlobalContext";
 import { useEffect } from "react";
@@ -24,7 +25,8 @@ const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
-  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService, setMetricRender, setTraceSummaryService,setLogSummaryService } = useContext(GlobalContext);
+  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService, setMetricRender, setTraceSummaryService, setLogSummaryService, selectedStartDate,
+    selectedEndDate } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -36,7 +38,7 @@ const TraceBarChart = () => {
   const traceSummaryApiCall = useCallback(async () => {
     try {
       setLoading(true);
-      var response = await getTraceSummaryData(lookBackVal.value);
+      var response = await getTraceSummaryDataWithDate(selectedStartDate, selectedEndDate);
       if (response.length !== 0) {
         setintegrationdata(response);
       } else {
@@ -50,7 +52,7 @@ const TraceBarChart = () => {
       setErrorMessage("An error Occurred!");
       setLoading(false);
     }
-  }, [lookBackVal]);
+  }, [selectedStartDate, selectedEndDate]);
 
   useEffect(() => {
     setErrorMessage("");
@@ -62,7 +64,7 @@ const TraceBarChart = () => {
     setActiveTab(0);
     setTraceRender(false);
     setLogRender(false)
-  }, [traceSummaryApiCall, setActiveTab, setTraceRender, setLogRender, setMetricRender,setTraceSummaryService,setLogSummaryService]);
+  }, [traceSummaryApiCall, setActiveTab, setTraceRender, setLogRender, setMetricRender, setTraceSummaryService, setLogSummaryService]);
 
   const handleBarClick = (selectedDataPointIndex, selectedSeriesName) => {
     ///DONT REMOVE THIS CODE-----------------//
@@ -143,7 +145,7 @@ const TraceBarChart = () => {
                 <Grid item xs={12}>
                   <Card elevation={3} style={{ margin: "25px" }}>
                     <CardContent>
-                      {hasErrChartData || hasSuccChartData? (
+                      {hasErrChartData || hasSuccChartData ? (
                         <ErrSucssCallCountChart
                           ErrSuccessData={integrationdata}
                           onBarClick={handleBarClick}

@@ -16,12 +16,14 @@ import {
   Radio,
   RadioGroup,
   Typography,
+  useTheme,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import { useContext } from "react";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { getMetricDataApi } from "../../api/MetricApiService";
+import { tokens } from "../../theme";
 
 const Metricfilter = ({ open, onClose }) => {
   const { selectedService, setSelectedService, setMetricRender } =
@@ -30,7 +32,7 @@ const Metricfilter = ({ open, onClose }) => {
     JSON.parse(localStorage.getItem("serviceListData"))
   );
 
-  //   console.log("metricservice", services);
+  const theme = useTheme();
 
   const clearSelectedOptions = () => {
     setSelectedService([]);
@@ -95,24 +97,18 @@ const Metricfilter = ({ open, onClose }) => {
                   <RadioGroup
                     value={selectedService}
                     sx={{
-                      color: "black",
-                      "& .Mui-checked": {
-                        color: "blue", // Customize the active state color here
-                      },
+                      color: theme.palette.mode === "light" ? "#000" : "#FFF",
                     }}
                   >
                     {services.map((service) => (
                       <FormControlLabel
                         key={service}
                         value={service}
-                        control={<Radio />}
+                        control={
+                          <Radio sx={{ "&.Mui-checked": { color: "blue" } }} />
+                        }
                         label={service}
                         onChange={handleServiceToggle(service)}
-                        sx={{
-                          "&.Mui-checked": {
-                            color: "blue",
-                          },
-                        }}
                       />
                     ))}
                   </RadioGroup>

@@ -57,7 +57,7 @@ const Metrics = () => {
   //   "DeliveryService",
   // ];
 
-  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService,selectedService ,setSelectedService} = useContext(GlobalContext);
+  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService,selectedService ,setSelectedService, selectedStartDate, selectedEndDate} = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
   const options = services.map((serve) => serve);
   // const [selectedService, setSelectedService] = useState((services && services.length > 0) ? services[0] : null);
@@ -128,7 +128,7 @@ const Metrics = () => {
     setLoading(true);
     try {
       console.log("Selected service " + service);
-      const metricData = await getMetricDataApi(service, lookBackVal.value);
+      const metricData = await getMetricDataApi(service, selectedStartDate, selectedEndDate);
       if (metricData.length !== 0) {
         console.log("metric data " + JSON.stringify(metricData));
         handleMetricData(metricData);
@@ -142,7 +142,7 @@ const Metrics = () => {
       setMetricRender(true);
       setLoading(false);
     }
-  }, [lookBackVal, setMetricRender]);
+  }, [selectedStartDate, selectedEndDate, setMetricRender]);
 
   useEffect(() => {
     console.log("Selected Service " + selectedService);

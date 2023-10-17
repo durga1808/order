@@ -76,7 +76,7 @@ const DashboardTopBar = () => {
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
   const [metricFilterDialogOpen, setmetricFilterDialogOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(null);
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -222,7 +222,7 @@ const DashboardTopBar = () => {
               mr: "5px",
             }}
           >
-            <div style={{ alignItems: "center", marginBottom: "20px" }}>
+            {/* <div style={{ alignItems: "center", marginBottom: "20px" }}>
               <label
                 style={{
                   fontSize: "12px",
@@ -240,7 +240,7 @@ const DashboardTopBar = () => {
                 arrowClosed={<span className="arrow-closed" />}
                 arrowOpen={<span className="arrow-open" />}
               />
-            </div>
+            </div> */}
             <div style={{ alignItems: "center", marginBottom: "20px", marginRight: "20px" }}>
               <label
                 style={{
@@ -248,8 +248,8 @@ const DashboardTopBar = () => {
                   marginBottom: "5px",
                   color: colors.tabColor[500],
                 }}
-              >Start Date</label>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
+              >Today's Date</label>
+              <LocalizationProvider  dateAdapter={AdapterDateFns}>
                 <Box
                   sx={{
                     width: '100%',
@@ -257,11 +257,14 @@ const DashboardTopBar = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     position: 'relative',
+                   
                   }}
                 >
                   <DatePicker
                     sx={{
                       width: 150,
+                      backgroundColor:theme.palette.mode==="light"?"#FFF":"2C3539",
+                      
                     }}
                     value={startDate}
                     onChange={handleStartDateChange}
@@ -276,7 +279,7 @@ const DashboardTopBar = () => {
                   marginBottom: "5px",
                   color: colors.tabColor[500],
                 }}
-              >End Date</label>
+              >Previous Date</label>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Box
                   sx={{
@@ -292,6 +295,7 @@ const DashboardTopBar = () => {
                     onChange={handleEndDateChange}
                     sx={{
                       width: 150,
+                      backgroundColor:theme.palette.mode==="light"?"#FFF":"2C3539"
                     }}
                   />
                 </Box>
