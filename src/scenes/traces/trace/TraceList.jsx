@@ -526,10 +526,8 @@ const TraceList = () => {
                           trace.statusCode >= 400 && trace.statusCode <= 500
                             ? colors.redAccent[500]
                             : colors.primary[400],
-                        color:
-                          trace.statusCode >= 400 && trace.statusCode <= 500
-                            ? "#FFF"
-                            : colors.textColor[500],
+                        color:"#FFF",
+                            
                         padding: "5px",
                       }}
                     >
@@ -565,10 +563,7 @@ const TraceList = () => {
                             trace.statusCode >= 400 && trace.statusCode <= 500
                               ? colors.redAccent[500]
                               : colors.primary[400],
-                          color:
-                            trace.statusCode >= 400 && trace.statusCode <= 500
-                              ? "#FFF"
-                              : colors.textColor[500],
+                          color:"#FFF",
                           "&:hover": {
                             backgroundColor: "#ffffff",
                             color: colors.primary[600],
@@ -587,10 +582,7 @@ const TraceList = () => {
                             trace.statusCode >= 400 && trace.statusCode <= 500
                               ? colors.redAccent[500]
                               : colors.primary[400],
-                          color:
-                            trace.statusCode >= 400 && trace.statusCode <= 500
-                              ? "#FFF"
-                              : colors.textColor[500],
+                          color:"#FFF",
                           "&:hover": {
                             backgroundColor: "#ffffff",
                             color: colors.primary[600],

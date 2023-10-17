@@ -583,8 +583,6 @@ const Loglists = () => {
             }}
           >
             <TextField
-              id="outlined-multiline-flexible"
-              className="search-bar"
               placeholder="Search for message"
               size="large"
               style={{ marginBottom: "5px", width: "80%", marginTop: "6px" }}
@@ -663,6 +661,7 @@ const Loglists = () => {
           </div>) : null}
 
           <Card
+            elevation={6}
             sx={{
               padding: "20px",
               height: "68vh",
