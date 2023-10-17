@@ -76,7 +76,7 @@ const DashboardTopBar = () => {
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
   const [metricFilterDialogOpen, setmetricFilterDialogOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(null);
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -248,7 +248,7 @@ const DashboardTopBar = () => {
                   marginBottom: "5px",
                   color: colors.tabColor[500],
                 }}
-              >Start Date</label>
+              >Today's Date</label>
               <LocalizationProvider  dateAdapter={AdapterDateFns}>
                 <Box
                   sx={{
@@ -257,7 +257,6 @@ const DashboardTopBar = () => {
                     display: 'flex',
                     justifyContent: 'center',
                     position: 'relative',
-                   
                    
                   }}
                 >
@@ -280,7 +279,7 @@ const DashboardTopBar = () => {
                   marginBottom: "5px",
                   color: colors.tabColor[500],
                 }}
-              >End Date</label>
+              >Previous Date</label>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Box
                   sx={{
