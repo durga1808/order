@@ -9,6 +9,8 @@ import {
   CardHeader,
   Pagination,
   Button,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import "./TraceList.css";
 import { tokens } from "../../../theme";
@@ -357,10 +359,15 @@ const TraceList = () => {
     }
   };
 
-  const handleSortOrderChange = (selectedValue) => {
-    console.log("SORT " + selectedValue.value);
-    setSelectedSortOrder(selectedValue.value);
-  };
+  // const handleSortOrderChange = (selectedValue) => {
+  //   console.log("SORT " + selectedValue.value);
+  //   setSelectedSortOrder(selectedValue.value);
+  // };
+
+  const handleSortOrderChange = (event) => {
+    console.log("SORT " + event);
+    setSelectedSortOrder(event.target.value);
+  }
 
   const customPageStyles = {
     backgroundColor: colors.greenAccent[500], // Change 'blue' to your desired background color for the page numbers
@@ -442,18 +449,32 @@ const TraceList = () => {
                   margin: "5px 0 20px 0",
                 }}
               >
-                <div style={{ alignItems: "center", marginBottom: "5px" }}>
+                <div style={{ display: "flex", flexDirection: "column", marginBottom: "5px" }}>
                   <label style={{ fontSize: "12px", marginBottom: "5px" }}>
                     SortBy
                   </label>
-                  <Dropdown
+                  {/* <Dropdown
                     options={sortOrderOptions}
                     placeholder="Sort Order"
                     arrowClosed={<span className="arrow-closed" />}
                     arrowOpen={<span className="arrow-open" />}
                     value={selectedSortOrder}
                     onChange={handleSortOrderChange}
-                  />
+                  /> */}
+                  <Select
+                    value={selectedSortOrder}
+                    onChange={handleSortOrderChange}
+                    sx={{ width: "150px", height: "41px" }}
+                  >
+                    <MenuItem value="" disabled>
+                      Sort Order
+                    </MenuItem>
+                    {sortOrderOptions.map((option, index) => (
+                      <MenuItem key={index} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </div>
               </Box>
             ) : null}

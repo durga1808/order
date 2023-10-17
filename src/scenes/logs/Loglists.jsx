@@ -11,20 +11,17 @@ import {
   CardContent,
   Grid,
   IconButton,
-  List,
-  ListItem,
   Pagination,
   Paper,
   Stack,
-  TablePagination,
   TextField,
   Tooltip,
   Typography,
   styled,
   useTheme,
-  createTheme,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import Dropdown from "react-dropdown";
 import "./Loglists.css";
 import React, { useContext, useState } from "react";
 import { FindByTraceIdForSpans } from "../../api/TraceApiService";
@@ -35,12 +32,10 @@ import { useCallback } from "react";
 import { LogFilterOption, getAllLogBySorts } from "../../api/LogApiService";
 import { useEffect } from "react";
 import { SearchOutlined } from "@mui/icons-material";
-import { Drawer } from "@mui/material";
 import { tokens } from "../../theme";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import Loading from "../../global/Loading/Loading";
 import { searchLogs } from "../../api/LogApiService";
-import { ThemeProvider } from "@emotion/react";
 import PaginationItem from "@mui/material/PaginationItem";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -147,10 +142,6 @@ const Loglists = () => {
     setIsCardVisible(true);
   };
 
-  const closeDrawer = () => {
-    setIsRightDrawerOpen(false);
-  };
-
   const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: colors.primary[400],
@@ -224,10 +215,8 @@ const Loglists = () => {
                   backgroundColor: colors.primary[400],
                   color: colors.textColor[500],
                   "&:hover": {
-                    // backgroundColor: "#Black",
-                    // color: "#00000",
                     backgroundColor: "#ffffff",
-                  color: "black",
+                    color: "black",
                   },
                 }}
                 disabled={traceid === "No Trace ID"}
@@ -321,10 +310,6 @@ const Loglists = () => {
   const handleGetAllLogData = useCallback(
     async (newpage) => {
       setLoading(true);
-      // setFilterMessage("");
-      // setGetAllMessage("");
-      // setNoMatchMessage("");
-      // setSearchResults("");
       try {
         setLogData([]);
         let serviceListData = [];
@@ -436,40 +421,6 @@ const Loglists = () => {
     }
   };
 
-  // useEffect(() => {
-
-  //     if (globalLogData.length !== 0) {
-  //         console.log("From Trace");
-  //         const updatedData = createTimeInWords(globalLogData);
-  //         const finalOutput = mapLogData(updatedData);
-  //         setLogData(finalOutput);
-  //     } else if (needLogFilterCall) {
-  //         console.log("From Filter");
-  //         logFilterApiCall(currentPage, logFilterApiBody);
-  //     } else if (recentLogData.length !== 0) {
-  //         console.log("From recent log data");
-  //         const updatedData = createTimeInWords(recentLogData);
-  //         const finalOutput = mapLogData(updatedData);
-  //         setLogData(finalOutput);
-  //     } else if (searchQuery) {
-  //         // setSearchResults([]);
-  //         handleSearch();
-  //     } else {
-  //         console.log("From get ALL");
-  //         handleGetAllLogData(currentPage);
-  //     }
-  // }, [
-  //     currentPage,
-  //     setTraceRender,
-  //     handleGetAllLogData,
-  //     globalLogData,
-  //     logFilterApiBody,
-  //     logFilterApiCall,
-  //     needLogFilterCall,
-  //     recentLogData,
-  //     searchQuery,
-  // ]);
-
   const createFilterData = () => {
     const filteredData = [];
     Object.entries(logFilterApiBody).map(([key, value], index) => {
@@ -528,10 +479,15 @@ const Loglists = () => {
     setTraceSummaryService,
   ]);
 
-  const handleSortOrderChange = (selectedValue) => {
-    console.log("SORT " + selectedValue.value);
-    setSelectedOption(selectedValue.value);
+  // const handleSortOrderChange = (selectedValue) => {
+  //   console.log("SORT " + selectedValue.value);
+  //   setSelectedOption(selectedValue.value);
+  // };
+
+  const handleSortOrderChange = (event) => {
+    setSelectedOption(event.target.value);
   };
+  
 
   const tableBodyData = [
     createData(
@@ -609,20 +565,6 @@ const Loglists = () => {
     );
   }
 
-  const customStyles = {
-    // "& .Mui-selected": {
-    //   color: 'black', // Change 'white' to your desired text color for the selected page
-    // },
-    // "& .MuiPaginationItem-page": {
-    //   color: 'black', // Change 'black' to your desired text color for other pages
-    // },
-    // backgroundColor: "red", // Change 'red' to your desired background color
-  };
-
-  const customPageStyles = {
-    backgroundColor: colors.greenAccent[500], // Change 'blue' to your desired background color for the page numbers
-    color: colors.textColor[500], // Change 'black' to your desired text color for the page numbers
-  };
   return (
     <div>
       <Grid container spacing={2}>
@@ -640,7 +582,7 @@ const Loglists = () => {
               className="search-bar"
               placeholder="Search for message"
               size="large"
-              style={{ borderWidth: "4px", marginBottom: "5px", width: "80%" }}
+              style={{ marginBottom: "5px", width: "80%", marginTop: "6px" }}
               InputProps={{
                 endAdornment: (
                   <IconButton
@@ -663,12 +605,12 @@ const Loglists = () => {
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-                justifyContent: "space-between",
-                margin: "-10px 0 10px 0"
+                justifyContent: "space-between"
               }}>
-                <div style={{ alignItems: "center", marginBottom: "10px" }}>
+                <div style={{ display: "flex",
+                flexDirection: "column", marginBottom: "10px" }}>
                   <label style={{ fontSize: '12px' }}>SortBy</label>
-                  <Dropdown
+                  {/* <Dropdown
                     options={sortOrderOptions}
                     placeholder="Sort Order"
                     arrowClosed={<span className="arrow-closed" />}
@@ -676,7 +618,23 @@ const Loglists = () => {
                     value={selectedOption}
                     onChange={handleSortOrderChange}
                     // style={{ marginTop: "5px"}}
-                  />
+                  /> */}
+                  <Select
+                    value={selectedOption}
+                    onChange={handleSortOrderChange}
+                    // displayEmpty
+                    // inputProps={{ "aria-label": "Select Sort Order" }}
+                    style={{ width: "150px", height: "41px" }}
+                  >
+                    <MenuItem value="" disabled>
+                      Sort Order
+                    </MenuItem>
+                    {sortOrderOptions.map((option, index) => (
+                      <MenuItem key={index} value={option.value}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
                 </div>
               </Box>
             ) : null}
@@ -694,23 +652,13 @@ const Loglists = () => {
                   {index < filteredOptions.length - 1 && <span>, </span>}
                 </React.Fragment>
               ))}
-              {/* <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start" }}  >
-              <Typography variant="h6" fontWeight={"600"}>
-                Selected Severities:
-              </Typography>
-              <Typography style={{ marginLeft: "10px" }} variant="h6" fontWeight={"600"}>
-                ERROR, SEVERE
-              </Typography>
-            </div> */}
             </div>
-
           </div>) : null}
+
           <Card
-         
             sx={{
               padding: "20px",
               height: "68vh",
-              // backgroundColor:colors.primary[500]
             }}
           >
             <div>
@@ -759,15 +707,12 @@ const Loglists = () => {
                   </Typography>
                 </div>
               ) : (
-                <div
-                // style={{backgroundColor:colors.primary[500]}}
-                >
+                <div>
                   {" "}
                   <TableContainer
                     sx={{
                       maxHeight: "calc(71vh - 85px)",
-                      overflowY: "auto",
-                      // backgroundColor:colors.primary[500]
+                      overflowY: "auto"
                     }}
                   >
                     <Table stickyHeader aria-label="sticky table">
@@ -1036,7 +981,6 @@ const Loglists = () => {
                     <TableContainer component={Paper}>
                       <Table
                         sx={{ minHeight: "50vh", overflowX: "hidden" }}
-                        // sx={{ minHeight: "60vh" }}
                         aria-label="customized table"
                       >
                         <TableHead>
