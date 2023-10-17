@@ -251,6 +251,11 @@ const SpanFlow = () => {
     // setLoading(false);
   }, [selectedTrace, setSelectedSpan]);
 
+const flowBoxColor = {
+  "--primary-color": colors.primary[400]
+  
+}
+
   return (
     <>
       {traceLoading ? (<Loading />) : (
@@ -286,6 +291,9 @@ const SpanFlow = () => {
                   defaultEdgeOptions={edgeOptions}
                   onNodesChange={onNodesChange}
                   onEdgesChange={onEdgesChange}
+                  style={{
+                    ...flowBoxColor,
+                  }}
                   // style={{backgroundColor:colors.primary[400]}}
                 >
                   <Background style={{backgroundColor:colors.spanBackground[500]}} />

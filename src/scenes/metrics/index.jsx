@@ -57,10 +57,10 @@ const Metrics = () => {
   //   "DeliveryService",
   // ];
 
-  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService } = useContext(GlobalContext);
+  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService,selectedService ,setSelectedService} = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
   const options = services.map((serve) => serve);
-  const [selectedService, setSelectedService] = useState((services && services.length > 0) ? services[0] : null);
+  // const [selectedService, setSelectedService] = useState((services && services.length > 0) ? services[0] : null);
   const [cpuUsageData, setCpuUsageData] = useState([]);
   const [memoryUsageData, setMemoryUsageData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -75,12 +75,12 @@ const Metrics = () => {
   //   setSelectedService(event.target.value);
   // };
 
-  const handleServiceChange = (selectedOption) => {
-    const selectedService = selectedOption.value;
-    console.log("Service " + selectedService);
-    setMetricRender(false);
-    setSelectedService(selectedService);
-  };
+  // const handleServiceChange = (selectedOption) => {
+  //   const selectedService = selectedOption.value;
+  //   console.log("Service " + selectedService);
+  //   setMetricRender(false);
+  //   setSelectedService(selectedService);
+  // };
 
   const handleMetricData = (metricData) => {
     const processedData = metricData.map((metric) => {
@@ -145,11 +145,13 @@ const Metrics = () => {
   }, [lookBackVal, setMetricRender]);
 
   useEffect(() => {
+    console.log("Selected Service " + selectedService);
     setErrorMessage("");
     setEmptyMessage("");
     setTraceSummaryService([]);
     setLogSummaryService([]);
     if (!metricRender) {
+      console.log("Selected Service 222222222222" + selectedService);
       getAllMetricsData(selectedService);
     }
     setTraceRender(false);
@@ -160,8 +162,8 @@ const Metrics = () => {
     <>
       <div style={{ height: "calc(92vh - 70px)", overflowY: "auto" }}>
         <div style={{ margin: "5px 10px 5px 10px" }}>
-          <div style={{ padding: "10px"}}>
-            <div style={{ fontSize: '12px', paddingBottom: '5px' }}>ServiceBy</div>
+          {/* <div style={{ padding: "10px"}}> */}
+            {/* <div style={{ fontSize: '12px', paddingBottom: '5px' }}>ServiceBy</div> */}
             {/* <Select
               value={selectedService}
               onChange={handleServiceChange}
@@ -178,14 +180,14 @@ const Metrics = () => {
               ))}
             </Select> */}
 
-            <Dropdown
+            {/* <Dropdown
               options={options}
               value={selectedService}
               arrowClosed={<span className="arrow-closed" />}
               arrowOpen={<span className="arrow-open" />}
               onChange={handleServiceChange}
-            />
-          </div>
+            /> */}
+          {/* </div> */}
         </div>
         {loading ? (
           <Loading />

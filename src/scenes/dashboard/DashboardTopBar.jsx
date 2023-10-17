@@ -16,6 +16,7 @@ import { FilterListOutlined, RefreshOutlined } from "@mui/icons-material";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { options } from "../../global/MockData/MockTraces";
 import Logfilter from "../logs/Logfilter";
+import Metricfilter from "../metrics/Metricfilter";
 
 const DashboardTopBar = () => {
   const navigate = useNavigate();
@@ -65,6 +66,7 @@ const DashboardTopBar = () => {
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
+  const [metricFilterDialogOpen, setmetricFilterDialogOpen] = useState(false);
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -122,6 +124,8 @@ const DashboardTopBar = () => {
       setLogFilterDialogOpen(true);
     } else if (window.location.pathname === "/mainpage/traces") {
       setFilterDialogOpen(true);
+    }else if(window.location.pathname === "/mainpage/metrics"){
+      setmetricFilterDialogOpen(true);
     }
   };
 
@@ -131,6 +135,8 @@ const DashboardTopBar = () => {
       setLogFilterDialogOpen(false);
     } else if (window.location.pathname === "/mainpage/traces") {
       setFilterDialogOpen(false);
+    }else if(window.location.pathname === "/mainpage/metrics"){
+      setmetricFilterDialogOpen(false);
     }
   };
 
@@ -221,7 +227,7 @@ const DashboardTopBar = () => {
                 </IconButton>
               </Tooltip>
             </div>
-            {window.location.pathname === "/mainpage/traces" ||
+            {window.location.pathname === "/mainpage/traces" ||window.location.pathname === "/mainpage/metrics"||
             window.location.pathname === "/mainpage/logs" ? (
               <Tooltip title="Filter">
                 <IconButton
@@ -236,6 +242,8 @@ const DashboardTopBar = () => {
         </Toolbar>
       </AppBar>
       <FilterDialog open={filterDialogOpen} onClose={handleFilterDialogClose} />
+
+      <Metricfilter open={metricFilterDialogOpen} onClose={handleFilterDialogClose}/> 
 
       <Logfilter open={logFilterDialogOpen} onClose={handleFilterDialogClose} />
     </>

@@ -4,7 +4,6 @@ import { useTheme, Box } from "@mui/material";
 import { tokens } from "../../../theme";
 import { GlobalContext } from "../../../global/globalContext/GlobalContext";
 
-
 const LineChart = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -14,7 +13,7 @@ const LineChart = ({ data }) => {
     {
       name: data.title,
       data: data.data,
-      color:colors.primary[400]
+      color: "#00888C",
     },
   ];
 
@@ -22,7 +21,7 @@ const LineChart = ({ data }) => {
     chart: {
       type: "area",
       stacked: true,
-     
+
       zoom: {
         type: "x",
         enabled: true,
@@ -31,10 +30,10 @@ const LineChart = ({ data }) => {
       toolbar: {
         autoSelected: "zoom",
       },
-      
+
       // background: colors.primary[400],
     },
-   
+
     dataLabels: {
       enabled: false,
     },
@@ -151,7 +150,7 @@ const LineChart = ({ data }) => {
             type="area"
             height={330}
             // width={isCollapsed?1380:1210}
-            width={isCollapsed?1370:1200}
+            width={isCollapsed ? 1370 : 1200}
           />
         </Box>
       </div>
