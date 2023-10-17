@@ -717,7 +717,7 @@ const Loglists = () => {
                   {" "}
                   <TableContainer
                     sx={{
-                      maxHeight: "calc(71vh - 85px)",
+                      maxHeight: "calc(69vh - 85px)",
                       overflowY: "auto"
                     }}
                   >
@@ -738,7 +738,7 @@ const Loglists = () => {
                                 style={{
                                   width: "130px",
                                   fontWeight: "800",
-                                  padding: "10px",
+                                  padding: "5px",
                                   whiteSpace: "nowrap",
                                   overflow: "hidden",
                                   textOverflow: "ellipsis",

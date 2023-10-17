@@ -163,7 +163,7 @@ const Metrics = () => {
 
   return (
     <>
-      <div style={{ height: "calc(92vh - 70px)", overflowY: "auto" }}>
+      <div style={{ height: "calc(90vh - 70px)", overflowY: "auto" }}>
         <div style={{ margin: "5px 10px 5px 10px" }}>
           {/* <div style={{ padding: "10px"}}> */}
             {/* <div style={{ fontSize: '12px', paddingBottom: '5px' }}>ServiceBy</div> */}

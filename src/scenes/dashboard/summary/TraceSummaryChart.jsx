@@ -134,7 +134,7 @@ const TraceBarChart = () => {
         <div>
           <div
             style={{
-              maxHeight: "82vh",
+              maxHeight: "80vh",
               overflowY: "auto",
               width: "100%"
             }}
