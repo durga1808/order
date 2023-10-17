@@ -222,7 +222,7 @@ const DashboardTopBar = () => {
               mr: "5px",
             }}
           >
-            <div style={{ alignItems: "center", marginBottom: "20px" }}>
+            {/* <div style={{ alignItems: "center", marginBottom: "20px" }}>
               <label
                 style={{
                   fontSize: "12px",
@@ -240,7 +240,7 @@ const DashboardTopBar = () => {
                 arrowClosed={<span className="arrow-closed" />}
                 arrowOpen={<span className="arrow-open" />}
               />
-            </div>
+            </div> */}
             <div style={{ alignItems: "center", marginBottom: "20px", marginRight: "20px" }}>
               <label
                 style={{
