@@ -33,6 +33,8 @@ import { findLogByTraceId } from "../../../api/LogApiService";
 import { useNavigate } from "react-router-dom";
 import PaginationItem from "@mui/material/PaginationItem";
 import OutboundSharpIcon from '@mui/icons-material/OutboundSharp';
+import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined';
+import ArrowForwardOutlinedIcon from '@mui/icons-material/ArrowForwardOutlined';
 
 const mockTraces = [
   {
@@ -372,7 +374,7 @@ const TraceList = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div>
+        <div >
           <Box
             display="flex"
             flexDirection="row"
@@ -473,13 +475,14 @@ const TraceList = () => {
             >
               {traceData.map((trace, index) => (
                 <Card
+                elevation={4}
                   className="tracelist-card"
                   key={index}
                   sx={{
                     margin: "10px 0 20px 0",
                     width: "calc(560px-10px)",
                     height: "fit-content",
-                    backgroundColor: colors.primary[500],
+                    
                   }}
                 >
                   {/* <CardActionArea> */}
@@ -510,7 +513,7 @@ const TraceList = () => {
                       </span>
                       <span>
                         {trace.duration}ms{" "}
-                        {trace.traceId === activeTraceId ?activeTraceIcon ? <OutboundSharpIcon style={{color:"#FFF"}} /> : null:null}
+                        {trace.traceId === activeTraceId ?activeTraceIcon ? <ArrowForwardOutlinedIcon style={{color:"#000",}} /> : null:null}
                       </span>
                     </Typography>
                   </Box>

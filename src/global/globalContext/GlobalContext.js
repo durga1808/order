@@ -31,6 +31,8 @@ const GlobalContextProvider = ({ children }) => {
 
     const [logFilterApiBody, setLogFilterApiBody] = useState({});
     const [needLogFilterCall, setNeedLogFilterCall] = useState(false);
+    const [MetricFilterApiBody,setMetricFilterApiBody] = useState({});
+    const [needMetricFilterCall,setNeedMetricFilterCall] = useState(false)
     const [recentLogData, setRecentLogData] = useState([]);
     const [traceRender, setTraceRender] = useState(false);
     const [logRender, setLogRender] = useState(false);
@@ -40,6 +42,9 @@ const GlobalContextProvider = ({ children }) => {
     const [logSummaryService, setLogSummaryService] = useState([]);
     const [clearTraceFilter, setClearTraceFilter] = useState(false);
     const [clearLogFilter, setClearLogFilter] = useState(false);
+    const [clearMetricFilter,setclearMetricFilter] = useState(false);
+    const services = JSON.parse(localStorage.getItem("serviceListData"));
+    const [selectedService, setSelectedService] = useState((services && services.length > 0) ? [services[0]] : []);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -88,8 +93,12 @@ const GlobalContextProvider = ({ children }) => {
                 setActiveTab,
                 logFilterApiBody,
                 setLogFilterApiBody,
+                MetricFilterApiBody,
+                setMetricFilterApiBody,
                 needLogFilterCall,
                 setNeedLogFilterCall,
+                needMetricFilterCall,
+                setNeedMetricFilterCall,
                 recentLogData,
                 setRecentLogData,
                 searchQuery,
@@ -111,7 +120,11 @@ const GlobalContextProvider = ({ children }) => {
                 clearTraceFilter,
                 setClearTraceFilter,
                 clearLogFilter,
-                setClearLogFilter
+                setClearLogFilter,
+                clearMetricFilter,
+                setclearMetricFilter,
+                selectedService,
+                setSelectedService
             }}
         >
             {children}
