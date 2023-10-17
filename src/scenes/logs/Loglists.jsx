@@ -221,6 +221,7 @@ const Loglists = () => {
                     color: "black",
                   },
                 }}
+                variant="contained"
                 disabled={traceid === "No Trace ID"}
                 onClick={() =>
                   traceid !== "" ? handleLogToTrace(traceid) : handleNoTrace()
@@ -242,6 +243,7 @@ const Loglists = () => {
                   color: "black",
                 },
               }}
+              variant="contained"
               onClick={() =>
                 handleViewButtonClick(
                   severity,
