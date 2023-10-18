@@ -57,7 +57,7 @@ const Metrics = () => {
   //   "DeliveryService",
   // ];
 
-  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService,selectedService ,setSelectedService} = useContext(GlobalContext);
+  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService,selectedService ,setSelectedService, selectedStartDate, selectedEndDate} = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
   const options = services.map((serve) => serve);
   // const [selectedService, setSelectedService] = useState((services && services.length > 0) ? services[0] : null);
@@ -128,7 +128,10 @@ const Metrics = () => {
     setLoading(true);
     try {
       console.log("Selected service " + service);
-      const metricData = await getMetricDataApi(service, lookBackVal.value);
+      console.log("startTImne in passinf=====",selectedStartDate);
+      console.log("endTImne in passinf=====",selectedEndDate);
+      
+      const metricData = await getMetricDataApi(service, selectedStartDate, selectedEndDate);
       if (metricData.length !== 0) {
         console.log("metric data " + JSON.stringify(metricData));
         handleMetricData(metricData);
@@ -142,7 +145,7 @@ const Metrics = () => {
       setMetricRender(true);
       setLoading(false);
     }
-  }, [lookBackVal, setMetricRender]);
+  }, [selectedStartDate, selectedEndDate, setMetricRender]);
 
   useEffect(() => {
     console.log("Selected Service " + selectedService);
@@ -160,7 +163,7 @@ const Metrics = () => {
 
   return (
     <>
-      <div style={{ height: "calc(92vh - 70px)", overflowY: "auto" }}>
+      <div style={{ height: "calc(90vh - 70px)", overflowY: "auto" }}>
         <div style={{ margin: "5px 10px 5px 10px" }}>
           {/* <div style={{ padding: "10px"}}> */}
             {/* <div style={{ fontSize: '12px', paddingBottom: '5px' }}>ServiceBy</div> */}

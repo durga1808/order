@@ -76,7 +76,7 @@ const DashboardTopBar = () => {
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
   const [metricFilterDialogOpen, setmetricFilterDialogOpen] = useState(false);
   const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(null);
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -167,6 +167,7 @@ const DashboardTopBar = () => {
   const handleStartDateChange = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     console.log("Formatted Date " + formattedDate);
+    setMetricRender(false);
     setSelectedStartDate(formattedDate);
     setStartDate(date);
   };
@@ -174,6 +175,7 @@ const DashboardTopBar = () => {
   const handleEndDateChange = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     console.log("Formatted Date " + formattedDate);
+    setMetricRender(false);
     setSelectedEndDate(formattedDate);
     setEndDate(date);
   };
@@ -316,9 +318,7 @@ const DashboardTopBar = () => {
                   marginBottom: "5px",
                   color: colors.tabColor[500],
                 }}
-              >
-                End Date
-              </label>
+              >End Date</label>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Box
                   sx={{
@@ -366,11 +366,21 @@ const DashboardTopBar = () => {
             </div>
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                marginRight: "20px",
+                alignItems: "center", marginBottom: "20px", marginRight: "20px" 
               }}
             >
+              <label style={{fontSize: "12px",
+                  marginBottom: "5px",
+                  color: colors.tabColor[500],}}>Refresh</label>
+              <Box
+                  sx={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    position: 'relative',
+                  }}
+                >
               <Tooltip title="Refresh">
                 <IconButton
                   sx={{ mr: 2 }}
@@ -381,18 +391,36 @@ const DashboardTopBar = () => {
                   <RefreshOutlined style={iconStyle} />
                 </IconButton>
               </Tooltip>
+              </Box>
             </div>
             {window.location.pathname === "/mainpage/traces" ||
             window.location.pathname === "/mainpage/metrics" ||
             window.location.pathname === "/mainpage/logs" ? (
-              <Tooltip title="Filter">
-                <IconButton
-                  onClick={handleFilterClick}
-                  style={FilterbuttonStyle}
-                >
-                  <FilterListOutlined style={iconStyle} />
-                </IconButton>
-              </Tooltip>
+              <div
+              style={{
+                alignItems: "center", marginBottom: "20px", marginRight: "20px" 
+              }}
+              >
+                <label style={{fontSize: "12px", marginBottom: "5px", color: colors.tabColor[500]}}>Filter</label>
+                <Box
+                    sx={{
+                      width: '100%',
+                      height: '100%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      position: 'relative',
+                    }}
+                  >
+                  <Tooltip title="Filter">
+                    <IconButton
+                      onClick={handleFilterClick}
+                      style={FilterbuttonStyle}
+                    >
+                      <FilterListOutlined style={iconStyle} />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </div>
             ) : null}
           </Box>
         </Toolbar>
