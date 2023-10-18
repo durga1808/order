@@ -18,8 +18,8 @@ import { options } from "../../global/MockData/MockTraces";
 import Logfilter from "../logs/Logfilter";
 import Metricfilter from "../metrics/Metricfilter";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { DemoItem } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+import { DemoItem } from "@mui/x-date-pickers/internals/demo";
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
 
 const DashboardTopBar = () => {
@@ -70,7 +70,7 @@ const DashboardTopBar = () => {
     selectedStartDate,
     setSelectedStartDate,
     selectedEndDate,
-    setSelectedEndDate
+    setSelectedEndDate,
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -86,11 +86,11 @@ const DashboardTopBar = () => {
   };
 
   const iconStyle = {
-    fontSize: "22px",
+    fontSize: "20px",
     color: "#FFF",
   };
 
-  const formattedDate = format(new Date(), 'yyyy-MM-dd');
+  const formattedDate = format(new Date(), "yyyy-MM-dd");
 
   const handleRefreshClick = () => {
     const defaultValue = 120;
@@ -140,7 +140,7 @@ const DashboardTopBar = () => {
       setLogFilterDialogOpen(true);
     } else if (window.location.pathname === "/mainpage/traces") {
       setFilterDialogOpen(true);
-    }else if(window.location.pathname === "/mainpage/metrics"){
+    } else if (window.location.pathname === "/mainpage/metrics") {
       setmetricFilterDialogOpen(true);
     }
   };
@@ -151,7 +151,7 @@ const DashboardTopBar = () => {
       setLogFilterDialogOpen(false);
     } else if (window.location.pathname === "/mainpage/traces") {
       setFilterDialogOpen(false);
-    }else if(window.location.pathname === "/mainpage/metrics"){
+    } else if (window.location.pathname === "/mainpage/metrics") {
       setmetricFilterDialogOpen(false);
     }
   };
@@ -165,7 +165,7 @@ const DashboardTopBar = () => {
   };
 
   const handleStartDateChange = (date) => {
-    const formattedDate = format(date, 'yyyy-MM-dd');
+    const formattedDate = format(date, "yyyy-MM-dd");
     console.log("Formatted Date " + formattedDate);
     setMetricRender(false);
     setSelectedStartDate(formattedDate);
@@ -173,13 +173,12 @@ const DashboardTopBar = () => {
   };
 
   const handleEndDateChange = (date) => {
-    const formattedDate = format(date, 'yyyy-MM-dd');
+    const formattedDate = format(date, "yyyy-MM-dd");
     console.log("Formatted Date " + formattedDate);
     setMetricRender(false);
     setSelectedEndDate(formattedDate);
     setEndDate(date);
   };
-
 
   return (
     <>
@@ -189,7 +188,7 @@ const DashboardTopBar = () => {
             display: "flex",
             justifyContent:
               window.location.pathname === "/mainpage/dashboard" ||
-                window.location.pathname === "/mainpage/dashboard/logSummary"
+              window.location.pathname === "/mainpage/dashboard/logSummary"
                 ? "space-between"
                 : "flex-end",
             backgroundColor: colors.primary[400],
@@ -197,7 +196,7 @@ const DashboardTopBar = () => {
           }}
         >
           {window.location.pathname === "/mainpage/dashboard" ||
-            window.location.pathname === "/mainpage/dashboard/logSummary" ? (
+          window.location.pathname === "/mainpage/dashboard/logSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -243,30 +242,62 @@ const DashboardTopBar = () => {
                 arrowOpen={<span className="arrow-open" />}
               />
             </div> */}
-            <div style={{ alignItems: "center", marginBottom: "20px", marginRight: "20px" }}>
+            <div
+              style={{
+                alignItems: "center",
+                marginBottom: "20px",
+                marginRight: "20px",
+              }}
+            >
               <label
                 style={{
                   fontSize: "12px",
                   marginBottom: "5px",
                   color: colors.tabColor[500],
                 }}
-              >Today's Date</label>
-              <LocalizationProvider  dateAdapter={AdapterDateFns}>
+              >
+                Start Date
+              </label>
+              <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Box
                   sx={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    position: 'relative',
-                   
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    position: "relative",
                   }}
                 >
                   <DatePicker
+                    slotProps={{
+                      textField: { variant: "standard" },
+                    }}
                     sx={{
                       width: 150,
-                      backgroundColor:theme.palette.mode==="light"?"#FFF":"2C3539",
-                      
+                      marginRight: 3,
+                      backgroundColor:
+                        theme.palette.mode === "dark" ? "#848482" : "#FFF",
+
+                      "& .MuiInput-underline:before": {
+                        borderBottom: "none", // Remove the default underline
+                      },
+
+                      "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+                        borderBottom: "none",
+                      },
+
+                      padding: "7px",
+                      "& .MuiInputBase-input": {
+                        padding: 0,
+                        "&:hover": {
+                          border: "none", // Remove hover border effect
+                        },
+                      },
+                      "& .MuiInputBase-root": {
+                        "&:hover": {
+                          border: "none", // Remove hover border effect
+                        },
+                      },
                     }}
                     value={startDate}
                     onChange={handleStartDateChange}
@@ -274,30 +305,60 @@ const DashboardTopBar = () => {
                 </Box>
               </LocalizationProvider>
             </div>
-            <div style={{ alignItems: "center", marginBottom: "20px", marginRight: "20px" }}>
+            <div
+              style={{
+                alignItems: "center",
+                marginBottom: "20px",
+                marginRight: "20px",
+              }}
+            >
               <label
                 style={{
                   fontSize: "12px",
                   marginBottom: "5px",
                   color: colors.tabColor[500],
                 }}
-              >Previous Date</label>
+              >End Date</label>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Box
                   sx={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    position: 'relative',
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    position: "relative",
                   }}
                 >
                   <DatePicker
                     value={endDate}
                     onChange={handleEndDateChange}
+                    slotProps={{
+                      textField: { variant: "standard" },
+                    }}
+                    className="customDatePicker"
                     sx={{
+                      boxShadow: 0,
+                      marginRight: 3,
                       width: 150,
-                      backgroundColor:theme.palette.mode==="light"?"#FFF":"2C3539"
+                      backgroundColor:
+                        theme.palette.mode === "dark" ? "#848482" : "#FFF",
+
+                      "& .MuiInput-underline:before": {
+                        borderBottom: "none",
+                      },
+
+                      "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
+                        borderBottom: "none",
+                      },
+
+                      padding: "7px",
+                      "& .MuiInputBase-input": {
+                        padding: 0,
+
+                        "&:hover": {
+                          border: "none", // Remove hover border effect
+                        },
+                      },
                     }}
                   />
                 </Box>
@@ -322,6 +383,7 @@ const DashboardTopBar = () => {
                 >
               <Tooltip title="Refresh">
                 <IconButton
+                  sx={{ mr: 2 }}
                   onClick={handleRefreshClick}
                   aria-label="Refresh"
                   style={FilterbuttonStyle}
@@ -331,7 +393,8 @@ const DashboardTopBar = () => {
               </Tooltip>
               </Box>
             </div>
-            {window.location.pathname === "/mainpage/traces" ||window.location.pathname === "/mainpage/metrics"||
+            {window.location.pathname === "/mainpage/traces" ||
+            window.location.pathname === "/mainpage/metrics" ||
             window.location.pathname === "/mainpage/logs" ? (
               <div
               style={{
@@ -364,7 +427,10 @@ const DashboardTopBar = () => {
       </AppBar>
       <FilterDialog open={filterDialogOpen} onClose={handleFilterDialogClose} />
 
-      <Metricfilter open={metricFilterDialogOpen} onClose={handleFilterDialogClose}/> 
+      <Metricfilter
+        open={metricFilterDialogOpen}
+        onClose={handleFilterDialogClose}
+      />
 
       <Logfilter open={logFilterDialogOpen} onClose={handleFilterDialogClose} />
     </>
