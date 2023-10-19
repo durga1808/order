@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 function Topbar() {
   const navigate = useNavigate();
   const theme = useTheme();
-  
+
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
@@ -22,10 +22,9 @@ function Topbar() {
     navigate("/");
   };
   const appBarStyles = {
-    height: "45px",
+    height: "55px",
   };
 
-  
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const user = userInfo.username;
 
@@ -34,12 +33,14 @@ function Topbar() {
       <AppBar position="static" style={appBarStyles}>
         <Toolbar
           sx={{
+            display: "flex",
             justifyContent: "flex-end",
+            alignItems: "center",
+            // marginTop: "2px",
             backgroundColor: colors.primary[400],
-
-            marginTop: "-10px",
           }}
         >
+          {" "}
           <IconButton
             aria-label="Toggle Dark Mode"
             onClick={colorMode.toggleColorMode}
@@ -53,7 +54,6 @@ function Topbar() {
           <IconButton aria-label="Account" onClick={handleLogout}>
             <LogoutIcon style={{ fontSize: "20px", color: "#FFF" }} />
           </IconButton>
-
           <IconButton>
             <Person style={{ fontSize: "20px", color: "#FFF" }} />
           </IconButton>

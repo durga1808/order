@@ -49,6 +49,7 @@ const GlobalContextProvider = ({ children }) => {
     const formattedDate = format(new Date(), 'yyyy-MM-dd');
     const [selectedStartDate, setSelectedStartDate] = useState(formattedDate);
     const [selectedEndDate, setSelectedEndDate] = useState(formattedDate);
+    const [needHistoricalData, setNeedHistoricalData] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -132,7 +133,9 @@ const GlobalContextProvider = ({ children }) => {
                 selectedStartDate,
                 setSelectedStartDate,
                 selectedEndDate,
-                setSelectedEndDate
+                setSelectedEndDate,
+                needHistoricalData,
+                setNeedHistoricalData
             }}
         >
             {children}

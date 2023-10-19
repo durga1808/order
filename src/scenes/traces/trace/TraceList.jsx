@@ -146,7 +146,8 @@ const TraceList = () => {
     setLogSummaryService,
     setClearTraceFilter,
     selectedStartDate,
-    selectedEndDate
+    selectedEndDate,
+    needHistoricalData,
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -192,6 +193,7 @@ const TraceList = () => {
           pageLimit,
           selectedStartDate,
           selectedEndDate,
+          lookBackVal.value,
           selectedSortOrder,
           serviceListData
         );
@@ -218,11 +220,13 @@ const TraceList = () => {
     currentPage,
     selectedStartDate,
     selectedEndDate,
+    lookBackVal,
     selectedSortOrder,
     setTraceData,
     setTotalPageCount,
     setTraceGlobalEmpty,
     setTraceGlobalError,
+    needHistoricalData,
   ]);
 
   const filterApiCall = useCallback(async () => {
@@ -232,6 +236,7 @@ const TraceList = () => {
       setLoading(true);
       const { data, totalCount } = await TraceFilterOptionWithDate(
         selectedStartDate,
+        lookBackVal.value,
         selectedEndDate,
         currentPage,
         pageLimit,
@@ -261,11 +266,13 @@ const TraceList = () => {
     currentPage,
     filterApiBody,
     selectedStartDate,
+    lookBackVal,
     selectedEndDate,
     setTraceData,
     setTotalPageCount,
     setTraceGlobalEmpty,
     setTraceGlobalError,
+    needHistoricalData,
   ]);
 
   const handleCardClick = (traceId, index) => {

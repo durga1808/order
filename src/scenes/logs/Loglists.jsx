@@ -29,7 +29,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { useCallback } from "react";
-import { LogFilterOption, LogFilterOptionWithDate, getAllLogBySorts, getAllLogBySortsWithDate, searchLogsWithDate } from "../../api/LogApiService";
+import { GetAllLogBySortsWithDate, LogFilterOption, LogFilterOptionWithDate, getAllLogBySorts, getAllLogBySortsWithDate, searchLogsWithDate } from "../../api/LogApiService";
 import { useEffect } from "react";
 import { SearchOutlined } from "@mui/icons-material";
 import { tokens } from "../../theme";
@@ -110,7 +110,8 @@ const Loglists = () => {
     setTraceSummaryService,
     setClearLogFilter,
     selectedStartDate,
-    selectedEndDate
+    selectedEndDate,
+    needHistoricalData
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -322,9 +323,10 @@ const Loglists = () => {
         } else {
           serviceListData = logSummaryService;
         }
-        const { data, totalCount } = await getAllLogBySortsWithDate(
+        const { data, totalCount } = await GetAllLogBySortsWithDate(
           selectedStartDate,
           selectedEndDate,
+          lookBackVal.value,
           newpage,
           pageLimit,
           selectedOption,
@@ -344,7 +346,7 @@ const Loglists = () => {
       }
       setLoading(false);
     },
-    [selectedStartDate, selectedEndDate, selectedOption, logSummaryService]
+    [selectedStartDate, selectedEndDate, lookBackVal, selectedOption, logSummaryService,needHistoricalData]
   );
 
   const logFilterApiCall = useCallback(
@@ -356,6 +358,7 @@ const Loglists = () => {
         const { data, totalCount } = await LogFilterOptionWithDate(
           selectedStartDate,
           selectedEndDate,
+          lookBackVal.value,
           currentPage,
           pageLimit,
           logFilterApiBody
@@ -375,7 +378,7 @@ const Loglists = () => {
         setLoading(false);
       }
     },
-    [selectedStartDate, selectedEndDate, setLogData, setTotalPageCount, pageLimit, currentPage, logFilterApiBody]
+    [selectedStartDate, selectedEndDate, lookBackVal, setLogData, setTotalPageCount, pageLimit, currentPage, logFilterApiBody,needHistoricalData]
   );
 
   // const [searchQuery, setSearchQuery] = useState("");
@@ -394,6 +397,7 @@ const Loglists = () => {
         searchQuery,
         selectedStartDate,
         selectedEndDate,
+        lookBackVal.value,
         currentPage,
         pageLimit
       );
@@ -484,6 +488,7 @@ const Loglists = () => {
     currentPage,
     setMetricRender,
     setTraceSummaryService,
+    // needHistoricalData,
   ]);
 
   // const handleSortOrderChange = (selectedValue) => {

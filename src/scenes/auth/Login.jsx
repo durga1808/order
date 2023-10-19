@@ -52,6 +52,7 @@ const Login = () => {
     setLoading(true);
     localStorage.setItem("routeName", "Dashboard");
     setSelected("Dashboard");
+    localStorage.setItem("needHistoricalData",false);
     if (!username || !password) {
       setErrorMessage("Please fill in all fields.");
        setLoading(false);

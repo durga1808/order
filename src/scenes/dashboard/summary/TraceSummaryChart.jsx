@@ -26,7 +26,7 @@ const TraceBarChart = () => {
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
   const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService, setMetricRender, setTraceSummaryService, setLogSummaryService, selectedStartDate,
-    selectedEndDate } = useContext(GlobalContext);
+    selectedEndDate ,needHistoricalData} = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -38,7 +38,7 @@ const TraceBarChart = () => {
   const traceSummaryApiCall = useCallback(async () => {
     try {
       setLoading(true);
-      var response = await getTraceSummaryDataWithDate(selectedStartDate, selectedEndDate);
+      var response = await getTraceSummaryDataWithDate(selectedStartDate, selectedEndDate,lookBackVal.value);
       if (response.length !== 0) {
         setintegrationdata(response);
       } else {
@@ -52,7 +52,7 @@ const TraceBarChart = () => {
       setErrorMessage("An error Occurred!");
       setLoading(false);
     }
-  }, [selectedStartDate, selectedEndDate]);
+  }, [selectedStartDate, selectedEndDate,lookBackVal,needHistoricalData]);
 
   useEffect(() => {
     setErrorMessage("");
