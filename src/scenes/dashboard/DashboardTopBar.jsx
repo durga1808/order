@@ -6,7 +6,7 @@ import Tab from "@mui/material/Tab";
 import FilterDialog from "./FilterDialog";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import { Box, IconButton, TextField } from "@mui/material";
+import { Box, IconButton, MenuItem, Select, TextField } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-dropdown";
@@ -71,6 +71,7 @@ const DashboardTopBar = () => {
     setSelectedStartDate,
     selectedEndDate,
     setSelectedEndDate,
+    setNeedHistoricalData,
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -89,6 +90,17 @@ const DashboardTopBar = () => {
     fontSize: "20px",
     color: "#FFF",
   };
+
+  useEffect(() => {
+    if (endDate !== null) {
+      console.log("jhek");
+      setNeedHistoricalData(true);
+      localStorage.setItem("needHistoricalData", true);
+    } else {
+      setNeedHistoricalData(false);
+      localStorage.setItem("needHistoricalData", false);
+    }
+  }, [endDate]);
 
   const formattedDate = format(new Date(), "yyyy-MM-dd");
 
@@ -122,7 +134,9 @@ const DashboardTopBar = () => {
     setSelectedStartDate(formattedDate);
     setSelectedEndDate(formattedDate);
     setStartDate(new Date());
-    setEndDate(new Date());
+    setEndDate(null);
+    setNeedHistoricalData(false);
+    localStorage.setItem("needHistoricalData", false);
   };
 
   const handleTabChange = (event, newValue) => {
@@ -156,12 +170,23 @@ const DashboardTopBar = () => {
     }
   };
 
-  const handleLookbackChange = (val) => {
-    console.log("VAL " + JSON.stringify(val.value));
-    setLookBackVal(val);
+  const handleLookbackChange = (event) => {
+    console.log("VAL " + JSON.stringify(event.target.value));
+    setLookBackVal(event.target.value);
     setMetricRender(false);
     setTraceGlobalEmpty(null);
     setTraceGlobalError(null);
+  };
+
+  const endDateClear = () => {
+    console.log("On Clear");
+    setEndDate(null);
+    setNeedHistoricalData(false);
+    localStorage.setItem("needHistoricalData", false);
+  };
+
+  const startDateClear = () => {
+    setStartDate(null);
   };
 
   const handleStartDateChange = (date) => {
@@ -173,16 +198,20 @@ const DashboardTopBar = () => {
   };
 
   const handleEndDateChange = (date) => {
-    const formattedDate = format(date, "yyyy-MM-dd");
-    console.log("Formatted Date " + formattedDate);
-    setMetricRender(false);
-    setSelectedEndDate(formattedDate);
-    setEndDate(date);
+    if (date !== null) {
+      const formattedDate = format(date, "yyyy-MM-dd");
+      console.log("Formatted Date " + formattedDate);
+      setMetricRender(false);
+      setSelectedEndDate(formattedDate);
+      setEndDate(date);
+    }
   };
-
+  const appBarStyles = {
+    height: "70px",
+  };
   return (
     <>
-      <AppBar position="static" elevation={0}>
+      <AppBar position="static" elevation={3} style={appBarStyles}>
         <Toolbar
           style={{
             display: "flex",
@@ -192,7 +221,6 @@ const DashboardTopBar = () => {
                 ? "space-between"
                 : "flex-end",
             backgroundColor: colors.primary[400],
-            // backgroundColor:"#A4332D",
           }}
         >
           {window.location.pathname === "/mainpage/dashboard" ||
@@ -202,7 +230,7 @@ const DashboardTopBar = () => {
               onChange={handleTabChange}
               TabIndicatorProps={{
                 sx: {
-                  height: 4,
+                  height: 2,
                   borderRadius: 3,
                   backgroundColor: colors.tabIndicator[500],
                 },
@@ -220,38 +248,19 @@ const DashboardTopBar = () => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "space-between",
-              mr: "5px",
             }}
           >
-            {/* <div style={{ alignItems: "center", marginBottom: "20px" }}>
-              <label
-                style={{
-                  fontSize: "12px",
-                  marginBottom: "5px",
-                  color: colors.tabColor[500],
-                }}
-              >
-                TimeBy
-              </label>
-              <Dropdown
-                options={options}
-                placeholder="Lookback for"
-                value={lookBackVal.label}
-                onChange={(val) => handleLookbackChange(val)}
-                arrowClosed={<span className="arrow-closed" />}
-                arrowOpen={<span className="arrow-open" />}
-              />
-            </div> */}
+           
             <div
               style={{
                 alignItems: "center",
-                marginBottom: "20px",
-                marginRight: "20px",
+                marginBottom: "10px",
+                marginRight: "10px",
               }}
             >
               <label
                 style={{
-                  fontSize: "12px",
+                  fontSize: "10px",
                   marginBottom: "5px",
                   color: colors.tabColor[500],
                 }}
@@ -271,10 +280,14 @@ const DashboardTopBar = () => {
                   <DatePicker
                     slotProps={{
                       textField: { variant: "standard" },
+                      // field: {
+                      //   clearable: true,
+                      //   onClear: () => setStartDate(null),
+                      // },
                     }}
                     sx={{
-                      width: 150,
-                      marginRight: 3,
+                      width: 153,
+                      marginRight: 2,
                       backgroundColor:
                         theme.palette.mode === "dark" ? "#848482" : "#FFF",
 
@@ -298,6 +311,9 @@ const DashboardTopBar = () => {
                           border: "none", // Remove hover border effect
                         },
                       },
+                      "& .MuiSvgIcon-root": {
+                        fontSize: 18, // Adjust the font size of the clearable icon
+                      },
                     }}
                     value={startDate}
                     onChange={handleStartDateChange}
@@ -308,17 +324,19 @@ const DashboardTopBar = () => {
             <div
               style={{
                 alignItems: "center",
-                marginBottom: "20px",
-                marginRight: "20px",
+                marginBottom: "10px",
+                marginRight: "10px",
               }}
             >
               <label
                 style={{
-                  fontSize: "12px",
+                  fontSize: "10px",
                   marginBottom: "5px",
                   color: colors.tabColor[500],
                 }}
-              >End Date</label>
+              >
+                End Date
+              </label>
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Box
                   sx={{
@@ -334,11 +352,12 @@ const DashboardTopBar = () => {
                     onChange={handleEndDateChange}
                     slotProps={{
                       textField: { variant: "standard" },
+                      field: { clearable: true, onClear: () => endDateClear() },
                     }}
                     className="customDatePicker"
                     sx={{
                       boxShadow: 0,
-                      marginRight: 3,
+                      marginRight: 2,
                       width: 150,
                       backgroundColor:
                         theme.palette.mode === "dark" ? "#848482" : "#FFF",
@@ -359,58 +378,149 @@ const DashboardTopBar = () => {
                           border: "none", // Remove hover border effect
                         },
                       },
+                      "& .MuiSvgIcon-root": {
+                        fontSize: 18, // Adjust the font size of the clearable icon
+                      },
                     }}
                   />
                 </Box>
               </LocalizationProvider>
             </div>
-            <div
-              style={{
-                alignItems: "center", marginBottom: "20px", marginRight: "20px" 
-              }}
-            >
-              <label style={{fontSize: "12px",
-                  marginBottom: "5px",
-                  color: colors.tabColor[500],}}>Refresh</label>
-              <Box
-                  sx={{
-                    width: '100%',
-                    height: '100%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    position: 'relative',
+
+            {endDate === null ? (
+              <div
+                style={{
+                  alignItems: "center",
+                  marginBottom: "20px",
+                  marginTop: "11px",
+                }}
+              >
+                <label
+                  style={{
+                    fontSize: "10px",
+
+                    color: colors.tabColor[500],
                   }}
                 >
-              <Tooltip title="Refresh">
-                <IconButton
-                  sx={{ mr: 2 }}
-                  onClick={handleRefreshClick}
-                  aria-label="Refresh"
-                  style={FilterbuttonStyle}
-                >
-                  <RefreshOutlined style={iconStyle} />
-                </IconButton>
-              </Tooltip>
+                  TimeBy
+                </label>
+                {/* <Dropdown
+                    options={options}
+                    placeholder="Lookback for"
+                    value={lookBackVal.label}
+                    onChange={(val) => handleLookbackChange(val)}
+                    arrowClosed={<span className="arrow-closed" />}
+                    arrowOpen={<span className="arrow-open" />}
+                  /> */}
+                <div>
+                  {" "}
+                  <Select
+                    placeholder="Lookback for"
+                    value={lookBackVal}
+                    onChange={handleLookbackChange}
+                    sx={{
+                      minWidth: 153,
+                      maxHeight: 35,
+                      // marginTop: "10px",
+                      marginRight: "25px",
+                      borderRadius: 0,
+                      backgroundColor:
+                        theme.palette.mode === "dark" ? "#848482" : "#FFF",
+                      color: theme.palette.mode === "dark" ? "#FFF" : "#000",
+                      padding: "7px 16px",
+                      "& .MuiSelect-icon": {
+                        color: theme.palette.mode === "dark" ? "#FFF" : "#000", // Customize the dropdown arrow color
+                      },
+                      "& .MuiSelect-root": {
+                        color: "#000", // Customize the dropdown text color
+                      },
+                      "& .MuiInputBase-input": {
+                        padding: 0, // Remove input padding
+                      },
+                    }}
+                  >
+                    <MenuItem value="" disabled>
+                      Select Time
+                    </MenuItem>
+                    {options.map((option, index) => (
+                      <MenuItem key={index} value={option}>
+                        {option.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </div>
+              </div>
+            ) : null}
+            <div
+              style={{
+                alignItems: "center",
+                marginBottom: "20px",
+                marginRight: "10px",
+                marginTop: "9px",
+              }}
+            >
+              <label
+                style={{
+                  fontSize: "10px",
+                  marginBottom: "5px",
+                  // marginLeft:"1px",
+                  color: colors.tabColor[500],
+                }}
+              >
+                Refresh
+              </label>
+              <Box
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  position: "relative",
+                }}
+              >
+                <Tooltip title="Refresh">
+                  <IconButton
+                    sx={{ mr: 2 }}
+                    onClick={handleRefreshClick}
+                    aria-label="Refresh"
+                    style={FilterbuttonStyle}
+                  >
+                    <RefreshOutlined style={iconStyle} />
+                  </IconButton>
+                </Tooltip>
               </Box>
             </div>
             {window.location.pathname === "/mainpage/traces" ||
             window.location.pathname === "/mainpage/metrics" ||
             window.location.pathname === "/mainpage/logs" ? (
               <div
-              style={{
-                alignItems: "center", marginBottom: "20px", marginRight: "20px" 
-              }}
+                style={{
+                  alignItems: "center",
+                  marginBottom: "20px",
+                  marginRight: "10px",
+                  marginTop: "9px",
+                }}
               >
-                <label style={{fontSize: "12px", marginBottom: "5px", color: colors.tabColor[500]}}>Filter</label>
+                <label
+                  style={{
+                    fontSize: "10px",
+                    marginBottom: "5px",
+                    marginLeft: "5px",
+
+                    color: colors.tabColor[500],
+                  }}
+                >
+                  Filter
+                </label>
                 <Box
-                    sx={{
-                      width: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      justifyContent: 'center',
-                      position: 'relative',
-                    }}
-                  >
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    position: "relative",
+                  }}
+                >
                   <Tooltip title="Filter">
                     <IconButton
                       onClick={handleFilterClick}

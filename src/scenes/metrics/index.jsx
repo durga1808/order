@@ -57,7 +57,7 @@ const Metrics = () => {
   //   "DeliveryService",
   // ];
 
-  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService,selectedService ,setSelectedService, selectedStartDate, selectedEndDate} = useContext(GlobalContext);
+  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService,selectedService ,setSelectedService, selectedStartDate, selectedEndDate,needHistoricalData} = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
   const options = services.map((serve) => serve);
   // const [selectedService, setSelectedService] = useState((services && services.length > 0) ? services[0] : null);
@@ -131,7 +131,7 @@ const Metrics = () => {
       console.log("startTImne in passinf=====",selectedStartDate);
       console.log("endTImne in passinf=====",selectedEndDate);
       
-      const metricData = await getMetricDataApi(service, selectedStartDate, selectedEndDate);
+      const metricData = await getMetricDataApi(service, selectedStartDate, selectedEndDate,lookBackVal.value);
       if (metricData.length !== 0) {
         console.log("metric data " + JSON.stringify(metricData));
         handleMetricData(metricData);
@@ -145,7 +145,7 @@ const Metrics = () => {
       setMetricRender(true);
       setLoading(false);
     }
-  }, [selectedStartDate, selectedEndDate, setMetricRender]);
+  }, [selectedStartDate, selectedEndDate, setMetricRender,lookBackVal,needHistoricalData]);
 
   useEffect(() => {
     console.log("Selected Service " + selectedService);
@@ -159,7 +159,7 @@ const Metrics = () => {
     }
     setTraceRender(false);
     setLogRender(false);
-  }, [getAllMetricsData, setTraceRender, setLogRender, metricRender,selectedService,setTraceSummaryService,setLogSummaryService]);
+  }, [getAllMetricsData, setTraceRender,lookBackVal, setLogRender, metricRender,selectedService,setTraceSummaryService,setLogSummaryService]);
 
   return (
     <>
