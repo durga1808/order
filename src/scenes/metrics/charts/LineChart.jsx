@@ -137,24 +137,16 @@ const LineChart = ({ data }) => {
   };
 
   return (
-    <div>
-      <div
-        style={{
-          padding: "10px 10px 10px 10px",
-        }}
-      >
-        <Box height="50vh" padding="10px" border="1px">
+        <Box height="50vh" padding="5px" border="1px">
           <ReactApexChart
             options={options}
             series={series}
             type="area"
-            height={330}
+            height={250}
             // width={isCollapsed?1380:1210}
             width={isCollapsed ? 1370 : 1200}
           />
         </Box>
-      </div>
-    </div>
   );
 };
 

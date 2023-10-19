@@ -134,7 +134,7 @@ const TraceBarChart = () => {
         <div>
           <div
             style={{
-              maxHeight: "80vh",
+              maxHeight: "82.5vh",
               overflowY: "auto",
               width: "100%"
             }}
@@ -143,7 +143,7 @@ const TraceBarChart = () => {
               {" "}
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Card elevation={3} style={{ margin: "25px" }}>
+                  <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: 280 }}>
                     <CardContent>
                       {hasErrChartData || hasSuccChartData ? (
                         <ErrSucssCallCountChart
@@ -189,7 +189,7 @@ const TraceBarChart = () => {
               <Grid container spacing={2}>
                 {" "}
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={4} style={{ margin: "5px 15px 10px 25px" }}>
+                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", height: 250 }}>
                     <CardContent>
                       {/* {integrationdata.map((items) =>
                         items.apiCallCount !== 0 ? (
@@ -203,7 +203,7 @@ const TraceBarChart = () => {
                         <ApiCallCount data={integrationdata} />
                       ) : (
                         // <div>Api Call Count Chart - No data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 240 }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
                           <Typography variant="h5" fontWeight={"600"}>
                             Api Count Chart - No data
                           </Typography>
@@ -213,13 +213,13 @@ const TraceBarChart = () => {
                   </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={3} style={{ margin: "5px 25px 10px 15px" }}>
+                  <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: 250 }}>
                     <CardContent>
                       {hasPeakChartData ? (
                         <PeakLatencyChart data={integrationdata} />
                       ) : (
                         // <div>PeakLatency Call Count Chart - No data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 240 }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
                           <Typography variant="h5" fontWeight={"600"}>
                             PeakLatency Count Chart - No data
                           </Typography>

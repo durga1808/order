@@ -111,7 +111,7 @@ const LogBarChart = () => {
       </div>) : integrationdata.length !== 0 ? (
         <div
           style={{
-            maxHeight: "80vh",
+            maxHeight: "82.5vh",
             overflowY: "auto",
             minWidth: "100%"
 
@@ -119,7 +119,7 @@ const LogBarChart = () => {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card elevation={3} style={{ margin: "25px" }}>
+              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: 280 }}>
                 <CardContent>
                   {hasErrChartData ? (
                     <ErrorBarChart
@@ -174,7 +174,7 @@ const LogBarChart = () => {
           <Grid container spacing={2}>
             {" "}
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "5px 15px 10px 25px" }}>
+              <Card elevation={3} style={{ margin: "5px 15px 5px 25px", height: 250 }}>
                 <CardContent>
                   {hasDebugChartData ? (
                     // If any item has debugCallCount !== 0, display the chart
@@ -182,7 +182,7 @@ const LogBarChart = () => {
                   ) : (
                     // If no item has debugCallCount !== 0, display "No Data" once
                     // <div>Debug Call Count Chart - No data</div>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 240 }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
                       <Typography variant="h5" fontWeight={"600"}>
                         Debug Count Chart - No data
                       </Typography>
@@ -192,13 +192,13 @@ const LogBarChart = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "5px 25px 10px 15px" }}>
+              <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: 250 }}>
                 <CardContent>
                   {hasWarnChartData ? (
                     <WarnBarChart data={integrationdata} />
                   ) : (
                     // <div>Warn Call Count Chart - No Data</div>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 240 }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
                       <Typography variant="h5" fontWeight={"600"}>
                         Warn Count Chart - No Data
                       </Typography>

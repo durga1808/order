@@ -722,7 +722,7 @@ const Loglists = () => {
             elevation={6}
             sx={{
               padding: "20px",
-              height: "66vh",
+              // height: "calc(78vh - 72px)"
             }}
           >
             <div>
@@ -771,12 +771,12 @@ const Loglists = () => {
                   </Typography>
                 </div>
               ) : (
-                <div>
+                <div style={{ display: "flex", flexDirection: "column"}}>
                   {" "}
                   <TableContainer
                     sx={{
                       maxHeight: "calc(69vh - 85px)",
-                      overflowY: "auto"
+                      overflowY: "auto",
                     }}
                   >
                     <Table stickyHeader aria-label="sticky table">
@@ -986,7 +986,7 @@ const Loglists = () => {
                     spacing={2}
                     direction="row"
                     justifyContent="center"
-                    style={{ marginTop: "10px", marginBottom: "10px" }}
+                    style={{ marginTop: "10px" }}
                   >
                     <Pagination
                       count={totalPageCount}

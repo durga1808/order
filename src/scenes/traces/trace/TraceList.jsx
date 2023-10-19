@@ -399,7 +399,7 @@ const TraceList = () => {
             <Typography
               variant="h4"
               fontWeight="500"
-              style={{ margin: "10px 0 20px 10px" }}
+              style={{ margin: "10px 0 8px 10px" }}
             >
               Traces ({traceData.length})
             </Typography>
@@ -410,7 +410,7 @@ const TraceList = () => {
                 flexDirection: "row",
                 justifyContent: "space-evenly",
                 alignItems: "center",
-                margin: "10px 0 20px 0",
+                margin: "10px 0 8px 0",
               }}
             >
               {/* <Pagination
@@ -456,7 +456,7 @@ const TraceList = () => {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  margin: "5px 0 20px 0",
+                  margin: "5px 0 8px 0",
                 }}
               >
                 <div style={{ display: "flex", flexDirection: "column", marginBottom: "5px" }}>
@@ -508,7 +508,7 @@ const TraceList = () => {
                   className="tracelist-card"
                   key={index}
                   sx={{
-                    margin: "10px 0 20px 0",
+                    margin: "10px 0 15px 0",
                     width: "calc(560px-10px)",
                     height: "fit-content",
                     

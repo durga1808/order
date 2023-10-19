@@ -61,7 +61,7 @@ const Traces = () => {
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
                   width: "100%",
-                  height: "calc(85vh - 72px)",
+                  height: "calc(88vh - 72px)",
                 }}
               >
                 <TraceList />
@@ -70,14 +70,14 @@ const Traces = () => {
           </div>
 
           <div style={{ width: "100%" }}>
-            <Box sx={{ m: "20px 20px 20px 10px" }}>
+            <Box sx={{ m: "20px 20px 10px 10px" }}>
               <Card
                elevation={4}
                 sx={{
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
                   width: "100%",
-                  height: "calc(85vh - 72px)",
+                  height: "calc(88vh - 72px)",
                   // overflowY: "auto",
                 }}
               >
