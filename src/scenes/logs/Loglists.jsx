@@ -207,38 +207,91 @@ const Loglists = () => {
 
     traceid = traceid === "" ? "No Trace ID" : traceid;
 
+    // const actionButton = (
+    //   <div>
+    //     <Box sx={{ display: "flex", flexDirection: "row" }}>
+    //       <Tooltip>
+    //         <span>
+    //           <Button
+    //             sx={{
+    //               m: "8px",
+    //               backgroundColor: colors.primary[400],
+    //               color: colors.textColor[500],
+    //               "&:hover": {
+    //                 backgroundColor: "#ffffff",
+    //                 color: "black",
+    //               },
+    //             }}
+    //             variant="contained"
+    //             disabled={traceid === "No Trace ID"}
+    //             onClick={() =>
+    //               traceid !== "" ? handleLogToTrace(traceid) : handleNoTrace()
+    //             }
+    //           >
+    //             Trace
+    //           </Button>
+    //         </span>
+    //       </Tooltip>
+
+    //       <Tooltip>
+    //         <Button
+    //           sx={{
+    //             m: "8px",
+    //             backgroundColor: colors.primary[400],
+    //             color: colors.textColor[500],
+    //             "&:hover": {
+    //               backgroundColor: "#ffffff",
+    //               color: "black",
+    //             },
+    //           }}
+    //           variant="contained"
+    //           onClick={() =>
+    //             handleViewButtonClick(
+    //               severity,
+    //               time,
+    //               traceid,
+    //               serviceName,
+    //               message
+    //             )
+    //           }
+    //         >
+    //           View
+    //         </Button>
+    //       </Tooltip>
+    //     </Box>
+    //   </div>
+    // );
+
     const actionButton = (
       <div>
         <Box sx={{ display: "flex", flexDirection: "row" }}>
-          <Tooltip>
-            <span>
-              <Button
-                sx={{
-                  m: "8px",
-                  backgroundColor: colors.primary[400],
-                  color: colors.textColor[500],
-                  "&:hover": {
-                    backgroundColor: "#ffffff",
-                    color: "black",
-                  },
-                }}
-                variant="contained"
-                disabled={traceid === "No Trace ID"}
-                onClick={() =>
-                  traceid !== "" ? handleLogToTrace(traceid) : handleNoTrace()
-                }
-              >
-                Trace
-              </Button>
-            </span>
-          </Tooltip>
-
           <Tooltip>
             <Button
               sx={{
                 m: "8px",
                 backgroundColor: colors.primary[400],
-                color: colors.textColor[500],
+                color: "#ffffff", // Set white text color for default state
+                "&:hover": {
+                  backgroundColor: "#ffffff",
+                  color: "black",
+                },
+              }}
+              variant="contained"
+              disabled={traceid === "No Trace ID"}
+              onClick={() =>
+                traceid !== "" ? handleLogToTrace(traceid) : handleNoTrace()
+              }
+            >
+              Trace
+            </Button>
+          </Tooltip>
+    
+          <Tooltip>
+            <Button
+               sx={{
+                m: "8px",
+                backgroundColor: colors.primary[400],
+                color: "#ffffff", // Set white text color for default state
                 "&:hover": {
                   backgroundColor: "#ffffff",
                   color: "black",
@@ -261,6 +314,9 @@ const Loglists = () => {
         </Box>
       </div>
     );
+
+    
+    
     return {
       severity,
       time,
