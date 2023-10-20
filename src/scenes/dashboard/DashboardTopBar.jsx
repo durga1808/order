@@ -6,7 +6,7 @@ import Tab from "@mui/material/Tab";
 import FilterDialog from "./FilterDialog";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import { Box, IconButton, MenuItem, Select, TextField } from "@mui/material";
+import { Box, IconButton, MenuItem, Select, TextField, Typography } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-dropdown";
@@ -215,11 +215,8 @@ const DashboardTopBar = () => {
         <Toolbar
           style={{
             display: "flex",
-            justifyContent:
-              window.location.pathname === "/mainpage/dashboard" ||
-              window.location.pathname === "/mainpage/dashboard/logSummary"
-                ? "space-between"
-                : "flex-end",
+            justifyContent: "space-between",
+              
             backgroundColor: colors.primary[400],
           }}
         >
@@ -242,6 +239,17 @@ const DashboardTopBar = () => {
               <Tab label="Log Summary" sx={{ color: "#FFF" }} />
             </Tabs>
           ) : null}
+
+          <Box sx={{ alignItems: "flex-start", marginTop: "10px"}}>
+            {window.location.pathname === "/mainpage/traces" ? (
+              <Typography variant="h5" sx={{ color: "#FFF" }}>TRACES</Typography>
+            ) : window.location.pathname === "/mainpage/metrics" ? (
+              <Typography variant="h5" sx={{ color: "#FFF" }}>METRICS</Typography>
+            ) : window.location.pathname === "/mainpage/logs" ? (
+              <Typography variant="h5" sx={{ color: "#FFF" }}>LOGS</Typography>
+            ) : null}
+          </Box>
+
           <Box
             sx={{
               display: "flex",

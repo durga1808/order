@@ -642,7 +642,8 @@ const Loglists = () => {
             sx={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: needLogFilterCall ? "flex-start" : "space-around"
+              justifyContent: needLogFilterCall ? "flex-start" : "space-around",
+              // backgroundColor: "yellow"
             }}
           >
             <TextField
@@ -671,7 +672,11 @@ const Loglists = () => {
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-                justifyContent: "space-between"
+                justifyContent: "space-between",
+                // backgroundColor: "limegreen",
+                // marginBottom: "20px",
+                // padding: "-20px",
+                height: "57px",
               }}>
                 <div style={{
                   display: "flex",
@@ -692,7 +697,7 @@ const Loglists = () => {
                     onChange={handleSortOrderChange}
                     // displayEmpty
                     // inputProps={{ "aria-label": "Select Sort Order" }}
-                    style={{ width: "150px", height: "41px" }}
+                    style={{ width: "150px", height: "52px" }}
                   >
                     <MenuItem value="" disabled>
                       Sort Order
@@ -727,6 +732,7 @@ const Loglists = () => {
             elevation={6}
             sx={{
               padding: "20px",
+              marginTop: "10px",
               // height: "calc(78vh - 72px)"
             }}
           >
