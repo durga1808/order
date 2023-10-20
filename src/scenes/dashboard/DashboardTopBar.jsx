@@ -310,6 +310,7 @@
                       //   onClear: () => setStartDate(null),
                       // },
                     }}
+                    disableFuture
                     sx={{
                       width: 153,
                       marginRight: 2,
@@ -379,6 +380,7 @@
                         textField: { variant: "standard" },
                         field: { clearable: true, onClear: () => endDateClear() },
                       }}
+                      disableFuture
                       className="customDatePicker"
                       sx={{
                         boxShadow: 0,
