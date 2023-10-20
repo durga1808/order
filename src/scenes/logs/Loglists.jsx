@@ -1069,6 +1069,7 @@ const Loglists = () => {
                                   padding: "5px",
                                   whiteSpace: "nowrap",
                                   overflow: "hidden",
+                                  color: "#fff"
                                 }}
                               >
                                 Field
@@ -1083,6 +1084,7 @@ const Loglists = () => {
                                   padding: "5px",
                                   whiteSpace: "nowrap",
                                   overflow: "hidden",
+                                  color: "#fff"
                                 }}
                               >
                                 Value
