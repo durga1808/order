@@ -102,11 +102,15 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
     },
   ];
 
+  const chartWidth = isCollapsed ? 'calc(175vh - 10px)' : 'calc(160vh - 70px)'
+  
+
   return (
     <div
       data-theme={theme.palette.mode}
       style={{
-        height: "250px",
+        height: "calc(40vh - 20px)",
+        width: chartWidth,
         overflowX: "auto",
         overflowY: "hidden",
         scrollbarColor: "blue",
@@ -116,8 +120,8 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
         options={options}
         series={series}
         type="bar"
-        height={250}
-        width={isCollapsed?1350:1180}
+        height={"90%"}
+        width={"100%"}
       />
     </div>
   );

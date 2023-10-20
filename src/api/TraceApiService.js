@@ -184,7 +184,7 @@ export const getTraceSummaryDataWithDate = async (
       console.log(
         `Minutes call + ${traceURL}/TraceSumaryChartDataCount?minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}&to=${startDate}`
       );
-      finalUrl = `${traceURL}/TraceSumaryChartDataCount?minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}&to=${startDate}`;
+      finalUrl = `${traceURL}/TraceSumaryChartDataCount?from=${startDate}&minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}`;
     }
 
     const response = await axios.get(finalUrl);

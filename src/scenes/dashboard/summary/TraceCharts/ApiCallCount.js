@@ -94,14 +94,17 @@ const ApiCallCount = ({ data }) => {
       data: data.map((item) => item.apiCallCount),
     },
   ];
+
+  const chartWidth = isCollapsed ? 'calc(85vh - 20px)' : 'calc(75vh - 20px)'
+
   return (
-    <div data-theme={theme.palette.mode}>
+    <div data-theme={theme.palette.mode} style={{height:"calc(40vh - 20px)",width:chartWidth}} >
       <ReactApexChart
         options={apiCallsOptions}
         series={apiCallsSeries}
         type="bar"
-        height={225}
-        width={isCollapsed?640:550}
+        height={"90%"}
+        width={"100%"}
       />
     </div>
   );

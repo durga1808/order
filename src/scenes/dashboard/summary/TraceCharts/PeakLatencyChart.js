@@ -86,14 +86,19 @@ const PeakLatencyChart = ({ data }) => {
       data: data.map((item) => item.peakLatency),
     },
   ];
+
+
+  const chartWidth = isCollapsed ? 'calc(80vh - 20px)' : 'calc(75vh - 30px)'
+
+
   return (
-    <div data-theme={theme.palette.mode}>
+    <div data-theme={theme.palette.mode} style={{height:"calc(40vh - 20px)",width:chartWidth}} >
       <ReactApexChart
         options={peakLatencyOptions}
         series={peakLatencySeries}
         type="bar"
-        height={225}
-        width={isCollapsed?640:550}
+        height={"90%"}
+        width={"100%"}
       />
     </div>
   );

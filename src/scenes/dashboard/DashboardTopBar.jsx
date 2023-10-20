@@ -95,16 +95,18 @@ import { format } from "date-fns";
       window.location.pathname === "/mainpage/logs" ?colors.tabColor[500]:"#666663",
     };
 
-    useEffect(() => {
-      if (endDate !== null) {
-        console.log("jhek");
-        setNeedHistoricalData(true);
-        localStorage.setItem("needHistoricalData", true);
-      } else {
-        setNeedHistoricalData(false);
-        localStorage.setItem("needHistoricalData", false);
-      }
-    }, [endDate]);
+  useEffect(() => {
+    if (endDate !== null) {
+      console.log("jhek");
+      setNeedHistoricalData(true);
+      localStorage.setItem("needHistoricalData", true);
+    } else {
+      setNeedHistoricalData(false);
+      localStorage.setItem("needHistoricalData", false);
+    }
+    setTraceGlobalEmpty(null);
+    setTraceGlobalError(null);
+  }, [endDate, setNeedHistoricalData]);
 
     const formattedDate = format(new Date(), "yyyy-MM-dd");
 
@@ -182,24 +184,42 @@ import { format } from "date-fns";
       setTraceGlobalError(null);
     };
 
-    const endDateClear = () => {
-      console.log("On Clear");
-      setEndDate(null);
-      setNeedHistoricalData(false);
-      localStorage.setItem("needHistoricalData", false);
-    };
+  const endDateClear = () => {
+    console.log("On Clear");
+    setEndDate(null);
+    setNeedHistoricalData(false);
+    const currentDate = new Date(); // Get the current date
+    const currentDateFormatted = format(currentDate, "yyyy-MM-dd");
 
-    const startDateClear = () => {
-      setStartDate(null);
-    };
+    if (selectedStartDate !== currentDateFormatted) {
+      // If startDate is not today, set endDate to today's date
+      setSelectedStartDate(currentDateFormatted);
+      setStartDate(currentDate);
+    }
 
-    const handleStartDateChange = (date) => {
-      const formattedDate = format(date, "yyyy-MM-dd");
-      console.log("Formatted Date " + formattedDate);
-      setMetricRender(false);
-      setSelectedStartDate(formattedDate);
-      setStartDate(date);
-    };
+    localStorage.setItem("needHistoricalData", false);
+  };
+
+  const startDateClear = () => {
+    setStartDate(null);
+  };
+
+  const handleStartDateChange = (date) => {
+    const formattedDate = format(date, "yyyy-MM-dd");
+    console.log("Formatted Date " + formattedDate);
+    setMetricRender(false);
+    setSelectedStartDate(formattedDate);
+
+    const currentDate = new Date(); 
+    const currentDateFormatted = format(currentDate, "yyyy-MM-dd");
+
+    if (formattedDate !== currentDateFormatted) {
+      setSelectedEndDate(currentDateFormatted);
+      setEndDate(currentDate);
+    }
+
+    setStartDate(date);
+  };
 
   const handleEndDateChange = (date) => {
     if (date !== null) {
@@ -297,6 +317,7 @@ import { format } from "date-fns";
                       //   onClear: () => setStartDate(null),
                       // },
                     }}
+                    disableFuture
                     sx={{
                       width: 153,
                       marginRight: 2,
@@ -366,6 +387,7 @@ import { format } from "date-fns";
                         textField: { variant: "standard" },
                         field: { clearable: true, onClear: () => endDateClear() },
                       }}
+                      disableFuture
                       className="customDatePicker"
                       sx={{
                         boxShadow: 0,
