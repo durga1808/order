@@ -210,11 +210,10 @@
     setMetricRender(false);
     setSelectedStartDate(formattedDate);
 
-    const currentDate = new Date(); // Get the current date
+    const currentDate = new Date(); 
     const currentDateFormatted = format(currentDate, "yyyy-MM-dd");
 
     if (formattedDate !== currentDateFormatted) {
-      // If startDate is not today, set endDate to today's date
       setSelectedEndDate(currentDateFormatted);
       setEndDate(currentDate);
     }
