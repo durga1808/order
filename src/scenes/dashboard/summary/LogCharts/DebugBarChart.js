@@ -84,14 +84,17 @@ const DebugBarChart = ({ data }) => {
       data: data.map((item) => item.debugCallCount),
     },
   ];
+
+  const chartWidth = isCollapsed ? 'calc(175vh - 10px)' : "calc(90vh - 70px)"
+
   return (
-    <div data-theme={theme.palette.mode}>
+    <div data-theme={theme.palette.mode} style={{height: "calc(40vh - 20px)" ,width: chartWidth,}}>
       <ReactApexChart
         options={DebugBarChartOption}
         series={debugcountseries}
         type="bar"
-        height={225}
-        width={isCollapsed?640:550}
+        height={"90%"}
+        width={"100%"}
       />
     </div>
   );

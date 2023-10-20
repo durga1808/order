@@ -119,10 +119,10 @@ const LogBarChart = () => {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: 280 }}>
+              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 20px)" }}>
                 <CardContent>
                   {hasErrChartData ? (
-                    <ErrorBarChart
+                    <ErrorBarChart  
                       data={integrationdata}
                       onBarClick={handleBarClick}
                     />
@@ -174,7 +174,7 @@ const LogBarChart = () => {
           <Grid container spacing={2}>
             {" "}
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "5px 15px 5px 25px", height: 250 }}>
+              <Card elevation={3} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 20px)" }}>
                 <CardContent>
                   {hasDebugChartData ? (
                     // If any item has debugCallCount !== 0, display the chart
@@ -192,7 +192,7 @@ const LogBarChart = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: 250 }}>
+              <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 20px)" }}>
                 <CardContent>
                   {hasWarnChartData ? (
                     <WarnBarChart data={integrationdata} />

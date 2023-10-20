@@ -740,7 +740,7 @@ const Loglists = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     width: "100%",
-                    height: "80vh",
+                    // height: "80vh",
                   }}
                 >
                   <Typography variant="h5" fontWeight={"600"}>
@@ -754,7 +754,7 @@ const Loglists = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     width: "100%",
-                    height: "80vh",
+                    // height: "80vh",
                   }}
                 >
                   <Typography variant="h5" fontWeight={"600"}>
@@ -768,7 +768,7 @@ const Loglists = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     width: "100%",
-                    height: "80vh",
+                    // height: "80vh",
                   }}
                 >
                   <Typography variant="h5" fontWeight={"600"}>
