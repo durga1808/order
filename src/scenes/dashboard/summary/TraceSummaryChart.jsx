@@ -26,7 +26,7 @@ const TraceBarChart = () => {
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
   const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService, setMetricRender, setTraceSummaryService, setLogSummaryService, selectedStartDate,
-    selectedEndDate ,needHistoricalData} = useContext(GlobalContext);
+    selectedEndDate ,needHistoricalData,isCollapsed} = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -118,6 +118,11 @@ const TraceBarChart = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  // const chartWidth = isCollapsed ? 'calc(175vh - 10px)' : 'calc(155vh - 15px)'
+  // const chartWidth2 = isCollapsed ? 'calc(90vh - 20px)' : 'calc(80vh - 10px)'
+  // const chartWidth3 = isCollapsed ? 'calc(85vh - 20px)' : 'calc(75vh - 15px)'
+
   return (
     <div>
       {loading ? (
@@ -143,7 +148,7 @@ const TraceBarChart = () => {
               {" "}
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: 280 }}>
+                  <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 28px)", }}>
                     <CardContent>
                       {hasErrChartData || hasSuccChartData ? (
                         <ErrSucssCallCountChart
@@ -152,7 +157,7 @@ const TraceBarChart = () => {
                         />
                       ) : (
                         // <div>Error and Success Call Count Chart - No Data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 240, width: "100%" }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(40vh - 24px)", width: "100%" }}>
                           <Typography variant="h5" fontWeight={"600"}>
                             Error and Success Count Chart - No Data
                           </Typography>
@@ -189,7 +194,7 @@ const TraceBarChart = () => {
               <Grid container spacing={2}>
                 {" "}
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", height: 250 }}>
+                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 25px)" }}>
                     <CardContent>
                       {/* {integrationdata.map((items) =>
                         items.apiCallCount !== 0 ? (
@@ -203,7 +208,7 @@ const TraceBarChart = () => {
                         <ApiCallCount data={integrationdata} />
                       ) : (
                         // <div>Api Call Count Chart - No data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(40vh - 25px)" }}>
                           <Typography variant="h5" fontWeight={"600"}>
                             Api Count Chart - No data
                           </Typography>
@@ -213,13 +218,13 @@ const TraceBarChart = () => {
                   </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: 250 }}>
+                  <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 25px)" }}>
                     <CardContent>
                       {hasPeakChartData ? (
                         <PeakLatencyChart data={integrationdata} />
                       ) : (
                         // <div>PeakLatency Call Count Chart - No data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(40vh - 25px)" }}>
                           <Typography variant="h5" fontWeight={"600"}>
                             PeakLatency Count Chart - No data
                           </Typography>

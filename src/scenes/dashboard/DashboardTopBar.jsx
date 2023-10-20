@@ -100,7 +100,9 @@ const DashboardTopBar = () => {
       setNeedHistoricalData(false);
       localStorage.setItem("needHistoricalData", false);
     }
-  }, [endDate]);
+    setTraceGlobalEmpty(null);
+    setTraceGlobalError(null);
+  }, [endDate, setNeedHistoricalData]);
 
   const formattedDate = format(new Date(), "yyyy-MM-dd");
 
@@ -182,6 +184,15 @@ const DashboardTopBar = () => {
     console.log("On Clear");
     setEndDate(null);
     setNeedHistoricalData(false);
+    const currentDate = new Date(); // Get the current date
+    const currentDateFormatted = format(currentDate, "yyyy-MM-dd");
+
+    if (selectedStartDate !== currentDateFormatted) {
+      // If startDate is not today, set endDate to today's date
+      setSelectedStartDate(currentDateFormatted);
+      setStartDate(currentDate);
+    }
+
     localStorage.setItem("needHistoricalData", false);
   };
 
@@ -189,11 +200,29 @@ const DashboardTopBar = () => {
     setStartDate(null);
   };
 
+  // const handleStartDateChange = (date) => {
+  //   const formattedDate = format(date, "yyyy-MM-dd");
+  //   console.log("Formatted Date " + formattedDate);
+  //   setMetricRender(false);
+  //   setSelectedStartDate(formattedDate);
+  //   setStartDate(date);
+  // };
+
   const handleStartDateChange = (date) => {
     const formattedDate = format(date, "yyyy-MM-dd");
     console.log("Formatted Date " + formattedDate);
     setMetricRender(false);
     setSelectedStartDate(formattedDate);
+
+    const currentDate = new Date(); // Get the current date
+    const currentDateFormatted = format(currentDate, "yyyy-MM-dd");
+
+    if (formattedDate !== currentDateFormatted) {
+      // If startDate is not today, set endDate to today's date
+      setSelectedEndDate(currentDateFormatted);
+      setEndDate(currentDate);
+    }
+
     setStartDate(date);
   };
 
@@ -217,14 +246,14 @@ const DashboardTopBar = () => {
             display: "flex",
             justifyContent:
               window.location.pathname === "/mainpage/dashboard" ||
-              window.location.pathname === "/mainpage/dashboard/logSummary"
+                window.location.pathname === "/mainpage/dashboard/logSummary"
                 ? "space-between"
                 : "flex-end",
             backgroundColor: colors.primary[400],
           }}
         >
           {window.location.pathname === "/mainpage/dashboard" ||
-          window.location.pathname === "/mainpage/dashboard/logSummary" ? (
+            window.location.pathname === "/mainpage/dashboard/logSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -250,7 +279,7 @@ const DashboardTopBar = () => {
               justifyContent: "space-between",
             }}
           >
-           
+
             <div
               style={{
                 alignItems: "center",
@@ -285,6 +314,7 @@ const DashboardTopBar = () => {
                       //   onClear: () => setStartDate(null),
                       // },
                     }}
+                    disableFuture
                     sx={{
                       width: 153,
                       marginRight: 2,
@@ -354,6 +384,7 @@ const DashboardTopBar = () => {
                       textField: { variant: "standard" },
                       field: { clearable: true, onClear: () => endDateClear() },
                     }}
+                    disableFuture
                     className="customDatePicker"
                     sx={{
                       boxShadow: 0,
@@ -491,8 +522,8 @@ const DashboardTopBar = () => {
               </Box>
             </div>
             {window.location.pathname === "/mainpage/traces" ||
-            window.location.pathname === "/mainpage/metrics" ||
-            window.location.pathname === "/mainpage/logs" ? (
+              window.location.pathname === "/mainpage/metrics" ||
+              window.location.pathname === "/mainpage/logs" ? (
               <div
                 style={{
                   alignItems: "center",
