@@ -119,7 +119,7 @@ const LogBarChart = () => {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 20px)" }}>
+              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 28px)" }}>
                 <CardContent>
                   {hasErrChartData ? (
                     <ErrorBarChart  
@@ -128,7 +128,7 @@ const LogBarChart = () => {
                     />
                   ) : (
 
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250, width: "100%" }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(40vh - 24px)", width: "100%" }}>
                       <Typography variant="h5" fontWeight={"600"}>
                         Error Count Chart - No data
                       </Typography>
@@ -182,7 +182,7 @@ const LogBarChart = () => {
                   ) : (
                     // If no item has debugCallCount !== 0, display "No Data" once
                     // <div>Debug Call Count Chart - No data</div>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(40vh - 20px)" }}>
                       <Typography variant="h5" fontWeight={"600"}>
                         Debug Count Chart - No data
                       </Typography>
@@ -198,7 +198,7 @@ const LogBarChart = () => {
                     <WarnBarChart data={integrationdata} />
                   ) : (
                     // <div>Warn Call Count Chart - No Data</div>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: 250 }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(40vh - 20px)" }}>
                       <Typography variant="h5" fontWeight={"600"}>
                         Warn Count Chart - No Data
                       </Typography>
