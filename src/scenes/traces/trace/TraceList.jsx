@@ -174,6 +174,35 @@ const TraceList = () => {
 
   // setupAxiosInterceptor(setTraceLoading);
 
+  const handleCardClick = (traceId, index) => {
+    console.log("Clicked");
+    const spanApiCall = async (traceId) => {
+      try {
+        setTraceLoading(true);
+        const data = await FindByTraceIdForSpans(traceId);
+        console.log("OUTPUT " + JSON.stringify(data.data[0]));
+        setSelectedTrace(data.data[0]);
+        setTraceLoading(false);
+      } catch (error) {
+        console.log("ERROR " + error);
+        setTraceLoading(false);
+      }
+    };
+    spanApiCall(traceId);
+    setActiveTraceId(traceId);
+    setActiveTraceIcon(true);
+  };
+
+  const dashboardTraceMap = useCallback(() => {
+    if (recentTrace.length !== 0) {
+      console.log("Trace UseEffect called!" + recentTrace);
+      setTraceData(recentTrace);
+    } else if (logTrace.length !== 0) {
+      setTraceData(logTrace);
+      handleCardClick(logTrace[0].traceId);
+    }
+  }, [recentTrace, setTraceData, logTrace]);
+
   const apiCall = useCallback(
     async () => {
       try {
@@ -199,22 +228,23 @@ const TraceList = () => {
         );
         const updatedData = createTimeInWords(data);
 
-      if (updatedData.length === 0) {
-        setTraceGlobalEmpty("No Data to Display!");
-      } else {
-        setTraceData(updatedData);
-        setTotalPageCount(Math.ceil(totalCount / pageLimit));
-      }
+        if (updatedData.length === 0) {
+          setTraceGlobalEmpty("No Data to Display!");
+        } else {
+          setTraceData(updatedData);
+          handleCardClick(updatedData[0].traceId);
+          setTotalPageCount(Math.ceil(totalCount / pageLimit));
+        }
 
-      // setTraceLoading(false);
-      setLoading(false);
-    } catch (error) {
-      console.log("ERROR " + error);
-      setTraceGlobalError("An error occurred");
-      // setTraceLoading(false);
-      setLoading(false);
-    }
-  }, [
+        // setTraceLoading(false);
+        setLoading(false);
+      } catch (error) {
+        console.log("ERROR " + error);
+        setTraceGlobalError("An error occurred");
+        // setTraceLoading(false);
+        setLoading(false);
+      }
+    }, [
     pageLimit,
     traceSummaryService,
     currentPage,
@@ -250,6 +280,7 @@ const TraceList = () => {
         );
       } else {
         setTraceData(updatedData);
+        handleCardClick(updatedData[0].traceId);
         setTotalPageCount(Math.ceil(totalCount / pageLimit));
       }
 
@@ -275,34 +306,7 @@ const TraceList = () => {
     needHistoricalData,
   ]);
 
-  const handleCardClick = (traceId, index) => {
-    console.log("Clicked");
-    const spanApiCall = async (traceId) => {
-      try {
-        setTraceLoading(true);
-        const data = await FindByTraceIdForSpans(traceId);
-        console.log("OUTPUT " + JSON.stringify(data.data[0]));
-        setSelectedTrace(data.data[0]);
-        setTraceLoading(false);
-      } catch (error) {
-        console.log("ERROR " + error);
-        setTraceLoading(false);
-      }
-    };
-    spanApiCall(traceId);
-    setActiveTraceId(traceId);
-    setActiveTraceIcon(true);
-  };
-
-  const dashboardTraceMap = useCallback(() => {
-    if (recentTrace.length !== 0) {
-      console.log("Trace UseEffect called!" + recentTrace);
-      setTraceData(recentTrace);
-    } else if (logTrace.length !== 0) {
-      setTraceData(logTrace);
-      handleCardClick(logTrace[0].traceId);
-    }
-  }, [recentTrace, setTraceData, logTrace]);
+  
 
   // useEffect(() => {
   //   console.log("Trace UseEffect called!");
@@ -442,11 +446,11 @@ const TraceList = () => {
                     style={{
                       backgroundColor:
                         item.type === "page" && item.page !== currentPage
-                          ?null
+                          ? null
                           : colors.primary[400],
                       color:
                         item.type === "page" && item.page === currentPage
-                          ?"#FFF"
+                          ? "#FFF"
                           : null,
 
                       // backgroundColor:colors.primary[]
@@ -511,14 +515,14 @@ const TraceList = () => {
             >
               {traceData.map((trace, index) => (
                 <Card
-                elevation={4}
+                  elevation={4}
                   className="tracelist-card"
                   key={index}
                   sx={{
                     margin: "10px 0 15px 0",
                     width: "calc(560px-10px)",
                     height: "fit-content",
-                    
+
                   }}
                 >
                   {/* <CardActionArea> */}
@@ -533,8 +537,8 @@ const TraceList = () => {
                           trace.statusCode >= 400 && trace.statusCode <= 500
                             ? colors.redAccent[500]
                             : colors.primary[400],
-                        color:"#FFF",
-                            
+                        color: "#FFF",
+
                         padding: "5px",
                       }}
                     >
@@ -547,7 +551,7 @@ const TraceList = () => {
                       </span>
                       <span>
                         {trace.duration}ms{" "}
-                        {trace.traceId === activeTraceId ?activeTraceIcon ? <ArrowForwardOutlinedIcon style={{color:"#000",}} /> : null:null}
+                        {trace.traceId === activeTraceId ? activeTraceIcon ? <ArrowForwardOutlinedIcon style={{ color: "#000", }} /> : null : null}
                       </span>
                     </Typography>
                   </Box>
@@ -570,7 +574,7 @@ const TraceList = () => {
                             trace.statusCode >= 400 && trace.statusCode <= 500
                               ? colors.redAccent[500]
                               : colors.primary[400],
-                          color:"#FFF",
+                          color: "#FFF",
                           "&:hover": {
                             backgroundColor: "#ffffff",
                             color: colors.primary[600],
@@ -589,7 +593,7 @@ const TraceList = () => {
                             trace.statusCode >= 400 && trace.statusCode <= 500
                               ? colors.redAccent[500]
                               : colors.primary[400],
-                          color:"#FFF",
+                          color: "#FFF",
                           "&:hover": {
                             backgroundColor: "#ffffff",
                             color: colors.primary[600],
