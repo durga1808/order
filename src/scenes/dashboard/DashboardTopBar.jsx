@@ -72,6 +72,9 @@ const DashboardTopBar = () => {
     selectedEndDate,
     setSelectedEndDate,
     setNeedHistoricalData,
+    selectedService,
+    selectedLogService,
+    traceDisplayService
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -280,11 +283,11 @@ const DashboardTopBar = () => {
 
           <Box sx={{ alignItems: "flex-start", marginTop: "10px" }}>
             {window.location.pathname === "/mainpage/traces" ? (
-              <Typography variant="h5" sx={{ color: "#FFF" }}>TRACES</Typography>
+              <Typography variant="h5" sx={{ color: "#FFF" }}>TRACES / {traceDisplayService.join(', ')}</Typography>
             ) : window.location.pathname === "/mainpage/metrics" ? (
-              <Typography variant="h5" sx={{ color: "#FFF" }}>METRICS</Typography>
+              <Typography variant="h5" sx={{ color: "#FFF" }}>METRICS / {selectedService}</Typography>
             ) : window.location.pathname === "/mainpage/logs" ? (
-              <Typography variant="h5" sx={{ color: "#FFF" }}>LOGS</Typography>
+              <Typography variant="h5" sx={{ color: "#FFF" }}>LOGS / {selectedLogService.join(', ')}</Typography>
             ) : null}
           </Box>
 

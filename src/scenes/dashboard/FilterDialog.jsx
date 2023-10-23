@@ -19,7 +19,7 @@ const FilterDialog = ({ open, onClose }) => {
   const [selectedService, setSelectedService] = useState([]);
   const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
   const [selectedHttpCode, setSelectedHttpCode] = useState([]);
-  const { setNeedFilterCall, setClearTraceFilter, clearTraceFilter, setFilterApiBody, setTraceGlobalEmpty, setTraceGlobalError } = useContext(GlobalContext);
+  const { setNeedFilterCall, setClearTraceFilter, clearTraceFilter, setFilterApiBody, setTraceGlobalEmpty, setTraceGlobalError, setTraceDisplayService } = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
 
   const methods = ['POST', 'GET', 'PUT', 'DELETE'];
@@ -60,8 +60,10 @@ const FilterDialog = ({ open, onClose }) => {
   const handleServiceToggle = (service) => () => {
     if (selectedService.includes(service)) {
       setSelectedService(selectedService.filter((item) => item !== service));
+      setTraceDisplayService(selectedService.filter((item) => item !== service));
     } else {
       setSelectedService([...selectedService, service]);
+      setTraceDisplayService([...selectedService, service]);
     }
   };
 
