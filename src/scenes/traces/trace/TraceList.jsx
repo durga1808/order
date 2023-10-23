@@ -29,7 +29,7 @@ import {
   TraceListPaginationApi,
   TraceListPaginationApiWithDate,
 } from "../../../api/TraceApiService";
-import { formatDistanceToNow, parseISO } from "date-fns";
+import { format, formatDistanceToNow, parseISO } from "date-fns";
 import { useCallback } from "react";
 import setupAxiosInterceptor from "../../../api/SetupAxiosInterceptors";
 import Loading from "../../../global/Loading/Loading";
@@ -167,7 +167,8 @@ const TraceList = () => {
     const updatedData = data.map((item) => {
       const createdTime = new Date(item.createdTime); // Convert timestamp to Date object
       const timeAgo = formatDistanceToNow(createdTime, { addSuffix: true });
-      return { ...item, createdTimeInWords: timeAgo };
+      const formattedTime = format(createdTime, 'MMMM dd, yyyy HH:mm:ss a');
+      return { ...item, createdTimeInWords: timeAgo, createdTimeInDate:formattedTime };
     });
     return updatedData;
   };
@@ -603,7 +604,10 @@ const TraceList = () => {
                         <Typography variant="h8">Open Spans</Typography>
                       </Button>
                     </div>
-
+                    <Typography variant="h7">
+                        {/* <span style={{ fontWeight: "500" }}>TraceID:</span>{" "} */}
+                        {trace.createdTimeInDate}
+                      </Typography>
                     <Typography
                       variant="h7"
                       style={{
