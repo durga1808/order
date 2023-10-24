@@ -8,7 +8,7 @@ import { GlobalContext } from '../../global/globalContext/GlobalContext';
 const Logfilter = ({ open, onClose }) => {
   const [selectedService, setSelectedService] = useState([]);
   const [selectedSeverity, setSelectedSeverity] = useState([]);
-  const { setLogFilterApiBody, setNeedLogFilterCall,clearLogFilter, setClearLogFilter } = useContext(GlobalContext);
+  const { setLogFilterApiBody, setNeedLogFilterCall,clearLogFilter, setClearLogFilter ,setSelectedLogService} = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
 
   // const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
@@ -18,8 +18,10 @@ const Logfilter = ({ open, onClose }) => {
   const handleServiceToggle = (service) => () => {
     if (selectedService.includes(service)) {
       setSelectedService(selectedService.filter((item) => item !== service));
+      setSelectedLogService(selectedService.filter((item) => item !== service));
     } else {
       setSelectedService([...selectedService, service]);
+      setSelectedLogService([...selectedService, service]);
     }
   };
 
@@ -73,6 +75,7 @@ const Logfilter = ({ open, onClose }) => {
     onClose();
 
   }
+
 
   return (
     <Drawer anchor="right" open={open} onClose={onClose}  >

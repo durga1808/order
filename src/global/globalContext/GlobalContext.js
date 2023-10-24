@@ -50,6 +50,8 @@ const GlobalContextProvider = ({ children }) => {
     const [selectedStartDate, setSelectedStartDate] = useState(formattedDate);
     const [selectedEndDate, setSelectedEndDate] = useState(formattedDate);
     const [needHistoricalData, setNeedHistoricalData] = useState(false);
+    const [selectedLogService, setSelectedLogService] = useState([]);
+    const [traceDisplayService, setTraceDisplayService] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -135,7 +137,11 @@ const GlobalContextProvider = ({ children }) => {
                 selectedEndDate,
                 setSelectedEndDate,
                 needHistoricalData,
-                setNeedHistoricalData
+                setNeedHistoricalData,
+                selectedLogService,
+                setSelectedLogService,
+                traceDisplayService,
+                setTraceDisplayService
             }}
         >
             {children}
