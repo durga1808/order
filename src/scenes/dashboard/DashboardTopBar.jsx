@@ -74,7 +74,9 @@ const DashboardTopBar = () => {
     setNeedHistoricalData,
     selectedService,
     selectedLogService,
-    traceDisplayService
+    traceDisplayService,
+    setTraceDisplayService,
+    setSelectedLogService,
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -149,6 +151,8 @@ const DashboardTopBar = () => {
     setNeedHistoricalData(false);
     localStorage.setItem("needHistoricalData", false);
     setPreviousStartDate(false);
+    setTraceDisplayService([]);
+    setSelectedLogService([]);
   };
 
   const handleTabChange = (event, newValue) => {
@@ -204,12 +208,12 @@ const DashboardTopBar = () => {
     // }
 
     localStorage.setItem("needHistoricalData", false);
-    if(previousStartDate){
+    if (previousStartDate) {
       setSelectedEndDate(selectedStartDate);
     } else {
       setSelectedEndDate(EmptyformattedDate);
     }
-    
+
   };
 
   const startDateClear = () => {
@@ -283,11 +287,13 @@ const DashboardTopBar = () => {
 
           <Box sx={{ alignItems: "flex-start", marginTop: "10px" }}>
             {window.location.pathname === "/mainpage/traces" ? (
-              <Typography variant="h5" sx={{ color: "#FFF" }}>TRACES / {traceDisplayService.join(', ')}</Typography>
+              <Typography variant="h5" sx={{ color: "#FFF" }}>
+                TRACES {traceDisplayService.length > 0 ? `(${traceDisplayService.join(', ')})` : ''}
+              </Typography>
             ) : window.location.pathname === "/mainpage/metrics" ? (
-              <Typography variant="h5" sx={{ color: "#FFF" }}>METRICS / {selectedService}</Typography>
+              <Typography variant="h5" sx={{ color: "#FFF" }}>METRICS {`(${selectedService})`}</Typography>
             ) : window.location.pathname === "/mainpage/logs" ? (
-              <Typography variant="h5" sx={{ color: "#FFF" }}>LOGS / {selectedLogService.join(', ')}</Typography>
+              <Typography variant="h5" sx={{ color: "#FFF" }}>LOGS {selectedLogService.length > 0 ? `(${selectedLogService.join(', ')})` : ''}</Typography>
             ) : null}
           </Box>
 
