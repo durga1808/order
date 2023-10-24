@@ -12,6 +12,7 @@ import { useContext } from "react";
 import { tokens } from "../theme";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "./globalContext/GlobalContext";
+import logo from "../assets/zaga-logedit.jpg"
 
 const SideNavbar = () => {
   const theme = useTheme();
@@ -68,17 +69,28 @@ const SideNavbar = () => {
             },
           }}
         >
+          {!isCollapsed ? (<Box style={{ margin: "8px 10px -8px 33px", }} >
+            <img
+              src={logo}
+              alt="Logo"
+              style={{
+                width: "180px",
+                height: "60px",
+              }}
+            />
+          </Box>) : null}
+
           <MenuItem
             onClick={handleclose}
             icon={isCollapsed ? <MenuOutlined /> : undefined}
-            style={{ margin: "10px 10px 5px 13px", padding: "10px" }}
+            style={{ margin: "5px 10px 5px 13px", padding: "10px" }}
           >
             <Box
               display="flex"
               justifyContent="space-between"
               alignItems="center"
-              // ml="1px"
-              // mt="5px"
+            // ml="1px"
+            // mt="5px"
             >
               <Typography variant="h4" fontWeight="500" marginLeft={1}>
                 OBSERVABILITY
