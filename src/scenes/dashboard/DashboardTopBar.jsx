@@ -6,7 +6,14 @@ import Tab from "@mui/material/Tab";
 import FilterDialog from "./FilterDialog";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
-import { Box, IconButton, MenuItem, Select, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  MenuItem,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
 import Dropdown from "react-dropdown";
@@ -84,6 +91,7 @@ const DashboardTopBar = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
   const [previousStartDate, setPreviousStartDate] = useState(false);
+ 
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -92,13 +100,16 @@ const DashboardTopBar = () => {
     backgroundColor: theme.palette.mode === "light" ? "#339999" : "#A9A9A9",
   };
 
-  const RefreshiconStyle = { fontSize: "20px", color: colors.tabColor[500] }
+  const RefreshiconStyle = { fontSize: "20px", color: colors.tabColor[500] };
 
   const iconStyle = {
     fontSize: "20px",
-    color: window.location.pathname === "/mainpage/traces" ||
+    color:
+      window.location.pathname === "/mainpage/traces" ||
       window.location.pathname === "/mainpage/metrics" ||
-      window.location.pathname === "/mainpage/logs" ? colors.tabColor[500] : "#666663",
+      window.location.pathname === "/mainpage/logs"
+        ? colors.tabColor[500]
+        : "#666663",
   };
 
   useEffect(() => {
@@ -213,7 +224,6 @@ const DashboardTopBar = () => {
     } else {
       setSelectedEndDate(EmptyformattedDate);
     }
-
   };
 
   const startDateClear = () => {
@@ -238,6 +248,7 @@ const DashboardTopBar = () => {
       setPreviousStartDate(false);
       setEndDate(null);
     }
+    
 
     setStartDate(date);
   };
@@ -249,6 +260,7 @@ const DashboardTopBar = () => {
       setMetricRender(false);
       setSelectedEndDate(formattedDate);
       setEndDate(date);
+      
     }
   };
   const appBarStyles = {
@@ -266,7 +278,7 @@ const DashboardTopBar = () => {
           }}
         >
           {window.location.pathname === "/mainpage/dashboard" ||
-            window.location.pathname === "/mainpage/dashboard/logSummary" ? (
+          window.location.pathname === "/mainpage/dashboard/logSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -305,7 +317,6 @@ const DashboardTopBar = () => {
               justifyContent: "space-between",
             }}
           >
-
             <div
               style={{
                 alignItems: "center",
@@ -333,13 +344,17 @@ const DashboardTopBar = () => {
                   }}
                 >
                   <DatePicker
+                    value={startDate}
+                    onChange={handleStartDateChange}
                     slotProps={{
                       textField: { variant: "standard" },
+
                       // field: {
                       //   clearable: true,
                       //   onClear: () => setStartDate(null),
                       // },
                     }}
+                    maxDate={endDate}
                     disableFuture
                     sx={{
                       width: 153,
@@ -371,8 +386,6 @@ const DashboardTopBar = () => {
                         fontSize: 18, // Adjust the font size of the clearable icon
                       },
                     }}
-                    value={startDate}
-                    onChange={handleStartDateChange}
                   />
                 </Box>
               </LocalizationProvider>
@@ -405,6 +418,8 @@ const DashboardTopBar = () => {
                 >
                   <DatePicker
                     value={endDate}
+                    minDate={startDate}
+                    maxDate={new Date()}
                     onChange={handleEndDateChange}
                     slotProps={{
                       textField: { variant: "standard" },
@@ -473,9 +488,12 @@ const DashboardTopBar = () => {
               <div>
                 {" "}
                 <Select
-
                   value={lookBackVal}
-                  onChange={(endDate !== null || previousStartDate) ? null : handleLookbackChange}
+                  onChange={
+                    endDate !== null || previousStartDate
+                      ? null
+                      : handleLookbackChange
+                  }
                   sx={{
                     minWidth: 153,
                     maxHeight: 35,
@@ -485,10 +503,24 @@ const DashboardTopBar = () => {
                     // color:"",
                     backgroundColor:
                       theme.palette.mode === "dark" ? "#848482" : "#FFF",
-                    color: theme.palette.mode === "dark" ? (endDate !== null || previousStartDate) ? "#B3B3AD" : "#FFF" : (endDate !== null || previousStartDate) ? "lightgray" : "#000",
+                    color:
+                      theme.palette.mode === "dark"
+                        ? endDate !== null || previousStartDate
+                          ? "#B3B3AD"
+                          : "#FFF"
+                        : endDate !== null || previousStartDate
+                        ? "lightgray"
+                        : "#000",
                     padding: "7px 16px",
                     "& .MuiSelect-icon": {
-                      color: theme.palette.mode === "dark" ? (endDate !== null || previousStartDate) ? "#B3B3AD" : "#FFF" : (endDate !== null || previousStartDate) ? "lightgray" : "#000", // Customize the dropdown arrow color
+                      color:
+                        theme.palette.mode === "dark"
+                          ? endDate !== null || previousStartDate
+                            ? "#B3B3AD"
+                            : "#FFF"
+                          : endDate !== null || previousStartDate
+                          ? "lightgray"
+                          : "#000", // Customize the dropdown arrow color
                     },
                     "& .MuiSelect-root": {
                       color: "#000", // Customize the dropdown text color
@@ -498,11 +530,24 @@ const DashboardTopBar = () => {
                     },
                   }}
                 >
-                  <MenuItem value="" disabled >
+                  <MenuItem value="" disabled>
                     Select Time
                   </MenuItem>
                   {options.map((option, index) => (
-                    <MenuItem key={index} value={option} sx={{ color: theme.palette.mode === "dark" ? (endDate !== null || previousStartDate) ? "#666663" : "#FFF" : (endDate !== null || previousStartDate) ? "lightgray" : "#000" }}>
+                    <MenuItem
+                      key={index}
+                      value={option}
+                      sx={{
+                        color:
+                          theme.palette.mode === "dark"
+                            ? endDate !== null || previousStartDate
+                              ? "#666663"
+                              : "#FFF"
+                            : endDate !== null || previousStartDate
+                            ? "lightgray"
+                            : "#000",
+                      }}
+                    >
                       {option.label}
                     </MenuItem>
                   ))}
@@ -566,9 +611,12 @@ const DashboardTopBar = () => {
                   marginBottom: "5px",
                   marginLeft: "5px",
 
-                  color: window.location.pathname === "/mainpage/traces" ||
+                  color:
+                    window.location.pathname === "/mainpage/traces" ||
                     window.location.pathname === "/mainpage/metrics" ||
-                    window.location.pathname === "/mainpage/logs" ? colors.tabColor[500] : "#666663",
+                    window.location.pathname === "/mainpage/logs"
+                      ? colors.tabColor[500]
+                      : "#666663",
                 }}
               >
                 Filter
@@ -584,9 +632,13 @@ const DashboardTopBar = () => {
               >
                 <Tooltip title="Filter">
                   <IconButton
-                    onClick={window.location.pathname === "/mainpage/traces" ||
+                    onClick={
+                      window.location.pathname === "/mainpage/traces" ||
                       window.location.pathname === "/mainpage/metrics" ||
-                      window.location.pathname === "/mainpage/logs" ? handleFilterClick : null}
+                      window.location.pathname === "/mainpage/logs"
+                        ? handleFilterClick
+                        : null
+                    }
                     style={FilterbuttonStyle}
                   >
                     <FilterListOutlined style={iconStyle} />
