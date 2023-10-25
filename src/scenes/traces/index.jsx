@@ -6,6 +6,8 @@ import SpanFlow from "./trace/spanReactFlow/SpanFlow";
 import SpanInfo from "./trace/spanReactFlow/SpanInfo";
 import { useContext } from "react";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
+import KeyboardDoubleArrowRightRoundedIcon from '@mui/icons-material/KeyboardDoubleArrowRightRounded';
+
 
 const Traces = () => {
   const theme = useTheme();

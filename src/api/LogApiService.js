@@ -196,6 +196,7 @@ export const LogFilterOptionWithDate = async (
   startDate,
   endDate,
   minutesAgo,
+  sortOrder,
   page,
   pageSize,
   payload
@@ -207,16 +208,19 @@ export const LogFilterOptionWithDate = async (
     );
     var finalUrl;
 
+    // endDate=2023-10-25&page=1&pageSize=10&sortOrder=error&startDate=2023-10-25
+    // minutesAgo=720&page=1&pageSize=10&sortOrder=error&startDate=2023-10-25
+
     if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
       console.log(
-        `History call + ${logUrl}/filterLogs?endDate=${startDate}&page=${page}&pageSize=${pageSize}&startDate=${endDate}`
+        `History call + ${logUrl}/filterLogs?endDate=${startDate}&page=${page}&pageSize=${pageSize}&sortOrder=${sortOrder}&startDate=${endDate}`
       );
-      finalUrl = `${logUrl}/filterLogs?endDate=${startDate}&page=${page}&pageSize=${pageSize}&startDate=${endDate}`;
+      finalUrl = `${logUrl}/filterLogs?endDate=${startDate}&page=${page}&pageSize=${pageSize}&sortOrder=${sortOrder}&startDate=${endDate}`;
     } else {
       console.log(
-        `Minutes call + ${logUrl}/filterLogs?minutesAgo=${minutesAgo}&&page=${page}&pageSize=${pageSize}&startDate=${startDate}`
+        `Minutes call + ${logUrl}/filterLogs?minutesAgo=${minutesAgo}&&page=${page}&pageSize=${pageSize}&sortOrder=${sortOrder}&startDate=${startDate}`
       );
-      finalUrl = `${logUrl}/filterLogs?minutesAgo=${minutesAgo}&&page=${page}&pageSize=${pageSize}&startDate=${startDate}`;
+      finalUrl = `${logUrl}/filterLogs?minutesAgo=${minutesAgo}&&page=${page}&pageSize=${pageSize}&sortOrder=${sortOrder}&startDate=${startDate}`;
     }
 
     const response = await axios.post(finalUrl, payload, {

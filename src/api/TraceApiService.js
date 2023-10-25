@@ -91,6 +91,7 @@ export const TraceFilterOption = async (lookback, page, pageSize, payload) => {
 export const TraceFilterOptionWithDate = async (
   startDate,
   minutesAgo,
+  sortorder,
   endDate,
   page,
   pageSize,
@@ -101,14 +102,15 @@ export const TraceFilterOptionWithDate = async (
 
     if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
       console.log(
-        `History call + ${traceURL}/TraceQueryFilter?from=${endDate}&page=${page}&pageSize=${pageSize}&to=${startDate}`
+        `History call + ${traceURL}/TraceQueryFilter?from=${endDate}&page=${page}&pageSize=${pageSize}&sortOrder=${sortorder}&to=${startDate}`
+
       );
-      finalUrl = `${traceURL}/TraceQueryFilter?from=${endDate}&page=${page}&pageSize=${pageSize}&to=${startDate}`;
+      finalUrl = `${traceURL}/TraceQueryFilter?from=${endDate}&page=${page}&pageSize=${pageSize}&sortOrder=${sortorder}&to=${startDate}`;
     } else {
       console.log(
-        `Minutes call + ${traceURL}/TraceQueryFilter?from=${endDate}&minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}`
+        `Minutes call + ${traceURL}/TraceQueryFilter?from=${startDate}&minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}&sortOrder=${sortorder}`
       );
-      finalUrl = `${traceURL}/TraceQueryFilter?from=${endDate}&minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}`;
+      finalUrl = `${traceURL}/TraceQueryFilter?from=${startDate}&minutesAgo=${minutesAgo}&page=${page}&pageSize=${pageSize}&sortOrder=${sortorder}`;
     }
 
     const response = await axios.post(finalUrl, payload, {
