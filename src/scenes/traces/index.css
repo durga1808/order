@@ -1,0 +1,15 @@
+@media (min-width: 1240px) {
+    body {
+        width: 100%;
+    }
+    .trace-list-container {
+        width: 100%;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    .trace-list {
+        /* overflow-x: scroll; */
+        width: 100%;
+        /* overflow-x: auto; */
+    }
+}
