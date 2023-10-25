@@ -54,10 +54,11 @@ function Topbar() {
           <IconButton aria-label="Account" onClick={handleLogout}>
             <LogoutIcon style={{ fontSize: "20px", color: "#FFF" }} />
           </IconButton>
-          <IconButton>
+         
+          <span style={{ color: colors.tabColor[500] }}>User: {user}</span>
+          <IconButton style={{marginLeft:"5px"}}>
             <Person style={{ fontSize: "20px", color: "#FFF" }} />
           </IconButton>
-          <span style={{ color: colors.tabColor[500] }}>User: {user}</span>
         </Toolbar>
       </AppBar>
     </div>
