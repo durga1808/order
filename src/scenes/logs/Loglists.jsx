@@ -415,6 +415,7 @@ const Loglists = () => {
           selectedStartDate,
           selectedEndDate,
           lookBackVal.value,
+          selectedOption,
           currentPage,
           pageLimit,
           logFilterApiBody
@@ -434,7 +435,7 @@ const Loglists = () => {
         setLoading(false);
       }
     },
-    [selectedStartDate, selectedEndDate, lookBackVal, setLogData, setTotalPageCount, pageLimit, currentPage, logFilterApiBody,needHistoricalData]
+    [selectedStartDate, selectedEndDate, lookBackVal, selectedOption,setLogData, setTotalPageCount, pageLimit, currentPage, logFilterApiBody,needHistoricalData]
   );
 
   // const [searchQuery, setSearchQuery] = useState("");
