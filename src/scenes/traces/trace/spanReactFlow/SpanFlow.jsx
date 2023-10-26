@@ -210,7 +210,7 @@ const SpanFlow = () => {
         data: {
           label: (
             <>
-              {span.name} <strong style={{color:colors.redAccent[500]}} >({calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms)</strong>
+              {span.name} <strong style={{color:colors.textColor[500]}} >({calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms)</strong>
             </>
           )
         },
@@ -252,7 +252,8 @@ const SpanFlow = () => {
   }, [selectedTrace, setSelectedSpan]);
 
 const flowBoxColor = {
-  "--primary-color": colors.primary[400]
+  "--primary-color": "#606060",
+  "--text-color":theme.palette.mode === "dark"?'#000':"#FFF"
   
 }
 
@@ -272,7 +273,7 @@ const flowBoxColor = {
                   <Typography variant="h6"  >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
                   <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
                   </div>
-                  <Card sx={{ width: "100%", color:"#FFF",backgroundColor:selectedTrace.statusCode >= 400 && selectedTrace.statusCode <= 500 ? colors.redAccent[500]:colors.primary[400], display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px 20px 10px 0px" }}>
+                  <Card sx={{ width: "100%", color:"#FFF",backgroundColor:selectedTrace.statusCode >= 400 && selectedTrace.statusCode <= 500 ? colors.redAccent[500]:"#808080", display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px 20px 10px 0px" }}>
                     {orderedSpans.map((span) => (
                       <div key={span.spanId}>
                         <div style={{ width: "fit-content", margin: "5px", overflowX: "auto" }}>{calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms</div>

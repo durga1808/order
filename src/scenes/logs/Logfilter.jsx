@@ -28,6 +28,7 @@ const Logfilter = ({ open, onClose }) => {
   const clearSelectedOptions = () => {
     setSelectedService([]);
     setSelectedSeverity([]);
+    setSelectedLogService([]);
   }
 
   const handleSeverityToggle = (severity) => () => {

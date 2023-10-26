@@ -555,6 +555,7 @@ const Loglists = () => {
 
   const handleSortOrderChange = (event) => {
     setSelectedOption(event.target.value);
+    setCurrentPage(1)
   };
 
 
