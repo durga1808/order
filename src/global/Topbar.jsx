@@ -51,14 +51,16 @@ function Topbar() {
               <Brightness4 style={{ fontSize: "20px" }} />
             )}
           </IconButton>
+          <IconButton style={{ marginLeft: "5px" }}>
+            <Person style={{ fontSize: "20px", color: "#FFF" }} />
+          </IconButton>
+
+          <span style={{ color: colors.tabColor[500] }}>User: {user}</span>
+          <div style={{marginLeft: "20px"}}>
           <IconButton aria-label="Account" onClick={handleLogout}>
             <LogoutIcon style={{ fontSize: "20px", color: "#FFF" }} />
           </IconButton>
-         
-          <span style={{ color: colors.tabColor[500] }}>User: {user}</span>
-          <IconButton style={{marginLeft:"5px"}}>
-            <Person style={{ fontSize: "20px", color: "#FFF" }} />
-          </IconButton>
+          </div>
         </Toolbar>
       </AppBar>
     </div>
