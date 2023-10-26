@@ -36,6 +36,7 @@ const Metricfilter = ({ open, onClose }) => {
 
   const clearSelectedOptions = () => {
     setSelectedService([]);
+
   };
 
   const handleServiceToggle = (service) => () => {
@@ -76,13 +77,13 @@ const Metricfilter = ({ open, onClose }) => {
             <Typography variant="h5" fontWeight="500">
               Filter Options
             </Typography>
-            <Button
+            {/* <Button
               variant="outlined"
               color="inherit"
               onClick={clearSelectedOptions}
             >
               Clear
-            </Button>
+            </Button> */}
           </ListItem>
           <Divider />
 

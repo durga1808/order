@@ -97,6 +97,7 @@ const FilterDialog = ({ open, onClose }) => {
     setSelectedHttpCode([]);
     setSelectedHttpMethod([]);
     setSelectedService([]);
+    setTraceDisplayService([]);
     setMinDurationValue(0);
     setMaxDurationValue(10000);
   };

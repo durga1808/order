@@ -99,13 +99,19 @@ const SpanInfo = () => {
                 <Typography variant="h7">{selectedSpan.duration}ms</Typography>
               </Typography>
             </div>
-            <div style={{ marginTop: "20px", paddingBottom: "20px" }}>
+            <div style={{ marginTop: "20px", paddingBottom: "20px",color:"white" }}>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 450 }} aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell>Field</StyledTableCell>
-                      <StyledTableCell align="right">Value</StyledTableCell>
+                      <StyledTableCell style={{ color: "white", fontWeight: "700",
+                                  padding: "5px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden", }}>Field</StyledTableCell>
+                      <StyledTableCell align="right" style={{ color: "white",  fontWeight: "700",
+                                  padding: "5px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden" }}>Value</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
