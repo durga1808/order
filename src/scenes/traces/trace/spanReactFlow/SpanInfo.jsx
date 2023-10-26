@@ -104,8 +104,14 @@ const SpanInfo = () => {
                 <Table sx={{ minWidth: 450 }} aria-label="customized table">
                   <TableHead>
                     <TableRow>
-                      <StyledTableCell style={{ color: "white" }}>Field</StyledTableCell>
-                      <StyledTableCell align="right" style={{ color: "white" }}>Value</StyledTableCell>
+                      <StyledTableCell style={{ color: "white", fontWeight: "700",
+                                  padding: "5px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden", }}>Field</StyledTableCell>
+                      <StyledTableCell align="right" style={{ color: "white",  fontWeight: "700",
+                                  padding: "5px",
+                                  whiteSpace: "nowrap",
+                                  overflow: "hidden" }}>Value</StyledTableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>

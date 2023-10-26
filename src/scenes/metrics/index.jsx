@@ -202,6 +202,7 @@ const Metrics = () => {
               alignItems: "center",
               width: "100%",
               height: "80vh",
+              color:"black"
             }}
           >
             <Typography variant="h5" fontWeight={"600"}>
@@ -216,6 +217,7 @@ const Metrics = () => {
               alignItems: "center",
               width: "100%",
               height: "80vh",
+              color:"black"
             }}
           >
             <Typography variant="h5" fontWeight={"600"}>
@@ -230,7 +232,7 @@ const Metrics = () => {
                 elevation={6}
                 // padding="10px"
                 // sx={{backgroundColor:colors.primary[500]}}
-                style={{ margin: "20px 20px 10px 20px", height: "38vh" }}
+                style={{ margin: "20px 20px 10px 20px", height: "38vh", color:"black" }}
               >
                 <LineChart data={mock} />
               </Card>
