@@ -401,6 +401,7 @@ const TraceList = () => {
   const handleSortOrderChange = (event) => {
     console.log("SORT " + event);
     setSelectedSortOrder(event.target.value);
+    setCurrentPage(1);
   };
 
   const customPageStyles = {
