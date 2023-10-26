@@ -148,7 +148,7 @@ const TraceBarChart = () => {
               {" "}
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 28px)", }}>
+                  <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 28px)", color: 'black' }}>
                     <CardContent>
                       {hasErrChartData || hasSuccChartData ? (
                         <ErrSucssCallCountChart
@@ -194,7 +194,7 @@ const TraceBarChart = () => {
               <Grid container spacing={2}>
                 {" "}
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 25px)" }}>
+                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 25px)" , color: 'black'}}>
                     <CardContent>
                       {/* {integrationdata.map((items) =>
                         items.apiCallCount !== 0 ? (
@@ -218,7 +218,7 @@ const TraceBarChart = () => {
                   </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 25px)" }}>
+                  <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 25px)" , color: 'black'}}>
                     <CardContent>
                       {hasPeakChartData ? (
                         <PeakLatencyChart data={integrationdata} />
