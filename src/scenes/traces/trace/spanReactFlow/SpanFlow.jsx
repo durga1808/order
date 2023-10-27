@@ -8,14 +8,22 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { spanData } from "../../../../global/MockData/SpanData";
 import "./SpanFlow.css";
-import { Box, Card, IconButton, Paper, Popover, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Card,
+  IconButton,
+  Paper,
+  Popover,
+  Typography,
+  useTheme,
+} from "@mui/material";
 import { tokens } from "../../../../theme";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 import SpanInfo from "./SpanInfo";
 import { useRef } from "react";
 import Loading from "../../../../global/Loading/Loading";
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 
 const SpanFlow = () => {
   const [nodes, setNodes] = useState([]);
@@ -203,7 +211,10 @@ const SpanFlow = () => {
     transform: "translateY(-50%)",
     height: "50px",
     border: "none",
-    backgroundColor: "#5A5A5A",
+    borderRadius: "5px",
+    color: "#FFF",
+    // backgroundColor:"#24a0ed"
+    backgroundColor: colors.primary[400],
   };
 
   const targetElementRef = useRef(null);
@@ -316,8 +327,8 @@ const SpanFlow = () => {
   }, [selectedTrace, setSelectedSpan]);
 
   const flowBoxColor = {
-    "--primary-color": "#606060",
-    "--text-color": theme.palette.mode === "dark" ? "#000" : "#FFF",
+    "--primary-color":colors.primary[400],
+    "--text-color": "#FFF",
   };
 
   return (
@@ -387,10 +398,23 @@ const SpanFlow = () => {
                   >
                     <Paper sx={{ padding: 2 }}>
                       <Card>
-                      <div style={{ display:"flex",justifyContent:"flex-end"}}>
-            <IconButton color="inherit" onClick={handlePopoverClose}><ClearRoundedIcon /></IconButton>
-          </div>
-                        <Typography>ErrorMessage:"Received request to get data by the product Id"</Typography>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                          }}
+                        >
+                          <IconButton
+                            color="inherit"
+                            onClick={handlePopoverClose}
+                          >
+                            <ClearRoundedIcon />
+                          </IconButton>
+                        </div>
+                        <Typography>
+                          ErrorMessage:"Received request to get data by the
+                          product Id"
+                        </Typography>
                       </Card>
                       {/* Add more content to the popover card as needed */}
                     </Paper>
