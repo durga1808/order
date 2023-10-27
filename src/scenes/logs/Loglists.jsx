@@ -522,10 +522,14 @@ const Loglists = () => {
     } else if (searchQuery && logRender) {
       setClearLogFilter(false);
       // setSearchResults([]);
+      setIsCardVisible(false);
+      setIsCollapsed(false);
       handleSearch();
     } else {
       setClearLogFilter(false);
       console.log("From get ALL");
+      setIsCardVisible(false);
+      setIsCollapsed(false);
       handleGetAllLogData(currentPage);
     }
 

@@ -427,6 +427,7 @@ const TraceList = () => {
             flexDirection="row"
             justifyContent="space-evenly"
             alignItems="center"
+            overflowX= "auto"
           >
             <Typography
               variant="h4"
@@ -495,10 +496,10 @@ const TraceList = () => {
                   style={{
                     display: "flex",
                     flexDirection: "column",
-                    marginBottom: "5px",
+                    marginBottom: "15px",
                   }}
                 >
-                  <label style={{ fontSize: "12px", marginBottom: "5px" }}>
+                  <label style={{ fontSize: "10px", marginBottom: "5px" }}>
                     SortBy
                   </label>
                   {/* <Dropdown
@@ -512,7 +513,7 @@ const TraceList = () => {
                   <Select
                     value={selectedSortOrder}
                     onChange={handleSortOrderChange}
-                    sx={{ width: "150px", height: "41px" }}
+                    sx={{ width: "150px", height: "30px" }}
                   >
                     <MenuItem value="" disabled>
                       Sort Order
@@ -530,8 +531,9 @@ const TraceList = () => {
           <div
             className="scrollable-div"
             style={{
-              maxHeight: "calc(73vh - 85px)",
+              maxHeight: "calc(76vh - 85px)",
               overflowY: "auto",
+              overflowX: "auto"
             }}
           >
             {" "}
