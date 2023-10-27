@@ -8,22 +8,27 @@ import ReactFlow, {
 import "reactflow/dist/style.css";
 import { spanData } from "../../../../global/MockData/SpanData";
 import "./SpanFlow.css";
-import { Box, Card, Typography, useTheme } from "@mui/material";
+import { Box, Card, IconButton, Paper, Popover, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../../../theme";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 import SpanInfo from "./SpanInfo";
 import { useRef } from "react";
 import Loading from "../../../../global/Loading/Loading";
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 const SpanFlow = () => {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [orderedSpans, setOrderedSpans] = useState([]);
+  const [isCardVisible, setIsCardVisible] = useState(false);
+
+  console.log("isCardVisible", isCardVisible);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { selectedTrace, setSelectedSpan, traceLoading } = useContext(GlobalContext);
-  console.log("stscode",selectedTrace);
+  const { selectedTrace, setSelectedSpan, traceLoading } =
+    useContext(GlobalContext);
+  console.log("stscode", selectedTrace);
   const [loading, setLoading] = useState(false);
 
   const onNodesChange = useCallback(
@@ -78,37 +83,43 @@ const SpanFlow = () => {
     const duration = endTime - startTime;
 
     return duration;
-  }
+  };
 
-  const onNodeClick = useCallback((event, node) => {
-    // Find the selected span data based on the clicked node
-    const spanId = node.id.replace("span-", "");
-    const selectedSpanData = orderedSpans.find((span) => span.spanId === spanId);
+  const onNodeClick = useCallback(
+    (event, node) => {
+      // Find the selected span data based on the clicked node
+      const spanId = node.id.replace("span-", "");
+      const selectedSpanData = orderedSpans.find(
+        (span) => span.spanId === spanId
+      );
 
-    const startTimeUnixNano = parseInt(selectedSpanData.startTimeUnixNano, 10);
-    const endTimeUnixNano = parseInt(selectedSpanData.endTimeUnixNano, 10);
+      const startTimeUnixNano = parseInt(
+        selectedSpanData.startTimeUnixNano,
+        10
+      );
+      const endTimeUnixNano = parseInt(selectedSpanData.endTimeUnixNano, 10);
 
-    const startTime = new Date(startTimeUnixNano / 1000000); // Convert nanoseconds to milliseconds
-    const endTime = new Date(endTimeUnixNano / 1000000); // Convert nanoseconds to milliseconds
+      const startTime = new Date(startTimeUnixNano / 1000000); // Convert nanoseconds to milliseconds
+      const endTime = new Date(endTimeUnixNano / 1000000); // Convert nanoseconds to milliseconds
 
-    // Calculate the duration in milliseconds
-    const duration = endTime - startTime;
+      // Calculate the duration in milliseconds
+      const duration = endTime - startTime;
 
-    // Append childSpansCount and duration to selected span data
-    const updatedSelectedSpanData = {
-      ...selectedSpanData,
-      childSpansCount: orderedSpans.filter(
-        (span) => span.parentSpanId === spanId
-      ).length,
-      duration,
-    };
+      // Append childSpansCount and duration to selected span data
+      const updatedSelectedSpanData = {
+        ...selectedSpanData,
+        childSpansCount: orderedSpans.filter(
+          (span) => span.parentSpanId === spanId
+        ).length,
+        duration,
+      };
 
-    // Update the selected span in state
-    setSelectedSpan(updatedSelectedSpanData);
-    scrollToSection();
-  }, [setSelectedSpan, orderedSpans]);
-
-
+      // Update the selected span in state
+      setSelectedSpan(updatedSelectedSpanData);
+      scrollToSection();
+    },
+    [setSelectedSpan, orderedSpans]
+  );
 
   const edgeOptions = {
     // animated: true,
@@ -184,6 +195,33 @@ const SpanFlow = () => {
     return orderedSpanData;
   };
 
+  const rightSideButtonStyle = {
+    position: "absolute",
+    top: "50%",
+    right: "-90px", // Adjust the distance from the right edge
+    transform: "translate(-50%, -50%)",
+    transform: "translateY(-50%)",
+    height: "50px",
+    border: "none",
+    backgroundColor: "#5A5A5A",
+  };
+
+  const targetElementRef = useRef(null);
+
+  const [popoverAnchor, setPopoverAnchor] = useState(null);
+
+  const handleButtonClick = (event) => {
+    // setPopoverAnchor(event.currentTarget);
+    setPopoverAnchor(targetElementRef.current);
+  };
+  //  const onClose =()=>{
+  //   setPopoverAnchor(null);
+  //  }
+
+  const handlePopoverClose = () => {
+    setPopoverAnchor(null);
+  };
+
   const dynamicNodeCreation = (orderedSpans) => {
     // Process the span data and generate nodes and edges
     const spanIdToNodeId = {};
@@ -205,14 +243,41 @@ const SpanFlow = () => {
           index === 0
             ? "input"
             : index === orderedSpans.length - 1
-              ? "output"
-              : "default",
+            ? "output"
+            : "default",
         data: {
           label: (
-            <>
-              {span.name} <strong style={{color:colors.textColor[500]}} >({calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms)</strong>
-            </>
-          )
+            //   <div style={{ display: 'flex', alignItems: 'center' }}>
+            //   <span>
+            //     {span.name} <strong style={{ color: colors.textColor[500] }}>({calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms)</strong>
+            //   </span>
+            //   <button style={{marginLeft:"20px",backgroundColor:"blue",width:"80px"}}>Your Button</button>
+            // </div>
+
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                position: "relative",
+              }}
+            >
+              <span style={{ marginBottom: "10px" }}>
+                {span.name}{" "}
+                <strong style={{ color: colors.textColor[500] }}>
+                  (
+                  {calculateDurationInMs(
+                    span.startTimeUnixNano,
+                    span.endTimeUnixNano
+                  )}
+                  ms)
+                </strong>
+              </span>
+              <button style={rightSideButtonStyle} onClick={handleButtonClick}>
+                Click Me
+              </button>
+            </div>
+          ),
         },
         position: { x: nodeX, y: nodeY },
         className: "nodeStyle",
@@ -235,78 +300,171 @@ const SpanFlow = () => {
     // Update the React Flow nodes and edges
     setNodes((prevNodes) => [...prevNodes, ...newNodes]);
     setEdges((prevEdges) => [...prevEdges, ...newEdges]);
-  }
+  };
 
   useEffect(() => {
     // setLoading(true);
     setNodes([]);
     setEdges([]);
-    setSelectedSpan({ "attributes": [] });
+    setSelectedSpan({ attributes: [] });
     if (Object.keys(selectedTrace).length !== 0) {
       // const orderedSpansData = sortingParentChildOrder(selectedTrace.spans);
       setOrderedSpans(selectedTrace.spans);
       dynamicNodeCreation(selectedTrace.spans);
-
     }
     // setLoading(false);
   }, [selectedTrace, setSelectedSpan]);
 
-const flowBoxColor = {
-  "--primary-color": "#606060",
-  "--text-color":theme.palette.mode === "dark"?'#000':"#FFF"
-  
-}
+  const flowBoxColor = {
+    "--primary-color": "#606060",
+    "--text-color": theme.palette.mode === "dark" ? "#000" : "#FFF",
+  };
 
   return (
     <>
-      {traceLoading ? (<Loading />) : (
-        <div style={{ maxHeight: Object.keys(selectedTrace).length ? "calc(93vh - 70px)" : null }} >
+      {traceLoading ? (
+        <Loading />
+      ) : (
+        <div
+          ref={targetElementRef}
+          style={{
+            maxHeight: Object.keys(selectedTrace).length
+              ? "calc(93vh - 70px)"
+              : null,
+          }}
+        >
           {Object.keys(selectedTrace).length === 0 ? (
             <div>
-              <Typography variant="h5" sx={{ textAlign: "center", marginTop: "60%" }} >Please Select any one of the Trace from the list to visualize!</Typography>
+              <Typography
+                variant="h5"
+                sx={{ textAlign: "center", marginTop: "60%" }}
+              >
+                Please Select any one of the Trace from the list to visualize!
+              </Typography>
             </div>
-          ) :
+          ) : (
             <div>
-              <div style={{ padding: "5px" }} >
+              <div style={{ padding: "5px" }}>
                 {/* <Typography variant="h5" fontWeight="600" >Details for Selected Trace </Typography> */}
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", textAlign: "center", margin: "0px" }} >
-                  <Typography variant="h6"  >ServiceName <br /><Typography variant="h7" >{selectedTrace.serviceName}</Typography></Typography>
-                  <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography>
-                  </div>
-                  <Card sx={{ width: "100%", color:"#FFF",backgroundColor:selectedTrace.statusCode >= 400 && selectedTrace.statusCode <= 500 ? colors.redAccent[500]:"#808080", display: "flex", justifyContent: "space-between", textAlign: "center", margin: "10px 20px 10px 0px" }}>
-                    {orderedSpans.map((span) => (
-                      <div key={span.spanId}>
-                        <div style={{ width: "fit-content", margin: "5px", overflowX: "auto" }}>{calculateDurationInMs(span.startTimeUnixNano, span.endTimeUnixNano)}ms</div>
-                      </div>
-                    ))}
-                  </Card>
-                  {/* <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography> */}
-                
-              </div>
-              <div style={{ maxHeight: "calc(70vh - 70px)" ,overflowY:"auto" }} >
-              <div style={{ height: "450px", width: "100%", border: "solid #000 1px",}}>
-                <ReactFlow
-                  nodes={nodes}
-                  edges={edges}
-                  onNodeClick={onNodeClick}
-                  defaultEdgeOptions={edgeOptions}
-                  onNodesChange={onNodesChange}
-                  onEdgesChange={onEdgesChange}
+                <div
                   style={{
-                    ...flowBoxColor,
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    textAlign: "center",
+                    margin: "0px",
                   }}
-                  // style={{backgroundColor:colors.primary[400]}}
                 >
-                  <Background style={{backgroundColor:colors.spanBackground[500]}} />
-                  <Controls />
-                </ReactFlow>
+                  <Typography variant="h6">
+                    ServiceName <br />
+                    <Typography variant="h7">
+                      {selectedTrace.serviceName}
+                    </Typography>
+                  </Typography>
+                  <Typography variant="h6">
+                    SpanCount <br />
+                    <Typography variant="h7">
+                      {selectedTrace.spanCount}
+                    </Typography>
+                  </Typography>
+                  <Popover
+                    open={Boolean(popoverAnchor)}
+                    anchorEl={popoverAnchor}
+                    onClose={handlePopoverClose}
+                    anchorOrigin={{
+                      vertical: "center",
+                      horizontal: "center",
+                    }}
+                    transformOrigin={{
+                      vertical: "center",
+                      horizontal: "center",
+                    }}
+                    style={{
+                      position: "absolute",
+                      height: "200px",
+                      marginRight: "100px",
+                    }}
+                  >
+                    <Paper sx={{ padding: 2 }}>
+                      <Card>
+                      <div style={{ display:"flex",justifyContent:"flex-end"}}>
+            <IconButton color="inherit" onClick={handlePopoverClose}><ClearRoundedIcon /></IconButton>
+          </div>
+                        <Typography>ErrorMessage:"Received request to get data by the product Id"</Typography>
+                      </Card>
+                      {/* Add more content to the popover card as needed */}
+                    </Paper>
+                  </Popover>
+                </div>
+                <Card
+                  sx={{
+                    width: "100%",
+                    color: "#FFF",
+                    backgroundColor:
+                      selectedTrace.statusCode >= 400 &&
+                      selectedTrace.statusCode <= 500
+                        ? colors.redAccent[500]
+                        : "#808080",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    textAlign: "center",
+                    margin: "10px 20px 10px 0px",
+                  }}
+                >
+                  {orderedSpans.map((span) => (
+                    <div key={span.spanId}>
+                      <div
+                        style={{
+                          width: "fit-content",
+                          margin: "5px",
+                          overflowX: "auto",
+                        }}
+                      >
+                        {calculateDurationInMs(
+                          span.startTimeUnixNano,
+                          span.endTimeUnixNano
+                        )}
+                        ms
+                      </div>
+                    </div>
+                  ))}
+                </Card>
+                {/* <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography> */}
               </div>
-              <div id="span-info" ref={sectionRef} >
-                <SpanInfo />
-              </div>
+              <div
+                style={{ maxHeight: "calc(70vh - 70px)", overflowY: "auto" }}
+              >
+                <div
+                  style={{
+                    height: "450px",
+                    width: "100%",
+                    border: "solid #000 1px",
+                  }}
+                >
+                  <ReactFlow
+                    nodes={nodes}
+                    edges={edges}
+                    onNodeClick={onNodeClick}
+                    defaultEdgeOptions={edgeOptions}
+                    onNodesChange={onNodesChange}
+                    onEdgesChange={onEdgesChange}
+                    style={{
+                      ...flowBoxColor,
+                    }}
+                    // style={{backgroundColor:colors.primary[400]}}
+                  >
+                    <Background
+                      style={{ backgroundColor: colors.spanBackground[500] }}
+                    />
+                    <Controls />
+                  </ReactFlow>
+                </div>
+                <div id="span-info" ref={sectionRef}>
+                  <SpanInfo />
+                </div>
               </div>
             </div>
-          }
+          )}
         </div>
       )}
     </>
