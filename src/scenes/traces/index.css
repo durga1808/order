@@ -1,15 +1,21 @@
-@media (min-width: 1240px) {
-    body {
-        width: 100%;
-    }
-    .trace-list-container {
-        width: 100%;
+@media screen and (max-width: 1240px) {
+    .tracepage {
+        width: calc(100vw - 72px);
+        /* height: calc(100vh - 72px); */
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        /* position: fixed; */
         overflow-x: auto;
-        white-space: nowrap;
     }
     .trace-list {
-        /* overflow-x: scroll; */
-        width: 100%;
-        /* overflow-x: auto; */
+        /* width: 100%; */ 
+        height: calc(100vh - 72px);
+        overflow-x: auto;
+
+        display: flex;
+        flex-direction: column;
     }
 }
