@@ -148,6 +148,7 @@ const TraceList = () => {
     selectedStartDate,
     selectedEndDate,
     needHistoricalData,
+    setShowError
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -181,6 +182,7 @@ const TraceList = () => {
 
   const handleCardClick = (traceId, index) => {
     console.log("Clicked");
+    setShowError(false);
     const spanApiCall = async (traceId) => {
       try {
         setTraceLoading(true);
@@ -404,6 +406,11 @@ const TraceList = () => {
     setCurrentPage(1);
   };
 
+  const handleOpenErrors = (traceId,index) => {
+    console.log("Error Opened! " + traceId);
+    setShowError(true);
+  }
+
   const customPageStyles = {
     backgroundColor: colors.greenAccent[500], // Change 'blue' to your desired background color for the page numbers
     color: colors.textColor[500], // Change 'black' to your desired text color for the page numbers
@@ -577,18 +584,26 @@ const TraceList = () => {
                   </Box>
                   <div>
                     <CardContent>
+                      <div style={{display:"flex",justifyContent:"space-between"}} >
+                      <Typography variant="h7">
+                          <span style={{ fontWeight: "500" }}>TraceID:</span>{" "}
+                          {trace.traceId}
+                        </Typography>
+                        <Typography variant="h7">
+                        {/* <span style={{ fontWeight: "500" }}>TraceID:</span>{" "} */}
+                        {trace.createdTimeInDate}
+                      </Typography>
+                      </div>
                       <div
                         style={{
+                          marginTop:"10px",
                           display: "flex",
                           flexDirection: "row",
                           justifyContent: "space-between",
                           alignItems: "center",
                         }}
                       >
-                        <Typography variant="h7">
-                          <span style={{ fontWeight: "500" }}>TraceID:</span>{" "}
-                          {trace.traceId}
-                        </Typography>
+                        
                         <Button
                           sx={{
                             // backgroundColor:
@@ -629,6 +644,26 @@ const TraceList = () => {
                         >
                           <Typography variant="h8">Open Spans</Typography>
                         </Button>{" "}
+                        <Button
+                          sx={{
+                            // backgroundColor:
+                            //   trace.statusCode >= 400 && trace.statusCode <= 500
+                            //     ? "#eb0000"
+                            //     : "#808080",
+                            backgroundColor: "#606060",
+                            color: "#FFF",
+                            "&:hover": {
+                              backgroundColor: "#ffffff",
+                              color: colors.primary[600],
+                            },
+                          }}
+                          // component={Link}
+                          // to={`/mainpage/logs`}
+                          variant="contained"
+                          onClick={() => handleOpenErrors(trace.traceId, index)}
+                        >
+                          <Typography variant="h8">Open Errors</Typography>
+                        </Button>{" "}
                         {trace.traceId === activeTraceId ? (
                           activeTraceIcon ? (
                             <BiSolidHandRight
@@ -643,10 +678,7 @@ const TraceList = () => {
                           ) : null
                         ) : null}{" "}
                       </div>
-                      <Typography variant="h7">
-                        {/* <span style={{ fontWeight: "500" }}>TraceID:</span>{" "} */}
-                        {trace.createdTimeInDate}
-                      </Typography>
+                      
                       <Typography
                         variant="h7"
                         style={{

@@ -85,6 +85,7 @@ const DashboardTopBar = () => {
     traceDisplayService,
     setTraceDisplayService,
     setSelectedLogService,
+    setShowError,
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -165,6 +166,7 @@ const DashboardTopBar = () => {
     setPreviousStartDate(false);
     setTraceDisplayService([]);
     setSelectedLogService([]);
+    setShowError(false);
   };
 
   const handleTabChange = (event, newValue) => {
