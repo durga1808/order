@@ -7,12 +7,14 @@ import SpanInfo from "./trace/spanReactFlow/SpanInfo";
 import { useContext } from "react";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import KeyboardDoubleArrowRightRoundedIcon from '@mui/icons-material/KeyboardDoubleArrowRightRounded';
+import ErrorContext from "./trace/ErrorBox/ErrorContext";
 
+import "./index.css"
 
 const Traces = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { traceGlobalEmpty, traceGlobalError } = useContext(GlobalContext);
+  const { traceGlobalEmpty, traceGlobalError, showError } = useContext(GlobalContext);
 
   return (
     <div
@@ -56,13 +58,14 @@ const Traces = () => {
           {/* <TraceTopBar /> */}
 
           <div style={{ width: "100%" }}>
-            <Box sx={{ m: "20px 20px 0 20px" }}>
+            <Box sx={{ m: "20px 10px 0 20px" }}>
               <Card
-               elevation={4}
+                elevation={4}
                 sx={{
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
                   width: "100%",
+                  overflowX: "auto",
                   height: "calc(88vh - 72px)",
                 }}
               >
@@ -73,18 +76,30 @@ const Traces = () => {
 
           <div style={{ width: "100%" }}>
             <Box sx={{ m: "20px 20px 10px 10px" }}>
-              <Card
-               elevation={4}
+              {!showError ? (<Card
+                elevation={4}
                 sx={{
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
-                  width: "100%",
+                  width: "600px",
                   height: "calc(88vh - 72px)",
                   // overflowY: "auto",
                 }}
               >
                 <SpanFlow />
               </Card>
+              ) : (<Card
+                elevation={4}
+                sx={{
+                  // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
+                  padding: "15px",
+                  width: "600px",
+                  height: "calc(88vh - 72px)",
+                  // overflowY: "auto",
+                }}
+              >
+                <ErrorContext />
+              </Card>)}
               {/* <Box sx={{ m: "30px 20px 20px 0" }} >
             <Card sx={{ backgroundColor: colors.primary[400], padding: "15px", width: "620px", height: 315 }}>
               <SpanInfo />

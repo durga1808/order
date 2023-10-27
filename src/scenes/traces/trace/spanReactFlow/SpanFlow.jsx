@@ -422,6 +422,7 @@ const SpanFlow = () => {
                 </div>
                 <Card
                   sx={{
+                    overflowX: "auto",
                     width: "100%",
                     color: "#FFF",
                     backgroundColor:

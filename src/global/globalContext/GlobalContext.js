@@ -52,6 +52,7 @@ const GlobalContextProvider = ({ children }) => {
     const [needHistoricalData, setNeedHistoricalData] = useState(false);
     const [selectedLogService, setSelectedLogService] = useState([]);
     const [traceDisplayService, setTraceDisplayService] = useState([]);
+    const [showError, setShowError] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -141,7 +142,9 @@ const GlobalContextProvider = ({ children }) => {
                 selectedLogService,
                 setSelectedLogService,
                 traceDisplayService,
-                setTraceDisplayService
+                setTraceDisplayService,
+                showError,
+                setShowError
             }}
         >
             {children}
