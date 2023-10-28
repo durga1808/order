@@ -31,12 +31,13 @@ const SpanFlow = () => {
   const [orderedSpans, setOrderedSpans] = useState([]);
   const [isCardVisible, setIsCardVisible] = useState(false);
 
-  console.log("isCardVisible", isCardVisible);
+  // console.log("isCardVisible", isCardVisible);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedTrace, setSelectedSpan, traceLoading } =
     useContext(GlobalContext);
-  console.log("stscode", selectedTrace);
+  // console.log("stscode", selectedTrace);
+  console.log("order-span", orderedSpans);
   const [loading, setLoading] = useState(false);
 
   const onNodesChange = useCallback(
@@ -83,7 +84,6 @@ const SpanFlow = () => {
   const calculateDurationInMs = (startTimeUnix, endTimeUnix) => {
     const startTimeUnixNano = parseInt(startTimeUnix, 10);
     const endTimeUnixNano = parseInt(endTimeUnix, 10);
-
     const startTime = new Date(startTimeUnixNano / 1000000); // Convert nanoseconds to milliseconds
     const endTime = new Date(endTimeUnixNano / 1000000); // Convert nanoseconds to milliseconds
 
@@ -97,9 +97,17 @@ const SpanFlow = () => {
     (event, node) => {
       // Find the selected span data based on the clicked node
       const spanId = node.id.replace("span-", "");
-      const selectedSpanData = orderedSpans.find(
-        (span) => span.spanId === spanId
-      );
+      // const selectedSpanData = orderedSpans.find(
+      //   (span) => span.spans.spanId === spanId
+      // );
+
+      // const selectedSpanData = orderedSpans.map((spanData) => {
+      //   return spanData.spans;
+      // });
+      const spanSpans = orderedSpans.find((span) => span.spans.spanId === spanId);
+      const selectedSpanData = spanSpans ? spanSpans.spans : null;
+
+      console.log("default span flow", selectedSpanData);
 
       const startTimeUnixNano = parseInt(
         selectedSpanData.startTimeUnixNano,
@@ -212,9 +220,9 @@ const SpanFlow = () => {
     height: "50px",
     border: "none",
     borderRadius: "5px",
-    color: "#FFF",
+    color: "#000",
     // backgroundColor:"#24a0ed"
-    backgroundColor: colors.primary[400],
+    backgroundColor: colors.grey[400],
   };
 
   const targetElementRef = useRef(null);
@@ -244,7 +252,7 @@ const SpanFlow = () => {
     let nodeSpacingY = 100; // Adjust this value to control vertical spacing
 
     orderedSpans.forEach((span, index) => {
-      const nodeId = `span-${span.spanId}`;
+      const nodeId = `span-${span.spans.spanId}`;
       let nodeX = index * nodeSpacingX; // Adjust x position based on index
       let nodeY = index * nodeSpacingY; // Set a fixed y position
 
@@ -274,12 +282,12 @@ const SpanFlow = () => {
               }}
             >
               <span style={{ marginBottom: "10px" }}>
-                {span.name}{" "}
-                <strong style={{ color: colors.textColor[500] }}>
+                {span.spans.name}{" "}
+                <strong style={{ color:"#FFF" }}>
                   (
                   {calculateDurationInMs(
-                    span.startTimeUnixNano,
-                    span.endTimeUnixNano
+                    span.spans.startTimeUnixNano,
+                    span.spans.endTimeUnixNano
                   )}
                   ms)
                 </strong>
@@ -320,14 +328,14 @@ const SpanFlow = () => {
     setSelectedSpan({ attributes: [] });
     if (Object.keys(selectedTrace).length !== 0) {
       // const orderedSpansData = sortingParentChildOrder(selectedTrace.spans);
-      setOrderedSpans(selectedTrace.spans);
-      dynamicNodeCreation(selectedTrace.spans);
+      setOrderedSpans(selectedTrace.spanDTOs);
+      dynamicNodeCreation(selectedTrace.spanDTOs);
     }
     // setLoading(false);
   }, [selectedTrace, setSelectedSpan]);
 
   const flowBoxColor = {
-    "--primary-color":colors.primary[400],
+    "--primary-color": colors.blueAccent[400],
     "--text-color": "#FFF",
   };
 
@@ -437,7 +445,7 @@ const SpanFlow = () => {
                   }}
                 >
                   {orderedSpans.map((span) => (
-                    <div key={span.spanId}>
+                    <div key={span.spans.spanId}>
                       <div
                         style={{
                           width: "fit-content",
@@ -446,8 +454,8 @@ const SpanFlow = () => {
                         }}
                       >
                         {calculateDurationInMs(
-                          span.startTimeUnixNano,
-                          span.endTimeUnixNano
+                          span.spans.startTimeUnixNano,
+                          span.spans.endTimeUnixNano
                         )}
                         ms
                       </div>

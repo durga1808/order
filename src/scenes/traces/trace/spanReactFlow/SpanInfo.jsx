@@ -49,6 +49,22 @@ const SpanInfo = () => {
     console.log(selectedSpan.attributes);
   }, [selectedSpan]);
 
+
+  // const spanDTOs = selectedSpan.spanDTOs;
+
+  // const span = spanDTOs.map((spans)=>{
+  //   const particularspanattribute= {};
+
+
+
+  // })
+
+  // console.log("atttcount",spanDTOs);
+  // const attributesValues = spanDTOs.map((span)=>{
+  //   const attributes = span.spans;
+  //   return attributescount.span
+  // });
+
   return (
     <div>
       <div style={{ margin: "20px 10px 20px 10px", textAlign: "center" }}>
