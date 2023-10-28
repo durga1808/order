@@ -1,120 +1,170 @@
-import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses, useTheme } from '@mui/material';
-import React from 'react'
+import { Box, Card, CardContent, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, styled, tableCellClasses, useTheme } from '@mui/material';
+import React, { useCallback, useContext, useState } from 'react'
 import { tokens } from '../../../../theme';
 import { errorLogs } from '../../../../global/MockData/OpenErrors';
+import "./ErrorContext.css"
+import { format } from 'date-fns';
+import { GlobalContext } from '../../../../global/globalContext/GlobalContext';
+import { useEffect } from 'react';
+import Loading from '../../../../global/Loading/Loading';
 
 const ErrorContext = () => {
 
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const { erroredLogData, traceLoading } = useContext(GlobalContext);
+    const [transformedData, setTransformedData] = useState([]);
 
-    const StyledTableCell = styled(TableCell)(() => ({
-        [`&.${tableCellClasses.head}`]: {
-            backgroundColor: colors.primary[400],
-            color: theme.palette.common.black,
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 14,
-        },
-    }));
+    const createTimeInWords = (createdTime) => {
+        const formattedTime = format(createdTime, "MMMM dd, yyyy HH:mm:ss a");
+        return formattedTime;
+    };
 
-    const StyledTableRow = styled(TableRow)(() => ({
-        "&:nth-of-type(odd)": {
-            backgroundColor: colors.primary[500],
-        },
-        // hide last border
-        "&:last-child td, &:last-child th": {
-            border: 0,
-        },
-    }));
+    const marshellErroredLogs = useCallback(() => {
+        // const marshelledData = [];
+        // erroredLogData.forEach((log) => {
+        //     let logRecord = {
+        //         spanId: log.spanId,
+        //         severityText: log.severityText,
+        //         createdTime: log.createdTime,
+        //         name: log.scopeLogs[0].scope.name,
+        //         messageBody: log.scopeLogs[0].logRecords[0].body.stringValue,
+        //         attributes: [], // Initialize attributes as an array
+        //     };
+
+        //     // Combine attributes into an array
+        //     if (log.scopeLogs[0].logRecords[0].attributes) {
+        //         log.scopeLogs[0].logRecords[0].attributes.forEach((attribute) => {
+        //             // Push each attribute to the attributes array
+        //             logRecord.attributes.push({
+        //                 key: attribute.key,
+        //                 value: attribute.value.stringValue,
+        //             });
+        //         });
+        //     }
+
+        //     marshelledData.push(logRecord);
+        // });
+        // setTransformedData(marshelledData);
+        // console.log("TransData " + JSON.stringify(transformedData));
+
+        const groupedData = {};
+
+        erroredLogData.forEach((log) => {
+            const spanId = log.spanId;
+
+            // Check if the spanId already exists in the groupedData
+            if (!groupedData[spanId]) {
+                groupedData[spanId] = {
+                    spanId,
+                    logs: [],
+                };
+            }
+
+            const logRecord = {
+                severityText: log.severityText,
+                createdTime: log.createdTime,
+                name: log.scopeLogs[0].scope.name,
+                messageBody: log.scopeLogs[0].logRecords[0].body.stringValue,
+                attributes: [],
+            };
+
+            if (log.scopeLogs[0].logRecords[0].attributes) {
+                log.scopeLogs[0].logRecords[0].attributes.forEach((attribute) => {
+                    logRecord.attributes.push({
+                        key: attribute.key,
+                        value: attribute.value.stringValue,
+                    });
+                });
+            }
+
+            groupedData[spanId].logs.push(logRecord);
+        });
+
+        // Convert the grouped data object into an array of logs
+        const marshelledData = Object.values(groupedData);
+
+        setTransformedData(marshelledData);
+        console.log("TransData " + JSON.stringify(marshelledData));
+    }, [erroredLogData]);
+
+
+    useEffect(() => {
+        marshellErroredLogs();
+    }, [marshellErroredLogs])
 
 
     return (
-        <div style={{ maxHeight: "calc(80vh - 70px)", overflowY: "auto", paddingRight: "10px" }} >
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }} >
-                <Typography variant="h6" fontWeight="600" >TraceId: {errorLogs[0].traceId}</Typography>
-                <Typography variant="h6" fontWeight="600" >ServiceName: {errorLogs[0].serviceName}</Typography>
-            </div>
-            {errorLogs.map((log, index) => (
-                <Box>
-                    <Typography
-                        variant="h7"
-                        sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            backgroundColor: colors.redAccent[500],
-                            color: "#FFF",
-                            padding: "5px",
-                            borderRadius: "5px",
-                            marginTop: "10px"
-                        }}
-                    >
-                        <span>SpanId:{log.spanId}</span>
-                        <span>CreatedTime: {log.createdTime}</span>
-                    </Typography>
-                    <TableContainer component={Paper} style={{ width: "100%" }} >
-                        <Table aria-label="customized table">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell align="center" width={"20%"} >
-                                        <Typography variant="h6" style={{ fontWeight: "600", color: "#000" }}>
-                                            Field
-                                        </Typography>
-                                    </TableCell>
-                                    <TableCell align="left" width={"80%"} >
-                                        <Typography variant="h6" style={{ fontWeight: "600", color: "#000" }}>
-                                            Value
-                                        </Typography>
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {log.scopeLogs.map((record, index) => (
-                                    <TableRow key={index}>
-                                        {Object.entries(record.scope).map(([key, value], index) => (
-                                            <div key={index} >
-                                                <TableCell align='center' width={"20%"} >
-                                                    <div key={key}>{key}</div>
+        <>
+            {traceLoading ? (
+                <Loading />
+            ) : (<div style={{ maxHeight: "calc(80vh - 70px)", overflowY: "auto", paddingRight: "10px", marginTop: "10px" }} >
+                {transformedData.map((log, index) => (
+                    log.logs.map((record, subIndex) => (
+                        <Box key={subIndex} >
+                            <Typography
+                                variant="h6"
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    justifyContent: "space-between",
+                                    backgroundColor: colors.redAccent[500],
+                                    color: "#FFF",
+                                    padding: "5px",
+                                    borderRadius: "5px",
+                                    marginTop: "10px"
+                                }}
+                            >
+                                <span>SpanId:{log.spanId}</span>
+                                <span>CreatedTime: {record.createdTime}</span>
+                            </Typography>
+                            <TableContainer component={Paper} >
+                                <Table aria-label="customized table">
+                                    <TableBody>
+                                        <div style={{ overflowX: 'hidden' }}>
+                                            <TableRow>
+                                                <TableCell align='left' style={{ width: '20%' }}>
+                                                    name
                                                 </TableCell>
-                                                <TableCell align='left' width={"80%"} >
-                                                    <div key={value}>{value}</div>
-                                                </TableCell>
-                                            </div>
-                                        ))}
-                                    </TableRow>
-                                ))}
-                                {log.scopeLogs.map((scopeLogs) => (
-                                    scopeLogs.logRecords.map((logRecord, index) => (
-                                        <div key={index}>
-                                            <TableRow key={index}>
-                                                <TableCell align='center' width={"20%"} >
-                                                    <div >Message Body</div>
-                                                </TableCell>
-                                                <TableCell align='left' width={"80%"} >
-                                                    <div>{logRecord.body.stringValue}</div>
+                                                <TableCell align='left' style={{ width: '80%' }}>
+                                                    {record.name}
                                                 </TableCell>
                                             </TableRow>
-                                            {logRecord.attributes ? (
-                                                logRecord.attributes.map((attribute, index) => (
-                                                    <div>
-                                                        <TableCell align='center' width={"20%"} >
+                                            <TableRow>
+                                                <TableCell align='left' style={{ width: '20%' }}>
+                                                    error.message
+                                                </TableCell>
+                                                <TableCell align='left' style={{ width: '80%' }}>
+                                                    {record.messageBody}
+                                                </TableCell>
+                                            </TableRow>
+                                            {record.attributes.length > 0 ? (
+                                                record.attributes.map((attribute, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell align='left' style={{ width: '20%' }}>
                                                             <div>{attribute.key}</div>
                                                         </TableCell>
-                                                        <TableCell align='left' width={"80%"} >
-                                                            <div >{attribute.value.stringValue}</div>
+                                                        <TableCell align='left' style={{ width: '80%' }}>
+                                                            <div className={attribute.key === "exception.stacktrace" ? "scrollable" : ""}>
+                                                                {attribute.key === "exception.stacktrace" ? (
+                                                                    <div className="stacktrace">{attribute.value}</div>
+                                                                ) : (
+                                                                    attribute.value
+                                                                )}
+                                                            </div>
                                                         </TableCell>
-                                                    </div>
+                                                    </TableRow>
                                                 ))
                                             ) : null}
                                         </div>
-                                    ))))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Box>
-            ))}
-        </div>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+                        </Box>
+                    ))
+                ))}
+            </div>)}
+        </>
     )
 }
 

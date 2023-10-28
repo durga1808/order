@@ -29,6 +29,7 @@ import {
   TraceFilterOptionWithDate,
   TraceListPaginationApi,
   TraceListPaginationApiWithDate,
+  findLogByErrorTrace,
 } from "../../../api/TraceApiService";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
 import { useCallback } from "react";
@@ -148,7 +149,8 @@ const TraceList = () => {
     selectedStartDate,
     selectedEndDate,
     needHistoricalData,
-    setShowError
+    setShowError,
+    setErroredLogData
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -238,7 +240,7 @@ const TraceList = () => {
         setTraceGlobalEmpty("No Data to Display!");
       } else {
         setTraceData(updatedData);
-        handleCardClick(updatedData[0].traceId);
+        // handleCardClick(updatedData[0].traceId);
         setTotalPageCount(Math.ceil(totalCount / pageLimit));
       }
 
@@ -358,6 +360,10 @@ const TraceList = () => {
       dashboardTraceMap();
       setIsCollapsed(false);
     }
+
+    return () => {
+      setShowError(false);
+    }
   }, [
     apiCall,
     filterApiCall,
@@ -406,8 +412,22 @@ const TraceList = () => {
     setCurrentPage(1);
   };
 
-  const handleOpenErrors = (traceId,index) => {
+  const getErroredLogsByTraceId = async (traceId) => {
+    try {
+      setTraceLoading(true);
+      const data = await findLogByErrorTrace(traceId);
+      console.log("OUTPUT " + JSON.stringify(data.data[0]));
+      setErroredLogData(data.data);
+      setTraceLoading(false);
+    } catch (error) {
+      console.log("ERROR " + error);
+      setTraceLoading(false);
+    }
+  };
+
+  const handleOpenErrors = (traceId, index) => {
     console.log("Error Opened! " + traceId);
+    getErroredLogsByTraceId(traceId);
     setShowError(true);
   }
 
@@ -427,7 +447,7 @@ const TraceList = () => {
             flexDirection="row"
             justifyContent="space-evenly"
             alignItems="center"
-            overflowX= "auto"
+            overflowX="auto"
           >
             <Typography
               variant="h4"
@@ -562,8 +582,8 @@ const TraceList = () => {
                         flexDirection: "row",
                         justifyContent: "space-between",
                         backgroundColor:
-                          trace.statusCode >= 400 && trace.statusCode <= 500
-                            ?colors.redAccent[500]
+                          trace.statusCode >= 400 && trace.statusCode <= 600
+                            ? colors.redAccent[500]
                             : "#606060",
                         // backgroundColor:"#808080",
                         color: "#FFF",
@@ -586,26 +606,26 @@ const TraceList = () => {
                   </Box>
                   <div>
                     <CardContent>
-                      <div style={{display:"flex",justifyContent:"space-between"}} >
-                      <Typography variant="h7">
+                      <div style={{ display: "flex", justifyContent: "space-between" }} >
+                        <Typography variant="h7">
                           <span style={{ fontWeight: "500" }}>TraceID:</span>{" "}
                           {trace.traceId}
                         </Typography>
                         <Typography variant="h7">
-                        {/* <span style={{ fontWeight: "500" }}>TraceID:</span>{" "} */}
-                        {trace.createdTimeInDate}
-                      </Typography>
+                          {/* <span style={{ fontWeight: "500" }}>TraceID:</span>{" "} */}
+                          {trace.createdTimeInDate}
+                        </Typography>
                       </div>
                       <div
                         style={{
-                          marginTop:"10px",
+                          marginTop: "10px",
                           display: "flex",
                           flexDirection: "row",
                           justifyContent: "space-between",
                           alignItems: "center",
                         }}
                       >
-                        
+
                         <Button
                           sx={{
                             // backgroundColor:
@@ -621,6 +641,7 @@ const TraceList = () => {
                           }}
                           // component={Link}
                           // to={`/mainpage/logs`}
+                          disabled={(trace.statusCode === "" || trace.statusCode === null)}
                           variant="contained"
                           onClick={() => handleLogRoute(trace.traceId)}
                         >
@@ -644,7 +665,7 @@ const TraceList = () => {
                           variant="contained"
                           onClick={() => handleCardClick(trace.traceId, index)}
                         >
-                          <Typography variant="h8">Open Spans</Typography>
+                          <Typography variant="h8">View Spans</Typography>
                         </Button>{" "}
                         <Button
                           sx={{
@@ -661,10 +682,11 @@ const TraceList = () => {
                           }}
                           // component={Link}
                           // to={`/mainpage/logs`}
+                          disabled={!(trace.statusCode >= 400 && trace.statusCode <= 600)}
                           variant="contained"
                           onClick={() => handleOpenErrors(trace.traceId, index)}
                         >
-                          <Typography variant="h8">Open Errors</Typography>
+                          <Typography variant="h8">View Errors</Typography>
                         </Button>{" "}
                         {trace.traceId === activeTraceId ? (
                           activeTraceIcon ? (
@@ -680,7 +702,7 @@ const TraceList = () => {
                           ) : null
                         ) : null}{" "}
                       </div>
-                      
+
                       <Typography
                         variant="h7"
                         style={{
