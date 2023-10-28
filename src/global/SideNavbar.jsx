@@ -13,6 +13,9 @@ import { tokens } from "../theme";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "./globalContext/GlobalContext";
 import logo from "../assets/zaga-logedit.jpg"
+import FilterDialog from "../scenes/dashboard/FilterDialog";
+import Metricfilter from "../scenes/metrics/Metricfilter";
+import Logfilter from "../scenes/logs/Logfilter";
 
 const SideNavbar = () => {
   const theme = useTheme();
@@ -104,7 +107,19 @@ const SideNavbar = () => {
             </Box>
           </MenuItem>
 
-          <MenuItem
+          {
+            window.location.pathname === "/mainpage/dashboard" ||
+              window.location.pathname === "/mainpage/dashboard/logSummary" ||
+              window.location.pathname === "/mainpage/traces" ? (
+              <FilterDialog />
+            ) : window.location.pathname === "/mainpage/metrics" ? (
+              <Metricfilter />
+            ) : window.location.pathname === "/mainpage/logs" ? (
+              <Logfilter />
+            ) : null
+          }
+
+          {/* <MenuItem
             component={<Link to="/mainpage/dashboard" />}
             style={{ margin: "10px 10px 10px 14px", padding: "10px" }}
             active={selected === "Dashboard"}
@@ -153,7 +168,7 @@ const SideNavbar = () => {
             }}
           >
             <Typography variant="h6">LOGS</Typography>
-          </MenuItem>
+          </MenuItem> */}
         </Menu>
       </Sidebar>
     </Box>

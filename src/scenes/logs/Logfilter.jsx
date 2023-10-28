@@ -79,13 +79,8 @@ const Logfilter = ({ open, onClose }) => {
 
 
   return (
-    <Drawer anchor="right" open={open} onClose={onClose}  >
-      <div style={{ width: "300px" }}>
+    <div style={{ width: "245px" }}>
         <List>
-          <ListItem sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end" }}>
-            <IconButton color="inherit" onClick={onClose}><ClearRoundedIcon /></IconButton>
-          </ListItem>
-
           <ListItem sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
             <Typography variant="h5" fontWeight="500">Filter Options</Typography>
             <Button variant="outlined" color="inherit" onClick={clearSelectedOptions}>Clear</Button>
@@ -160,7 +155,6 @@ const Logfilter = ({ open, onClose }) => {
           </Button>
         </div>
       </div>
-    </Drawer>
   )
 }
 

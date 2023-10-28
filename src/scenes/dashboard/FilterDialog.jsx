@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Drawer, Divider, IconButton } from "@mui/material";
+import { Drawer, Divider, IconButton, useTheme } from "@mui/material";
 import { List, ListItem } from "@mui/material";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -10,6 +10,7 @@ import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { TraceFilterOption } from "../../api/TraceApiService";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { formatDistanceToNow } from "date-fns";
+import { tokens } from "../../theme";
 
 const FilterDialog = ({ open, onClose }) => {
 
@@ -23,6 +24,9 @@ const FilterDialog = ({ open, onClose }) => {
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
 
   const methods = ['POST', 'GET', 'PUT', 'DELETE'];
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
 
   const codesNew = [
@@ -126,7 +130,7 @@ const FilterDialog = ({ open, onClose }) => {
   };
 
   useEffect(() => {
-    if(clearTraceFilter){
+    if (clearTraceFilter) {
       clearSelectedOptions();
     }
   }, [clearTraceFilter])
@@ -189,23 +193,29 @@ const FilterDialog = ({ open, onClose }) => {
   };
 
   return (
-    <Drawer anchor="right" open={open} onClose={onClose}  >
-      <div style={{ width: "300px" }}>
+    <div className="custom-drawer" style={{ backgroundColor: colors.primary[400], overflowY: "auto", height: "82vh" }}>
+      <div style={{ width: '245px' }}>
         <List>
-          <ListItem sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end" }}>
-            <IconButton color="inherit" onClick={onClose}><ClearRoundedIcon /></IconButton>
-          </ListItem>
-
-          <ListItem sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
-            <Typography variant="h5" fontWeight="500">Filter Options</Typography>
-            <Button variant="outlined" color="inherit" onClick={clearSelectedOptions}>Clear</Button>
+          <ListItem
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Typography variant="h5" fontWeight="500" color={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" ? "lightgrey" : "#FFF"} >
+              Filter Options
+            </Typography>
+            <Button variant="outlined" color="primary" onClick={clearSelectedOptions} disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"} >
+              Clear
+            </Button>
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px" }}>
+            <Accordion style={{ width: '500px', backgroundColor: colors.primary[400] }} disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5">Duration</Typography>
+                <Typography variant="h5" color={"#FFF"} >Duration</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -215,8 +225,8 @@ const FilterDialog = ({ open, onClose }) => {
                   max={10000}
                   onChange={handleChange}
                   valueLabelDisplay="auto"
-                  getAriaValueText={valuetext}
-                  style={{ color: "grey" }}
+                  getAriaValueText={(valuetext) => valuetext}
+                  style={{ color: 'white' }}
                 />
                 <TextField
                   label="Min"
@@ -226,7 +236,7 @@ const FilterDialog = ({ open, onClose }) => {
                   InputProps={{
                     endAdornment: <InputAdornment position="end">ms</InputAdornment>,
                   }}
-                  style={{ margin: "10px" }}
+                  style={{ margin: '10px', }}
                 />
                 <TextField
                   label="Max"
@@ -236,7 +246,7 @@ const FilterDialog = ({ open, onClose }) => {
                   InputProps={{
                     endAdornment: <InputAdornment position="end">ms</InputAdornment>,
                   }}
-                  style={{ margin: "10px" }}
+                  style={{ margin: '10px' }}
                 />
               </AccordionDetails>
             </Accordion>
@@ -244,9 +254,9 @@ const FilterDialog = ({ open, onClose }) => {
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px" }}>
+            <Accordion style={{ width: '500px', backgroundColor: colors.primary[400] }} disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5">Service</Typography>
+                <Typography variant="h5" color={"#fff"} >Service</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -254,30 +264,31 @@ const FilterDialog = ({ open, onClose }) => {
                   {services.map((service, index) => (
                     <FormControlLabel
                       key={index}
-                      control={<Checkbox
-                        checked={selectedService.includes(service)}
-                        onChange={handleServiceToggle(service)}
-                        sx={{
-                          color: "grey",
-                          '&.Mui-checked': {
-                            color: "blue",
-                          },
-                        }}
-                      />
+                      control={
+                        <Checkbox
+                          checked={selectedService.includes(service)}
+                          onChange={handleServiceToggle(service)}
+                          sx={{
+                            color: 'grey',
+                            '&.Mui-checked': {
+                              color: 'blue',
+                            },
+                          }}
+                        />
                       }
                       label={service}
-                    />))}
+                    />
+                  ))}
                 </FormGroup>
               </AccordionDetails>
             </Accordion>
-
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px" }}>
+            <Accordion style={{ width: '500px', backgroundColor: colors.primary[400] }} disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5">HTTP Method</Typography>
+                <Typography variant="h5" color={"#fff"}>HTTP Method</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -285,19 +296,21 @@ const FilterDialog = ({ open, onClose }) => {
                   {methods.map((method) => (
                     <FormControlLabel
                       key={method}
-                      control={<Checkbox
-                        checked={selectedHttpMethod.includes(method)}
-                        onChange={handleHttpToggle(method)}
-                        sx={{
-                          color: "grey",
-                          '&.Mui-checked': {
-                            color: "blue",
-                          },
-                        }}
-                      />
+                      control={
+                        <Checkbox
+                          checked={selectedHttpMethod.includes(method)}
+                          onChange={handleHttpToggle(method)}
+                          sx={{
+                            color: 'grey',
+                            '&.Mui-checked': {
+                              color: 'blue',
+                            },
+                          }}
+                        />
                       }
                       label={method}
-                    />))}
+                    />
+                  ))}
                 </FormGroup>
               </AccordionDetails>
             </Accordion>
@@ -305,9 +318,9 @@ const FilterDialog = ({ open, onClose }) => {
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px" }}>
+            <Accordion style={{ width: '500px', backgroundColor: colors.primary[400] }} disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5">HTTP Code</Typography>
+                <Typography variant="h5" color={"#fff"}>HTTP Code</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -324,9 +337,9 @@ const FilterDialog = ({ open, onClose }) => {
                           )}
                           onChange={handleHttpCodeToggle(code)}
                           sx={{
-                            color: "grey",
+                            color: 'grey',
                             '&.Mui-checked': {
-                              color: "blue",
+                              color: 'blue',
                             },
                           }}
                         />
@@ -339,16 +352,15 @@ const FilterDialog = ({ open, onClose }) => {
             </Accordion>
           </ListItem>
           <Divider />
-
         </List>
 
-        <div style={{ padding: "16px" }}>
-          <Button variant="contained" onClick={handleApplyButtonClick} color="primary">
+        <div style={{ padding: '16px' }}>
+          <Button variant="contained" onClick={handleApplyButtonClick} color="primary" disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}>
             Apply
           </Button>
         </div>
       </div>
-    </Drawer>
+    </div>
   );
 };
 
