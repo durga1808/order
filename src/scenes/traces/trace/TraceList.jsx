@@ -556,7 +556,7 @@ const TraceList = () => {
           <div
             className="scrollable-div"
             style={{
-              maxHeight: "calc(76vh - 85px)",
+              maxHeight: "calc(71vh - 85px)",
               overflowY: "auto",
               overflowX: "auto",
             }}
