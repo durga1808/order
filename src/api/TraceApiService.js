@@ -137,6 +137,16 @@ export const FindByTraceIdForSpans = async (traceId) => {
   }
 };
 
+export const findLogByErrorTrace = async (traceId) => {
+  try {
+    const response = await axios.get(`${traceURL}/getByErrorTraceId?traceId=${traceId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    return error;
+  }
+}
+
 export const getTraceSummaryData = async (timeMinutesAgo) => {
   try {
     // Get the list of service names from localStorage and parse it

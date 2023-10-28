@@ -30,6 +30,7 @@ import {
   TraceFilterOptionWithDate,
   TraceListPaginationApi,
   TraceListPaginationApiWithDate,
+  findLogByErrorTrace,
 } from "../../../api/TraceApiService";
 import { format, formatDistanceToNow, parseISO } from "date-fns";
 import { useCallback } from "react";
@@ -150,6 +151,7 @@ const TraceList = () => {
     selectedEndDate,
     needHistoricalData,
     setShowError,
+    setErroredLogData
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -239,7 +241,7 @@ const TraceList = () => {
         setTraceGlobalEmpty("No Data to Display!");
       } else {
         setTraceData(updatedData);
-        handleCardClick(updatedData[0].traceId);
+        // handleCardClick(updatedData[0].traceId);
         setTotalPageCount(Math.ceil(totalCount / pageLimit));
       }
 
@@ -359,6 +361,10 @@ const TraceList = () => {
       dashboardTraceMap();
       setIsCollapsed(false);
     }
+
+    return () => {
+      setShowError(false);
+    }
   }, [
     apiCall,
     filterApiCall,
@@ -407,8 +413,22 @@ const TraceList = () => {
     setCurrentPage(1);
   };
 
+  const getErroredLogsByTraceId = async (traceId) => {
+    try {
+      setTraceLoading(true);
+      const data = await findLogByErrorTrace(traceId);
+      console.log("OUTPUT " + JSON.stringify(data.data[0]));
+      setErroredLogData(data.data);
+      setTraceLoading(false);
+    } catch (error) {
+      console.log("ERROR " + error);
+      setTraceLoading(false);
+    }
+  };
+
   const handleOpenErrors = (traceId, index) => {
     console.log("Error Opened! " + traceId);
+    getErroredLogsByTraceId(traceId);
     setShowError(true);
   };
 
@@ -630,6 +650,7 @@ const TraceList = () => {
                           alignItems: "center",
                         }}
                       >
+                        
                         <Button
                           sx={{
                             // backgroundColor:
@@ -661,6 +682,7 @@ const TraceList = () => {
                           }}
                           // component={Link}
                           // to={`/mainpage/logs`}
+                          disabled={(trace.statusCode === "" || trace.statusCode === null)}
                           variant="contained"
                           onClick={() => handleLogRoute(trace.traceId)}
                         >
@@ -684,7 +706,7 @@ const TraceList = () => {
                           variant="contained"
                           onClick={() => handleCardClick(trace.traceId, index)}
                         >
-                          <Typography variant="h8">Open Spans</Typography>
+                          <Typography variant="h8">View Spans</Typography>
                         </Button>{" "}
                         <Button
                           sx={{
@@ -701,10 +723,11 @@ const TraceList = () => {
                           }}
                           // component={Link}
                           // to={`/mainpage/logs`}
+                          disabled={!(trace.statusCode >= 400 && trace.statusCode <= 600)}
                           variant="contained"
                           onClick={() => handleOpenErrors(trace.traceId, index)}
                         >
-                          <Typography variant="h8">Open Errors</Typography>
+                          <Typography variant="h8">View Errors</Typography>
                         </Button>{" "}
                         {trace.traceId === activeTraceId ? (
                           activeTraceIcon ? (
