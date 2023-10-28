@@ -115,7 +115,7 @@ const ErrorContext = () => {
                                     marginTop: "10px"
                                 }}
                             >
-                                <span>SpanId:{log.spanId}</span>
+                                <span style={{fontWeight: "500"}}>SpanId:{log.spanId}</span>
                                 <span>CreatedTime: {record.createdTime}</span>
                             </Typography>
                             <TableContainer component={Paper} >
@@ -123,7 +123,7 @@ const ErrorContext = () => {
                                     <TableBody>
                                         <div style={{ overflowX: 'hidden' }}>
                                             <TableRow>
-                                                <TableCell align='left' style={{ width: '20%' }}>
+                                                <TableCell align='left' style={{ width: '20%' , fontWeight: "500" }}>
                                                     name
                                                 </TableCell>
                                                 <TableCell align='left' style={{ width: '80%' }}>
@@ -131,7 +131,7 @@ const ErrorContext = () => {
                                                 </TableCell>
                                             </TableRow>
                                             <TableRow>
-                                                <TableCell align='left' style={{ width: '20%' }}>
+                                                <TableCell align='left' style={{ width: '20%' ,fontWeight: "500"}}>
                                                     error.message
                                                 </TableCell>
                                                 <TableCell align='left' style={{ width: '80%' }}>
@@ -141,8 +141,9 @@ const ErrorContext = () => {
                                             {record.attributes.length > 0 ? (
                                                 record.attributes.map((attribute, index) => (
                                                     <TableRow key={index}>
-                                                        <TableCell align='left' style={{ width: '20%' }}>
+                                                        <TableCell align='left' style={{ width: '20%' ,fontWeight: "500" }}>
                                                             <div>{attribute.key}</div>
+                                                            <div></div>
                                                         </TableCell>
                                                         <TableCell align='left' style={{ width: '80%' }}>
                                                             <div className={attribute.key === "exception.stacktrace" ? "scrollable" : ""}>
