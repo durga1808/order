@@ -761,17 +761,17 @@ const TraceList = () => {
                           {trace.createdTimeInWords}
                         </span>
 
-                        <span style={{ width: "200px" }}>
+                        <span style={{ width: "200px", color:
+                                trace.statusCode >= 400 &&
+                                trace.statusCode <= 500
+                                  ? colors.redAccent[500]
+                                  : "#000", }}>
                           {" "}
                           <span
                             style={{
                               fontWeight: "500",
                               margin: "0 5px 0 0",
-                              color:
-                                trace.statusCode >= 400 &&
-                                trace.statusCode <= 500
-                                  ? colors.redAccent[500]
-                                  : "#000",
+                              
                             }}
                           >
                             StatusCode:
@@ -787,6 +787,7 @@ const TraceList = () => {
                           >
                             {trace.statusCode}
                           </Typography> */}
+                          {trace.statusCode}
                         </span>
                         <span style={{ width: "100px" }}>
                           {" "}

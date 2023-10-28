@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Divider, Drawer, FormControlLabel, FormGroup, IconButton, List, ListItem, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Divider, Drawer, FormControlLabel, FormGroup, IconButton, List, ListItem, Typography, useTheme } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { useContext } from 'react';
 import { GlobalContext } from '../../global/globalContext/GlobalContext';
+import { tokens } from "../../theme";
 
 const Logfilter = ({ open, onClose }) => {
   const [selectedService, setSelectedService] = useState([]);
   const [selectedSeverity, setSelectedSeverity] = useState([]);
   const { setLogFilterApiBody, setNeedLogFilterCall,clearLogFilter, setClearLogFilter ,setSelectedLogService} = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   // const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
 
@@ -79,18 +83,18 @@ const Logfilter = ({ open, onClose }) => {
 
 
   return (
-    <div style={{ width: "245px" }}>
+    <div style={{ width: "245px", backgroundColor: colors.primary[400] }}>
         <List>
           <ListItem sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
-            <Typography variant="h5" fontWeight="500">Filter Options</Typography>
-            <Button variant="outlined" color="inherit" onClick={clearSelectedOptions}>Clear</Button>
+            <Typography variant="h5" fontWeight="500" color={"#FFF"}>Filter Options</Typography>
+            <Button variant="outlined" color="primary" onClick={clearSelectedOptions}>Clear</Button>
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px" }}>
+            <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5">Service</Typography>
+                <Typography variant="h5" color={"#FFF"}>Service</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -102,7 +106,7 @@ const Logfilter = ({ open, onClose }) => {
                         checked={selectedService.includes(service)}
                         onChange={handleServiceToggle(service)}
                         sx={{
-                          color: "grey",
+                          color: '#696969',
                           '&.Mui-checked': {
                             color: "blue",
                           },
@@ -110,6 +114,9 @@ const Logfilter = ({ open, onClose }) => {
                       />
                       }
                       label={service}
+                      sx={{
+                        color: 'white',
+                      }}
                     />))}
                 </FormGroup>
               </AccordionDetails>
@@ -119,9 +126,9 @@ const Logfilter = ({ open, onClose }) => {
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px" }}>
+            <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5">Severity Changes</Typography>
+                <Typography variant="h5" color={"#FFF"}>Severity Changes</Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -133,7 +140,7 @@ const Logfilter = ({ open, onClose }) => {
                         checked={selectedSeverity.includes(severity)}
                         onChange={handleSeverityToggle(severity)}
                         sx={{
-                          color: "grey",
+                          color: '#696969',
                           '&.Mui-checked': {
                             color: "blue",
                           },
@@ -141,6 +148,9 @@ const Logfilter = ({ open, onClose }) => {
                       />
                       }
                       label={severity}
+                      sx={{
+                        color: 'white',
+                      }}
                     />))}
                 </FormGroup>
               </AccordionDetails>

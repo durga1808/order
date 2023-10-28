@@ -33,6 +33,7 @@ const Metricfilter = ({ open, onClose }) => {
   );
 
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const clearSelectedOptions = () => {
     setSelectedService([]);
@@ -52,7 +53,7 @@ const Metricfilter = ({ open, onClose }) => {
   const handleApplyButtonClick = () => { };
 
   return (
-    <div style={{ width: "245px" }}>
+    <div style={{ width: "245px", backgroundColor: colors.primary[400] }}>
       <List>
         <ListItem
           sx={{
@@ -61,7 +62,7 @@ const Metricfilter = ({ open, onClose }) => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h5" fontWeight="500">
+          <Typography variant="h5" fontWeight="500" color={"#fff"}>
             Filter Options
           </Typography>
           {/* <Button
@@ -75,9 +76,9 @@ const Metricfilter = ({ open, onClose }) => {
         <Divider />
 
         <ListItem>
-          <Accordion style={{ width: "500px" }}>
+          <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h5">Service</Typography>
+              <Typography variant="h5" color={"#fff"}>Service</Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -96,6 +97,9 @@ const Metricfilter = ({ open, onClose }) => {
                         <Radio sx={{ "&.Mui-checked": { color: "blue" } }} />
                       }
                       label={service}
+                      sx={{
+                        color: 'white',
+                      }}
                       onChange={handleServiceToggle(service)}
                     />
                   ))}

@@ -234,19 +234,20 @@ const FilterDialog = ({ open, onClose }) => {
                   value={minDurationValue}
                   onChange={handleMinChange}
                   InputProps={{
-                    endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+                    endAdornment: <InputAdornment position="end"><span style={{ color: "#fff"}}>ms</span></InputAdornment>,
                   }}
-                  style={{ margin: '10px', }}
+                  style={{ margin: '10px', color: '#fff' }}
                 />
                 <TextField
                   label="Max"
                   variant="outlined"
                   value={maxDurationValue}
                   onChange={handleMaxChange}
+                  color="primary"
                   InputProps={{
-                    endAdornment: <InputAdornment position="end">ms</InputAdornment>,
+                    endAdornment: <InputAdornment position="end"><span style={{ color: "#fff"}}>ms</span></InputAdornment>,
                   }}
-                  style={{ margin: '10px' }}
+                  style={{ margin: '10px', color: '#fff' }}
                 />
               </AccordionDetails>
             </Accordion>
@@ -269,7 +270,7 @@ const FilterDialog = ({ open, onClose }) => {
                           checked={selectedService.includes(service)}
                           onChange={handleServiceToggle(service)}
                           sx={{
-                            color: 'grey',
+                            color: '#696969',
                             '&.Mui-checked': {
                               color: 'blue',
                             },
@@ -277,6 +278,9 @@ const FilterDialog = ({ open, onClose }) => {
                         />
                       }
                       label={service}
+                      sx={{
+                        color: 'white',
+                      }}
                     />
                   ))}
                 </FormGroup>
@@ -301,7 +305,7 @@ const FilterDialog = ({ open, onClose }) => {
                           checked={selectedHttpMethod.includes(method)}
                           onChange={handleHttpToggle(method)}
                           sx={{
-                            color: 'grey',
+                            color: '#696969',
                             '&.Mui-checked': {
                               color: 'blue',
                             },
@@ -309,6 +313,9 @@ const FilterDialog = ({ open, onClose }) => {
                         />
                       }
                       label={method}
+                      sx={{
+                        color: 'white',
+                      }}
                     />
                   ))}
                 </FormGroup>
@@ -337,7 +344,7 @@ const FilterDialog = ({ open, onClose }) => {
                           )}
                           onChange={handleHttpCodeToggle(code)}
                           sx={{
-                            color: 'grey',
+                            color: '#696969',
                             '&.Mui-checked': {
                               color: 'blue',
                             },
@@ -345,6 +352,9 @@ const FilterDialog = ({ open, onClose }) => {
                         />
                       }
                       label={code.labelName}
+                      sx={{
+                        color: 'white',
+                      }}
                     />
                   ))}
                 </FormGroup>

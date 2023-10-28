@@ -739,7 +739,7 @@ const Loglists = () => {
             sx={{
               padding: "20px",
               marginTop: "10px",
-              // height: "calc(78vh - 72px)"
+              height: "calc(74vh - 72px)"
             }}
           >
             <div>
@@ -792,7 +792,7 @@ const Loglists = () => {
                   {" "}
                   <TableContainer
                     sx={{
-                      maxHeight: "calc(69vh - 85px)",
+                      maxHeight: "calc(66vh - 85px)",
                       overflowY: "auto",
                     }}
                   >
