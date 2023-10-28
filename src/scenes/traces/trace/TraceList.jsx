@@ -492,10 +492,14 @@ const TraceList = () => {
                           ? null
                           : colors.blueAccent[400],
                       color:
-                        item.type === "page" && item.page === currentPage
-                          ? "#FFF"
-                          : null,
-
+                        // item.type === "page" && item.page === currentPage
+                        //   ? "#FFF"
+                        //   : null,
+                        item.type === "page"
+                        ? item.page === currentPage
+                          ? "#FFF" // Set the color for the current page number
+                          : "#000" // Set the color for other page numbers
+                        : "#FFF",
                       // backgroundColor:colors.primary[]
                     }}
                   />
