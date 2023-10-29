@@ -1,4 +1,4 @@
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import {
   AnalyticsOutlined,
@@ -7,6 +7,7 @@ import {
   TimelineOutlined,
   ReceiptOutlined,
   Person,
+  FilterListOutlined,
 } from "@mui/icons-material";
 import { useContext } from "react";
 import { tokens } from "../theme";
@@ -107,17 +108,36 @@ const SideNavbar = () => {
             </Box>
           </MenuItem>
 
-          {
-            window.location.pathname === "/mainpage/dashboard" ||
-              window.location.pathname === "/mainpage/dashboard/logSummary" ||
-              window.location.pathname === "/mainpage/traces" ? (
-              <FilterDialog />
-            ) : window.location.pathname === "/mainpage/metrics" ? (
-              <Metricfilter />
-            ) : window.location.pathname === "/mainpage/logs" ? (
-              <Logfilter />
-            ) : null
+          {!isCollapsed ?
+            (
+              window.location.pathname === "/mainpage/dashboard" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/traces" ? (
+                <FilterDialog />
+              ) : window.location.pathname === "/mainpage/metrics" ? (
+                <Metricfilter />
+              ) : window.location.pathname === "/mainpage/logs" ? (
+                <Logfilter />
+              ) : null) : null
           }
+
+
+          {/* (<MenuItem style={{marginTop:"20%"}} >
+                <Tooltip title="Filter">
+                  <IconButton
+                  // onClick={
+                  //   window.location.pathname === "/mainpage/traces" ||
+                  //     window.location.pathname === "/mainpage/metrics" ||
+                  //     window.location.pathname === "/mainpage/logs"
+                  //     ? handleFilterClick
+                  //     : null
+                  // }
+                  // style={FilterbuttonStyle}
+                  >
+                    <FilterListOutlined style={{color:"#FFF"}} />
+                  </IconButton>
+                </Tooltip>
+              </MenuItem>) */}
 
           {/* <MenuItem
             component={<Link to="/mainpage/dashboard" />}

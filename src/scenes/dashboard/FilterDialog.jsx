@@ -220,32 +220,35 @@ const FilterDialog = ({ open, onClose }) => {
 
               <AccordionDetails>
                 <Slider
+                  disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
                   value={[minDurationValue, maxDurationValue]}
                   min={0}
                   max={10000}
                   onChange={handleChange}
                   valueLabelDisplay="auto"
                   getAriaValueText={(valuetext) => valuetext}
-                  style={{ color: 'white' }}
+                  style={{ color: (window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary") ? "lightgrey" : "white" }}
                 />
                 <TextField
+                  disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
                   label="Min"
                   variant="outlined"
                   value={minDurationValue}
                   onChange={handleMinChange}
                   InputProps={{
-                    endAdornment: <InputAdornment position="end"><span style={{ color: "#fff"}}>ms</span></InputAdornment>,
+                    endAdornment: <InputAdornment position="end"><span style={{ color: "#fff" }}>ms</span></InputAdornment>,
                   }}
                   style={{ margin: '10px', color: '#fff' }}
                 />
                 <TextField
+                  disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
                   label="Max"
                   variant="outlined"
                   value={maxDurationValue}
                   onChange={handleMaxChange}
                   color="primary"
                   InputProps={{
-                    endAdornment: <InputAdornment position="end"><span style={{ color: "#fff"}}>ms</span></InputAdornment>,
+                    endAdornment: <InputAdornment position="end"><span style={{ color: "#fff" }}>ms</span></InputAdornment>,
                   }}
                   style={{ margin: '10px', color: '#fff' }}
                 />
@@ -267,12 +270,13 @@ const FilterDialog = ({ open, onClose }) => {
                       key={index}
                       control={
                         <Checkbox
+                        disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
                           checked={selectedService.includes(service)}
                           onChange={handleServiceToggle(service)}
                           sx={{
                             color: '#696969',
                             '&.Mui-checked': {
-                              color: 'blue',
+                              color: 'fff',
                             },
                           }}
                         />
@@ -302,12 +306,13 @@ const FilterDialog = ({ open, onClose }) => {
                       key={method}
                       control={
                         <Checkbox
+                        disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
                           checked={selectedHttpMethod.includes(method)}
                           onChange={handleHttpToggle(method)}
                           sx={{
                             color: '#696969',
                             '&.Mui-checked': {
-                              color: 'blue',
+                              color: 'fff',
                             },
                           }}
                         />
@@ -337,6 +342,7 @@ const FilterDialog = ({ open, onClose }) => {
                       key={index}
                       control={
                         <Checkbox
+                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
                           checked={selectedHttpCode.some((opt) =>
                             typeof opt === 'object' &&
                             opt.min === code.labelValue.min &&
@@ -346,7 +352,7 @@ const FilterDialog = ({ open, onClose }) => {
                           sx={{
                             color: '#696969',
                             '&.Mui-checked': {
-                              color: 'blue',
+                              color: 'fff',
                             },
                           }}
                         />
