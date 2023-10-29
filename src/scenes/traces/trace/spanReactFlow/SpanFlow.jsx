@@ -14,6 +14,11 @@ import {
   IconButton,
   Paper,
   Popover,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableRow,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -30,6 +35,9 @@ const SpanFlow = () => {
   const [edges, setEdges] = useState([]);
   const [orderedSpans, setOrderedSpans] = useState([]);
   const [isCardVisible, setIsCardVisible] = useState(false);
+  const [spanflowErrStatus, setSpanflowErrStatus] = useState(false);
+
+  orderedSpans.forEach((status) => {});
 
   // console.log("isCardVisible", isCardVisible);
   const theme = useTheme();
@@ -104,7 +112,9 @@ const SpanFlow = () => {
       // const selectedSpanData = orderedSpans.map((spanData) => {
       //   return spanData.spans;
       // });
-      const spanSpans = orderedSpans.find((span) => span.spans.spanId === spanId);
+      const spanSpans = orderedSpans.find(
+        (span) => span.spans.spanId === spanId
+      );
       const selectedSpanData = spanSpans ? spanSpans.spans : null;
 
       console.log("default span flow", selectedSpanData);
@@ -214,29 +224,41 @@ const SpanFlow = () => {
   const rightSideButtonStyle = {
     position: "absolute",
     top: "50%",
-    right: "-90px", // Adjust the distance from the right edge
+    right: "-90px",
     transform: "translate(-50%, -50%)",
     transform: "translateY(-50%)",
     height: "50px",
     border: "none",
     borderRadius: "5px",
     color: "#000",
-    // backgroundColor:"#24a0ed"
     backgroundColor: colors.grey[400],
   };
 
   const targetElementRef = useRef(null);
+  //********************************************************************************************************************************************************* */
 
   const [popoverAnchor, setPopoverAnchor] = useState(null);
+  const [spanErrorData, setSpanErrorData] = useState({});
 
-  const handleButtonClick = (event) => {
-    // setPopoverAnchor(event.currentTarget);
+  const handleButtonClick = (errorMessage, logAttributes) => {
+    const formattedLogAttributes = {};
+
+    logAttributes.forEach((attribute) => {
+      const key = attribute.key;
+      const value = attribute.value.stringValue;
+      formattedLogAttributes[key] = value;
+    });
+
+    const logData = {
+      errorMessage: errorMessage.stringValue,
+      logAttributes: logAttributes,
+    };
+    console.log("logData", logData);
+    setSpanErrorData(logData);
     setPopoverAnchor(targetElementRef.current);
   };
-  //  const onClose =()=>{
-  //   setPopoverAnchor(null);
-  //  }
 
+  // console.log("spanErrorData", spanErrorData);
   const handlePopoverClose = () => {
     setPopoverAnchor(null);
   };
@@ -253,8 +275,11 @@ const SpanFlow = () => {
 
     orderedSpans.forEach((span, index) => {
       const nodeId = `span-${span.spans.spanId}`;
+      console.log(nodeId, "nodeid");
       let nodeX = index * nodeSpacingX; // Adjust x position based on index
       let nodeY = index * nodeSpacingY; // Set a fixed y position
+      // const spanflowErrStatus = span.errorStatus;
+      //  console.log("spanflowErrStatus",spanflowErrStatus);
 
       const node = {
         id: nodeId,
@@ -283,7 +308,7 @@ const SpanFlow = () => {
             >
               <span style={{ marginBottom: "10px" }}>
                 {span.spans.name}{" "}
-                <strong style={{ color:"#FFF" }}>
+                <strong style={{ color: "#FFF" }}>
                   (
                   {calculateDurationInMs(
                     span.spans.startTimeUnixNano,
@@ -292,14 +317,28 @@ const SpanFlow = () => {
                   ms)
                 </strong>
               </span>
-              <button style={rightSideButtonStyle} onClick={handleButtonClick}>
-                Click Me
+              <button
+                disabled={!span.errorStatus}
+                style={rightSideButtonStyle}
+                onClick={() =>
+                  handleButtonClick(span.errorMessage, span.logAttributes)
+                }
+              >
+                View Error
               </button>
             </div>
           ),
         },
         position: { x: nodeX, y: nodeY },
-        className: "nodeStyle",
+        style: {
+          backgroundColor: span.errorStatus
+            ? colors.blueAccent[400]
+            : "#D4D4D4",
+          width: "500px",
+          height: "50px",
+          color: "#FFF",
+        },
+        // className: "nodeStyle",
       };
 
       newNodes.push(node);
@@ -334,10 +373,21 @@ const SpanFlow = () => {
     // setLoading(false);
   }, [selectedTrace, setSelectedSpan]);
 
-  const flowBoxColor = {
-    "--primary-color": colors.blueAccent[400],
-    "--text-color": "#FFF",
-  };
+  var flowBoxColor;
+
+  // orderedSpans.forEach((spanErr) => {
+  //   console.log("Status " + spanErr.errorStatus);
+  //   var color = "";
+  //   if(spanErr.errorStatus){
+  //     color = colors.primary[400]
+  //   } else {
+  //     color = colors.blueAccent[400]
+  //   }
+  //   flowBoxColor = {
+  //     "--primary-color": color,
+  //     "--text-color": "#FFF",
+  //   };
+  // });
 
   return (
     <>
@@ -386,31 +436,37 @@ const SpanFlow = () => {
                       {selectedTrace.spanCount}
                     </Typography>
                   </Typography>
-                  <Popover
-                    open={Boolean(popoverAnchor)}
-                    anchorEl={popoverAnchor}
-                    onClose={handlePopoverClose}
-                    anchorOrigin={{
-                      vertical: "center",
-                      horizontal: "center",
-                    }}
-                    transformOrigin={{
-                      vertical: "center",
-                      horizontal: "center",
-                    }}
-                    style={{
-                      position: "absolute",
-                      height: "200px",
-                      marginRight: "100px",
-                    }}
-                  >
-                    <Paper sx={{ padding: 2 }}>
-                      <Card>
+
+                  {popoverAnchor ? (
+                    <Popover
+                      open={Boolean(popoverAnchor)}
+                      anchorEl={popoverAnchor}
+                      onClose={handlePopoverClose}
+                      anchorOrigin={{
+                        vertical: "center",
+                        horizontal: "center",
+                      }}
+                      transformOrigin={{
+                        vertical: "center",
+                        horizontal: "center",
+                      }}
+                      style={{
+                        position: "absolute",
+                        height: "450px",
+                        width: "500px",
+                        // marginRight: "100px",
+                      }}
+                    >
+                      <Paper>
                         <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "flex-end",
-                          }}
+                          style={
+                            {
+                              // maxHeight: "calc(80vh - 70px)",
+                              // overflowY: "auto",
+                              // paddingRight: "10px",
+                              // marginTop: "10px",
+                            }
+                          }
                         >
                           <IconButton
                             color="inherit"
@@ -418,15 +474,100 @@ const SpanFlow = () => {
                           >
                             <ClearRoundedIcon />
                           </IconButton>
+                          {/* <div
+                            style={{
+                              marginLeft: "10px",
+                              backgroundColor: colors.blueAccent[400],
+                              color: "white",
+                            }}
+                          >
+                            {spanErrorData.errorMessage}
+                          </div>
+                          <div>
+                            {spanErrorData.logAttributes.map((att, index) => {
+                              console.log("strrrr", att.key);
+                              console.log("strrrrvalue", att.value);
+                              return (
+                                <>
+                                  <div
+                                    key={index}
+                                    style={{
+                                      backgroundColor: "red",
+                                      color: "white",
+                                    }}
+                                  >
+                                    {att.key}
+                                  </div>
+                                  <div key={index}>{att.value.stringValue}</div>
+                                </>
+                              );
+                            })}
+                          </div> */}
+
+
+                          <TableContainer component={Paper} >
+                                <Table aria-label="customized table">
+                                    <TableBody>
+                                        <div style={{ overflowX: 'hidden' }}>
+                                            <TableRow>
+                                                <TableCell align='left' style={{ width: '20%' , fontWeight: "500" }}>
+                                                    Error Component
+                                                </TableCell>
+                                                <TableCell align='left' style={{ width: '80%' }}>
+                                                {spanErrorData.errorMessage}
+                                                </TableCell>
+                                            </TableRow>
+                                            
+                                            {spanErrorData.logAttributes.length > 0 ? (
+                                                spanErrorData.logAttributes.map((attribute, index) => (
+                                                    <TableRow key={index}>
+                                                        <TableCell align='left' style={{ width: '20%' ,fontWeight: "500" }}>
+                                                            {/* jey <div>{attribute.key}</div> */}
+                                                            
+                                                            <div></div>
+                                                        </TableCell>
+                                                        <TableCell align='left' style={{ width: '80%' }}>
+                                                            <div className={attribute.key === "exception.stacktrace" ? "scrollable" : ""}>
+                                                                {attribute.key === "exception.stacktrace" ? (
+                                                                    <div className="stacktrace">{attribute.value.stringValue}</div>
+                                                                ) : (
+                                                                    attribute.value.stringValue
+                                                                )}
+                                                            </div>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ))
+                                            ) : null}
+                                        </div>
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
+
+                          {/* <TableContainer component={Paper}>
+                            <Table aria-label="customized table"></Table>
+                            <TableBody>
+                          
+                            
+                               
+                                  {spanErrorData.logAttributes.map(
+                                    (att, index) => {
+                                      return (
+                                        <TableRow>
+                                          <TableCell>Error Key</TableCell>
+                                          <TableCell>{att.key}</TableCell>
+                                          <TableCell>Error value</TableCell>
+                                          <TableCell>{att.values}</TableCell>
+                                        </TableRow>
+                                      );
+                                    }
+                                  )}
+                             
+                            </TableBody>
+                          </TableContainer> */}
                         </div>
-                        <Typography>
-                          ErrorMessage:"Received request to get data by the
-                          product Id"
-                        </Typography>
-                      </Card>
-                      {/* Add more content to the popover card as needed */}
-                    </Paper>
-                  </Popover>
+                      </Paper>
+                    </Popover>
+                  ) : null}
                 </div>
                 <Card
                   sx={{

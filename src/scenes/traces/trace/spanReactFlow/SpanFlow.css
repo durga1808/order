@@ -13,15 +13,11 @@
 }
  */
 
-.nodeStyle {
-  width: 500px;
-  height: 50px;
+/* .nodeStyle {
   background-color: var(--primary-color) !important;
-  /* background-color:"#808080"; */
-  color: var(--text-color) !important;
 
-  /* background-color:#00888C; */
-}
+  color: var(--text-color) !important;
+} */
 .card-popup {
   position: fixed;
   top: 50%;
