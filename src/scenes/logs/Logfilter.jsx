@@ -83,7 +83,20 @@ const Logfilter = () => {
 
 
   return (
-    <div style={{ width: "245px", backgroundColor: colors.primary[400] }}>
+    <div className="custom-drawer" style={{ width: "245px", backgroundColor: colors.primary[400],overflowY: "auto", height: "82vh"  }}>
+      <style>
+        {`
+
+      .custom-drawer::-webkit-scrollbar-thumb {
+        background-color: ${colors.primary[400]}; /* Color of the thumb */
+        border-radius: 6px; /* Roundness of the thumb */
+      }
+
+      .custom-drawer::-webkit-scrollbar-track {
+        background-color: ${colors.primary[400]}; /* Color of the track */
+      }
+    `}
+      </style>
         <List>
           <ListItem sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
             <Typography variant="h5" fontWeight="500" color={"#FFF"}>Filter Options</Typography>
