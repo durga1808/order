@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { GlobalContext } from '../../global/globalContext/GlobalContext';
 import { tokens } from "../../theme";
 
-const Logfilter = ({ open, onClose }) => {
+const Logfilter = () => {
   const [selectedService, setSelectedService] = useState([]);
   const [selectedSeverity, setSelectedSeverity] = useState([]);
   const { setLogFilterApiBody, setNeedLogFilterCall,clearLogFilter, setClearLogFilter ,setSelectedLogService} = useContext(GlobalContext);
@@ -77,7 +77,7 @@ const Logfilter = ({ open, onClose }) => {
     }
 
 
-    onClose();
+    // onClose();
 
   }
 

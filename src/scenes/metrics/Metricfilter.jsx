@@ -25,7 +25,7 @@ import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { getMetricDataApi } from "../../api/MetricApiService";
 import { tokens } from "../../theme";
 
-const Metricfilter = ({ open, onClose }) => {
+const Metricfilter = () => {
   const { selectedService, setSelectedService, setMetricRender } =
     useContext(GlobalContext);
   const [services, setServices] = useState(
@@ -47,7 +47,7 @@ const Metricfilter = ({ open, onClose }) => {
       setSelectedService([service]);
     }
     setMetricRender(false);
-    onClose();
+    // onClose();
   };
 
   const handleApplyButtonClick = () => { };

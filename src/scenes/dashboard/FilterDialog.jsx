@@ -12,7 +12,7 @@ import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { formatDistanceToNow } from "date-fns";
 import { tokens } from "../../theme";
 
-const FilterDialog = ({ open, onClose }) => {
+const FilterDialog = () => {
 
   // const [value, setValue] = useState([0, 1000]);
   const [minDurationValue, setMinDurationValue] = useState(0);
@@ -189,7 +189,7 @@ const FilterDialog = ({ open, onClose }) => {
     const selectedDuration = `${minDurationValue}ms - ${maxDurationValue}ms`;
     console.log('Selected Duration:', selectedDuration);
 
-    onClose();
+    // onClose();
   };
 
   return (
