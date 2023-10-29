@@ -1020,8 +1020,9 @@ const Loglists = () => {
                             backgroundColor:
                               item.type === "page" && item.page !== currentPage
                                 ? null
-                                : colors.blueAccent[400],
-                            color:
+                                //jey : colors.blueAccent[400],
+                                : colors.primary[400],
+                                color:
                               // item.type === "page" && item.page === currentPage
                               //   ? "#FFF"
                               //   : null,

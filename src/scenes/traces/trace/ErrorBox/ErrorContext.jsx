@@ -108,7 +108,8 @@ const ErrorContext = () => {
                                     display: "flex",
                                     flexDirection: "row",
                                     justifyContent: "space-between",
-                                    backgroundColor: colors.redAccent[500],
+                                    //jey backgroundColor: colors.redAccent[500],
+                                    backgroundColor: "#A92014",
                                     color: "#FFF",
                                     padding: "5px",
                                     borderRadius: "5px",
@@ -124,15 +125,15 @@ const ErrorContext = () => {
                                         <div style={{ overflowX: 'hidden' }}>
                                             <TableRow>
                                                 <TableCell align='left' style={{ width: '20%' , fontWeight: "500" }}>
-                                                    name
+                                                    Error Component
                                                 </TableCell>
                                                 <TableCell align='left' style={{ width: '80%' }}>
-                                                    {record.name}
+                                                     {record.name}
                                                 </TableCell>
                                             </TableRow>
                                             <TableRow>
                                                 <TableCell align='left' style={{ width: '20%' ,fontWeight: "500"}}>
-                                                    error.message
+                                                    {/* jey error.message */}
                                                 </TableCell>
                                                 <TableCell align='left' style={{ width: '80%' }}>
                                                     {record.messageBody}
@@ -142,7 +143,7 @@ const ErrorContext = () => {
                                                 record.attributes.map((attribute, index) => (
                                                     <TableRow key={index}>
                                                         <TableCell align='left' style={{ width: '20%' ,fontWeight: "500" }}>
-                                                            <div>{attribute.key}</div>
+                                                            {/* <div>{attribute.key}</div> */}
                                                             <div></div>
                                                         </TableCell>
                                                         <TableCell align='left' style={{ width: '80%' }}>

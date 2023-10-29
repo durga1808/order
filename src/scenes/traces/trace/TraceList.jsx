@@ -429,6 +429,9 @@ const TraceList = () => {
   const handleOpenErrors = (traceId, index) => {
     console.log("Error Opened! " + traceId);
     getErroredLogsByTraceId(traceId);
+    //jey added for hand icon for view erro
+    setActiveTraceId(traceId);
+    setActiveTraceIcon(true);
     setShowError(true);
   };
 
@@ -452,7 +455,7 @@ const TraceList = () => {
           >
             <Typography
               variant="h4"
-              fontWeight="500"
+              // fontWeight="500"
               style={{ margin: "10px 0 8px 10px" }}
             >
               Traces ({traceData.length})
@@ -490,7 +493,8 @@ const TraceList = () => {
                       backgroundColor:
                         item.type === "page" && item.page !== currentPage
                           ? null
-                          : colors.blueAccent[400],
+                          // jey : colors.blueAccent[400],
+                          : colors.primary[400],
                       color:
                         // item.type === "page" && item.page === currentPage
                         //   ? "#FFF"
@@ -590,7 +594,8 @@ const TraceList = () => {
                         //   trace.statusCode >= 400 && trace.statusCode <= 500
                         //     ?colors.redAccent[500]
                         //     : colors.blueAccent[400],
-                        backgroundColor: colors.blueAccent[400],
+                        // jey backgroundColor: colors.blueAccent[400],
+                        backgroundColor: colors.primary[400],
                         color: "#FFF",
 
                         padding: "5px",
@@ -739,7 +744,8 @@ const TraceList = () => {
                             activeTraceIcon ? (
                               <FaRegHandPointRight
                                 style={{
-                                  fontSize: "20px",
+                                  fontSize: "px",
+                                  color: "#A92014",
                                   // color:trace.statusCode >= 400 && trace.statusCode <= 500
                                   // ? colors.redAccent[500]
                                   // : theme.palette.mode==="dark"?"#FFF":"#00888C",

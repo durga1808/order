@@ -230,8 +230,11 @@ const SpanFlow = () => {
     height: "50px",
     border: "none",
     borderRadius: "5px",
-    color: "#000",
-    backgroundColor: colors.grey[400],
+    // jey color: "#000",
+    color: "#FFF",
+    fontSize:"13px",
+    // backgroundColor: colors.grey[400],
+    backgroundColor: colors.redAccent[500],
   };
 
   const targetElementRef = useRef(null);
@@ -306,9 +309,11 @@ const SpanFlow = () => {
                 position: "relative",
               }}
             >
-              <span style={{ marginBottom: "10px" }}>
+             
+              {/* jey <span style={{ marginBottom: "3px" }}> */}
+              <span >
                 {span.spans.name}{" "}
-                <strong style={{ color: "#FFF" }}>
+                <strong style={{ color: "#FFF"  }}>
                   (
                   {calculateDurationInMs(
                     span.spans.startTimeUnixNano,
@@ -332,11 +337,17 @@ const SpanFlow = () => {
         position: { x: nodeX, y: nodeY },
         style: {
           backgroundColor: span.errorStatus
-            ? colors.blueAccent[400]
-            : "#D4D4D4",
+           // jey ? colors.blueAccent[400]
+           ? "#1391C8"
+           // ? "1F8ED8"
+            // : "#D4D4D4",
+            : "#617881",
           width: "500px",
           height: "50px",
           color: "#FFF",
+          //jey
+          fontSize:"18px",
+          // fontWeight:"50px",
         },
         // className: "nodeStyle",
       };
@@ -577,7 +588,8 @@ const SpanFlow = () => {
                     backgroundColor:
                       selectedTrace.statusCode >= 400 &&
                       selectedTrace.statusCode <= 500
-                        ? colors.redAccent[500]
+                        // ? colors.redAccent[500]
+                        ? colors.primary[400]
                         : "#808080",
                     display: "flex",
                     justifyContent: "space-between",
@@ -622,6 +634,8 @@ const SpanFlow = () => {
                     defaultEdgeOptions={edgeOptions}
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
+                    //jey
+                    fitView='true'
                     style={{
                       ...flowBoxColor,
                     }}
