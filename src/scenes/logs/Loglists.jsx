@@ -739,7 +739,7 @@ const Loglists = () => {
             sx={{
               padding: "20px",
               marginTop: "10px",
-              // height: "calc(78vh - 72px)"
+              height: "calc(74vh - 72px)"
             }}
           >
             <div>
@@ -792,7 +792,7 @@ const Loglists = () => {
                   {" "}
                   <TableContainer
                     sx={{
-                      maxHeight: "calc(69vh - 85px)",
+                      maxHeight: "calc(66vh - 85px)",
                       overflowY: "auto",
                     }}
                   >
@@ -1020,11 +1020,16 @@ const Loglists = () => {
                             backgroundColor:
                               item.type === "page" && item.page !== currentPage
                                 ? null
-                                : colors.primary[400],
+                                : colors.blueAccent[400],
                             color:
-                              item.type === "page" && item.page === currentPage
-                                ? "#FFF"
-                                : null,
+                              // item.type === "page" && item.page === currentPage
+                              //   ? "#FFF"
+                              //   : null,
+                              item.type === "page"
+                              ? item.page === currentPage
+                                ? "#FFF" // Set the color for the current page number
+                                : "#000" // Set the color for other page numbers
+                              : "#FFF",
                           }}
                         />
                       )}

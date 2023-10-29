@@ -342,12 +342,12 @@ const SpanFlow = () => {
       };
 
       newNodes.push(node);
-      spanIdToNodeId[span.spanId] = nodeId;
+      spanIdToNodeId[span.spans.spanId] = nodeId;
 
-      if (span.parentSpanId) {
+      if (span.spans.parentSpanId) {
         const edge = {
-          id: `edge-${span.spanId}`,
-          source: spanIdToNodeId[span.parentSpanId],
+          id: `edge-${span.spans.spanId}`,
+          source: spanIdToNodeId[span.spans.parentSpanId],
           target: nodeId,
         };
 

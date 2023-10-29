@@ -63,7 +63,7 @@ const ErrorContext = () => {
 
             const logRecord = {
                 severityText: log.severityText,
-                createdTime: log.createdTime,
+                createdTime: createTimeInWords(log.createdTime),
                 name: log.scopeLogs[0].scope.name,
                 messageBody: log.scopeLogs[0].logRecords[0].body.stringValue,
                 attributes: [],

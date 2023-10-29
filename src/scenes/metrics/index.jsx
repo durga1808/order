@@ -163,7 +163,7 @@ const Metrics = () => {
 
   return (
     <>
-      <div style={{ height: "calc(93vh - 70px)", overflowY: "auto" }}>
+      <div style={{ height: "calc(88vh - 70px)", overflowY: "auto" }}>
         <div style={{ margin: "5px 10px 5px 10px" }}>
           {/* <div style={{ padding: "10px"}}> */}
             {/* <div style={{ fontSize: '12px', paddingBottom: '5px' }}>ServiceBy</div> */}
@@ -232,7 +232,7 @@ const Metrics = () => {
                 elevation={6}
                 // padding="10px"
                 // sx={{backgroundColor:colors.primary[500]}}
-                style={{ margin: "20px 20px 10px 20px", height: "38vh", color:"black" }}
+                style={{ margin: "20px 20px 10px 20px", height: "35vh", color:"black" }}
               >
                 <LineChart data={mock} />
               </Card>

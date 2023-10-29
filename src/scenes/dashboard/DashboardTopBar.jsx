@@ -86,6 +86,8 @@ const DashboardTopBar = () => {
     setTraceDisplayService,
     setSelectedLogService,
     setShowError,
+    navActiveTab,
+    setNavActiveTab,
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -176,6 +178,19 @@ const DashboardTopBar = () => {
       navigate("/mainpage/dashboard/logSummary");
     }
     setActiveTab(newValue);
+  };
+
+  const handleTabChangePages = (event, newValue) => {
+    if (newValue === 0) {
+      navigate("/mainpage/dashboard");
+    } else if (newValue === 1) {
+      navigate("/mainpage/traces");
+    } else if (newValue === 2) {
+      navigate("/mainpage/metrics");
+    } else if (newValue === 3) {
+      navigate("/mainpage/logs");
+    }
+    setNavActiveTab(newValue);
   };
 
   const handleFilterClick = () => {
@@ -271,47 +286,39 @@ const DashboardTopBar = () => {
   };
   return (
     <>
-      <AppBar position="static" elevation={3} style={appBarStyles}>
+      <AppBar position="static" elevation={3} style={{ backgroundColor: colors.primary[400] }} >
         <Toolbar
           style={{
             display: "flex",
             justifyContent: "space-between",
 
-            backgroundColor: colors.primary[400],
+            // minHeight: "120px"
           }}
         >
-          {window.location.pathname === "/mainpage/dashboard" ||
-          window.location.pathname === "/mainpage/dashboard/logSummary" ? (
-            <Tabs
-              value={activeTab}
-              onChange={handleTabChange}
-              TabIndicatorProps={{
-                sx: {
-                  height: 2,
-                  borderRadius: 3,
-                  backgroundColor: colors.tabIndicator[500],
-                },
-              }}
-              textColor="inherit"
-              indicatorColor="primary"
-            >
-              <Tab label="Trace Summary" sx={{ color: "#FFF" }} />
-              <Tab label="Log Summary" sx={{ color: "#FFF" }} />
-            </Tabs>
-          ) : null}
-
-          <Box sx={{ alignItems: "flex-start", marginTop: "10px" }}>
-            {window.location.pathname === "/mainpage/traces" ? (
-              <Typography variant="h5" sx={{ color: "#FFF" }}>
-                TRACES {traceDisplayService.length > 0 ? `(${traceDisplayService.join(', ')})` : ''}
-              </Typography>
-            ) : window.location.pathname === "/mainpage/metrics" ? (
-              <Typography variant="h5" sx={{ color: "#FFF" }}>METRICS {`(${selectedService})`}</Typography>
-            ) : window.location.pathname === "/mainpage/logs" ? (
-              <Typography variant="h5" sx={{ color: "#FFF" }}>LOGS {selectedLogService.length > 0 ? `(${selectedLogService.join(', ')})` : ''}</Typography>
+          <div >
+            {window.location.pathname === "/mainpage/dashboard" ||
+              window.location.pathname === "/mainpage/traces" ||
+              window.location.pathname === "/mainpage/metrics" ||
+              window.location.pathname === "/mainpage/logs" || window.location.pathname === "/mainpage/dashboard/logSummary" ? (
+              <Tabs
+                value={navActiveTab}
+                onChange={handleTabChangePages}
+                TabIndicatorProps={{
+                  sx: {
+                    // height: 2,
+                    borderRadius: 3,
+                    // backgroundColor: colors.tabIndicator[500],
+                  },
+                }}
+                textColor="inherit"
+                indicatorColor="primary">
+                <Tab label="Dashboard" sx={{ color: "#FFF" }} />
+                <Tab label="Traces" sx={{ color: "#FFF" }} />
+                <Tab label="Metrics" sx={{ color: "#FFF" }} />
+                <Tab label="Logs" sx={{ color: "#FFF" }} />
+              </Tabs>
             ) : null}
-          </Box>
-
+          </div>
           <Box
             sx={{
               display: "flex",
@@ -512,8 +519,8 @@ const DashboardTopBar = () => {
                           ? "#B3B3AD"
                           : "#FFF"
                         : endDate !== null || previousStartDate
-                        ? "lightgray"
-                        : "#000",
+                          ? "lightgray"
+                          : "#000",
                     padding: "7px 16px",
                     "& .MuiSelect-icon": {
                       color:
@@ -522,8 +529,8 @@ const DashboardTopBar = () => {
                             ? "#B3B3AD"
                             : "#FFF"
                           : endDate !== null || previousStartDate
-                          ? "lightgray"
-                          : "#000", // Customize the dropdown arrow color
+                            ? "lightgray"
+                            : "#000", // Customize the dropdown arrow color
                     },
                     "& .MuiSelect-root": {
                       color: "#000", // Customize the dropdown text color
@@ -547,8 +554,8 @@ const DashboardTopBar = () => {
                               ? "#666663"
                               : "#FFF"
                             : endDate !== null || previousStartDate
-                            ? "lightgray"
-                            : "#000",
+                              ? "lightgray"
+                              : "#000",
                       }}
                     >
                       {option.label}
@@ -597,70 +604,43 @@ const DashboardTopBar = () => {
                 </Tooltip>
               </Box>
             </div>
-            {/* {window.location.pathname === "/mainpage/traces" ||
-              window.location.pathname === "/mainpage/metrics" ||
-              window.location.pathname === "/mainpage/logs" ? ( */}
-            <div
-              style={{
-                alignItems: "center",
-                marginBottom: "20px",
-                marginRight: "10px",
-                marginTop: "9px",
-              }}
-            >
-              <label
-                style={{
-                  fontSize: "10px",
-                  marginBottom: "5px",
-                  marginLeft: "5px",
-
-                  color:
-                    window.location.pathname === "/mainpage/traces" ||
-                    window.location.pathname === "/mainpage/metrics" ||
-                    window.location.pathname === "/mainpage/logs"
-                      ? colors.tabColor[500]
-                      : "#666663",
-                }}
-              >
-                Filter
-              </label>
-              <Box
-                sx={{
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  position: "relative",
-                }}
-              >
-                <Tooltip title="Filter">
-                  <IconButton
-                    onClick={
-                      window.location.pathname === "/mainpage/traces" ||
-                      window.location.pathname === "/mainpage/metrics" ||
-                      window.location.pathname === "/mainpage/logs"
-                        ? handleFilterClick
-                        : null
-                    }
-                    style={FilterbuttonStyle}
-                  >
-                    <FilterListOutlined style={iconStyle} />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            </div>
-            {/* // ) : null} */}
           </Box>
         </Toolbar>
+        <div style={{ marginTop: "-25px", marginLeft: "13px" }} >
+          {window.location.pathname === "/mainpage/dashboard" ||
+            window.location.pathname === "/mainpage/dashboard/logSummary" ? (
+            <Tabs
+              value={activeTab}
+              onChange={handleTabChange}
+              TabIndicatorProps={{
+                sx: {
+                  // height: 2,
+                  marginTop: "-60px",
+                  borderRadius: 3,
+                  backgroundColor: colors.tabIndicator[500],
+                },
+              }}
+              textColor="inherit"
+              indicatorColor="primary"
+            >
+              <Tab label="Trace Summary" sx={{ color: "#FFF" }} />
+              <Tab label="Log Summary" sx={{ color: "#FFF" }} />
+            </Tabs>
+          ) : null}
+          <Box sx={{ alignItems: "flex-start", marginLeft: "25px",padding:"5px",marginTop:"5px" }}>
+            {window.location.pathname === "/mainpage/traces" ? (
+              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>
+                TRACES {traceDisplayService.length > 0 ? `(${traceDisplayService.join(', ')})` : ''}
+              </Typography>
+            ) : window.location.pathname === "/mainpage/metrics" ? (
+              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>METRICS {`(${selectedService})`}</Typography>
+            ) : window.location.pathname === "/mainpage/logs" ? (
+              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>LOGS {selectedLogService.length > 0 ? `(${selectedLogService.join(', ')})` : ''}</Typography>
+            ) : null}
+          </Box>
+        </div>
       </AppBar>
-      <FilterDialog open={filterDialogOpen} onClose={handleFilterDialogClose} />
 
-      <Metricfilter
-        open={metricFilterDialogOpen}
-        onClose={handleFilterDialogClose}
-      />
-
-      <Logfilter open={logFilterDialogOpen} onClose={handleFilterDialogClose} />
     </>
   );
 };

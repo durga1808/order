@@ -54,6 +54,7 @@ const GlobalContextProvider = ({ children }) => {
     const [traceDisplayService, setTraceDisplayService] = useState([]);
     const [showError, setShowError] = useState(false);
     const [erroredLogData, setErroredLogData] = useState([]);
+    const [navActiveTab, setNavActiveTab] = useState(false);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -147,7 +148,9 @@ const GlobalContextProvider = ({ children }) => {
                 showError,
                 setShowError,
                 erroredLogData,
-                setErroredLogData
+                setErroredLogData,
+                navActiveTab,
+                setNavActiveTab
             }}
         >
             {children}

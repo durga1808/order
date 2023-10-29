@@ -66,7 +66,7 @@ const Traces = () => {
                   padding: "15px",
                   width: "100%",
                   overflowX: "auto",
-                  height: "calc(88vh - 72px)",
+                  height: "calc(84vh - 72px)",
                 }}
               >
                 <TraceList />
@@ -82,7 +82,7 @@ const Traces = () => {
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
                   width: "600px",
-                  height: "calc(88vh - 72px)",
+                  height: "calc(84vh - 72px)",
                   // overflowY: "auto",
                 }}
               >
@@ -94,7 +94,7 @@ const Traces = () => {
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
                   width: "600px",
-                  height: "calc(88vh - 72px)",
+                  height: "calc(84vh - 72px)",
                   // overflowY: "auto",
                 }}
               >

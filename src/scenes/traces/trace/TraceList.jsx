@@ -490,12 +490,16 @@ const TraceList = () => {
                       backgroundColor:
                         item.type === "page" && item.page !== currentPage
                           ? null
-                          : colors.primary[400],
+                          : colors.blueAccent[400],
                       color:
-                        item.type === "page" && item.page === currentPage
-                          ? "#FFF"
-                          : null,
-
+                        // item.type === "page" && item.page === currentPage
+                        //   ? "#FFF"
+                        //   : null,
+                        item.type === "page"
+                        ? item.page === currentPage
+                          ? "#FFF" // Set the color for the current page number
+                          : "#000" // Set the color for other page numbers
+                        : "#FFF",
                       // backgroundColor:colors.primary[]
                     }}
                   />
@@ -552,7 +556,7 @@ const TraceList = () => {
           <div
             className="scrollable-div"
             style={{
-              maxHeight: "calc(76vh - 85px)",
+              maxHeight: "calc(71vh - 85px)",
               overflowY: "auto",
               overflowX: "auto",
             }}
@@ -757,17 +761,17 @@ const TraceList = () => {
                           {trace.createdTimeInWords}
                         </span>
 
-                        <span style={{ width: "200px" }}>
+                        <span style={{ width: "200px", color:
+                                trace.statusCode >= 400 &&
+                                trace.statusCode <= 500
+                                  ? colors.redAccent[500]
+                                  : "#000", }}>
                           {" "}
                           <span
                             style={{
                               fontWeight: "500",
                               margin: "0 5px 0 0",
-                              color:
-                                trace.statusCode >= 400 &&
-                                trace.statusCode <= 500
-                                  ? colors.redAccent[500]
-                                  : "#000",
+                              
                             }}
                           >
                             StatusCode:
@@ -783,6 +787,7 @@ const TraceList = () => {
                           >
                             {trace.statusCode}
                           </Typography> */}
+                          {trace.statusCode}
                         </span>
                         <span style={{ width: "100px" }}>
                           {" "}

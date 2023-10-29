@@ -25,7 +25,7 @@ import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { getMetricDataApi } from "../../api/MetricApiService";
 import { tokens } from "../../theme";
 
-const Metricfilter = ({ open, onClose }) => {
+const Metricfilter = () => {
   const { selectedService, setSelectedService, setMetricRender } =
     useContext(GlobalContext);
   const [services, setServices] = useState(
@@ -33,6 +33,7 @@ const Metricfilter = ({ open, onClose }) => {
   );
 
   const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
 
   const clearSelectedOptions = () => {
     setSelectedService([]);
@@ -46,81 +47,70 @@ const Metricfilter = ({ open, onClose }) => {
       setSelectedService([service]);
     }
     setMetricRender(false);
-    onClose();
+    // onClose();
   };
 
-  const handleApplyButtonClick = () => {};
+  const handleApplyButtonClick = () => { };
 
   return (
-    <Drawer anchor="right" open={open} onClose={onClose}>
-      <div style={{ width: "300px" }}>
-        <List>
-          <ListItem
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "flex-end",
-            }}
-          >
-            <IconButton color="inherit" onClick={onClose}>
-              <ClearRoundedIcon />
-            </IconButton>
-          </ListItem>
-
-          <ListItem
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h5" fontWeight="500">
-              Filter Options
-            </Typography>
-            {/* <Button
+    <div style={{ width: "245px", backgroundColor: colors.primary[400] }}>
+      <List>
+        <ListItem
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h5" fontWeight="500" color={"#fff"}>
+            Filter Options
+          </Typography>
+          {/* <Button
               variant="outlined"
               color="inherit"
               onClick={clearSelectedOptions}
             >
               Clear
             </Button> */}
-          </ListItem>
-          <Divider />
+        </ListItem>
+        <Divider />
 
-          <ListItem>
-            <Accordion style={{ width: "500px" }}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5">Service</Typography>
-              </AccordionSummary>
+        <ListItem>
+          <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h5" color={"#fff"}>Service</Typography>
+            </AccordionSummary>
 
-              <AccordionDetails>
-                <FormControl component="fieldset">
-                  <RadioGroup
-                    value={selectedService}
-                    sx={{
-                      color: theme.palette.mode === "light" ? "#000" : "#FFF",
-                    }}
-                  >
-                    {services.map((service) => (
-                      <FormControlLabel
-                        key={service}
-                        value={service}
-                        control={
-                          <Radio sx={{ "&.Mui-checked": { color: "blue" } }} />
-                        }
-                        label={service}
-                        onChange={handleServiceToggle(service)}
-                      />
-                    ))}
-                  </RadioGroup>
-                </FormControl>
-              </AccordionDetails>
-            </Accordion>
-          </ListItem>
-          <Divider />
-        </List>
-      </div>
-    </Drawer>
+            <AccordionDetails>
+              <FormControl component="fieldset">
+                <RadioGroup
+                  value={selectedService}
+                  sx={{
+                    color: theme.palette.mode === "light" ? "#000" : "#FFF",
+                  }}
+                >
+                  {services.map((service) => (
+                    <FormControlLabel
+                      key={service}
+                      value={service}
+                      control={
+                        <Radio sx={{ "&.Mui-checked": { color: "blue" } }} />
+                      }
+                      label={service}
+                      sx={{
+                        color: 'white',
+                      }}
+                      onChange={handleServiceToggle(service)}
+                    />
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </AccordionDetails>
+          </Accordion>
+        </ListItem>
+        <Divider />
+      </List>
+    </div>
   );
 };
 
