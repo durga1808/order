@@ -107,7 +107,7 @@ const Metricfilter = () => {
                       key={service}
                       value={service}
                       control={
-                        <Radio sx={{ "&.Mui-checked": { color: "blue" } }} />
+                        <Radio sx={{ "&.Mui-checked": { color: "white" } }} />
                       }
                       label={service}
                       sx={{
