@@ -119,9 +119,13 @@ const Logfilter = () => {
                         checked={selectedService.includes(service)}
                         onChange={handleServiceToggle(service)}
                         sx={{
-                          color: '#696969',
+                           // color: '#696969',
+                          // color: '#F2F3F4',
+                          color: '#17202A',
+                          
                           '&.Mui-checked': {
-                            color: "blue",
+                            // color: "blue",
+                            color: "white",
                           },
                         }}
                       />
@@ -153,9 +157,13 @@ const Logfilter = () => {
                         checked={selectedSeverity.includes(severity)}
                         onChange={handleSeverityToggle(severity)}
                         sx={{
-                          color: '#696969',
+                          // color: '#696969',
+                          // color: '#F2F3F4',
+                          color: '#17202A',
+                          
                           '&.Mui-checked': {
-                            color: "blue",
+                            // color: "blue",
+                            color: "white",
                           },
                         }}
                       />
