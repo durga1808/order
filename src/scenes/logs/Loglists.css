@@ -75,3 +75,8 @@
   ::-webkit-scrollbar-track {
     background-color: #f1f1f1; /* Color of the scrollbar track */
   }
+
+  .selected-row {
+    background-color:  lightgrey !important;
+  }
+  

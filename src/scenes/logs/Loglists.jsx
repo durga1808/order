@@ -119,6 +119,8 @@ const Loglists = () => {
   const [noMatchMessage, setNoMatchMessage] = useState("");
   const [filterMessage, setFilterMessage] = useState("");
   const [getAllMessage, setGetAllMessage] = useState("");
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+
 
   const handlecardclose = () => {
     setIsCardVisible(false);
@@ -129,8 +131,10 @@ const Loglists = () => {
     time,
     traceid,
     serviceName,
-    message
+    message,
+    index
   ) => {
+    setSelectedRowIndex(index);
     // Toggle the right drawer's open state
     setIsRightDrawerOpen(true);
     const selectedLogDataObj = {
@@ -203,7 +207,7 @@ const Loglists = () => {
     alert("No TraceId for this Log!");
   };
 
-  function createData(severity, time, traceid, serviceName, message) {
+  function createData(severity, time, traceid, serviceName, message,index) {
 
     traceid = traceid === "" ? "No Trace ID" : traceid;
 
@@ -304,7 +308,8 @@ const Loglists = () => {
                   time,
                   traceid,
                   serviceName,
-                  message
+                  message,
+                  index
                 )
               }
             >
@@ -353,14 +358,15 @@ const Loglists = () => {
 
     const finalData = [];
 
-    extractedData.forEach((log) => {
+    extractedData.forEach((log,index) => {
       finalData.push(
         createData(
           log.severityText,
           log.createdTime,
           log.traceId,
           log.serviceName,
-          log.bodyValue
+          log.bodyValue,
+          index
         )
       );
     });
@@ -833,6 +839,7 @@ const Loglists = () => {
                               role="checkbox"
                               tabIndex={-1}
                               key={index}
+                              className={index === selectedRowIndex ? "selected-row" : ""}
                             >
                               {tableHeaderData.map((column, index) => {
                                 const value = row[column.id];
@@ -933,6 +940,7 @@ const Loglists = () => {
                               role="checkbox"
                               tabIndex={-1}
                               key={index}
+                              className={index === selectedRowIndex ? "selected-row" : ""}
                             >
                               {tableHeaderData.map((column, index) => {
                                 const value = row[column.id];
@@ -1112,6 +1120,7 @@ const Loglists = () => {
                                 role="checkbox"
                                 tabIndex={-1}
                                 key={index}
+                                // className={index === selectedRowIndex ? "selected-row" : ""}
                               >
                                 <StyledTableCell style={{ minWidth: "10px" }}>
                                   {key}
