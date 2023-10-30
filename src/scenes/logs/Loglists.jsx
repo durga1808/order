@@ -125,6 +125,7 @@ const Loglists = () => {
 
   const handlecardclose = () => {
     setIsCardVisible(false);
+    setSelectedRowIndex(null);
   };
 
   const handleViewButtonClick = (
