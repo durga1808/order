@@ -1039,7 +1039,7 @@ const Loglists = () => {
                               item.type === "page"
                               ? item.page === currentPage
                                 ? "#FFF" // Set the color for the current page number
-                                : "#000" // Set the color for other page numbers
+                                : colors.primary[100] // Set the color for other page numbers
                               : "#FFF",
                           }}
                         />
