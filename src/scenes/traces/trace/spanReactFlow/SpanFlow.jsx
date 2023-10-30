@@ -618,7 +618,7 @@ const SpanFlow = () => {
                 {/* <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography> */}
               </div>
               <div
-                style={{ maxHeight: "calc(70vh - 70px)", overflowY: "auto" }}
+                style={{ maxHeight: "calc(65vh - 70px)", overflowY: "auto" }}
               >
                 <div
                   style={{
