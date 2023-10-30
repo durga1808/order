@@ -102,6 +102,7 @@ const TraceBarChart = () => {
     localStorage.setItem("routeName", "Traces");
     setSelected("Traces");
     navigate("/mainpage/traces");
+    setNavActiveTab(1);
   };
 
   const hasErrChartData = integrationdata.some(

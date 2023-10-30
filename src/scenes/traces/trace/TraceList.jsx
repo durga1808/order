@@ -151,7 +151,8 @@ const TraceList = () => {
     selectedEndDate,
     needHistoricalData,
     setShowError,
-    setErroredLogData
+    setErroredLogData,
+    setNavActiveTab
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -394,6 +395,7 @@ const TraceList = () => {
         localStorage.setItem("routeName", "Logs");
         setSelected("Logs");
         navigate("/mainpage/logs");
+        setNavActiveTab(3);
       } else {
         setTraceToLogError("No Log for this TraceId!");
       }

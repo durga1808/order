@@ -111,7 +111,8 @@ const Loglists = () => {
     setClearLogFilter,
     selectedStartDate,
     selectedEndDate,
-    needHistoricalData
+    needHistoricalData,
+    setNavActiveTab
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -190,6 +191,7 @@ const Loglists = () => {
         localStorage.setItem("routeName", "Traces");
         setSelected("Traces");
         navigate("/mainpage/traces");
+        setNavActiveTab(1)
       } else {
         setTraceGlobalEmpty("No Trace Data for this TraceId from Log!");
       }

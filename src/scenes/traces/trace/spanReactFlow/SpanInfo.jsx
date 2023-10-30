@@ -67,7 +67,7 @@ const SpanInfo = () => {
 
   return (
     <div>
-      <div style={{ margin: "20px 10px 20px 10px", textAlign: "center" }}>
+      <div style={{ margin: "20px 10px 0px 10px", textAlign: "center" }}>
         <Typography variant="h6">Metadata Attributes</Typography>
         {Object.keys(selectedSpan.attributes).length === 0 ? (
           <div>
@@ -115,7 +115,7 @@ const SpanInfo = () => {
                 <Typography variant="h7">{selectedSpan.duration}ms</Typography>
               </Typography>
             </div>
-            <div style={{ marginTop: "20px", paddingBottom: "20px",color:"white" }}>
+            <div style={{ marginTop: "20px", paddingBottom: "10px",color:"white" }}>
               <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 450 }} aria-label="customized table">
                   <TableHead>
