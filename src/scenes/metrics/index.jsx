@@ -57,7 +57,7 @@ const Metrics = () => {
   //   "DeliveryService",
   // ];
 
-  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService,selectedService ,setSelectedService, selectedStartDate, selectedEndDate,needHistoricalData} = useContext(GlobalContext);
+  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService,selectedService ,setSelectedService, selectedStartDate, selectedEndDate, needHistoricalData, setNavActiveTab} = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
   const options = services.map((serve) => serve);
   // const [selectedService, setSelectedService] = useState((services && services.length > 0) ? services[0] : null);
@@ -153,13 +153,14 @@ const Metrics = () => {
     setEmptyMessage("");
     setTraceSummaryService([]);
     setLogSummaryService([]);
+    setNavActiveTab(2);
     if (!metricRender) {
       console.log("Selected Service 222222222222" + selectedService);
       getAllMetricsData(selectedService);
     }
     setTraceRender(false);
     setLogRender(false);
-  }, [getAllMetricsData, setTraceRender,lookBackVal, setLogRender, metricRender,selectedService,setTraceSummaryService,setLogSummaryService]);
+  }, [getAllMetricsData, setTraceRender,lookBackVal, setLogRender, metricRender, selectedService, setTraceSummaryService, setLogSummaryService, setNavActiveTab]);
 
   return (
     <>

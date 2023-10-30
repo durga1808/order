@@ -513,6 +513,7 @@ const Loglists = () => {
     setTraceSummaryService([]);
     setTraceRender(false);
     setMetricRender(false);
+    setNavActiveTab(3);
     console.log("Filtered Data useEffect" + filteredOptions);
     if (needLogFilterCall) {
       setFilteredOptions(createFilterData());
@@ -558,6 +559,7 @@ const Loglists = () => {
     currentPage,
     setMetricRender,
     setTraceSummaryService,
+    setNavActiveTab,
     // needHistoricalData,
   ]);
 
