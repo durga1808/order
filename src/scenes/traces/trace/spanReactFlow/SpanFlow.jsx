@@ -135,7 +135,7 @@ const SpanFlow = () => {
       const updatedSelectedSpanData = {
         ...selectedSpanData,
         childSpansCount: orderedSpans.filter(
-          (span) => span.parentSpanId === spanId
+          (span) => span.spans.parentSpanId === spanId
         ).length,
         duration,
       };

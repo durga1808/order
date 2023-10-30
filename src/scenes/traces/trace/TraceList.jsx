@@ -242,7 +242,7 @@ const TraceList = () => {
         setTraceGlobalEmpty("No Data to Display!");
       } else {
         setTraceData(updatedData);
-        // handleCardClick(updatedData[0].traceId);
+        handleCardClick(updatedData[0].traceId);
         setTotalPageCount(Math.ceil(totalCount / pageLimit));
       }
 
