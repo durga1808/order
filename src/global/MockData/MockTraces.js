@@ -41,6 +41,21 @@ const mockTraces = [
   }
 ];
 
+const DBSummaryMock = [
+  {
+    serviceName: "order-project",
+    dbCallCount: 20,
+    dbName: "postgres",
+    dbPeakLatencyCount: 4
+  },
+  {
+    serviceName: "order-project",
+    dbCallCount: 30,
+    dbName: "mongodb",
+    dbPeakLatencyCount: 8
+  }
+]
+
 const TraceSummaryMock = [
   {
     serviceName: "order-project",

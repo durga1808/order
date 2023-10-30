@@ -99,72 +99,81 @@ const ErrorContext = () => {
             {traceLoading ? (
                 <Loading />
             ) : (<div style={{ maxHeight: "calc(80vh - 70px)", overflowY: "auto", paddingRight: "10px", marginTop: "10px" }} >
-                {transformedData.map((log, index) => (
-                    log.logs.map((record, subIndex) => (
-                        <Box key={subIndex} >
-                            <Typography
-                                variant="h6"
-                                sx={{
-                                    display: "flex",
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                    //jey backgroundColor: colors.redAccent[500],
-                                    backgroundColor: "#A92014",
-                                    color: "#FFF",
-                                    padding: "5px",
-                                    borderRadius: "5px",
-                                    marginTop: "10px"
-                                }}
-                            >
-                                <span style={{fontWeight: "500"}}>SpanId:{log.spanId}</span>
-                                <span>CreatedTime: {record.createdTime}</span>
-                            </Typography>
-                            <TableContainer component={Paper} >
-                                <Table aria-label="customized table">
-                                    <TableBody>
-                                        <div style={{ overflowX: 'hidden' }}>
-                                            <TableRow>
-                                                <TableCell align='left' style={{ width: '20%' , fontWeight: "500" }}>
-                                                    Error Component
-                                                </TableCell>
-                                                <TableCell align='left' style={{ width: '80%' }}>
-                                                     {record.name}
-                                                </TableCell>
-                                            </TableRow>
-                                            <TableRow>
-                                                <TableCell align='left' style={{ width: '20%' ,fontWeight: "500"}}>
-                                                    {/* jey error.message */}
-                                                </TableCell>
-                                                <TableCell align='left' style={{ width: '80%' }}>
-                                                    {record.messageBody}
-                                                </TableCell>
-                                            </TableRow>
-                                            {record.attributes.length > 0 ? (
-                                                record.attributes.map((attribute, index) => (
-                                                    <TableRow key={index}>
-                                                        <TableCell align='left' style={{ width: '20%' ,fontWeight: "500" }}>
-                                                            {/* <div>{attribute.key}</div> */}
-                                                            <div></div>
-                                                        </TableCell>
-                                                        <TableCell align='left' style={{ width: '80%' }}>
-                                                            <div className={attribute.key === "exception.stacktrace" ? "scrollable" : ""}>
-                                                                {attribute.key === "exception.stacktrace" ? (
-                                                                    <div className="stacktrace">{attribute.value}</div>
-                                                                ) : (
-                                                                    attribute.value
-                                                                )}
-                                                            </div>
-                                                        </TableCell>
-                                                    </TableRow>
-                                                ))
-                                            ) : null}
-                                        </div>
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </Box>
+                {transformedData.length > 0 ? (
+                    transformedData.map((log, index) => (
+                        log.logs.map((record, subIndex) => (
+                            <Box key={subIndex} >
+                                <Typography
+                                    variant="h6"
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "space-between",
+                                        //jey backgroundColor: colors.redAccent[500],
+                                        backgroundColor: "#A92014",
+                                        color: "#FFF",
+                                        padding: "5px",
+                                        borderRadius: "5px",
+                                        marginTop: "10px"
+                                    }}
+                                >
+                                    <span style={{ fontWeight: "500" }}>SpanId:{log.spanId}</span>
+                                    <span>CreatedTime: {record.createdTime}</span>
+                                </Typography>
+                                <TableContainer component={Paper} >
+                                    <Table aria-label="customized table">
+                                        <TableBody>
+                                            <div style={{ overflowX: 'hidden' }}>
+                                                <TableRow>
+                                                    <TableCell align='left' style={{ width: '20%', fontWeight: "500" }}>
+                                                        Error Component
+                                                    </TableCell>
+                                                    <TableCell align='left' style={{ width: '80%' }}>
+                                                        {record.name}
+                                                    </TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell align='left' style={{ width: '20%', fontWeight: "500" }}>
+                                                        {/* jey error.message */}
+                                                    </TableCell>
+                                                    <TableCell align='left' style={{ width: '80%' }}>
+                                                        {record.messageBody}
+                                                    </TableCell>
+                                                </TableRow>
+                                                {record.attributes.length > 0 ? (
+                                                    record.attributes.map((attribute, index) => (
+                                                        <TableRow key={index}>
+                                                            <TableCell align='left' style={{ width: '20%', fontWeight: "500" }}>
+                                                                {/* <div>{attribute.key}</div> */}
+                                                                <div></div>
+                                                            </TableCell>
+                                                            <TableCell align='left' style={{ width: '80%' }}>
+                                                                <div className={attribute.key === "exception.stacktrace" ? "scrollable" : ""}>
+                                                                    {attribute.key === "exception.stacktrace" ? (
+                                                                        <div className="stacktrace">{attribute.value}</div>
+                                                                    ) : (
+                                                                        attribute.value
+                                                                    )}
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))
+                                                ) : null}
+                                            </div>
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
+                            </Box>
+                        ))
                     ))
-                ))}
+                ) : (<div>
+                    <Typography
+                        variant="h5"
+                        sx={{ textAlign: "center", marginTop: "60%" }}
+                    >
+                        No Errors to Show!
+                    </Typography>
+                </div>)}
             </div>)}
         </>
     )
