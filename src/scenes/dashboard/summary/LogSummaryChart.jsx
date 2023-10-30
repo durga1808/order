@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
-  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService,selectedStartDate, selectedEndDate,needHistoricalData } = useContext(GlobalContext);
+  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService,selectedStartDate, selectedEndDate,needHistoricalData, setNavActiveTab } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -84,6 +84,7 @@ const LogBarChart = () => {
     localStorage.setItem("routeName", "Logs");
     setSelected("Logs");
     navigate("/mainpage/logs");
+    setNavActiveTab(3);
   };
 
   const hasErrChartData = integrationdata.some(
