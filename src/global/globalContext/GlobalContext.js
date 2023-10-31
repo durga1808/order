@@ -55,6 +55,7 @@ const GlobalContextProvider = ({ children }) => {
     const [showError, setShowError] = useState(false);
     const [erroredLogData, setErroredLogData] = useState([]);
     const [navActiveTab, setNavActiveTab] = useState(false);
+    const [DbSummaryService,setDbSummaryService] = useState([])
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -150,7 +151,9 @@ const GlobalContextProvider = ({ children }) => {
                 erroredLogData,
                 setErroredLogData,
                 navActiveTab,
-                setNavActiveTab
+                setNavActiveTab,
+                DbSummaryService,
+                setDbSummaryService,
             }}
         >
             {children}

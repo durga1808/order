@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
-  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService,selectedStartDate, selectedEndDate,needHistoricalData, setNavActiveTab } = useContext(GlobalContext);
+  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService,selectedStartDate, selectedEndDate,needHistoricalData, setNavActiveTab ,setActiveTab} = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -58,6 +58,7 @@ const LogBarChart = () => {
     setEmptyMessage("");
     logSummaryApiCall();
     setLogSummaryService([]);
+    setActiveTab(1)
     // errordataforlasttwo();
   }, [logSummaryApiCall, setErrorMessage, setEmptyMessage, setLogSummaryService]);
 
@@ -120,7 +121,7 @@ const LogBarChart = () => {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 40px)" , color: 'black'}}>
+              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 40px)" }}>
                 <CardContent>
                   {hasErrChartData ? (
                     <ErrorBarChart  

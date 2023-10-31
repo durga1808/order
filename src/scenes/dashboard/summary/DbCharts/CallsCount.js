@@ -2,33 +2,42 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../../../theme";
-import "./ErrorBarChart.css";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 
-const ErrorBarChart = ({ data, onBarClick }) => {
+const CallsCount = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { isCollapsed } = useContext(GlobalContext);
 
-  const handleBarClick = (event, chartContext, config) => {
-    const selectedDataPointIndex = config.dataPointIndex;
-    onBarClick(selectedDataPointIndex);
-  };
+  const data = [
+    {
+      serviceName: "order-project",
+      dbCallCount: 20,
+      dbName: "postgres",
+      dbPeakLatencyCount: 4,
+    },
+    {
+      serviceName: "vendor-project",
+      dbCallCount: 30,
+      dbName: "mongodb",
+      dbPeakLatencyCount: 8,
+    },
+  ];
 
   const options = {
     chart: {
       type: "bar",
-      events: { dataPointSelection: handleBarClick },
+      height: 300,
     },
     plotOptions: {
       bar: {
         columnWidth: "30px",
       },
     },
+
     xaxis: {
       categories: data.map((item) => item.serviceName),
-
       title: {
         text: "List of Services",
         style: {
@@ -50,7 +59,7 @@ const ErrorBarChart = ({ data, onBarClick }) => {
     },
     yaxis: {
       title: {
-        text: "Error Count",
+        text: "DB Count",
         style: {
           color: colors.textColor[500],
           fontSize: 12,
@@ -69,7 +78,7 @@ const ErrorBarChart = ({ data, onBarClick }) => {
       },
     },
     title: {
-      text: "Log Error Count",
+      text: "DB Calls Count",
       align: "center",
       margin: 5,
       offsetX: 0,
@@ -85,47 +94,29 @@ const ErrorBarChart = ({ data, onBarClick }) => {
 
   const series = [
     {
-      name: "Error Calls",
-      data: data.map((item) => item.errorCallCount),
-      color: "#FF0000",
-      states: {
-        hover: {
-          color: "#00FF00", // Change this to the desired hover color
-        },
-      },
+      name: "DB Calls",
+      data: data.map((item) => item.dbCallCount),
+      //   color: "#04700b",
     },
   ];
 
-  const chartWidth = isCollapsed ? "calc(175vh - 10px)" : "calc(160vh - 70px)";
+  const chartWidth = isCollapsed ? "calc(80vh - 20px)" : "calc(75vh - 30px)";
 
   return (
     <div
-    
-      data-theme={theme.palette.mode}
-      style={{
-        height: "calc(40vh - 35px)",
-        // marginLeft:"100px",
-        // overflowX: "auto",
-        // overflowY: "hidden",
-        scrollbarColor: "blue",
-        width: chartWidth,
-      }}
-    >
-      {/* <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}> */}
-      {/* {" "} */}
-      <ReactApexChart
-       style={{
-        color:theme.palette.mode === "light"?"#000":"#000"
-       }}
-        options={options}
-        series={series}
-        type="bar"
-        height={"90%"}
-        width={"100%"}
-      />
-      {/* </Card> */}
-    </div>
+    data-theme={theme.palette.mode}
+    style={{ height: "calc(40vh - 20px)", width: chartWidth }}
+  >
+    {" "}
+    <ReactApexChart
+      options={options}
+      series={series}
+      type="bar"
+      height={"90%"}
+      width={"100%"}
+    />
+  </div>
   );
 };
 
-export default ErrorBarChart;
+export default CallsCount;

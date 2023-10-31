@@ -100,6 +100,20 @@ const ErrorContext = () => {
             {traceLoading ? (
                 <Loading />
             ) : (<div style={{ maxHeight: "calc(80vh - 70px)", overflowY: "auto", paddingRight: "10px", marginTop: "10px" }} >
+                <div
+            style={{
+              backgroundColor: colors.primary[400],
+              color: "white",
+              height: "30px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5" fontWeight={500}>
+              Error Details
+            </Typography>
+          </div>
                 {transformedData.length > 0 ? (
                    
                    transformedData.map((log, index) => (

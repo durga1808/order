@@ -32,3 +32,13 @@
 .apexcharts-menu.apexcharts-menu-open {
   background-color: var(--menu-bg-light);
 }
+
+
+.chat-bar:hover {
+  background-color: #2980b9;
+}
+
+/* styles.css */
+.custom-bar:hover {
+  color:"green"; /* Change this to the desired hover color for the bar */
+}
