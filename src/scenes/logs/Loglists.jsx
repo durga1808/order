@@ -513,6 +513,7 @@ const Loglists = () => {
     setTraceSummaryService([]);
     setTraceRender(false);
     setMetricRender(false);
+    setNavActiveTab(3);
     console.log("Filtered Data useEffect" + filteredOptions);
     if (needLogFilterCall) {
       setFilteredOptions(createFilterData());
@@ -558,6 +559,7 @@ const Loglists = () => {
     currentPage,
     setMetricRender,
     setTraceSummaryService,
+    setNavActiveTab,
     // needHistoricalData,
   ]);
 
@@ -1040,7 +1042,7 @@ const Loglists = () => {
                               item.type === "page"
                               ? item.page === currentPage
                                 ? "#FFF" // Set the color for the current page number
-                                : "#000" // Set the color for other page numbers
+                                : colors.primary[100] // Set the color for other page numbers
                               : "#FFF",
                           }}
                         />

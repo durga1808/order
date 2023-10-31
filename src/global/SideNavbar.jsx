@@ -112,6 +112,7 @@ const SideNavbar = () => {
             (
               window.location.pathname === "/mainpage/dashboard" ||
                 window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary"||
                 window.location.pathname === "/mainpage/traces" ? (
                 <FilterDialog />
               ) : window.location.pathname === "/mainpage/metrics" ? (

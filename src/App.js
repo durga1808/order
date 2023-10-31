@@ -11,6 +11,7 @@ import Logs from "./scenes/logs";
 import TraceSummaryChart from "./scenes/dashboard/summary/TraceSummaryChart";
 import LogSummaryChart from "./scenes/dashboard/summary/LogSummaryChart";
 import DashboardTopBar from "./scenes/dashboard/DashboardTopBar";
+import DbSummaryCharts from "./scenes/dashboard/summary/DbSummaryCharts";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route index element={<TraceSummaryChart />} />
           <Route path="logSummary" element={<LogSummaryChart />} />
+          <Route path="dbSummary" element={<DbSummaryCharts />} />
         </Routes>
       </div>
     )

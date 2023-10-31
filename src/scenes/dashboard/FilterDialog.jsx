@@ -6,65 +6,74 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FormGroup, FormControlLabel } from "@mui/material";
 import { Slider, TextField, Button, Checkbox, Typography } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
 import { TraceFilterOption } from "../../api/TraceApiService";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { formatDistanceToNow } from "date-fns";
 import { tokens } from "../../theme";
 
 const FilterDialog = () => {
-
   // const [value, setValue] = useState([0, 1000]);
   const [minDurationValue, setMinDurationValue] = useState(0);
   const [maxDurationValue, setMaxDurationValue] = useState(10000);
   const [selectedService, setSelectedService] = useState([]);
   const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
   const [selectedHttpCode, setSelectedHttpCode] = useState([]);
-  const { setNeedFilterCall, setClearTraceFilter, clearTraceFilter, setFilterApiBody, setTraceGlobalEmpty, setTraceGlobalError, setTraceDisplayService } = useContext(GlobalContext);
-  const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
+  const {
+    setNeedFilterCall,
+    setClearTraceFilter,
+    clearTraceFilter,
+    setFilterApiBody,
+    setTraceGlobalEmpty,
+    setTraceGlobalError,
+    setTraceDisplayService,
+  } = useContext(GlobalContext);
+  const [services, setServices] = useState(
+    JSON.parse(localStorage.getItem("serviceListData"))
+  );
 
-  const methods = ['POST', 'GET', 'PUT', 'DELETE'];
+  const methods = ["POST", "GET", "PUT", "DELETE"];
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-
 
   const codesNew = [
     {
       labelName: "2xx",
       labelValue: {
         min: 200,
-        max: 299
-      }
+        max: 299,
+      },
     },
     {
       labelName: "3xx",
       labelValue: {
         min: 300,
-        max: 399
-      }
+        max: 399,
+      },
     },
     {
       labelName: "4xx",
       labelValue: {
         min: 400,
-        max: 499
-      }
+        max: 499,
+      },
     },
     {
       labelName: "5xx",
       labelValue: {
         min: 500,
-        max: 599
-      }
-    }
-  ]
-
+        max: 599,
+      },
+    },
+  ];
 
   const handleServiceToggle = (service) => () => {
     if (selectedService.includes(service)) {
       setSelectedService(selectedService.filter((item) => item !== service));
-      setTraceDisplayService(selectedService.filter((item) => item !== service));
+      setTraceDisplayService(
+        selectedService.filter((item) => item !== service)
+      );
     } else {
       setSelectedService([...selectedService, service]);
       setTraceDisplayService([...selectedService, service]);
@@ -73,7 +82,9 @@ const FilterDialog = () => {
 
   const handleHttpToggle = (method) => () => {
     if (selectedHttpMethod.includes(method)) {
-      setSelectedHttpMethod(selectedHttpMethod.filter((item) => item !== method));
+      setSelectedHttpMethod(
+        selectedHttpMethod.filter((item) => item !== method)
+      );
     } else {
       setSelectedHttpMethod([...selectedHttpMethod, method]);
     }
@@ -81,17 +92,23 @@ const FilterDialog = () => {
 
   const handleHttpCodeToggle = (code) => () => {
     if (
-      selectedHttpCode.some((opt) =>
-        typeof opt === 'object' &&
-        opt.min === code.labelValue.min &&
-        opt.max === code.labelValue.max
+      selectedHttpCode.some(
+        (opt) =>
+          typeof opt === "object" &&
+          opt.min === code.labelValue.min &&
+          opt.max === code.labelValue.max
       )
     ) {
-      setSelectedHttpCode(selectedHttpCode.filter((opt) =>
-        !(typeof opt === 'object' &&
-          opt.min === code.labelValue.min &&
-          opt.max === code.labelValue.max)
-      ));
+      setSelectedHttpCode(
+        selectedHttpCode.filter(
+          (opt) =>
+            !(
+              typeof opt === "object" &&
+              opt.min === code.labelValue.min &&
+              opt.max === code.labelValue.max
+            )
+        )
+      );
     } else {
       setSelectedHttpCode([...selectedHttpCode, code.labelValue]);
     }
@@ -133,19 +150,17 @@ const FilterDialog = () => {
     if (clearTraceFilter) {
       clearSelectedOptions();
     }
-  }, [clearTraceFilter])
-
-
+  }, [clearTraceFilter]);
 
   const handleApplyButtonClick = () => {
     const payload = {
-      "duration": {
+      duration: {
         minValue: minDurationValue,
-        maxValue: maxDurationValue
+        maxValue: maxDurationValue,
       },
-      "service": selectedService,
-      "methodName": selectedHttpMethod,
-      "statusCode": selectedHttpCode
+      service: selectedService,
+      methodName: selectedHttpMethod,
+      statusCode: selectedHttpCode,
     };
 
     const apiBody = {};
@@ -154,27 +169,38 @@ const FilterDialog = () => {
     if (payload.duration.minValue > 0 || payload.duration.maxValue < 1000) {
       apiBody.duration = {
         min: payload.duration.minValue,
-        max: payload.duration.maxValue
+        max: payload.duration.maxValue,
       };
     }
 
     // Check if selectedService is not null and not an empty array
-    if (payload.service !== null && Array.isArray(payload.service) && payload.service.length > 0) {
+    if (
+      payload.service !== null &&
+      Array.isArray(payload.service) &&
+      payload.service.length > 0
+    ) {
       apiBody.serviceName = payload.service;
     }
 
     // Check if selectedHttpMethod is not null and not an empty array
-    if (payload.methodName !== null && Array.isArray(payload.methodName) && payload.methodName.length > 0) {
+    if (
+      payload.methodName !== null &&
+      Array.isArray(payload.methodName) &&
+      payload.methodName.length > 0
+    ) {
       apiBody.methodName = payload.methodName;
     }
 
     // Check if selectedHttpCode is not null and not an empty array
-    if (payload.statusCode !== null && Array.isArray(payload.statusCode) && payload.statusCode.length > 0) {
+    if (
+      payload.statusCode !== null &&
+      Array.isArray(payload.statusCode) &&
+      payload.statusCode.length > 0
+    ) {
       apiBody.statusCode = payload.statusCode;
     }
 
-
-    console.log('Selected Options:', apiBody);
+    console.log("Selected Options:", apiBody);
     if (Object.keys(apiBody).length !== 0) {
       setFilterApiBody(apiBody);
       setNeedFilterCall(true);
@@ -187,7 +213,7 @@ const FilterDialog = () => {
       setTraceGlobalError(null);
     }
     const selectedDuration = `${minDurationValue}ms - ${maxDurationValue}ms`;
-    console.log('Selected Duration:', selectedDuration);
+    console.log("Selected Duration:", selectedDuration);
 
     // onClose();
   };
@@ -211,59 +237,120 @@ const FilterDialog = () => {
         <List>
           <ListItem
             style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            <Typography variant="h5" fontWeight="500" color={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" ? "lightgrey" : "#FFF"} >
+            <Typography
+              variant="h5"
+              fontWeight="500"
+              color={
+                window.location.pathname === "/mainpage/dashboard" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary"
+                  ? "lightgrey"
+                  : "#FFF"
+              }
+            >
               Filter Options
             </Typography>
-            <Button variant="outlined" color="primary" onClick={clearSelectedOptions} disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"} >
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={clearSelectedOptions}
+              disabled={
+                window.location.pathname === "/mainpage/dashboard" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary"
+              }
+            >
               Clear
             </Button>
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: '500px', backgroundColor: colors.primary[400] }} disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}>
+            <Accordion
+              style={{ width: "500px", backgroundColor: colors.primary[400] }}
+              disabled={
+                window.location.pathname === "/mainpage/dashboard" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary"
+              }
+            >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5" color={"#FFF"} >Duration</Typography>
+                <Typography variant="h5" color={"#FFF"}>
+                  Duration
+                </Typography>
               </AccordionSummary>
 
               <AccordionDetails>
                 <Slider
-                  disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
+                  disabled={
+                    window.location.pathname === "/mainpage/dashboard" ||
+                    // window.location.pathname === "/mainpage/log" ||
+                    window.location.pathname ===
+                      "/mainpage/dashboard/logSummary" ||
+                    window.location.pathname === "/mainpage/dashboard/dbSummary"
+                  }
                   value={[minDurationValue, maxDurationValue]}
                   min={0}
                   max={10000}
                   onChange={handleChange}
                   valueLabelDisplay="auto"
                   getAriaValueText={(valuetext) => valuetext}
-                  style={{ color: (window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary") ? "lightgrey" : "white" }}
+                  style={{
+                    color:
+                      window.location.pathname === "/mainpage/dashboard" ||
+                      window.location.pathname ===
+                        "/mainpage/dashboard/logSummary" ||
+                      window.location.pathname ===
+                        "/mainpage/dashboard/dbSummary"
+                        ? "lightgrey"
+                        : "white",
+                  }}
                 />
                 <TextField
-                  disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
+                  disabled={
+                    window.location.pathname === "/mainpage/dashboard" ||
+                    window.location.pathname ===
+                      "/mainpage/dashboard/logSummary" ||
+                    window.location.pathname === "/mainpage/dashboard/dbSummary"
+                  }
                   label="Min"
                   variant="outlined"
                   value={minDurationValue}
                   onChange={handleMinChange}
                   InputProps={{
-                    endAdornment: <InputAdornment position="end"><span style={{ color: "#fff" }}>ms</span></InputAdornment>,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <span style={{ color: "#fff" }}>ms</span>
+                      </InputAdornment>
+                    ),
                   }}
-                  style={{ margin: '10px', color: '#fff' }}
+                  style={{ margin: "10px", color: "#fff" }}
                 />
                 <TextField
-                  disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
+                  disabled={
+                    window.location.pathname === "/mainpage/dashboard" ||
+                    window.location.pathname ===
+                      "/mainpage/dashboard/logSummary" ||
+                    window.location.pathname === "/mainpage/dashboard/dbSummary"
+                  }
                   label="Max"
                   variant="outlined"
                   value={maxDurationValue}
                   onChange={handleMaxChange}
                   color="primary"
                   InputProps={{
-                    endAdornment: <InputAdornment position="end"><span style={{ color: "#fff" }}>ms</span></InputAdornment>,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <span style={{ color: "#fff" }}>ms</span>
+                      </InputAdornment>
+                    ),
                   }}
-                  style={{ margin: '10px', color: '#fff' }}
+                  style={{ margin: "10px", color: "#fff" }}
                 />
               </AccordionDetails>
             </Accordion>
@@ -271,9 +358,18 @@ const FilterDialog = () => {
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: '500px', backgroundColor: colors.primary[400] }} disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}>
+            <Accordion
+              style={{ width: "500px", backgroundColor: colors.primary[400] }}
+              disabled={
+                window.location.pathname === "/mainpage/dashboard" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary"
+              }
+            >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5" color={"#fff"} >Service</Typography>
+                <Typography variant="h5" color={"#fff"}>
+                  Service
+                </Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -300,7 +396,7 @@ const FilterDialog = () => {
                       }
                       label={service}
                       sx={{
-                        color: 'white',
+                        color: "white",
                       }}
                     />
                   ))}
@@ -311,9 +407,18 @@ const FilterDialog = () => {
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: '500px', backgroundColor: colors.primary[400] }} disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}>
+            <Accordion
+              style={{ width: "500px", backgroundColor: colors.primary[400] }}
+              disabled={
+                window.location.pathname === "/mainpage/dashboard" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary"
+              }
+            >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5" color={"#fff"}>HTTP Method</Typography>
+                <Typography variant="h5" color={"#fff"}>
+                  HTTP Method
+                </Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -340,7 +445,7 @@ const FilterDialog = () => {
                       }
                       label={method}
                       sx={{
-                        color: 'white',
+                        color: "white",
                       }}
                     />
                   ))}
@@ -351,9 +456,18 @@ const FilterDialog = () => {
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: '500px', backgroundColor: colors.primary[400] }} disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}>
+            <Accordion
+              style={{ width: "500px", backgroundColor: colors.primary[400] }}
+              disabled={
+                window.location.pathname === "/mainpage/dashboard" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary"
+              }
+            >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5" color={"#fff"}>HTTP Code</Typography>
+                <Typography variant="h5" color={"#fff"}>
+                  HTTP Code
+                </Typography>
               </AccordionSummary>
 
               <AccordionDetails>
@@ -363,11 +477,19 @@ const FilterDialog = () => {
                       key={index}
                       control={
                         <Checkbox
-                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
-                          checked={selectedHttpCode.some((opt) =>
-                            typeof opt === 'object' &&
-                            opt.min === code.labelValue.min &&
-                            opt.max === code.labelValue.max
+                          disabled={
+                            window.location.pathname ===
+                              "/mainpage/dashboard" ||
+                            window.location.pathname ===
+                              "/mainpage/dashboard/logSummary" ||
+                            window.location.pathname ===
+                              "/mainpage/dashboard/dbSummary"
+                          }
+                          checked={selectedHttpCode.some(
+                            (opt) =>
+                              typeof opt === "object" &&
+                              opt.min === code.labelValue.min &&
+                              opt.max === code.labelValue.max
                           )}
                           onChange={handleHttpCodeToggle(code)}
                           sx={{
@@ -384,7 +506,7 @@ const FilterDialog = () => {
                       }
                       label={code.labelName}
                       sx={{
-                        color: 'white',
+                        color: "white",
                       }}
                     />
                   ))}
@@ -395,8 +517,17 @@ const FilterDialog = () => {
           <Divider />
         </List>
 
-        <div style={{ padding: '16px' }}>
-          <Button variant="contained" onClick={handleApplyButtonClick} color="primary" disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}>
+        <div style={{ padding: "16px" }}>
+          <Button
+            variant="contained"
+            onClick={handleApplyButtonClick}
+            color="primary"
+            disabled={
+              window.location.pathname === "/mainpage/dashboard" ||
+              window.location.pathname === "/mainpage/dashboard/logSummary" ||
+              window.location.pathname === "/mainpage/dashboard/dbSummary"
+            }
+          >
             Apply
           </Button>
         </div>

@@ -352,6 +352,7 @@ const TraceList = () => {
     setLogRender(false);
     setMetricRender(false);
     setLogSummaryService([]);
+    setNavActiveTab(1);
     if (needFilterCall) {
       filterApiCall();
     } else if (logTrace.length === 0 || !traceRender) {
@@ -377,6 +378,7 @@ const TraceList = () => {
     setSelectedTrace,
     setMetricRender,
     setLogSummaryService,
+    setNavActiveTab,
   ]);
 
   const handlePageChange = (event, newPage) => {
@@ -504,7 +506,7 @@ const TraceList = () => {
                         item.type === "page"
                           ? item.page === currentPage
                             ? "#FFF" // Set the color for the current page number
-                            : "#000" // Set the color for other page numbers
+                            : colors.primary[100] // Set the color for other page numbers
                           : "#FFF",
                       // backgroundColor:colors.primary[]
                     }}
@@ -630,7 +632,7 @@ const TraceList = () => {
                             color:
                               trace.statusCode >= 400 && trace.statusCode <= 500
                                 ? colors.redAccent[500]
-                                : "#000",
+                                : colors.primary[100],
                           }}
                         >
                           <span
@@ -640,7 +642,7 @@ const TraceList = () => {
                                 trace.statusCode >= 400 &&
                                   trace.statusCode <= 500
                                   ? colors.redAccent[500]
-                                  : "#000",
+                                  : colors.primary[100],
                             }}
                           >
                             TraceID:
@@ -778,7 +780,7 @@ const TraceList = () => {
                             trace.statusCode >= 400 &&
                               trace.statusCode <= 500
                               ? colors.redAccent[500]
-                              : "#000",
+                              : colors.primary[100],
                         }}>
                           {" "}
                           <span
