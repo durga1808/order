@@ -151,7 +151,8 @@ const TraceList = () => {
     selectedEndDate,
     needHistoricalData,
     setShowError,
-    setErroredLogData
+    setErroredLogData,
+    setNavActiveTab
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -241,7 +242,7 @@ const TraceList = () => {
         setTraceGlobalEmpty("No Data to Display!");
       } else {
         setTraceData(updatedData);
-        // handleCardClick(updatedData[0].traceId);
+        handleCardClick(updatedData[0].traceId);
         setTotalPageCount(Math.ceil(totalCount / pageLimit));
       }
 
@@ -351,6 +352,7 @@ const TraceList = () => {
     setLogRender(false);
     setMetricRender(false);
     setLogSummaryService([]);
+    setNavActiveTab(1);
     if (needFilterCall) {
       filterApiCall();
     } else if (logTrace.length === 0 || !traceRender) {
@@ -376,6 +378,7 @@ const TraceList = () => {
     setSelectedTrace,
     setMetricRender,
     setLogSummaryService,
+    setNavActiveTab,
   ]);
 
   const handlePageChange = (event, newPage) => {
@@ -394,6 +397,7 @@ const TraceList = () => {
         localStorage.setItem("routeName", "Logs");
         setSelected("Logs");
         navigate("/mainpage/logs");
+        setNavActiveTab(3);
       } else {
         setTraceToLogError("No Log for this TraceId!");
       }
@@ -429,6 +433,9 @@ const TraceList = () => {
   const handleOpenErrors = (traceId, index) => {
     console.log("Error Opened! " + traceId);
     getErroredLogsByTraceId(traceId);
+    //jey added for hand icon for view erro
+    setActiveTraceId(traceId);
+    setActiveTraceIcon(true);
     setShowError(true);
   };
 
@@ -452,7 +459,7 @@ const TraceList = () => {
           >
             <Typography
               variant="h4"
-              fontWeight="500"
+              // fontWeight="500"
               style={{ margin: "10px 0 8px 10px" }}
             >
               Traces ({traceData.length})
@@ -490,16 +497,17 @@ const TraceList = () => {
                       backgroundColor:
                         item.type === "page" && item.page !== currentPage
                           ? null
-                          : colors.blueAccent[400],
+                          // jey : colors.blueAccent[400],
+                          : colors.primary[400],
                       color:
                         // item.type === "page" && item.page === currentPage
                         //   ? "#FFF"
                         //   : null,
                         item.type === "page"
-                        ? item.page === currentPage
-                          ? "#FFF" // Set the color for the current page number
-                          : "#000" // Set the color for other page numbers
-                        : "#FFF",
+                          ? item.page === currentPage
+                            ? "#FFF" // Set the color for the current page number
+                            : colors.primary[100] // Set the color for other page numbers
+                          : "#FFF",
                       // backgroundColor:colors.primary[]
                     }}
                   />
@@ -590,7 +598,8 @@ const TraceList = () => {
                         //   trace.statusCode >= 400 && trace.statusCode <= 500
                         //     ?colors.redAccent[500]
                         //     : colors.blueAccent[400],
-                        backgroundColor: colors.blueAccent[400],
+                        // jey backgroundColor: colors.blueAccent[400],
+                        backgroundColor: colors.primary[400],
                         color: "#FFF",
 
                         padding: "5px",
@@ -623,7 +632,7 @@ const TraceList = () => {
                             color:
                               trace.statusCode >= 400 && trace.statusCode <= 500
                                 ? colors.redAccent[500]
-                                : "#000",
+                                : colors.primary[100],
                           }}
                         >
                           <span
@@ -631,9 +640,9 @@ const TraceList = () => {
                               fontWeight: "500",
                               color:
                                 trace.statusCode >= 400 &&
-                                trace.statusCode <= 500
+                                  trace.statusCode <= 500
                                   ? colors.redAccent[500]
-                                  : "#000",
+                                  : colors.primary[100],
                             }}
                           >
                             TraceID:
@@ -645,6 +654,7 @@ const TraceList = () => {
                           {trace.createdTimeInDate}
                         </Typography>
                       </div>
+
                       <div
                         style={{
                           marginTop: "10px",
@@ -654,7 +664,7 @@ const TraceList = () => {
                           alignItems: "center",
                         }}
                       >
-                        
+
                         <Button
                           sx={{
                             // backgroundColor:
@@ -732,21 +742,25 @@ const TraceList = () => {
                           onClick={() => handleOpenErrors(trace.traceId, index)}
                         >
                           <Typography variant="h8">View Errors</Typography>
-                        </Button>{" "}
-                        {trace.traceId === activeTraceId ? (
-                          activeTraceIcon ? (
-                            <FaRegHandPointRight
-                              style={{
-                                fontSize: "20px",
-                                // color:trace.statusCode >= 400 && trace.statusCode <= 500
-                                // ? colors.redAccent[500]
-                                // : theme.palette.mode==="dark"?"#FFF":"#00888C",
-                                // color: "#606060",
-                              }}
-                            />
-                          ) : null
-                        ) : null}{" "}
+                        </Button>
+                        <div style={{ display: "flex", justifyContent: "flex-end" }} >
+                          {trace.traceId === activeTraceId ? (
+                            activeTraceIcon ? (
+                              <FaRegHandPointRight
+                                style={{
+                                  fontSize: "px",
+                                  color: "#A92014",
+                                  // color:trace.statusCode >= 400 && trace.statusCode <= 500
+                                  // ? colors.redAccent[500]
+                                  // : theme.palette.mode==="dark"?"#FFF":"#00888C",
+                                  // color: "#606060",
+                                }}
+                              />
+                            ) : null
+                          ) : null}
+                        </div>
                       </div>
+
 
                       <Typography
                         variant="h7"
@@ -761,17 +775,19 @@ const TraceList = () => {
                           {trace.createdTimeInWords}
                         </span>
 
-                        <span style={{ width: "200px", color:
-                                trace.statusCode >= 400 &&
-                                trace.statusCode <= 500
-                                  ? colors.redAccent[500]
-                                  : "#000", }}>
+                        <span style={{
+                          width: "200px", color:
+                            trace.statusCode >= 400 &&
+                              trace.statusCode <= 500
+                              ? colors.redAccent[500]
+                              : colors.primary[100],
+                        }}>
                           {" "}
                           <span
                             style={{
                               fontWeight: "500",
                               margin: "0 5px 0 0",
-                              
+
                             }}
                           >
                             StatusCode:

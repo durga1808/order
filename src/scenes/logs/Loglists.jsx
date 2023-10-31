@@ -111,7 +111,8 @@ const Loglists = () => {
     setClearLogFilter,
     selectedStartDate,
     selectedEndDate,
-    needHistoricalData
+    needHistoricalData,
+    setNavActiveTab
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -119,9 +120,12 @@ const Loglists = () => {
   const [noMatchMessage, setNoMatchMessage] = useState("");
   const [filterMessage, setFilterMessage] = useState("");
   const [getAllMessage, setGetAllMessage] = useState("");
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+
 
   const handlecardclose = () => {
     setIsCardVisible(false);
+    setSelectedRowIndex(null);
   };
 
   const handleViewButtonClick = (
@@ -129,8 +133,10 @@ const Loglists = () => {
     time,
     traceid,
     serviceName,
-    message
+    message,
+    index
   ) => {
+    setSelectedRowIndex(index);
     // Toggle the right drawer's open state
     setIsRightDrawerOpen(true);
     const selectedLogDataObj = {
@@ -190,6 +196,7 @@ const Loglists = () => {
         localStorage.setItem("routeName", "Traces");
         setSelected("Traces");
         navigate("/mainpage/traces");
+        setNavActiveTab(1)
       } else {
         setTraceGlobalEmpty("No Trace Data for this TraceId from Log!");
       }
@@ -203,7 +210,7 @@ const Loglists = () => {
     alert("No TraceId for this Log!");
   };
 
-  function createData(severity, time, traceid, serviceName, message) {
+  function createData(severity, time, traceid, serviceName, message,index) {
 
     traceid = traceid === "" ? "No Trace ID" : traceid;
 
@@ -304,7 +311,8 @@ const Loglists = () => {
                   time,
                   traceid,
                   serviceName,
-                  message
+                  message,
+                  index
                 )
               }
             >
@@ -353,14 +361,15 @@ const Loglists = () => {
 
     const finalData = [];
 
-    extractedData.forEach((log) => {
+    extractedData.forEach((log,index) => {
       finalData.push(
         createData(
           log.severityText,
           log.createdTime,
           log.traceId,
           log.serviceName,
-          log.bodyValue
+          log.bodyValue,
+          index
         )
       );
     });
@@ -504,6 +513,7 @@ const Loglists = () => {
     setTraceSummaryService([]);
     setTraceRender(false);
     setMetricRender(false);
+    setNavActiveTab(3);
     console.log("Filtered Data useEffect" + filteredOptions);
     if (needLogFilterCall) {
       setFilteredOptions(createFilterData());
@@ -549,6 +559,7 @@ const Loglists = () => {
     currentPage,
     setMetricRender,
     setTraceSummaryService,
+    setNavActiveTab,
     // needHistoricalData,
   ]);
 
@@ -833,6 +844,7 @@ const Loglists = () => {
                               role="checkbox"
                               tabIndex={-1}
                               key={index}
+                              className={index === selectedRowIndex ? "selected-row" : ""}
                             >
                               {tableHeaderData.map((column, index) => {
                                 const value = row[column.id];
@@ -933,6 +945,7 @@ const Loglists = () => {
                               role="checkbox"
                               tabIndex={-1}
                               key={index}
+                              className={index === selectedRowIndex ? "selected-row" : ""}
                             >
                               {tableHeaderData.map((column, index) => {
                                 const value = row[column.id];
@@ -1020,15 +1033,16 @@ const Loglists = () => {
                             backgroundColor:
                               item.type === "page" && item.page !== currentPage
                                 ? null
-                                : colors.blueAccent[400],
-                            color:
+                                //jey : colors.blueAccent[400],
+                                : colors.primary[400],
+                                color:
                               // item.type === "page" && item.page === currentPage
                               //   ? "#FFF"
                               //   : null,
                               item.type === "page"
                               ? item.page === currentPage
                                 ? "#FFF" // Set the color for the current page number
-                                : "#000" // Set the color for other page numbers
+                                : colors.primary[100] // Set the color for other page numbers
                               : "#FFF",
                           }}
                         />
@@ -1111,6 +1125,7 @@ const Loglists = () => {
                                 role="checkbox"
                                 tabIndex={-1}
                                 key={index}
+                                // className={index === selectedRowIndex ? "selected-row" : ""}
                               >
                                 <StyledTableCell style={{ minWidth: "10px" }}>
                                   {key}

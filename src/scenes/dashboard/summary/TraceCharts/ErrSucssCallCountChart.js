@@ -109,7 +109,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
     <div
       data-theme={theme.palette.mode}
       style={{
-        height: "calc(40vh - 20px)",
+        height: "calc(40vh - 35px)",
         width: chartWidth,
         overflowX: "auto",
         overflowY: "hidden",

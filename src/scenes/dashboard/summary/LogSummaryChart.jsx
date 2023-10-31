@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
-  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService,selectedStartDate, selectedEndDate,needHistoricalData } = useContext(GlobalContext);
+  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService,selectedStartDate, selectedEndDate,needHistoricalData, setNavActiveTab } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -84,6 +84,7 @@ const LogBarChart = () => {
     localStorage.setItem("routeName", "Logs");
     setSelected("Logs");
     navigate("/mainpage/logs");
+    setNavActiveTab(3);
   };
 
   const hasErrChartData = integrationdata.some(
@@ -119,7 +120,7 @@ const LogBarChart = () => {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 28px)" , color: 'black'}}>
+              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 40px)" , color: 'black'}}>
                 <CardContent>
                   {hasErrChartData ? (
                     <ErrorBarChart  
@@ -175,7 +176,7 @@ const LogBarChart = () => {
           <Grid container spacing={2}>
             {" "}
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 20px)" ,  color: 'black'}}>
+              <Card elevation={3} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 32px)" ,  color: 'black'}}>
                 <CardContent>
                   {hasDebugChartData ? (
                     // If any item has debugCallCount !== 0, display the chart
@@ -193,7 +194,7 @@ const LogBarChart = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 20px)", color: 'black' }}>
+              <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 32px)", color: 'black' }}>
                 <CardContent>
                   {hasWarnChartData ? (
                     <WarnBarChart data={integrationdata} />
