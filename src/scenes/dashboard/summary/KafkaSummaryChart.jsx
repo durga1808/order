@@ -37,7 +37,7 @@ const KafkaSummaryChart = () => {
             console.log("ERROR on Kafka summary " + error)
             setErrorMessage("An error Occurred!");
         }
-    }, [selectedStartDate, selectedEndDate, lookBackVal.value, needHistoricalData])
+    }, [selectedStartDate, selectedEndDate, lookBackVal, needHistoricalData])
 
     useEffect(() => {
         kafkaSummaryCount();
