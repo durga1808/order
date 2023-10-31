@@ -248,7 +248,8 @@ const FilterDialog = () => {
               color={
                 window.location.pathname === "/mainpage/dashboard" ||
                 window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary"
+                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   ? "lightgrey"
                   : "#FFF"
               }
@@ -262,7 +263,8 @@ const FilterDialog = () => {
               disabled={
                 window.location.pathname === "/mainpage/dashboard" ||
                 window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary"
+                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
               }
             >
               Clear
@@ -276,7 +278,8 @@ const FilterDialog = () => {
               disabled={
                 window.location.pathname === "/mainpage/dashboard" ||
                 window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary"
+                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
               }
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -292,7 +295,8 @@ const FilterDialog = () => {
                     // window.location.pathname === "/mainpage/log" ||
                     window.location.pathname ===
                       "/mainpage/dashboard/logSummary" ||
-                    window.location.pathname === "/mainpage/dashboard/dbSummary"
+                    window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                    window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   }
                   value={[minDurationValue, maxDurationValue]}
                   min={0}
@@ -306,7 +310,8 @@ const FilterDialog = () => {
                       window.location.pathname ===
                         "/mainpage/dashboard/logSummary" ||
                       window.location.pathname ===
-                        "/mainpage/dashboard/dbSummary"
+                        "/mainpage/dashboard/dbSummary" ||
+                        window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                         ? "lightgrey"
                         : "white",
                   }}
@@ -316,7 +321,8 @@ const FilterDialog = () => {
                     window.location.pathname === "/mainpage/dashboard" ||
                     window.location.pathname ===
                       "/mainpage/dashboard/logSummary" ||
-                    window.location.pathname === "/mainpage/dashboard/dbSummary"
+                    window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                    window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   }
                   label="Min"
                   variant="outlined"
@@ -336,7 +342,8 @@ const FilterDialog = () => {
                     window.location.pathname === "/mainpage/dashboard" ||
                     window.location.pathname ===
                       "/mainpage/dashboard/logSummary" ||
-                    window.location.pathname === "/mainpage/dashboard/dbSummary"
+                    window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                    window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   }
                   label="Max"
                   variant="outlined"
@@ -363,7 +370,8 @@ const FilterDialog = () => {
               disabled={
                 window.location.pathname === "/mainpage/dashboard" ||
                 window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary"
+                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
               }
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -379,7 +387,7 @@ const FilterDialog = () => {
                       key={index}
                       control={
                         <Checkbox
-                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
+                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"}
                           checked={selectedService.includes(service)}
                           onChange={handleServiceToggle(service)}
                           sx={{
@@ -412,7 +420,8 @@ const FilterDialog = () => {
               disabled={
                 window.location.pathname === "/mainpage/dashboard" ||
                 window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary"
+                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
               }
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -428,7 +437,7 @@ const FilterDialog = () => {
                       key={method}
                       control={
                         <Checkbox
-                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary"}
+                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"}
                           checked={selectedHttpMethod.includes(method)}
                           onChange={handleHttpToggle(method)}
                           sx={{
@@ -461,7 +470,8 @@ const FilterDialog = () => {
               disabled={
                 window.location.pathname === "/mainpage/dashboard" ||
                 window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary"
+                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
               }
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -483,7 +493,9 @@ const FilterDialog = () => {
                             window.location.pathname ===
                               "/mainpage/dashboard/logSummary" ||
                             window.location.pathname ===
-                              "/mainpage/dashboard/dbSummary"
+                              "/mainpage/dashboard/dbSummary" ||
+                              window.location.pathname ===
+                              "/mainpage/dashboard/kafkaSummary"  
                           }
                           checked={selectedHttpCode.some(
                             (opt) =>
@@ -525,7 +537,8 @@ const FilterDialog = () => {
             disabled={
               window.location.pathname === "/mainpage/dashboard" ||
               window.location.pathname === "/mainpage/dashboard/logSummary" ||
-              window.location.pathname === "/mainpage/dashboard/dbSummary"
+              window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+              window.location.pathname === "/mainpage/dashboard/kafkaSummary"
             }
           >
             Apply
