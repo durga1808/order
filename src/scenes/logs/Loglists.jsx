@@ -147,7 +147,7 @@ const Loglists = () => {
       Message: message,
     };
     setSelectedLogData([selectedLogDataObj]);
-    setIsCollapsed(true);
+    // setIsCollapsed(true);
     setIsCardVisible(true);
   };
 
@@ -519,27 +519,28 @@ const Loglists = () => {
       setFilteredOptions(createFilterData());
       console.log("From Filter");
       setIsCardVisible(false);
-      setIsCollapsed(false);
+      // setIsCollapsed(false);
       logFilterApiCall();
     } else if (globalLogData.length !== 0 && logRender) {
       setClearLogFilter(false);
       console.log("From Trace");
       setIsCardVisible(false);
-      setIsCollapsed(false);
+      // setIsCollapsed(false);
       const updatedData = createTimeInWords(globalLogData);
       const finalOutput = mapLogData(updatedData);
       setLogData(finalOutput);
+      // logFilterApiCall();
     } else if (searchQuery && logRender) {
       setClearLogFilter(false);
       // setSearchResults([]);
       setIsCardVisible(false);
-      setIsCollapsed(false);
+      // setIsCollapsed(false);
       handleSearch();
     } else {
       setClearLogFilter(false);
       console.log("From get ALL");
       setIsCardVisible(false);
-      setIsCollapsed(false);
+      // setIsCollapsed(false);
       handleGetAllLogData(currentPage);
     }
 

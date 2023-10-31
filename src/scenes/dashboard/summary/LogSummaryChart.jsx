@@ -122,7 +122,7 @@ const LogBarChart = () => {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 40px)" , color: 'black'}}>
+              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 40px)" }}>
                 <CardContent>
                   {hasErrChartData ? (
                     <ErrorBarChart  

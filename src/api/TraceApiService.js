@@ -219,6 +219,49 @@ export const getRecentTraceList = async (page, pageSize, serviceName) => {
   }
 };
 
+
+
+
+
+
+
+export const getDbSummaryDataWithDate = async (
+  startDate,
+  endDate,
+  minutesAgo
+) => {
+  try {
+    // Get the list of service names from localStorage and parse it
+    const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+
+    // Construct the URL with the service names
+    // const serviceNameListParam = serviceListData.join('&serviceNameList=');
+
+    const serviceNameListParam = serviceListData.join("&serviceNameList=");
+
+    var finalUrl;
+
+    if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
+      console.log(
+        `History call + ${traceURL}/DBSumaryChartDataCount?from=${endDate}&serviceNameList=${serviceNameListParam}&to=${startDate}`
+      );
+      finalUrl = `${traceURL}/DBSumaryChartDataCount?from=${endDate}&serviceNameList=${serviceNameListParam}&to=${startDate}`;
+    } else {
+      console.log(
+        `Minutes call + ${traceURL}/DBSumaryChartDataCount?minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}&to=${startDate}`
+      );
+      finalUrl = `${traceURL}/DBSumaryChartDataCount?from=${startDate}&minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}`;
+    }
+
+    const response = await axios.get(finalUrl);
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
+  }
+};
+
+
 export const getKafkaSummaryData = async (startDate, endDate, minutesAgo) => {
     try {
       const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
