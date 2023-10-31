@@ -176,8 +176,10 @@ const DashboardTopBar = () => {
       navigate("/mainpage/dashboard");
     } else if (newValue === 1) {
       navigate("/mainpage/dashboard/logSummary");
-    }else if (newValue === 2) {
+    } else if (newValue === 2) {
       navigate("/mainpage/dashboard/dbSummary");
+    } else if (newValue === 3) {
+      navigate("/mainpage/dashboard/kafkaSummary")
     }
     setActiveTab(newValue);
   };
@@ -301,7 +303,7 @@ const DashboardTopBar = () => {
             {window.location.pathname === "/mainpage/dashboard" ||
               window.location.pathname === "/mainpage/traces" ||
               window.location.pathname === "/mainpage/metrics" ||
-              window.location.pathname === "/mainpage/logs" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary"? (
+              window.location.pathname === "/mainpage/logs" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"? (
               <Tabs
                 value={navActiveTab}
                 onChange={handleTabChangePages}
@@ -610,7 +612,7 @@ const DashboardTopBar = () => {
         </Toolbar>
         <div style={{ marginTop: "-25px", marginLeft: "13px" }} >
           {window.location.pathname === "/mainpage/dashboard" ||
-            window.location.pathname === "/mainpage/dashboard/logSummary"||window.location.pathname === "/mainpage/dashboard/dbSummary" ? (
+            window.location.pathname === "/mainpage/dashboard/logSummary"||window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -628,6 +630,7 @@ const DashboardTopBar = () => {
               <Tab label="Trace Summary" sx={{ color: "#FFF" }} />
               <Tab label="Log Summary" sx={{ color: "#FFF" }} />
               <Tab label="Db Summary" sx={{ color: "#FFF" }} />
+              <Tab label="Kafka Summary" sx={{ color: "#FFF" }} />
             </Tabs>
           ) : null}
           <Box sx={{ alignItems: "flex-start", marginLeft: "25px",padding:"5px",marginTop:"5px" }}>
