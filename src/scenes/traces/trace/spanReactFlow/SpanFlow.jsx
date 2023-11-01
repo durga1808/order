@@ -343,7 +343,7 @@ const SpanFlow = () => {
             // : "#D4D4D4",
             : "#617881",
           width: "500px",
-          height: "50px",
+          height: "60px",
           color: "#FFF",
           //jey
           fontSize:"18px",
