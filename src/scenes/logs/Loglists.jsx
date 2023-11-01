@@ -114,7 +114,8 @@ const Loglists = () => {
     needHistoricalData,
     setNavActiveTab,
     setNeedFilterCall,
-    setTraceDisplayService
+    setTraceDisplayService,
+    setClearTraceFilter
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -204,6 +205,7 @@ const Loglists = () => {
         localStorage.setItem("routeName", "Traces");
         setSelected("Traces");
         navigate("/mainpage/traces");
+        setClearTraceFilter(true);
         setNeedFilterCall(false);
         setTraceDisplayService([]);
         setNavActiveTab(1);
@@ -695,7 +697,7 @@ const Loglists = () => {
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
             />
-            {!needLogFilterCall ? (
+            {/* {!needLogFilterCall ? ( */}
 
               <Box sx={{
                 display: "flex",
@@ -711,7 +713,7 @@ const Loglists = () => {
                   display: "flex",
                   flexDirection: "column", marginBottom: "10px"
                 }}>
-                  <label style={{ fontSize: '12px' }}>SortBy</label>
+                  <label style={{ fontSize: '12px',marginLeft:needLogFilterCall?"50px":"0px" }}>SortBy</label>
                   {/* <Dropdown
                     options={sortOrderOptions}
                     placeholder="Sort Order"
@@ -726,7 +728,7 @@ const Loglists = () => {
                     onChange={handleSortOrderChange}
                     // displayEmpty
                     // inputProps={{ "aria-label": "Select Sort Order" }}
-                    style={{ width: "150px", height: "52px" }}
+                    style={{ width: "150px", height: "52px",marginLeft:needLogFilterCall?"50px":"0px" }}
                   >
                     <MenuItem value="" disabled>
                       Sort Order
@@ -739,9 +741,10 @@ const Loglists = () => {
                   </Select>
                 </div>
               </Box>
-            ) : null}
+            {/* ) : null} */}
           </Box>
-          {needLogFilterCall ? (<div style={{ marginBottom: "5px" }}  >
+          {needLogFilterCall ? (
+          <div style={{ marginBottom: "5px" }}  >
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start" }} >
               <Typography variant="h6" fontWeight={"600"}>
                 Filtered By:
@@ -755,7 +758,8 @@ const Loglists = () => {
                 </React.Fragment>
               ))}
             </div>
-          </div>) : null}
+          </div>
+          ) : null}
 
           <Card
             elevation={6}

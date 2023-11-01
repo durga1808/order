@@ -7,9 +7,11 @@ import { GlobalContext } from '../../global/globalContext/GlobalContext';
 import { tokens } from "../../theme";
 
 const Logfilter = () => {
-  const [selectedService, setSelectedService] = useState([]);
-  const [selectedSeverity, setSelectedSeverity] = useState([]);
-  const { setLogFilterApiBody, setNeedLogFilterCall,clearLogFilter, setClearLogFilter ,setSelectedLogService} = useContext(GlobalContext);
+  // const [logSelectedService, setLogSelectedService] = useState([]);
+  // const [selectedSeverity, setSelectedSeverity] = useState([]);
+  const { setLogFilterApiBody, setNeedLogFilterCall, clearLogFilter, setClearLogFilter, setSelectedLogService, logSelectedService,
+    setLogSelectedService, selectedSeverity,
+    setSelectedSeverity } = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
 
   const theme = useTheme();
@@ -20,17 +22,17 @@ const Logfilter = () => {
   const severity = ['ERROR', 'SEVERE', 'WARN', 'INFO'];
 
   const handleServiceToggle = (service) => () => {
-    if (selectedService.includes(service)) {
-      setSelectedService(selectedService.filter((item) => item !== service));
-      setSelectedLogService(selectedService.filter((item) => item !== service));
+    if (logSelectedService.includes(service)) {
+      setLogSelectedService(logSelectedService.filter((item) => item !== service));
+      setSelectedLogService(logSelectedService.filter((item) => item !== service));
     } else {
-      setSelectedService([...selectedService, service]);
-      setSelectedLogService([...selectedService, service]);
+      setLogSelectedService([...logSelectedService, service]);
+      setSelectedLogService([...logSelectedService, service]);
     }
   };
 
   const clearSelectedOptions = () => {
-    setSelectedService([]);
+    setLogSelectedService([]);
     setSelectedSeverity([]);
     setSelectedLogService([]);
   }
@@ -44,14 +46,14 @@ const Logfilter = () => {
   }
 
   useEffect(() => {
-    if(clearLogFilter){
+    if (clearLogFilter) {
       clearSelectedOptions();
     }
   }, [clearLogFilter])
 
   const handleApplyButtonClick = () => {
     const payload = {
-      service: selectedService,
+      service: logSelectedService,
       severityText: selectedSeverity
     }
 
@@ -83,7 +85,7 @@ const Logfilter = () => {
 
 
   return (
-    <div className="custom-drawer" style={{ width: "245px", backgroundColor: colors.primary[400],overflowY: "auto", height: "82vh"  }}>
+    <div className="custom-drawer" style={{ width: "245px", backgroundColor: colors.primary[400], overflowY: "auto", height: "82vh" }}>
       <style>
         {`
 
@@ -112,88 +114,88 @@ const Logfilter = () => {
           </ListItem>
           <Divider />
 
-          <ListItem>
-            <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5" color={"#FFF"}>Service</Typography>
-              </AccordionSummary>
+        <ListItem>
+          <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h5" color={"#FFF"}>Service</Typography>
+            </AccordionSummary>
 
-              <AccordionDetails>
-                <FormGroup>
-                  {services.map((service) => (
-                    <FormControlLabel
-                      key={service}
-                      control={<Checkbox
-                        checked={selectedService.includes(service)}
-                        onChange={handleServiceToggle(service)}
-                        sx={{
-                           // color: '#696969',
-                          // color: '#F2F3F4',
-                          color: '#17202A',
-                          
-                          '&.Mui-checked': {
-                            // color: "blue",
-                            color: "white",
-                          },
-                        }}
-                      />
-                      }
-                      label={service}
+            <AccordionDetails>
+              <FormGroup>
+                {services.map((service) => (
+                  <FormControlLabel
+                    key={service}
+                    control={<Checkbox
+                      checked={logSelectedService.includes(service)}
+                      onChange={handleServiceToggle(service)}
                       sx={{
-                        color: 'white',
+                        // color: '#696969',
+                        // color: '#F2F3F4',
+                        color: '#17202A',
+
+                        '&.Mui-checked': {
+                          // color: "blue",
+                          color: "white",
+                        },
                       }}
-                    />))}
-                </FormGroup>
-              </AccordionDetails>
-            </Accordion>
+                    />
+                    }
+                    label={service}
+                    sx={{
+                      color: 'white',
+                    }}
+                  />))}
+              </FormGroup>
+            </AccordionDetails>
+          </Accordion>
 
-          </ListItem>
-          <Divider />
+        </ListItem>
+        <Divider />
 
-          <ListItem>
-            <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
-              <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography variant="h5" color={"#FFF"}>Severity Changes</Typography>
-              </AccordionSummary>
+        <ListItem>
+          <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography variant="h5" color={"#FFF"}>Severity Changes</Typography>
+            </AccordionSummary>
 
-              <AccordionDetails>
-                <FormGroup>
-                  {severity.map((severity) => (
-                    <FormControlLabel
-                      key={severity}
-                      control={<Checkbox
-                        checked={selectedSeverity.includes(severity)}
-                        onChange={handleSeverityToggle(severity)}
-                        sx={{
-                          // color: '#696969',
-                          // color: '#F2F3F4',
-                          color: '#17202A',
-                          
-                          '&.Mui-checked': {
-                            // color: "blue",
-                            color: "white",
-                          },
-                        }}
-                      />
-                      }
-                      label={severity}
+            <AccordionDetails>
+              <FormGroup>
+                {severity.map((severity) => (
+                  <FormControlLabel
+                    key={severity}
+                    control={<Checkbox
+                      checked={selectedSeverity.includes(severity)}
+                      onChange={handleSeverityToggle(severity)}
                       sx={{
-                        color: 'white',
+                        // color: '#696969',
+                        // color: '#F2F3F4',
+                        color: '#17202A',
+
+                        '&.Mui-checked': {
+                          // color: "blue",
+                          color: "white",
+                        },
                       }}
-                    />))}
-                </FormGroup>
-              </AccordionDetails>
-            </Accordion>
-          </ListItem>
+                    />
+                    }
+                    label={severity}
+                    sx={{
+                      color: 'white',
+                    }}
+                  />))}
+              </FormGroup>
+            </AccordionDetails>
+          </Accordion>
+        </ListItem>
 
-        </List>
+      </List>
 
-        <div style={{ padding: "16px" }}>
-          <Button variant="contained" onClick={handleApplyButtonClick} color="primary">
-            Apply
-          </Button>
-        </div>
+      <div style={{ padding: "16px" }}>
+        <Button variant="contained" onClick={handleApplyButtonClick} color="primary">
+          Apply
+        </Button>
       </div>
+    </div>
   )
 }
 

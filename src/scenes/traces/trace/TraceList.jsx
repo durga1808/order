@@ -152,7 +152,10 @@ const TraceList = () => {
     needHistoricalData,
     setShowError,
     setErroredLogData,
-    setNavActiveTab
+    setNavActiveTab,
+    setClearLogFilter,
+    setNeedLogFilterCall,
+    setSelectedLogService
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -397,6 +400,9 @@ const TraceList = () => {
         localStorage.setItem("routeName", "Logs");
         setSelected("Logs");
         navigate("/mainpage/logs");
+        setClearLogFilter(true);
+        setNeedLogFilterCall(false);
+        setSelectedLogService([]);
         setNavActiveTab(3);
       } else {
         setTraceToLogError("No Log for this TraceId!");
@@ -453,14 +459,14 @@ const TraceList = () => {
           <Box
             display="flex"
             flexDirection="row"
-            justifyContent="space-evenly"
+            justifyContent="space-between"
             alignItems="center"
             overflowX="auto"
           >
             <Typography
               variant="h4"
               // fontWeight="500"
-              style={{ margin: "10px 0 8px 10px" }}
+              style={{ margin: "10px 10px 8px 5px" }}
             >
               Traces ({traceData.length})
             </Typography>
@@ -515,7 +521,7 @@ const TraceList = () => {
               />
             </Box>
 
-            {!needFilterCall ? (
+            {/* {!needFilterCall ? ( */}
               <Box
                 sx={{
                   display: "flex",
@@ -546,7 +552,7 @@ const TraceList = () => {
                   <Select
                     value={selectedSortOrder}
                     onChange={handleSortOrderChange}
-                    sx={{ width: "150px", height: "30px" }}
+                    sx={{ width: "150px", height: "30px",marginRight:"5px" }}
                   >
                     <MenuItem value="" disabled>
                       Sort Order
@@ -559,7 +565,7 @@ const TraceList = () => {
                   </Select>
                 </div>
               </Box>
-            ) : null}
+            {/* ) : null} */}
           </Box>
           <div
             className="scrollable-div"
