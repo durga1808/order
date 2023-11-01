@@ -140,7 +140,7 @@ const LineChart = ({ data }) => {
 
   return (
         <Box height="calc(40vh - 20px)" width={chartWidth} padding="5px" border="1px" style={{
-          transition: "width 0.3s ease-in-out", // CSS transition for width changes
+          transition: "width 0.3s ease-in-out",
         }}>
           <ReactApexChart
             options={options}

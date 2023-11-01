@@ -88,8 +88,7 @@ const PeakLatencyChart = ({ data }) => {
   ];
 
 
-  const chartWidth = isCollapsed ? 'calc(80vh - 20px)' : 'calc(75vh - 30px)'
-
+  const chartWidth = isCollapsed ? 'calc(100% - 20px)' : 'calc(103% - 30px)'
 
   return (
     <div data-theme={theme.palette.mode} style={{height:"calc(40vh - 20px)",width:chartWidth}} >
