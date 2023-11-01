@@ -148,6 +148,7 @@ const FilterDialog = () => {
 
   useEffect(() => {
     if (clearTraceFilter) {
+      console.log("Trace in--------------------------------------api call----------------------");
       clearSelectedOptions();
     }
   }, [clearTraceFilter]);

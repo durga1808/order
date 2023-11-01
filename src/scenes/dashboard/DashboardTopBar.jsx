@@ -95,7 +95,7 @@ const DashboardTopBar = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(null);
   const [previousStartDate, setPreviousStartDate] = useState(false);
- 
+
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -110,8 +110,8 @@ const DashboardTopBar = () => {
     fontSize: "20px",
     color:
       window.location.pathname === "/mainpage/traces" ||
-      window.location.pathname === "/mainpage/metrics" ||
-      window.location.pathname === "/mainpage/logs"
+        window.location.pathname === "/mainpage/metrics" ||
+        window.location.pathname === "/mainpage/logs"
         ? colors.tabColor[500]
         : "#666663",
   };
@@ -257,6 +257,11 @@ const DashboardTopBar = () => {
     console.log("Formatted Date " + formattedDate);
     setMetricRender(false);
     setSelectedStartDate(formattedDate);
+    setGlobalLogData([]);
+    setLogRender(false);
+    setLogTrace([]);
+    setTraceGlobalEmpty(null);
+    setTraceGlobalError(null);
 
     const currentDate = new Date();
     const currentDateFormatted = format(currentDate, "yyyy-MM-dd");
@@ -270,7 +275,7 @@ const DashboardTopBar = () => {
       setPreviousStartDate(false);
       setEndDate(null);
     }
-    
+
 
     setStartDate(date);
   };
@@ -280,9 +285,14 @@ const DashboardTopBar = () => {
       const formattedDate = format(date, "yyyy-MM-dd");
       console.log("Formatted Date " + formattedDate);
       setMetricRender(false);
+      setGlobalLogData([]);
+      setLogTrace([]);
+      setLogRender(false);
+      setTraceGlobalEmpty(null);
+      setTraceGlobalError(null);
       setSelectedEndDate(formattedDate);
       setEndDate(date);
-      
+
     }
   };
   const appBarStyles = {
@@ -303,7 +313,7 @@ const DashboardTopBar = () => {
             {window.location.pathname === "/mainpage/dashboard" ||
               window.location.pathname === "/mainpage/traces" ||
               window.location.pathname === "/mainpage/metrics" ||
-              window.location.pathname === "/mainpage/logs" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"? (
+              window.location.pathname === "/mainpage/logs" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
               <Tabs
                 value={navActiveTab}
                 onChange={handleTabChangePages}
@@ -612,7 +622,7 @@ const DashboardTopBar = () => {
         </Toolbar>
         <div style={{ marginTop: "-25px", marginLeft: "13px" }} >
           {window.location.pathname === "/mainpage/dashboard" ||
-            window.location.pathname === "/mainpage/dashboard/logSummary"||window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
+            window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -633,7 +643,7 @@ const DashboardTopBar = () => {
               <Tab label="Kafka Summary" sx={{ color: "#FFF" }} />
             </Tabs>
           ) : null}
-          <Box sx={{ alignItems: "flex-start", marginLeft: "25px",padding:"5px",marginTop:"5px" }}>
+          <Box sx={{ alignItems: "flex-start", marginLeft: "25px", padding: "5px", marginTop: "5px" }}>
             {window.location.pathname === "/mainpage/traces" ? (
               <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>
                 TRACES {traceDisplayService.length > 0 ? `(${traceDisplayService.join(', ')})` : ''}
