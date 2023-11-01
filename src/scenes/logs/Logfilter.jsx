@@ -17,7 +17,7 @@ const Logfilter = () => {
 
   // const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
 
-  const severity = ['ERROR', 'SEVERE', 'WARNING', 'INFO'];
+  const severity = ['ERROR', 'SEVERE', 'WARN', 'INFO'];
 
   const handleServiceToggle = (service) => () => {
     if (selectedService.includes(service)) {

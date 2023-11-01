@@ -92,7 +92,8 @@
       DBSummaryApiCall();
       // setDbSummaryService([]);
       setActiveTab(2);
-    }, [DBSummaryApiCall, setErrorMessage, setEmptyMessage]);
+      setNavActiveTab(0);
+    }, [DBSummaryApiCall, setErrorMessage, setEmptyMessage, setActiveTab, setNavActiveTab]);
 
     // useEffect(() => {
     //   // setNavActiveTab(2);

@@ -94,6 +94,9 @@ const PeakLatencyChart = ({ data }) => {
   return (
     <div data-theme={theme.palette.mode} style={{height:"calc(40vh - 20px)",width:chartWidth}} >
       <ReactApexChart
+       style={{
+        color: "#000",
+      }}
         options={peakLatencyOptions}
         series={peakLatencySeries}
         type="bar"
