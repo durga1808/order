@@ -671,7 +671,7 @@ const TraceList = () => {
                             // trace.statusCode >= 400 && trace.statusCode <= 500
                             //   ?colors.redAccent[500]
                             //   : colors.blueAccent[400],
-
+                               
                             // backgroundColor:
                             //   trace.statusCode >= 400 && trace.statusCode <= 500
                             //     ? "#b89b6d"
@@ -682,8 +682,9 @@ const TraceList = () => {
                             // backgroundColor:"#ab9d85",
 
                             // backgroundColor:"#E0E0E0",
-                            color: "#000",
-
+                            // color: "#000",
+                            color: theme.palette.mode === "dark" ? "white" : "black",
+                            backgroundColor: theme.palette.mode === "dark" ? "#2C3539" : "#e0e0e0", 
                             // color:
                             //   trace.statusCode >= 400 && trace.statusCode <= 500
                             //     ? "#FFF"
@@ -699,8 +700,8 @@ const TraceList = () => {
                           disabled={(trace.statusCode === "" || trace.statusCode === null)}
                           variant="contained"
                           onClick={() => handleLogRoute(trace.traceId)}
-                        >
-                          <Typography variant="h8">View Log</Typography>
+                        >  
+                          <Typography variant="h8" >View Log</Typography>
                         </Button>
                         <Button
                           sx={{
@@ -710,6 +711,8 @@ const TraceList = () => {
                             //     : "#808080",
                             backgroundColor: colors.grey[400],
                             color: "#000",
+                            color: theme.palette.mode === "dark" ? "white" : "black",
+                            backgroundColor: theme.palette.mode === "dark" ? "#2C3539" : "#e0e0e0", 
                             "&:hover": {
                               backgroundColor: "#ffffff",
                               color: colors.primary[600],
@@ -730,6 +733,8 @@ const TraceList = () => {
                             //     : "#808080",
                             backgroundColor: colors.grey[400],
                             color: "#000",
+                            color: theme.palette.mode === "dark" ? "white" : "black",
+                            backgroundColor: theme.palette.mode === "dark" ? "#2C3539" : "#e0e0e0", 
                             "&:hover": {
                               backgroundColor: "#ffffff",
                               color: colors.primary[600],
