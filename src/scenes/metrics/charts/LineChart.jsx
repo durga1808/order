@@ -136,10 +136,12 @@ const LineChart = ({ data }) => {
     // },
   };
 
-  const chartWidth = isCollapsed ? 'calc(175vh - 10px)' : 'calc(165vh - 70px)'
+  const chartWidth = isCollapsed ? 'calc(100% - 10px)' : 'calc(103% - 70px)'
 
   return (
-        <Box height="calc(40vh - 20px)" width={chartWidth} padding="5px" border="1px">
+        <Box height="calc(40vh - 20px)" width={chartWidth} padding="5px" border="1px" style={{
+          transition: "width 0.3s ease-in-out",
+        }}>
           <ReactApexChart
             options={options}
             series={series}

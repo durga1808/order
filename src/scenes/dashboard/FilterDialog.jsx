@@ -277,6 +277,14 @@ const FilterDialog = () => {
                 window.location.pathname === "/mainpage/dashboard/dbSummary" ||
                 window.location.pathname === "/mainpage/dashboard/kafkaSummary"
               }
+              sx={{
+                color: window.location.pathname === "/mainpage/dashboard" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                  ? "lightgrey"
+                  : colors.primary[100],
+              }}
             >
               Clear
             </Button>

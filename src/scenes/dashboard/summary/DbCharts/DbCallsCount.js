@@ -106,7 +106,7 @@ const DBCallsCount = ({ data, onBarClick }) => {
     },
   ];
 
-  const chartWidth = isCollapsed ? "calc(175vh - 10px)" : "calc(160vh - 70px)";
+  const chartWidth = isCollapsed ? "calc(100%- 10px)" : "calc(103% - 70px)";
 
   return (
     <div
