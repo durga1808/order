@@ -114,9 +114,9 @@ const ErrorBarChart = ({ data, onBarClick }) => {
       {/* <Card elevation={3} style={{ margin: "25px 15px 10px 25px" }}> */}
       {/* {" "} */}
       <ReactApexChart
-       style={{
-        color:theme.palette.mode === "light"?"#000":"#000"
-       }}
+      style={{
+        color: "#000",
+      }}
         options={options}
         series={series}
         type="bar"

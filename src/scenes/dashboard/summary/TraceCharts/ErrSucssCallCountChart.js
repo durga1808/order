@@ -117,6 +117,9 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       }}
     >
       <ReactApexChart
+      style={{
+        color: "#000",
+      }}
         options={options}
         series={series}
         type="bar"
