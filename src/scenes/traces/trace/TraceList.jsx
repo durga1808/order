@@ -712,7 +712,6 @@ const TraceList = () => {
                             backgroundColor: colors.grey[400],
                             color: "#000",
                             color: theme.palette.mode === "dark" ? "white" : "black",
-                            backgroundColor: theme.palette.mode === "dark" ? "#2C3539" : "#e0e0e0", 
                             "&:hover": {
                               backgroundColor: "#ffffff",
                               color: colors.primary[600],
@@ -734,7 +733,6 @@ const TraceList = () => {
                             backgroundColor: colors.grey[400],
                             color: "#000",
                             color: theme.palette.mode === "dark" ? "white" : "black",
-                            backgroundColor: theme.palette.mode === "dark" ? "#2C3539" : "#e0e0e0", 
                             "&:hover": {
                               backgroundColor: "#ffffff",
                               color: colors.primary[600],
