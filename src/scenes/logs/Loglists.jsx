@@ -149,6 +149,7 @@ const Loglists = () => {
     setSelectedLogData([selectedLogDataObj]);
     // setIsCollapsed(true);
     setIsCardVisible(true);
+    console.log(severity)
   };
 
   const StyledTableCell = styled(TableCell)(() => ({
