@@ -846,7 +846,8 @@ const Loglists = () => {
                               role="checkbox"
                               tabIndex={-1}
                               key={index}
-                              className={index === selectedRowIndex ? "selected-row" : ""}
+                              // className={index === selectedRowIndex ? "selected-row" : ""}
+                              className={((index === selectedRowIndex) && theme.palette.mode === "light" )  ? "selected-row-light" : ((index === selectedRowIndex) && theme.palette.mode === "dark") ? "selected-row-dark" : ""}
                             >
                               {tableHeaderData.map((column, index) => {
                                 const value = row[column.id];
@@ -947,7 +948,8 @@ const Loglists = () => {
                               role="checkbox"
                               tabIndex={-1}
                               key={index}
-                              className={index === selectedRowIndex ? "selected-row" : ""}
+                              // className={index === selectedRowIndex ? "selected-row" : ""}
+                              className={((index === selectedRowIndex) && theme.palette.mode === "light" )  ? "selected-row-light" : ((index === selectedRowIndex) && theme.palette.mode === "dark") ? "selected-row-dark" : ""}
                             >
                               {tableHeaderData.map((column, index) => {
                                 const value = row[column.id];
