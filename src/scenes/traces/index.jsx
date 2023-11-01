@@ -81,7 +81,7 @@ const Traces = () => {
                 sx={{
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
-                  width: "100%",
+                  width: "600px",
                   height: "calc(84vh - 72px)",
                   // overflowY: "auto",
                 }}
