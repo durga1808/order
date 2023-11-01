@@ -65,7 +65,7 @@ const KafkaSummaryChart = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     width: "100%",
-                    height: "80vh",
+                    height: "73vh",
                 }}
             >
                 <Typography variant="h6" align="center">

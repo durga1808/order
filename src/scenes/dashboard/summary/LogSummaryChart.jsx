@@ -116,7 +116,8 @@ const LogBarChart = () => {
       </div>) : integrationdata.length !== 0 ? (
         <div
           style={{
-            maxHeight: "82.5vh",
+            // maxHeight: "82.5vh",
+            maxHeight: "73vh",
             overflowY: "auto",
             minWidth: "100%"
 

@@ -258,8 +258,8 @@ const FilterDialog = () => {
               Filter Options
             </Typography>
             <Button
-              variant="outlined"
-              color="inherit"
+              variant="contained"
+              color="primary"
               onClick={clearSelectedOptions}
               disabled={
                 window.location.pathname === "/mainpage/dashboard" ||
@@ -273,7 +273,7 @@ const FilterDialog = () => {
                 window.location.pathname === "/mainpage/dashboard/dbSummary" ||
                 window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   ? "lightgrey"
-                  : "#FFF"
+                  : colors.primary[100],
               }}
             >
               Clear

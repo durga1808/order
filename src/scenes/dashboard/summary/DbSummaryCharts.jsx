@@ -152,7 +152,7 @@
         ) : integrationdata.length !== 0 ? (
           <div
             style={{
-              maxHeight: "82.5vh",
+              maxHeight: "73vh",
               overflowY: "auto",
               width: "100%",
             }}

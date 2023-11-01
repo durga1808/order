@@ -100,14 +100,15 @@ const Logfilter = () => {
         <List>
           <ListItem sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
             <Typography variant="h5" fontWeight="500" color={"#FFF"}>Filter Options</Typography>
-            <Button variant="outlined" color="inherit" onClick={clearSelectedOptions} sx={{
+            <Button variant="contained" color='primary' onClick={clearSelectedOptions} sx={{
                 color: window.location.pathname === "/mainpage/dashboard" ||
                 window.location.pathname === "/mainpage/dashboard/logSummary" ||
                 window.location.pathname === "/mainpage/dashboard/dbSummary" ||
                 window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   ? "lightgrey"
-                  : "#FFF"
+                  : colors.primary[100],
               }}>Clear</Button>
+            {/* <Button variant="contained" color='primary' onClick={clearSelectedOptions}>Clear</Button> */}
           </ListItem>
           <Divider />
 
