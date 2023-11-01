@@ -100,6 +100,8 @@
     //   setActiveTab(2);
     // }, []);
 
+    console.log("integrationdata",integrationdata);
+
     const handleBarClick = (selectedDataPointIndex) => {
       const serviceName = integrationdata[selectedDataPointIndex].serviceName;
       console.log("ServiceName from DB summary" + serviceName);
@@ -111,11 +113,13 @@
     };
 
     const hasDbCountChartData = integrationdata.some(
-      (item) => item.dbPeakLatencyCount !== 0
-    );
-    const hasPeakLatencyChartData = integrationdata.some(
       (item) => item.dbCallCount !== 0
     );
+    const hasPeakLatencyChartData = integrationdata.some(
+      (item) => item.dbPeakLatencyCount !== 0
+    );
+
+    
 
     return (
       <div>
@@ -152,7 +156,7 @@
         ) : integrationdata.length !== 0 ? (
           <div
             style={{
-              maxHeight: "82.5vh",
+              maxHeight: "73vh",
               overflowY: "auto",
               width: "100%",
             }}

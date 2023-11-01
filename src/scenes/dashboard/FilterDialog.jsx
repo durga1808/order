@@ -268,7 +268,7 @@ const FilterDialog = () => {
               Filter Options
             </Typography>
             <Button
-              variant="outlined"
+              variant="contained"
               color="primary"
               onClick={clearSelectedOptions}
               disabled={
