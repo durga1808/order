@@ -56,6 +56,19 @@ const DBSummaryMock = [
   }
 ]
 
+const kafkaMock = [
+  {
+    serviceName: "order-project",
+    kafkaCallCount: 20,
+    kafkaPeakLatency: 4
+  },
+  {
+    serviceName: "vendor-project",
+    kafkaCallCount: 30,
+    kafkaPeakLatency: 8
+  }
+]
+
 const TraceSummaryMock = [
   {
     serviceName: "order-project",

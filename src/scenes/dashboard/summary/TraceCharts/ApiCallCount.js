@@ -100,6 +100,9 @@ const ApiCallCount = ({ data }) => {
   return (
     <div data-theme={theme.palette.mode} style={{height:"calc(40vh - 20px)",width:chartWidth}} >
       <ReactApexChart
+      style={{
+        color: "#000",
+      }}
         options={apiCallsOptions}
         series={apiCallsSeries}
         type="bar"

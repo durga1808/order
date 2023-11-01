@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Grid, Typography } from "@mui/material";
+import { Grid, Typography, useTheme } from "@mui/material";
 import DebugBarChart from "./LogCharts/DebugBarChart";
 import WarnBarChart from "./LogCharts/WarnBarChart";
 import LogServiceDetails from "./LogCharts/LogServiceDetails";
@@ -28,6 +28,8 @@ const LogBarChart = () => {
   const [integrationdata, setintegrationdata] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const theme = useTheme();
+  // const colors = tokens(theme.palette.mode);
 
   const logSummaryApiCall = useCallback(async () => {
     try {
@@ -114,7 +116,8 @@ const LogBarChart = () => {
       </div>) : integrationdata.length !== 0 ? (
         <div
           style={{
-            maxHeight: "82.5vh",
+            // maxHeight: "82.5vh",
+            maxHeight: "73vh",
             overflowY: "auto",
             minWidth: "100%"
 
@@ -122,7 +125,7 @@ const LogBarChart = () => {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 40px)" }}>
+              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 40px)",color: theme.palette.mode === "dark"?"white":"black" }}>
                 <CardContent>
                   {hasErrChartData ? (
                     <ErrorBarChart  
@@ -178,7 +181,7 @@ const LogBarChart = () => {
           <Grid container spacing={2}>
             {" "}
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 32px)" ,  color: 'black'}}>
+              <Card elevation={3} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 32px)" ,  color: theme.palette.mode === "dark"?"white":"black"}}>
                 <CardContent>
                   {hasDebugChartData ? (
                     // If any item has debugCallCount !== 0, display the chart
@@ -196,13 +199,13 @@ const LogBarChart = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 32px)", color: 'black' }}>
+              <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 32px)", color: theme.palette.mode === "dark"?"white":"black" }}>
                 <CardContent>
                   {hasWarnChartData ? (
                     <WarnBarChart data={integrationdata} />
                   ) : (
                     // <div>Warn Call Count Chart - No Data</div>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(40vh - 20px)" ,  color: 'black'}}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(40vh - 20px)" }}>
                       <Typography variant="h5" fontWeight={"600"}>
                         Warn Count Chart - No Data
                       </Typography>

@@ -75,7 +75,7 @@ const PeakLatencyKafka = ({ data }) => {
       },
     },
     title: {
-      text: "Peak Latency > 500(ms)",
+      text: "Peak Latency > 5(ms)",
       align: "middle",
       offsetX: 0,
       offsetY: 10,

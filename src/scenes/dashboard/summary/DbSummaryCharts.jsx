@@ -92,7 +92,8 @@
       DBSummaryApiCall();
       // setDbSummaryService([]);
       setActiveTab(2);
-    }, [DBSummaryApiCall, setErrorMessage, setEmptyMessage]);
+      setNavActiveTab(0);
+    }, [DBSummaryApiCall, setErrorMessage, setEmptyMessage, setActiveTab, setNavActiveTab]);
 
     // useEffect(() => {
     //   // setNavActiveTab(2);
@@ -155,7 +156,7 @@
         ) : integrationdata.length !== 0 ? (
           <div
             style={{
-              maxHeight: "82.5vh",
+              maxHeight: "73vh",
               overflowY: "auto",
               width: "100%",
             }}

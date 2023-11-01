@@ -10,6 +10,7 @@ import { Brightness4, Brightness7, Person } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { ColorModeContext, tokens } from "../theme";
 import { useNavigate } from "react-router-dom";
+import { GlobalContext } from "./globalContext/GlobalContext";
 
 function Topbar() {
   const navigate = useNavigate();
@@ -17,6 +18,7 @@ function Topbar() {
 
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
+  const {setMetricRender} = useContext(GlobalContext);
 
   const handleLogout = () => {
     navigate("/");
@@ -24,6 +26,11 @@ function Topbar() {
   const appBarStyles = {
     height: "55px",
   };
+
+  const handleColorMode = () => {
+    setMetricRender(false);
+    colorMode.toggleColorMode();
+  }
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const user = userInfo.username;
@@ -43,7 +50,7 @@ function Topbar() {
           {" "}
           <IconButton
             aria-label="Toggle Dark Mode"
-            onClick={colorMode.toggleColorMode}
+            onClick={() => handleColorMode()}
           >
             {theme.palette.mode === "light" ? (
               <Brightness7 style={{ fontSize: "20px", color: "#FFF" }} />

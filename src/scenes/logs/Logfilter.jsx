@@ -17,7 +17,7 @@ const Logfilter = () => {
 
   // const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
 
-  const severity = ['ERROR', 'SEVERE', 'WARNING', 'INFO'];
+  const severity = ['ERROR', 'SEVERE', 'WARN', 'INFO'];
 
   const handleServiceToggle = (service) => () => {
     if (selectedService.includes(service)) {
@@ -100,7 +100,7 @@ const Logfilter = () => {
         <List>
           <ListItem sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
             <Typography variant="h5" fontWeight="500" color={"#FFF"}>Filter Options</Typography>
-            <Button variant="outlined" color="primary" onClick={clearSelectedOptions}>Clear</Button>
+            <Button variant="contained" color='primary' onClick={clearSelectedOptions}>Clear</Button>
           </ListItem>
           <Divider />
 

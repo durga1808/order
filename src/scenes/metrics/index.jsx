@@ -57,7 +57,7 @@ const Metrics = () => {
   //   "DeliveryService",
   // ];
 
-  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender,setTraceSummaryService,setLogSummaryService,selectedService ,setSelectedService, selectedStartDate, selectedEndDate, needHistoricalData, setNavActiveTab} = useContext(GlobalContext);
+  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender, setTraceSummaryService, setLogSummaryService, selectedService, setSelectedService, selectedStartDate, selectedEndDate, needHistoricalData, setNavActiveTab } = useContext(GlobalContext);
   const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
   const options = services.map((serve) => serve);
   // const [selectedService, setSelectedService] = useState((services && services.length > 0) ? services[0] : null);
@@ -128,14 +128,18 @@ const Metrics = () => {
     setLoading(true);
     try {
       console.log("Selected service " + service);
-      console.log("startTImne in passinf=====",selectedStartDate);
-      console.log("endTImne in passinf=====",selectedEndDate);
-      
-      const metricData = await getMetricDataApi(service, selectedStartDate, selectedEndDate,lookBackVal.value);
+      console.log("startTImne in passinf=====", selectedStartDate);
+      console.log("endTImne in passinf=====", selectedEndDate);
+
+      const metricData = await getMetricDataApi(service, selectedStartDate, selectedEndDate, lookBackVal.value);
       if (metricData.length !== 0) {
         console.log("metric data " + JSON.stringify(metricData));
         handleMetricData(metricData);
+        setErrorMessage("");
+        setEmptyMessage("");
       } else {
+        console.log("No metric data");
+        handleMetricData(metricData);
         setEmptyMessage("No Metric Data to show!");
       }
     } catch (error) {
@@ -145,12 +149,12 @@ const Metrics = () => {
       setMetricRender(true);
       setLoading(false);
     }
-  }, [selectedStartDate, selectedEndDate, setMetricRender,lookBackVal,needHistoricalData]);
+  }, [selectedStartDate, selectedEndDate, setMetricRender, lookBackVal, needHistoricalData]);
 
   useEffect(() => {
     console.log("Selected Service " + selectedService);
-    setErrorMessage("");
-    setEmptyMessage("");
+    // setErrorMessage("");
+    // setEmptyMessage("");
     setTraceSummaryService([]);
     setLogSummaryService([]);
     setNavActiveTab(2);
@@ -160,41 +164,34 @@ const Metrics = () => {
     }
     setTraceRender(false);
     setLogRender(false);
-  }, [getAllMetricsData, setTraceRender,lookBackVal, setLogRender, metricRender, selectedService, setTraceSummaryService, setLogSummaryService, setNavActiveTab]);
+
+    // return () => {
+    //   setErrorMessage("");
+    //   setEmptyMessage("");
+    // }
+  }, [getAllMetricsData, setTraceRender, lookBackVal, setLogRender, metricRender, selectedService, setTraceSummaryService, setLogSummaryService, setNavActiveTab]);
 
   return (
     <>
       <div style={{ height: "calc(88vh - 70px)", overflowY: "auto" }}>
         <div style={{ margin: "5px 10px 5px 10px" }}>
-          {/* <div style={{ padding: "10px"}}> */}
-            {/* <div style={{ fontSize: '12px', paddingBottom: '5px' }}>ServiceBy</div> */}
-            {/* <Select
-              value={selectedService}
-              onChange={handleServiceChange}
-              displayEmpty
-              inputProps={{ "aria-label": "Select Service" }}
-            >
-              <MenuItem value="" disabled>
-                Services
-              </MenuItem>
-              {options.map((service, index) => (
-                <MenuItem key={index} value={service}>
-                  {service}
-                </MenuItem>
-              ))}
-            </Select> */}
-
-            {/* <Dropdown
-              options={options}
-              value={selectedService}
-              arrowClosed={<span className="arrow-closed" />}
-              arrowOpen={<span className="arrow-open" />}
-              onChange={handleServiceChange}
-            /> */}
-          {/* </div> */}
         </div>
         {loading ? (
           <Loading />
+        ) : mockMetrics[0].data.length !== 0 ? (
+          <div>
+            {mockMetrics.map((mock, index) => (
+              <Card
+                key={index}
+                elevation={6}
+                // padding="10px"
+                // sx={{backgroundColor:colors.primary[500]}}
+                style={{ margin: "20px 20px 10px 20px", height: "35vh", color: "black" }}
+              >
+                <LineChart data={mock} />
+              </Card>
+            ))}
+          </div>
         ) : emptyMessage ? (
           <div
             style={{
@@ -203,7 +200,7 @@ const Metrics = () => {
               alignItems: "center",
               width: "100%",
               height: "80vh",
-              color:"black"
+              color: "black"
             }}
           >
             <Typography variant="h5" fontWeight={"600"}>
@@ -218,28 +215,14 @@ const Metrics = () => {
               alignItems: "center",
               width: "100%",
               height: "80vh",
-              color:"black"
+              color: "black"
             }}
           >
             <Typography variant="h5" fontWeight={"600"}>
               {errorMessage}
             </Typography>
           </div>
-        ) : (
-          <div>
-            {mockMetrics.map((mock, index) => (
-              <Card
-                key={index}
-                elevation={6}
-                // padding="10px"
-                // sx={{backgroundColor:colors.primary[500]}}
-                style={{ margin: "20px 20px 10px 20px", height: "35vh", color:"black" }}
-              >
-                <LineChart data={mock} />
-              </Card>
-            ))}
-          </div>
-        )}
+        ) : null}
       </div></>
 
   );
