@@ -25,7 +25,7 @@ import {
 import "./Loglists.css";
 import React, { useContext, useState } from "react";
 import { FindByTraceIdForSpans } from "../../api/TraceApiService";
-import { formatDistanceToNow } from "date-fns";
+import { format, formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { useCallback } from "react";
@@ -112,7 +112,9 @@ const Loglists = () => {
     selectedStartDate,
     selectedEndDate,
     needHistoricalData,
-    setNavActiveTab
+    setNavActiveTab,
+    setNeedFilterCall,
+    setTraceDisplayService
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -179,7 +181,12 @@ const Loglists = () => {
     const updatedData = data.map((item) => {
       const createdTime = new Date(item.createdTime); // Convert timestamp to Date object
       const timeAgo = formatDistanceToNow(createdTime, { addSuffix: true });
-      return { ...item, createdTimeInWords: timeAgo };
+      const formattedTime = format(createdTime, "MMMM dd, yyyy HH:mm:ss a");
+      return {
+        ...item,
+        createdTimeInWords: timeAgo,
+        createdTimeInDate: formattedTime,
+      };
     });
     return updatedData;
   };
@@ -196,7 +203,9 @@ const Loglists = () => {
         localStorage.setItem("routeName", "Traces");
         setSelected("Traces");
         navigate("/mainpage/traces");
-        setNavActiveTab(1)
+        setNeedFilterCall(false);
+        setTraceDisplayService([]);
+        setNavActiveTab(1);
       } else {
         setTraceGlobalEmpty("No Trace Data for this TraceId from Log!");
       }
@@ -210,7 +219,7 @@ const Loglists = () => {
     alert("No TraceId for this Log!");
   };
 
-  function createData(severity, time, traceid, serviceName, message,index) {
+  function createData(severity, time, traceid, serviceName, message, index) {
 
     traceid = traceid === "" ? "No Trace ID" : traceid;
 
@@ -292,10 +301,10 @@ const Loglists = () => {
               Trace
             </Button>
           </Tooltip>
-    
+
           <Tooltip>
             <Button
-               sx={{
+              sx={{
                 m: "8px",
                 backgroundColor: colors.primary[400],
                 color: "#ffffff", // Set white text color for default state
@@ -323,8 +332,8 @@ const Loglists = () => {
       </div>
     );
 
-    
-    
+
+
     return {
       severity,
       time,
@@ -361,7 +370,7 @@ const Loglists = () => {
 
     const finalData = [];
 
-    extractedData.forEach((log,index) => {
+    extractedData.forEach((log, index) => {
       finalData.push(
         createData(
           log.severityText,
@@ -411,7 +420,7 @@ const Loglists = () => {
       }
       setLoading(false);
     },
-    [selectedStartDate, selectedEndDate, lookBackVal, selectedOption, logSummaryService,needHistoricalData]
+    [selectedStartDate, selectedEndDate, lookBackVal, selectedOption, logSummaryService, needHistoricalData]
   );
 
   const logFilterApiCall = useCallback(
@@ -444,7 +453,7 @@ const Loglists = () => {
         setLoading(false);
       }
     },
-    [selectedStartDate, selectedEndDate, lookBackVal, selectedOption,setLogData, setTotalPageCount, pageLimit, currentPage, logFilterApiBody,needHistoricalData]
+    [selectedStartDate, selectedEndDate, lookBackVal, selectedOption, setLogData, setTotalPageCount, pageLimit, currentPage, logFilterApiBody, needHistoricalData]
   );
 
   // const [searchQuery, setSearchQuery] = useState("");
@@ -513,6 +522,7 @@ const Loglists = () => {
     setTraceSummaryService([]);
     setTraceRender(false);
     setMetricRender(false);
+    // setTraceDisplayService([]);
     setNavActiveTab(3);
     console.log("Filtered Data useEffect" + filteredOptions);
     if (needLogFilterCall) {
@@ -800,7 +810,7 @@ const Loglists = () => {
                   </Typography>
                 </div>
               ) : (
-                <div style={{ display: "flex", flexDirection: "column"}}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
                   {" "}
                   <TableContainer
                     sx={{
@@ -1036,15 +1046,15 @@ const Loglists = () => {
                                 ? null
                                 //jey : colors.blueAccent[400],
                                 : colors.primary[400],
-                                color:
+                            color:
                               // item.type === "page" && item.page === currentPage
                               //   ? "#FFF"
                               //   : null,
                               item.type === "page"
-                              ? item.page === currentPage
-                                ? "#FFF" // Set the color for the current page number
-                                : colors.primary[100] // Set the color for other page numbers
-                              : "#FFF",
+                                ? item.page === currentPage
+                                  ? "#FFF" // Set the color for the current page number
+                                  : colors.primary[100] // Set the color for other page numbers
+                                : "#FFF",
                           }}
                         />
                       )}
@@ -1126,7 +1136,7 @@ const Loglists = () => {
                                 role="checkbox"
                                 tabIndex={-1}
                                 key={index}
-                                // className={index === selectedRowIndex ? "selected-row" : ""}
+                              // className={index === selectedRowIndex ? "selected-row" : ""}
                               >
                                 <StyledTableCell style={{ minWidth: "10px" }}>
                                   {key}

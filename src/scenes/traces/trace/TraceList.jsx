@@ -152,7 +152,9 @@ const TraceList = () => {
     needHistoricalData,
     setShowError,
     setErroredLogData,
-    setNavActiveTab
+    setNavActiveTab,
+    setNeedLogFilterCall,
+    setSelectedLogService
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -352,13 +354,16 @@ const TraceList = () => {
     setLogRender(false);
     setMetricRender(false);
     setLogSummaryService([]);
+    // setSelectedLogService([]);
     setNavActiveTab(1);
     if (needFilterCall) {
       filterApiCall();
     } else if (logTrace.length === 0 || !traceRender) {
+      console.log("Trace in--------------------------------------api call----------------------");
       setClearTraceFilter(false);
       apiCall();
     } else {
+      console.log("Trace in---------------------------------------mapping data---------------------");
       setClearTraceFilter(false);
       dashboardTraceMap();
       setIsCollapsed(false);
@@ -397,6 +402,8 @@ const TraceList = () => {
         localStorage.setItem("routeName", "Logs");
         setSelected("Logs");
         navigate("/mainpage/logs");
+        setNeedLogFilterCall(false);
+        setSelectedLogService([]);
         setNavActiveTab(3);
       } else {
         setTraceToLogError("No Log for this TraceId!");
