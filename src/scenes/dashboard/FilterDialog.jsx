@@ -258,7 +258,7 @@ const FilterDialog = () => {
             </Typography>
             <Button
               variant="outlined"
-              color="primary"
+              color="inherit"
               onClick={clearSelectedOptions}
               disabled={
                 window.location.pathname === "/mainpage/dashboard" ||
@@ -266,6 +266,14 @@ const FilterDialog = () => {
                 window.location.pathname === "/mainpage/dashboard/dbSummary" ||
                 window.location.pathname === "/mainpage/dashboard/kafkaSummary"
               }
+              sx={{
+                color: window.location.pathname === "/mainpage/dashboard" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                  ? "lightgrey"
+                  : "#FFF"
+              }}
             >
               Clear
             </Button>
