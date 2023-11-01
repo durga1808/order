@@ -114,7 +114,8 @@ const Loglists = () => {
     needHistoricalData,
     setNavActiveTab,
     setNeedFilterCall,
-    setTraceDisplayService
+    setTraceDisplayService,
+    setClearTraceFilter
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -204,6 +205,7 @@ const Loglists = () => {
         localStorage.setItem("routeName", "Traces");
         setSelected("Traces");
         navigate("/mainpage/traces");
+        setClearTraceFilter(true);
         setNeedFilterCall(false);
         setTraceDisplayService([]);
         setNavActiveTab(1);

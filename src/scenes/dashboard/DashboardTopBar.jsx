@@ -223,6 +223,9 @@ const DashboardTopBar = () => {
     console.log("VAL " + JSON.stringify(event.target.value));
     setLookBackVal(event.target.value);
     setMetricRender(false);
+    setGlobalLogData([]);
+    setLogRender(false);
+    setLogTrace([]);
     setTraceGlobalEmpty(null);
     setTraceGlobalError(null);
   };

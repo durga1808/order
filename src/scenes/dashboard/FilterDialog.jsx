@@ -14,11 +14,11 @@ import { tokens } from "../../theme";
 
 const FilterDialog = () => {
   // const [value, setValue] = useState([0, 1000]);
-  const [minDurationValue, setMinDurationValue] = useState(0);
-  const [maxDurationValue, setMaxDurationValue] = useState(10000);
-  const [selectedService, setSelectedService] = useState([]);
-  const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
-  const [selectedHttpCode, setSelectedHttpCode] = useState([]);
+  // const [minDurationValue, setMinDurationValue] = useState(0);
+  // const [maxDurationValue, setMaxDurationValue] = useState(10000);
+  // const [traceSelectedService, setTraceSelectedService] = useState([]);
+  // const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
+  // const [selectedHttpCode, setSelectedHttpCode] = useState([]);
   const {
     setNeedFilterCall,
     setClearTraceFilter,
@@ -27,6 +27,16 @@ const FilterDialog = () => {
     setTraceGlobalEmpty,
     setTraceGlobalError,
     setTraceDisplayService,
+    setTraceSelectedService,
+    traceSelectedService,
+    minDurationValue,
+    setMinDurationValue,
+    maxDurationValue,
+    setMaxDurationValue,
+    selectedHttpCode,
+    setSelectedHttpCode,
+    selectedHttpMethod,
+    setSelectedHttpMethod
   } = useContext(GlobalContext);
   const [services, setServices] = useState(
     JSON.parse(localStorage.getItem("serviceListData"))
@@ -69,14 +79,14 @@ const FilterDialog = () => {
   ];
 
   const handleServiceToggle = (service) => () => {
-    if (selectedService.includes(service)) {
-      setSelectedService(selectedService.filter((item) => item !== service));
+    if (traceSelectedService.includes(service)) {
+      setTraceSelectedService(traceSelectedService.filter((item) => item !== service));
       setTraceDisplayService(
-        selectedService.filter((item) => item !== service)
+        traceSelectedService.filter((item) => item !== service)
       );
     } else {
-      setSelectedService([...selectedService, service]);
-      setTraceDisplayService([...selectedService, service]);
+      setTraceSelectedService([...traceSelectedService, service]);
+      setTraceDisplayService([...traceSelectedService, service]);
     }
   };
 
@@ -117,7 +127,7 @@ const FilterDialog = () => {
   const clearSelectedOptions = () => {
     setSelectedHttpCode([]);
     setSelectedHttpMethod([]);
-    setSelectedService([]);
+    setTraceSelectedService([]);
     setTraceDisplayService([]);
     setMinDurationValue(0);
     setMaxDurationValue(10000);
@@ -159,7 +169,7 @@ const FilterDialog = () => {
         minValue: minDurationValue,
         maxValue: maxDurationValue,
       },
-      service: selectedService,
+      service: traceSelectedService,
       methodName: selectedHttpMethod,
       statusCode: selectedHttpCode,
     };
@@ -248,9 +258,9 @@ const FilterDialog = () => {
               fontWeight="500"
               color={
                 window.location.pathname === "/mainpage/dashboard" ||
-                window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                  window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                  window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                  window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   ? "lightgrey"
                   : "#FFF"
               }
@@ -295,7 +305,7 @@ const FilterDialog = () => {
                     window.location.pathname === "/mainpage/dashboard" ||
                     // window.location.pathname === "/mainpage/log" ||
                     window.location.pathname ===
-                      "/mainpage/dashboard/logSummary" ||
+                    "/mainpage/dashboard/logSummary" ||
                     window.location.pathname === "/mainpage/dashboard/dbSummary" ||
                     window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   }
@@ -308,9 +318,9 @@ const FilterDialog = () => {
                   style={{
                     color:
                       window.location.pathname === "/mainpage/dashboard" ||
-                      window.location.pathname ===
+                        window.location.pathname ===
                         "/mainpage/dashboard/logSummary" ||
-                      window.location.pathname ===
+                        window.location.pathname ===
                         "/mainpage/dashboard/dbSummary" ||
                         window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                         ? "lightgrey"
@@ -321,7 +331,7 @@ const FilterDialog = () => {
                   disabled={
                     window.location.pathname === "/mainpage/dashboard" ||
                     window.location.pathname ===
-                      "/mainpage/dashboard/logSummary" ||
+                    "/mainpage/dashboard/logSummary" ||
                     window.location.pathname === "/mainpage/dashboard/dbSummary" ||
                     window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   }
@@ -342,7 +352,7 @@ const FilterDialog = () => {
                   disabled={
                     window.location.pathname === "/mainpage/dashboard" ||
                     window.location.pathname ===
-                      "/mainpage/dashboard/logSummary" ||
+                    "/mainpage/dashboard/logSummary" ||
                     window.location.pathname === "/mainpage/dashboard/dbSummary" ||
                     window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   }
@@ -389,16 +399,16 @@ const FilterDialog = () => {
                       control={
                         <Checkbox
                           disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"}
-                          checked={selectedService.includes(service)}
+                          checked={traceSelectedService.includes(service)}
                           onChange={handleServiceToggle(service)}
                           sx={{
                             // color: '#696969',
-                          // color: '#F2F3F4',
-                          color: '#17202A',
-                          
-                          '&.Mui-checked': {
-                            // color: "blue",
-                            color: "white",
+                            // color: '#F2F3F4',
+                            color: '#17202A',
+
+                            '&.Mui-checked': {
+                              // color: "blue",
+                              color: "white",
                             },
                           }}
                         />
@@ -442,13 +452,13 @@ const FilterDialog = () => {
                           checked={selectedHttpMethod.includes(method)}
                           onChange={handleHttpToggle(method)}
                           sx={{
-                             // color: '#696969',
-                          // color: '#F2F3F4',
-                          color: '#17202A',
-                          
-                          '&.Mui-checked': {
-                            // color: "blue",
-                            color: "white",
+                            // color: '#696969',
+                            // color: '#F2F3F4',
+                            color: '#17202A',
+
+                            '&.Mui-checked': {
+                              // color: "blue",
+                              color: "white",
                             },
                           }}
                         />
@@ -490,13 +500,13 @@ const FilterDialog = () => {
                         <Checkbox
                           disabled={
                             window.location.pathname ===
-                              "/mainpage/dashboard" ||
+                            "/mainpage/dashboard" ||
                             window.location.pathname ===
-                              "/mainpage/dashboard/logSummary" ||
+                            "/mainpage/dashboard/logSummary" ||
                             window.location.pathname ===
-                              "/mainpage/dashboard/dbSummary" ||
-                              window.location.pathname ===
-                              "/mainpage/dashboard/kafkaSummary"  
+                            "/mainpage/dashboard/dbSummary" ||
+                            window.location.pathname ===
+                            "/mainpage/dashboard/kafkaSummary"
                           }
                           checked={selectedHttpCode.some(
                             (opt) =>
@@ -507,12 +517,12 @@ const FilterDialog = () => {
                           onChange={handleHttpCodeToggle(code)}
                           sx={{
                             // color: '#696969',
-                          // color: '#F2F3F4',
-                          color: '#17202A',
-                          
-                          '&.Mui-checked': {
-                            // color: "blue",
-                            color: "white",
+                            // color: '#F2F3F4',
+                            color: '#17202A',
+
+                            '&.Mui-checked': {
+                              // color: "blue",
+                              color: "white",
                             },
                           }}
                         />
