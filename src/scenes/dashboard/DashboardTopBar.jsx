@@ -643,7 +643,7 @@ const DashboardTopBar = () => {
               <Tab label="Trace Summary" sx={{ color: "#FFF" }} />
               <Tab label="Log Summary" sx={{ color: "#FFF" }} />
               <Tab label="Db Summary" sx={{ color: "#FFF" }} />
-              <Tab label="Kafka Summary" sx={{ color: "#FFF" }} />
+              {/* <Tab label="Kafka Summary" sx={{ color: "#FFF" }} /> */}
             </Tabs>
           ) : null}
           <Box sx={{ alignItems: "flex-start", marginLeft: "25px", padding: "5px", marginTop: "5px" }}>
