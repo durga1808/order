@@ -152,7 +152,10 @@ const TraceList = () => {
     needHistoricalData,
     setShowError,
     setErroredLogData,
-    setNavActiveTab
+    setNavActiveTab,
+    setClearLogFilter,
+    setNeedLogFilterCall,
+    setSelectedLogService
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -397,6 +400,9 @@ const TraceList = () => {
         localStorage.setItem("routeName", "Logs");
         setSelected("Logs");
         navigate("/mainpage/logs");
+        setClearLogFilter(true);
+        setNeedLogFilterCall(false);
+        setSelectedLogService([]);
         setNavActiveTab(3);
       } else {
         setTraceToLogError("No Log for this TraceId!");

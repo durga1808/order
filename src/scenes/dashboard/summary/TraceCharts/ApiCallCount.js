@@ -95,7 +95,7 @@ const ApiCallCount = ({ data }) => {
     },
   ];
 
-  const chartWidth = isCollapsed ? 'calc(85vh - 20px)' : 'calc(75vh - 20px)'
+  const chartWidth = isCollapsed ? 'calc(100% - 20px)' : 'calc(103% - 20px)'
 
   return (
     <div data-theme={theme.palette.mode} style={{height:"calc(40vh - 20px)",width:chartWidth}} >

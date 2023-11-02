@@ -32,8 +32,8 @@ const GlobalContextProvider = ({ children }) => {
 
     const [logFilterApiBody, setLogFilterApiBody] = useState({});
     const [needLogFilterCall, setNeedLogFilterCall] = useState(false);
-    const [MetricFilterApiBody,setMetricFilterApiBody] = useState({});
-    const [needMetricFilterCall,setNeedMetricFilterCall] = useState(false)
+    const [MetricFilterApiBody, setMetricFilterApiBody] = useState({});
+    const [needMetricFilterCall, setNeedMetricFilterCall] = useState(false)
     const [recentLogData, setRecentLogData] = useState([]);
     const [traceRender, setTraceRender] = useState(false);
     const [logRender, setLogRender] = useState(false);
@@ -43,7 +43,7 @@ const GlobalContextProvider = ({ children }) => {
     const [logSummaryService, setLogSummaryService] = useState([]);
     const [clearTraceFilter, setClearTraceFilter] = useState(false);
     const [clearLogFilter, setClearLogFilter] = useState(false);
-    const [clearMetricFilter,setclearMetricFilter] = useState(false);
+    const [clearMetricFilter, setclearMetricFilter] = useState(false);
     const services = JSON.parse(localStorage.getItem("serviceListData"));
     const [selectedService, setSelectedService] = useState((services && services.length > 0) ? [services[0]] : []);
     const formattedDate = format(new Date(), 'yyyy-MM-dd');
@@ -55,7 +55,16 @@ const GlobalContextProvider = ({ children }) => {
     const [showError, setShowError] = useState(false);
     const [erroredLogData, setErroredLogData] = useState([]);
     const [navActiveTab, setNavActiveTab] = useState(false);
-    const [DbSummaryService,setDbSummaryService] = useState([])
+    const [DbSummaryService, setDbSummaryService] = useState([]);
+
+    const [traceSelectedService, setTraceSelectedService] = useState([]);
+    const [minDurationValue, setMinDurationValue] = useState(0);
+    const [maxDurationValue, setMaxDurationValue] = useState(10000);
+    const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
+    const [selectedHttpCode, setSelectedHttpCode] = useState([]);
+
+    const [logSelectedService, setLogSelectedService] = useState([]);
+    const [selectedSeverity, setSelectedSeverity] = useState([]);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -154,6 +163,20 @@ const GlobalContextProvider = ({ children }) => {
                 setNavActiveTab,
                 DbSummaryService,
                 setDbSummaryService,
+                setTraceSelectedService,
+                traceSelectedService,
+                minDurationValue,
+                setMinDurationValue,
+                maxDurationValue,
+                setMaxDurationValue,
+                selectedHttpCode,
+                setSelectedHttpCode,
+                selectedHttpMethod,
+                setSelectedHttpMethod,
+                logSelectedService,
+                setLogSelectedService,
+                selectedSeverity,
+                setSelectedSeverity
             }}
         >
             {children}

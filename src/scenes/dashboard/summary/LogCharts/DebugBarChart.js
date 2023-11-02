@@ -85,7 +85,7 @@ const DebugBarChart = ({ data }) => {
     },
   ];
 
-  const chartWidth = isCollapsed ? 'calc(85vh - 10px)' : "calc(80vh - 70px)"
+  const chartWidth = isCollapsed ? 'calc(100% - 10px)' : "calc(109% - 70px)"
 
   return (
     <div data-theme={theme.palette.mode} style={{height: "calc(40vh - 20px)" ,width: chartWidth,}}>

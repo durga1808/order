@@ -36,7 +36,7 @@ const ApiCalls = ({ data })=> {
         },
 
         xaxis: {
-        categories: data.map((item) => item.serviceName),
+        categories: kafkaMock.map((item) => item.serviceName),
         title: {
             text: "List of Services",
             style: {
@@ -101,12 +101,12 @@ const ApiCalls = ({ data })=> {
     const series = [
         {
         name: "Kafka Calls",
-        data: data.map((item) => item.kafkaCallCount),
+        data: kafkaMock.map((item) => item.kafkaCallCount),
         color: "#04700b",
         },
     ];
 
-    const chartWidth = isCollapsed ? 'calc(175vh - 10px)' : 'calc(160vh - 70px)'
+    const chartWidth = isCollapsed ? 'calc(100% - 10px)' : 'calc(103% - 70px)'
 
     return (
         <div data-theme={theme.palette.mode} style={{ width: chartWidth }} >

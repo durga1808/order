@@ -114,7 +114,8 @@ const Loglists = () => {
     needHistoricalData,
     setNavActiveTab,
     setNeedFilterCall,
-    setTraceDisplayService
+    setTraceDisplayService,
+    setClearTraceFilter
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -204,6 +205,7 @@ const Loglists = () => {
         localStorage.setItem("routeName", "Traces");
         setSelected("Traces");
         navigate("/mainpage/traces");
+        setClearTraceFilter(true);
         setNeedFilterCall(false);
         setTraceDisplayService([]);
         setNavActiveTab(1);
@@ -764,7 +766,7 @@ const Loglists = () => {
             sx={{
               padding: "20px",
               marginTop: "10px",
-              height: "calc(74vh - 72px)"
+              height: "calc(73vh - 72px)"
             }}
           >
             <div>
