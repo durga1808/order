@@ -342,7 +342,7 @@ const SpanFlow = () => {
            // ? "1F8ED8"
             // : "#D4D4D4",
             : "#617881",
-          width: "500px",
+          width: "550px",
           height: "50px",
           color: "#FFF",
           //jey
