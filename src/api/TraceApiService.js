@@ -243,9 +243,9 @@ export const getDbSummaryDataWithDate = async (
 
     if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
       console.log(
-        `History call + ${traceURL}/DBSumaryChartDataCount?from=${endDate}&serviceNameList=${serviceNameListParam}&to=${startDate}`
+        `History call + ${traceURL}/DBSumaryChartDataCount?from=${startDate}&serviceNameList=${serviceNameListParam}&to=${endDate}`
       );
-      finalUrl = `${traceURL}/DBSumaryChartDataCount?from=${endDate}&serviceNameList=${serviceNameListParam}&to=${startDate}`;
+      finalUrl = `${traceURL}/DBSumaryChartDataCount?from=${startDate}&serviceNameList=${serviceNameListParam}&to=${endDate}`;
     } else {
       console.log(
         `Minutes call + ${traceURL}/DBSumaryChartDataCount?minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}&to=${startDate}`
@@ -271,9 +271,9 @@ export const getKafkaSummaryData = async (startDate, endDate, minutesAgo) => {
   
       if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
         console.log(
-          `History call + ${traceURL}/KafkaSumaryChartDataCount?from=${endDate}&serviceNameList=${serviceNameListParam}&to=${startDate}`
+          `History call + ${traceURL}/KafkaSumaryChartDataCount?from=${startDate}&serviceNameList=${serviceNameListParam}&to=${endDate}`
         );
-        finalUrl = `${traceURL}/KafkaSumaryChartDataCount?from=${endDate}&serviceNameList=${serviceNameListParam}&to=${startDate}`;
+        finalUrl = `${traceURL}/KafkaSumaryChartDataCount?from=${startDate}&serviceNameList=${serviceNameListParam}&to=${endDate}`;
       } else {
         console.log(
           `Minutes call + ${traceURL}/KafkaSumaryChartDataCount?minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}&to=${startDate}`
