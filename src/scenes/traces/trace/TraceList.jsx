@@ -759,7 +759,7 @@ const TraceList = () => {
                             activeTraceIcon ? (
                               <FaRegHandPointRight
                                 style={{
-                                  fontSize: "px",
+                                  fontSize: "15px",
                                   color: "#A92014",
                                   // color:trace.statusCode >= 400 && trace.statusCode <= 500
                                   // ? colors.redAccent[500]
