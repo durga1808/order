@@ -90,6 +90,13 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
     },
   };
 
+     // dataLabels: {
+    //   enabled: true,
+    //   style: {
+    //     colors: data.map((item,index) => (item.apiCallCount === index? "#000" : "#FFF")),
+    //   },
+    // },
+
   const series = [
     {
       name: "Error Count",
