@@ -36,7 +36,7 @@ const ApiCalls = ({ data })=> {
         },
 
         xaxis: {
-        categories: kafkaMock.map((item) => item.serviceName),
+        categories: data.map((item) => item.serviceName),
         title: {
             text: "List of Services",
             style: {
@@ -101,7 +101,7 @@ const ApiCalls = ({ data })=> {
     const series = [
         {
         name: "Kafka Calls",
-        data: kafkaMock.map((item) => item.kafkaCallCount),
+        data: data.map((item) => item.kafkaCallCount),
         color: "#04700b",
         },
     ];

@@ -96,7 +96,7 @@ const PeakLatencyKafka = ({ data }) => {
   const peakLatencySeries = [
     {
       name: "Peak Latency",
-      data: data.map((item) => item.kafkaCallCount),
+      data: data.map((item) => item.kafkaPeakLatency),
     },
   ];
 
