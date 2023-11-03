@@ -18,6 +18,7 @@
   color: var(--menu-item-text-dark);
 }
 
+
 [data-theme="dark"] .apexcharts-menu.apexcharts-menu-open {
   background-color: var(--menu-bg-dark);
 }
@@ -31,4 +32,14 @@
 
 .apexcharts-menu.apexcharts-menu-open {
   background-color: var(--menu-bg-light);
+}
+
+.chart-title {
+  text-align: center;
+  /* padding: 10px; */
+  margin-top: -5px;
+  font-size: 16px;
+  font-weight: 550;
+  font-family: "Red Hat Display";
+  /* color: colors.textColor[500]; */
 }
