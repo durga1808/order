@@ -90,7 +90,7 @@ const KafkaSummaryChart = () => {
         ) : integrationdata.length !== 0 ? (
             <div style={{
                 maxHeight: "73vh",
-                overflowY: "auto",
+                // overflowY: "auto",
                 minWidth: "100%"
               }}>
         

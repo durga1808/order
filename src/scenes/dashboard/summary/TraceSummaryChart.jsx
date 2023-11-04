@@ -143,7 +143,7 @@ const TraceBarChart = () => {
             style={{
               // maxHeight: "82.5vh",
               maxHeight: "73vh",
-              overflowY: "auto",
+              // overflowY: "auto",
               width: "100%"
             }}
           >
@@ -151,7 +151,7 @@ const TraceBarChart = () => {
               {" "}
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 40px)", color: theme.palette.mode === "dark"?"white":"black" }}>
+                  <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(40vh - 40px)", color: theme.palette.mode === "dark"?"white":"black" }}>
                     <CardContent>
                       {hasErrChartData || hasSuccChartData ? (
                         <ErrSucssCallCountChart

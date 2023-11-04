@@ -157,7 +157,7 @@
           <div
             style={{
               maxHeight: "73vh",
-              overflowY: "auto",
+              // overflowY: "auto",
               width: "100%",
             }}
           >
@@ -166,7 +166,7 @@
                 <Card
                   elevation={3}
                   style={{
-                    marginTop: "18px",
+                    marginTop: "15px",
                     marginRight: "20px",
                     marginBottom: "10px",
                     marginLeft: "20px",
