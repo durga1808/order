@@ -39,6 +39,8 @@ import { searchLogs } from "../../api/LogApiService";
 import PaginationItem from "@mui/material/PaginationItem";
 import CloseIcon from "@mui/icons-material/Close";
 
+import './Loglists.css';
+
 const tableHeaderData = [
   {
     id: "severity",
@@ -679,9 +681,12 @@ const Loglists = () => {
           >
             <TextField
               placeholder="Search for message"
-              size="large"
-              style={{ marginBottom: "5px", width: "80%", marginTop: "6px" }}
-              InputProps={{
+              size="small"
+              
+              style={{  marginBottom: "5px", width: "80%", marginTop: "6px" }}
+              InputProps= { 
+                // {style: { fontsize: '1.8rem', height: 40 } }
+                {
                 endAdornment: (
                   <IconButton
                     type="button"
@@ -692,7 +697,8 @@ const Loglists = () => {
                     <SearchOutlined />
                   </IconButton>
                 ),
-              }}
+              }
+            }
               value={searchQuery}
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
@@ -711,7 +717,7 @@ const Loglists = () => {
               }}>
                 <div style={{
                   display: "flex",
-                  flexDirection: "column", marginBottom: "10px"
+                  flexDirection: "column", marginBottom: "25px" 
                 }}>
                   <label style={{ fontSize: '12px',marginLeft:needLogFilterCall?"50px":"0px" }}>SortBy</label>
                   {/* <Dropdown
@@ -726,9 +732,10 @@ const Loglists = () => {
                   <Select
                     value={selectedOption}
                     onChange={handleSortOrderChange}
+                    size="small"
                     // displayEmpty
                     // inputProps={{ "aria-label": "Select Sort Order" }}
-                    style={{ width: "150px", height: "52px",marginLeft:needLogFilterCall?"50px":"0px" }}
+                    style={{ width: "150px", marginLeft:needLogFilterCall?"50px":"0px" }}
                   >
                     <MenuItem value="" disabled>
                       Sort Order
@@ -824,8 +831,8 @@ const Loglists = () => {
                     }}
                   >
                     <Table stickyHeader aria-label="sticky table">
-                      <TableHead>
-                        <TableRow>
+                      <TableHead >
+                        <TableRow style={{ height: '20px' } }>
                           {tableHeaderData.map((column, index) => (
                             <TableCell
                               key={index}
@@ -833,6 +840,7 @@ const Loglists = () => {
                               style={{
                                 backgroundColor: colors.primary[400],
                                 color: colors.tabColor[500],
+                               
                               }}
                             >
                               <Typography

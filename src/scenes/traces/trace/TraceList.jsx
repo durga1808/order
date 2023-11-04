@@ -657,7 +657,7 @@ const TraceList = () => {
                         </Typography>
                         <Typography variant="h7">
                           {/* <span style={{ fontWeight: "500" }}>TraceID:</span>{" "} */}
-                          {trace.createdTimeInDate}
+                         {trace.createdTimeInDate}
                         </Typography>
                       </div>
 
@@ -783,7 +783,7 @@ const TraceList = () => {
                         }}
                       >
                         <span style={{ width: "150px" }}>
-                          {trace.createdTimeInWords}
+                          Age : {trace.createdTimeInWords}
                         </span>
 
                         <span style={{
