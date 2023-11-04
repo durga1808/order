@@ -220,8 +220,9 @@ const SpanFlow = () => {
     // Set the ordered spans in the state
     return orderedSpanData;
   };
-
-  const rightSideButtonStyle = {
+  //jey changed coor conditionally based error status
+  const rightSideButtonStyle =  (statusCode) =>  {
+    return {
     position: "absolute",
     top: "50%",
     right: "-90px",
@@ -234,8 +235,10 @@ const SpanFlow = () => {
     color: "#FFF",
     fontSize:"13px",
     // backgroundColor: colors.grey[400],
-    backgroundColor: colors.redAccent[500],
-  };
+    backgroundColor: statusCode ?  colors.grey[400] : colors.redAccent[500]
+  }
+};
+  
 
   const targetElementRef = useRef(null);
   //********************************************************************************************************************************************************* */
@@ -324,7 +327,7 @@ const SpanFlow = () => {
               </span>
               <button
                 disabled={!span.errorStatus}
-                style={rightSideButtonStyle}
+                style={rightSideButtonStyle(!span.errorStatus)}
                 onClick={() =>
                   handleButtonClick(span.errorMessage, span.logAttributes)
                 }
@@ -635,7 +638,7 @@ const SpanFlow = () => {
                     onNodesChange={onNodesChange}
                     onEdgesChange={onEdgesChange}
                     //jey
-                    fitView='true'
+                    fitView="true"
                     style={{
                       ...flowBoxColor,
                     }}

@@ -45,7 +45,7 @@ const Traces = () => {
             justifyContent: "center",
             alignItems: "center",
             width: "100%",
-            height: "80vh",
+            height: "73vh",
           }}
         >
           <Typography variant="h5" fontWeight={"600"}>

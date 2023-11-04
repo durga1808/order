@@ -129,7 +129,7 @@ const TraceBarChart = () => {
     <div>
       {loading ? (
         <Loading />
-      ) : emptyMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+      ) : emptyMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "73vh" }}>
         <Typography variant="h5" fontWeight={"600"}>
           {emptyMessage}
         </Typography>
