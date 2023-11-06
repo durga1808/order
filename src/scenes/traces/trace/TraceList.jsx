@@ -100,7 +100,7 @@ const mockTraces = [
 ];
 
 // const sortOrder = ['Earliest First', 'Oldest First', 'Error First', 'Peak Latency First'];
-
+const apicall = 0;
 const sortOrderOptions = [
   {
     label: "Newest",
@@ -186,25 +186,26 @@ const TraceList = () => {
   };
 
   // setupAxiosInterceptor(setTraceLoading);
-
+  const spanApiCall = async (traceId) => {
+    try {
+     // setTraceLoading(true);
+      const data = await FindByTraceIdForSpans(traceId);
+      //console.log("OUTPUT " + JSON.stringify(data.data[0]));
+      setSelectedTrace(data.data[0]);
+     // setTraceLoading(false);
+    } catch (error) {
+      console.log("ERROR " + error);
+      setTraceLoading(false);
+    }
+  };
   const handleCardClick = (traceId, index) => {
     console.log("Clicked");
     setShowError(false);
-    const spanApiCall = async (traceId) => {
-      try {
-        setTraceLoading(true);
-        const data = await FindByTraceIdForSpans(traceId);
-        console.log("OUTPUT " + JSON.stringify(data.data[0]));
-        setSelectedTrace(data.data[0]);
-        setTraceLoading(false);
-      } catch (error) {
-        console.log("ERROR " + error);
-        setTraceLoading(false);
-      }
-    };
+    setTraceLoading(true);
     spanApiCall(traceId);
     setActiveTraceId(traceId);
     setActiveTraceIcon(true);
+    setTraceLoading(false);
   };
 
   const dashboardTraceMap = useCallback(() => {
@@ -213,7 +214,8 @@ const TraceList = () => {
       setTraceData(recentTrace);
     } else if (logTrace.length !== 0) {
       setTraceData(logTrace);
-      handleCardClick(logTrace[0].traceId);
+      // jey handleCardClick(logTrace[0].traceId);
+      spanApiCall(logTrace[0].traceId);
     }
   }, [recentTrace, setTraceData, logTrace]);
 
@@ -245,7 +247,8 @@ const TraceList = () => {
         setTraceGlobalEmpty("No Data to Display!");
       } else {
         setTraceData(updatedData);
-        handleCardClick(updatedData[0].traceId);
+        // jey handleCardClick(updatedData[0].traceId);
+        spanApiCall(updatedData[0].traceId);
         setTotalPageCount(Math.ceil(totalCount / pageLimit));
       }
 
@@ -294,7 +297,8 @@ const TraceList = () => {
         );
       } else {
         setTraceData(updatedData);
-        handleCardClick(updatedData[0].traceId);
+        //jey handleCardClick(updatedData[0].traceId);
+        spanApiCall(updatedData[0].traceId)
         setTotalPageCount(Math.ceil(totalCount / pageLimit));
       }
 
