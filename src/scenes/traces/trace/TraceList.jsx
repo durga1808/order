@@ -184,24 +184,25 @@ const TraceList = () => {
     });
     return updatedData;
   };
-
-  // setupAxiosInterceptor(setTraceLoading);
-  const spanApiCall = async (traceId) => {
-    try {
-     // setTraceLoading(true);
-      const data = await FindByTraceIdForSpans(traceId);
-      //console.log("OUTPUT " + JSON.stringify(data.data[0]));
-      setSelectedTrace(data.data[0]);
-     // setTraceLoading(false);
-    } catch (error) {
-      console.log("ERROR " + error);
-      setTraceLoading(false);
-    }
-  };
+ // setupAxiosInterceptor(setTraceLoading);
+ const spanApiCall = async (traceId) => {
+  try {
+   // setTraceLoading(true);
+    const data = await FindByTraceIdForSpans(traceId);
+    //console.log("OUTPUT " + JSON.stringify(data.data[0]));
+    setSelectedTrace(data.data[0]);
+   // setTraceLoading(false);
+  } catch (error) {
+    console.log("ERROR " + error);
+    setTraceLoading(false);
+  }
+};
+ 
   const handleCardClick = (traceId, index) => {
     console.log("Clicked");
     setShowError(false);
     setTraceLoading(true);
+    
     spanApiCall(traceId);
     setActiveTraceId(traceId);
     setActiveTraceIcon(true);
