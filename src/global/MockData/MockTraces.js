@@ -127,3 +127,85 @@ export const options = [
     "label": "24 hours"
   }
 ];
+
+export const sortOrderOptions = [
+  {
+    label: "10",
+    value: "10",
+  },
+  {
+    label: "25",
+    value: "25",
+  },
+  {
+    label: "50",
+    value: "50",
+  },
+  {
+    label: "100",
+    value: "100",
+  },
+  {
+    label: "200",
+    value: "200",
+  },
+  {
+    label: "500",
+    value: "500",
+  },
+  {
+    label: "700",
+    value: "700",
+  },
+  {
+    label: "1000",
+    value: "1000",
+  },
+  {
+    label: "> 2000",
+    value: "2000",
+  },
+];
+
+export const sortOrderOptionsTwo = [
+  {
+    label: "5",
+    value: "5",
+  },
+  {
+    label: "10",
+    value: "10",
+  },
+  {
+    label: "25",
+    value: "25",
+  },
+  {
+    label: "50",
+    value: "50",
+  },
+  {
+    label: "100",
+    value: "100",
+  },
+  {
+    label: "200",
+    value: "200",
+  },
+  {
+    label: "500",
+    value: "500",
+  },
+  {
+    label: "700",
+    value: "700",
+  },
+  {
+    label: "1000",
+    value: "1000",
+  },
+  {
+    label: "> 2000",
+    value: "2000",
+  },
+];

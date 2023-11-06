@@ -12,14 +12,14 @@ import { useCallback } from "react";
 import Loading from "../../../../global/Loading/Loading";
 
 const PeakLatencyChart = () => {
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
   const {
+    isCollapsed,
     lookBackVal,
-    setActiveTab,
-    setSelected,
     selectedStartDate,
     selectedEndDate,
-    needHistoricalData,
-    setNavActiveTab,
   } = useContext(GlobalContext);
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -39,16 +39,17 @@ const PeakLatencyChart = () => {
         selectedEndDate,
         lookBackVal.value
       );
-      console.log("Peakaltency data " + response);
-      if (response.length !== 0) {
+      if (response.some(
+        (item) => item.peakLatency !== 0
+      )) {
         setPeakLatencyData(response);
       } else {
         setEmptyMessage("No Data to show");
       }
-      setLoading(false);
     } catch (error) {
       console.log("ERROR on peaklatency filter api " + error);
       setErrorMessage("An error Occurred!");
+    } finally {
       setLoading(false);
     }
   }, [
@@ -56,18 +57,15 @@ const PeakLatencyChart = () => {
     selectedEndDate,
     lookBackVal,
     selectedOption,
-    needHistoricalData,
   ]);
 
   useEffect(() => {
     PeaklatencyFiltered();
   }, [PeaklatencyFiltered]);
 
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  const { isCollapsed } = useContext(GlobalContext);
-
   const handleSortOrderChange = (event) => {
+    setErrorMessage("");
+    setEmptyMessage("");
     setSelectedOption(event.target.value);
   };
 
@@ -268,7 +266,15 @@ const PeakLatencyChart = () => {
               LOADING.....
             </Typography>
           </div>
-        ) : (
+        ) : emptyMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(30vh - 25px)" }}>
+          <Typography variant="h5" fontWeight={"600"}>
+            PeakLatency Count Chart - No data
+          </Typography>
+        </div>) : errorMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(30vh - 25px)" }}>
+          <Typography variant="h5" fontWeight={"600"}>
+            Error Occurred
+          </Typography>
+        </div>) : (
           <ReactApexChart
             style={{
               color: "#000",
