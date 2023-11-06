@@ -121,84 +121,84 @@ const DbSummaryCharts = () => {
 
 
 
-  return (
-    <div>
-      {loading ? (
-        <Loading />
-      ) : emptyMessage ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            height: "80vh",
-          }}
-        >
-          <Typography variant="h5" fontWeight={"600"}>
-            {emptyMessage}
-          </Typography>
-        </div>
-      ) : errorMessage ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            height: "80vh",
-          }}
-        >
-          <Typography variant="h5" fontWeight={"600"}>
-            {errorMessage}
-          </Typography>
-        </div>
-      ) : integrationdata.length !== 0 ? (
-        <div
-          style={{
-            maxHeight: "73vh",
-            overflowY: "auto",
-            width: "100%",
-          }}
-        >
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Card
-                elevation={3}
-                style={{
-                  marginTop: "18px",
-                  marginRight: "20px",
-                  marginBottom: "10px",
-                  marginLeft: "20px",
-                  height: "calc(40vh - 40px)",
-                  color: theme.palette.mode === "dark" ? "white" : "black"
-                }}
-              >
-                <CardContent>
-                  {hasDbCountChartData ? (
-                    <DBCallsCount
-                      data={integrationdata}
-                      onBarClick={handleBarClick}
-                    />
-                  ) : (
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "calc(40vh - 24px)",
-                        width: "100%",
-                      }}
-                    >
-                      <Typography variant="h5" fontWeight={"600"}>
-                        Database Count Chart - No data
-                      </Typography>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
+    return (
+      <div>
+        {loading ? (
+          <Loading />
+        ) : emptyMessage ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "73vh",
+            }}
+          >
+            <Typography variant="h5" fontWeight={"600"}>
+              {emptyMessage}
+            </Typography>
+          </div>
+        ) : errorMessage ? (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "80vh",
+            }}
+          >
+            <Typography variant="h5" fontWeight={"600"}>
+              {errorMessage}
+            </Typography>
+          </div>
+        ) : integrationdata.length !== 0 ? (
+          <div
+            style={{
+              maxHeight: "73vh",
+              // overflowY: "auto",
+              width: "100%",
+            }}
+          >
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Card
+                  elevation={3}
+                  style={{
+                    marginTop: "15px",
+                    marginRight: "20px",
+                    marginBottom: "10px",
+                    marginLeft: "20px",
+                    height: "calc(40vh - 40px)",
+                    color: theme.palette.mode === "dark"?"white":"black"
+                  }}
+                >
+                  <CardContent>
+                    {hasDbCountChartData ? (
+                      <DBCallsCount
+                        data={integrationdata}
+                        onBarClick={handleBarClick}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: "calc(40vh - 24px)",
+                          width: "100%",
+                        }}
+                      >
+                        <Typography variant="h5" fontWeight={"600"}>
+                          Database Count Chart - No data
+                        </Typography>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
-          </Grid>
 
           <Grid container spacing={2}>
             <Grid item xs={12}>

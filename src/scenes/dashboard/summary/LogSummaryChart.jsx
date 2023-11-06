@@ -105,7 +105,7 @@ const LogBarChart = () => {
     <div>
       {loading ? (
         <Loading />
-      ) : emptyMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
+      ) : emptyMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "73vh" }}>
         <Typography variant="h5" fontWeight={"600"}>
           {emptyMessage}
         </Typography>
@@ -118,14 +118,14 @@ const LogBarChart = () => {
           style={{
             // maxHeight: "82.5vh",
             maxHeight: "73vh",
-            overflowY: "auto",
+            // overflowY: "auto",
             minWidth: "100%"
 
           }}
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card elevation={3} style={{ margin: "25px 25px 15px 25px", height: "calc(40vh - 40px)",color: theme.palette.mode === "dark"?"white":"black" }}>
+              <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(40vh - 40px)",color: theme.palette.mode === "dark"?"white":"black" }}>
                 <CardContent>
                   {hasErrChartData ? (
                     <ErrorBarChart  

@@ -123,9 +123,13 @@ const ErrorContext = () => {
 
                            
                             <ul key={index}>
-                               <h2> <span>    SpanId:  {log.spanId}</span></h2> 
+                               <h3> <span style={{color: "red" , fontWeight: "500"  }} > Span Id: {log.spanId}</span></h3> 
                                 {/* <span> {record.createdTime}</span> */}
-                                <div key={subIndex}>
+                                <div   style={{
+                              fontWeight: "500",
+                              margin: "0 5px 0 0",
+
+                            }} key={subIndex}>
                                    <h4> <span>component: </span></h4> {record.name}
                                    <h4> <span>Error: </span></h4>
                                     <p> {record.messageBody}</p>
