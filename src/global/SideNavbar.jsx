@@ -13,7 +13,7 @@ import { useContext } from "react";
 import { tokens } from "../theme";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "./globalContext/GlobalContext";
-import logo from "../assets/zaga-logedit.jpg"
+import logo from "../assets/redicici7.png"
 import FilterDialog from "../scenes/dashboard/FilterDialog";
 import Metricfilter from "../scenes/metrics/Metricfilter";
 import Logfilter from "../scenes/logs/Logfilter";
@@ -78,11 +78,14 @@ const SideNavbar = () => {
               src={logo}
               alt="Logo"
               style={{
+                // width: "180px",x
+                // height: "60px",
                 width: "180px",
                 height: "60px",
               }}
             />
           </Box>) : null}
+
 
           <MenuItem
             onClick={handleclose}
