@@ -2,7 +2,7 @@
 ## podman build -f Dockerfile -t quay.io/zagaos/observai-dashboard .
 ## podman run -i --rm -p 8080:8080 quay.io/zagaos/observai-dashboard
 
-FROM nginxinc/nginx-unprivileged
+FROM docker.io/nginxinc/nginx-unprivileged
 
 USER root
 
