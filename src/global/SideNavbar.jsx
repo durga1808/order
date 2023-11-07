@@ -13,7 +13,7 @@ import { useContext } from "react";
 import { tokens } from "../theme";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "./globalContext/GlobalContext";
-import logo from "../assets/redicici7.png"
+import logo from "../assets/zaga-logedit.jpg"
 import FilterDialog from "../scenes/dashboard/FilterDialog";
 import Metricfilter from "../scenes/metrics/Metricfilter";
 import Logfilter from "../scenes/logs/Logfilter";
