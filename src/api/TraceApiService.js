@@ -103,7 +103,6 @@ export const TraceFilterOptionWithDate = async (
     if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
       console.log(
         `History call + ${traceURL}/TraceQueryFilter?from=${endDate}&page=${page}&pageSize=${pageSize}&sortOrder=${sortorder}&to=${startDate}`
-
       );
       finalUrl = `${traceURL}/TraceQueryFilter?from=${endDate}&page=${page}&pageSize=${pageSize}&sortOrder=${sortorder}&to=${startDate}`;
     } else {
@@ -139,13 +138,15 @@ export const FindByTraceIdForSpans = async (traceId) => {
 
 export const findLogByErrorTrace = async (traceId) => {
   try {
-    const response = await axios.get(`${traceURL}/getByErrorTraceId?traceId=${traceId}`);
+    const response = await axios.get(
+      `${traceURL}/getByErrorTraceId?traceId=${traceId}`
+    );
     return response.data;
   } catch (error) {
     console.error("Error retrieving users:", error);
     return error;
   }
-}
+};
 
 export const getTraceSummaryData = async (timeMinutesAgo) => {
   try {
@@ -219,12 +220,6 @@ export const getRecentTraceList = async (page, pageSize, serviceName) => {
   }
 };
 
-
-
-
-
-
-
 export const getDbSummaryDataWithDate = async (
   startDate,
   endDate,
@@ -261,30 +256,128 @@ export const getDbSummaryDataWithDate = async (
   }
 };
 
-
 export const getKafkaSummaryData = async (startDate, endDate, minutesAgo) => {
-    try {
-      const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
-      const serviceNameListParam = serviceListData.join("&serviceNameList=");
-  
-      var finalUrl;
-  
-      if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
-        console.log(
-          `History call + ${traceURL}/KafkaSumaryChartDataCount?from=${startDate}&serviceNameList=${serviceNameListParam}&to=${endDate}`
-        );
-        finalUrl = `${traceURL}/KafkaSumaryChartDataCount?from=${startDate}&serviceNameList=${serviceNameListParam}&to=${endDate}`;
-      } else {
-        console.log(
-          `Minutes call + ${traceURL}/KafkaSumaryChartDataCount?minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}&to=${startDate}`
-        );
-        finalUrl = `${traceURL}/KafkaSumaryChartDataCount?from=${startDate}&minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}`;
-      }
-  
-      const response = await axios.get(finalUrl);
-      return response.data;
-    } catch (error) {
-      console.error("Error retrieving users:", error);
-      throw error;
+  try {
+    const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+    const serviceNameListParam = serviceListData.join("&serviceNameList=");
+
+    var finalUrl;
+
+    if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
+      console.log(
+        `History call + ${traceURL}/KafkaSumaryChartDataCount?from=${startDate}&serviceNameList=${serviceNameListParam}&to=${endDate}`
+      );
+      finalUrl = `${traceURL}/KafkaSumaryChartDataCount?from=${startDate}&serviceNameList=${serviceNameListParam}&to=${endDate}`;
+    } else {
+      console.log(
+        `Minutes call + ${traceURL}/KafkaSumaryChartDataCount?minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}&to=${startDate}`
+      );
+      finalUrl = `${traceURL}/KafkaSumaryChartDataCount?from=${startDate}&minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}`;
     }
+
+    const response = await axios.get(finalUrl);
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
   }
+};
+
+export const getPeakLatencyFilterData = async (
+  startDate,
+  PeakLatency,
+  endDate,
+  minutesAgo,
+
+) => {
+  try {
+    const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+    const serviceNameListParam = serviceListData.join("&serviceNameList=");
+
+    var finalUrl;
+
+    if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
+      console.log(
+        `History call + ${traceURL}/TraceSumaryChartPeaKLatencyCount?from=${endDate}&peakLatencyThreshold=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${startDate}`
+      );
+      finalUrl = ` ${traceURL}/TraceSumaryChartPeaKLatencyCount?from=${endDate}&peakLatencyThreshold=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${startDate}`;
+    } else {
+      console.log(
+        `Minutes call + ${traceURL}/TraceSumaryChartPeaKLatencyCount?minutesAgo=${minutesAgo}&peakLatencyThreshold=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${startDate}`
+      );
+      finalUrl = `${traceURL}/TraceSumaryChartPeaKLatencyCount?minutesAgo=${minutesAgo}&peakLatencyThreshold=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${startDate}`;
+    }
+
+    const response = await axios.get(finalUrl);
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
+  }
+};
+
+export const getDBPeakLatencyFilterData = async (
+  startDate,
+  PeakLatency,
+  endDate,
+  minutesAgo,
+
+) => {
+  try {
+    const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+    const serviceNameListParam = serviceListData.join("&serviceNameList=");
+
+    var finalUrl;
+
+    if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
+      console.log(
+        `History call + ${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`
+      );
+      finalUrl = ` ${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`;
+    } else {
+      console.log(
+        `Minutes call + ${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&minutesAgo=${minutesAgo}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}`
+      );
+      finalUrl = `${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&minutesAgo=${minutesAgo}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}`;
+    }
+
+    const response = await axios.get(finalUrl);
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
+  }
+};
+
+export const getKafkaPeakLatencyFilterData = async (
+  startDate,
+  PeakLatency,
+  endDate,
+  minutesAgo,
+
+) => {
+  try {
+    const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
+    const serviceNameListParam = serviceListData.join("&serviceNameList=");
+
+    var finalUrl;
+
+    if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
+      console.log(
+        `History call + ${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`
+      );
+      finalUrl = ` ${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`;
+    } else {
+      console.log(
+        `Minutes call + ${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&minutesAgo=${minutesAgo}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}`
+      );
+      finalUrl = `${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&minutesAgo=${minutesAgo}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}`;
+    }
+
+    const response = await axios.get(finalUrl);
+    return response.data;
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    throw error;
+  }
+};

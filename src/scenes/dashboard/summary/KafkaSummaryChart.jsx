@@ -7,11 +7,11 @@ import { GlobalContext } from '../../../global/globalContext/GlobalContext'
 import Loading from '../../../global/Loading/Loading'
 
 const KafkaSummaryChart = () => {
-    const { lookBackVal, 
+    const { lookBackVal,
         setActiveTab,
         setSelected,
         selectedStartDate,
-        selectedEndDate ,
+        selectedEndDate,
         needHistoricalData,
         setNavActiveTab
     } = useContext(GlobalContext);
@@ -28,10 +28,10 @@ const KafkaSummaryChart = () => {
             console.log("kafka summary data " + response);
             if (response.length !== 0) {
                 setintegrationdata(response);
-              } else {
+            } else {
                 setEmptyMessage("No Data to show");
-              }
-              setLoading(false);
+            }
+            setLoading(false);
         } catch (error) {
             console.log("ERROR on Kafka summary " + error)
             setErrorMessage("An error Occurred!");
@@ -54,104 +54,87 @@ const KafkaSummaryChart = () => {
         (item) => item.kafkaPeakLatency !== 0
     )
 
-  return (
-    <div>
-        {loading ? (
-            <Loading />
-        ) : emptyMessage ? (
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
-                    height: "73vh",
-                }}
-            >
-                <Typography variant="h6" align="center">
-                    {emptyMessage}
-                </Typography>
-            </div>
-        ) : errorMessage ? (
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    width: "100%",
-                    height: "80vh",
-                
-                }}
-            >
-                <Typography variant="h6" align="center">
-                    {errorMessage}
-                </Typography>
-            </div>
-        ) : integrationdata.length !== 0 ? (
-            <div style={{
-                maxHeight: "73vh",
-                // overflowY: "auto",
-                minWidth: "100%"
-              }}>
-        
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(40vh - 40px)" , color: 'black'}}>
-                            <CardContent>
-                                {hasKafkaCallCount ? (
-                                    <ApiCalls data={integrationdata} />
-                                ) : (
-                                    <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  height: "calc(40vh - 24px)",
-                                  width: "100%",
-                                }}
-                              >
-                                <Typography variant="h5" fontWeight={"600"}>
-                                  Kafka Count Chart - No data
-                                </Typography>
-                              </div>
-                                )}
-                                
-                            </CardContent>
-                        </Card>
+    return (
+        <div>
+            {loading ? (
+                <Loading />
+            ) : emptyMessage ? (
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        height: "73vh",
+                    }}
+                >
+                    <Typography variant="h6" align="center">
+                        {emptyMessage}
+                    </Typography>
+                </div>
+            ) : errorMessage ? (
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        width: "100%",
+                        height: "80vh",
+
+                    }}
+                >
+                    <Typography variant="h6" align="center">
+                        {errorMessage}
+                    </Typography>
+                </div>
+            ) : integrationdata.length !== 0 ? (
+                <div style={{
+                    maxHeight: "73vh",
+                    // overflowY: "auto",
+                    minWidth: "100%"
+                }}>
+
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(40vh - 40px)", color: 'black' }}>
+                                <CardContent>
+                                    {hasKafkaCallCount ? (
+                                        <ApiCalls data={integrationdata} />
+                                    ) : (
+                                        <div
+                                            style={{
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                height: "calc(40vh - 24px)",
+                                                width: "100%",
+                                            }}
+                                        >
+                                            <Typography variant="h5" fontWeight={"600"}>
+                                                Kafka Count Chart - No data
+                                            </Typography>
+                                        </div>
+                                    )}
+
+                                </CardContent>
+                            </Card>
+                        </Grid>
                     </Grid>
-                </Grid>
-        
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Card elevation={3} style={{ margin: "5px 25px 15px 25px", height: "calc(40vh - 40px)" , color: 'black'}}>
-                            <CardContent>
-                                {hasKafkaPeakLatency ? (
-                                    <PeakLatencyKafka data={integrationdata} />
-                                ) : (
-                                    <div
-                                style={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  height: "calc(40vh - 24px)",
-                                  width: "100%",
-                                }}
-                              >
-                                <Typography variant="h5" fontWeight={"600"}>
-                                  Peak Latency Count Chart - No data
-                                </Typography>
-                              </div>
-                                )}
-                                
-                            </CardContent>
-                        </Card>
+
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <Card elevation={3} style={{ margin: "5px 25px 15px 25px", height: "calc(40vh - 40px)", color: 'black' }}>
+                                <CardContent>
+                                    <PeakLatencyKafka />
+                                </CardContent>
+                            </Card>
+                        </Grid>
                     </Grid>
-                </Grid>
-            </div>
-        ) : null
-    }
-    </div>
-  );
+                </div>
+            ) : null
+            }
+        </div>
+    );
 };
 
 export default KafkaSummaryChart
