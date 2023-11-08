@@ -43,3 +43,7 @@
   font-family: "Red Hat Display";
   /* color: colors.textColor[500]; */
 }
+
+.focused-textfield {
+  border-color: #454545 !important; 
+}

@@ -36,7 +36,9 @@ const FilterDialog = () => {
     selectedHttpCode,
     setSelectedHttpCode,
     selectedHttpMethod,
-    setSelectedHttpMethod
+    setSelectedHttpMethod,
+    minMaxError,
+    setMinMaxError
   } = useContext(GlobalContext);
   const [services, setServices] = useState(
     JSON.parse(localStorage.getItem("serviceListData"))
@@ -131,6 +133,7 @@ const FilterDialog = () => {
     setTraceDisplayService([]);
     setMinDurationValue(0);
     setMaxDurationValue(10000);
+    setMinMaxError("");
   };
 
   const handleChange = (event, newValue) => {
@@ -138,17 +141,57 @@ const FilterDialog = () => {
     setMaxDurationValue(newValue[1]);
   };
 
+  // const handleMinChange = (event) => {
+  //   const newValue = parseInt(event.target.value);
+  //   if (!isNaN(newValue)) {
+  //     setMinDurationValue(newValue);
+  //     if (newValue <= maxDurationValue){
+  //       setMinMaxError("Min value cannot be greater than Max value");
+  //     }
+  //   }
+  // };
+
+  // const handleMaxChange = (event) => {
+  //   const newValue = parseInt(event.target.value);
+  //   if (!isNaN(newValue)) {
+  //     setMaxDurationValue(newValue);
+  //     if (newValue >= minDurationValue){
+  //       setMinMaxError("Max value cannot be less than Min value");
+  //     }
+  //   }
+  // };
+
   const handleMinChange = (event) => {
     const newValue = parseInt(event.target.value);
-    if (!isNaN(newValue) && newValue <= maxDurationValue) {
-      setMinDurationValue(newValue);
+
+    if (!isNaN(newValue)) {
+      if (newValue <= maxDurationValue) {
+        setMinDurationValue(newValue);
+        setMinMaxError('');
+      } else {
+        setMinDurationValue(newValue);
+        setMinMaxError('Min value cannot be greater than Max value');
+      }
+    } else {
+      setMinDurationValue(event.target.value);
+      setMinMaxError('Please enter a valid number');
     }
   };
 
   const handleMaxChange = (event) => {
     const newValue = parseInt(event.target.value);
-    if (!isNaN(newValue) && newValue >= minDurationValue) {
-      setMaxDurationValue(newValue);
+
+    if (!isNaN(newValue)) {
+      if (newValue >= minDurationValue) {
+        setMaxDurationValue(newValue);
+        setMinMaxError('');
+      } else {
+        setMaxDurationValue(newValue);
+        setMinMaxError('Max value cannot be less than Min value');
+      }
+    } else {
+      setMaxDurationValue(event.target.value);
+      setMinMaxError('Please enter a valid number');
     }
   };
 
@@ -279,9 +322,9 @@ const FilterDialog = () => {
               }
               sx={{
                 color: window.location.pathname === "/mainpage/dashboard" ||
-                window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                  window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                  window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                  window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   ? "lightgrey"
                   : colors.primary[100],
               }}
@@ -347,6 +390,8 @@ const FilterDialog = () => {
                   variant="outlined"
                   value={minDurationValue}
                   onChange={handleMinChange}
+                  error={minMaxError !== ''}
+                  helperText={minMaxError}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -368,6 +413,8 @@ const FilterDialog = () => {
                   variant="outlined"
                   value={maxDurationValue}
                   onChange={handleMaxChange}
+                  error={minMaxError !== ''}
+                  helperText={minMaxError}
                   color="primary"
                   InputProps={{
                     endAdornment: (
@@ -406,7 +453,7 @@ const FilterDialog = () => {
                       key={index}
                       control={
                         <Checkbox
-                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"}
+                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"}
                           checked={traceSelectedService.includes(service)}
                           onChange={handleServiceToggle(service)}
                           sx={{
@@ -456,7 +503,7 @@ const FilterDialog = () => {
                       key={method}
                       control={
                         <Checkbox
-                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"}
+                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"}
                           checked={selectedHttpMethod.includes(method)}
                           onChange={handleHttpToggle(method)}
                           sx={{
@@ -557,7 +604,7 @@ const FilterDialog = () => {
               window.location.pathname === "/mainpage/dashboard" ||
               window.location.pathname === "/mainpage/dashboard/logSummary" ||
               window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-              window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+              window.location.pathname === "/mainpage/dashboard/kafkaSummary" || minMaxError
             }
           >
             Apply

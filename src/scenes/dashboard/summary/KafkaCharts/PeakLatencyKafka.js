@@ -3,7 +3,7 @@ import ReactApexChart from "react-apexcharts";
 import { tokens } from "../../../../theme";
 import { useTheme } from "@emotion/react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
-import { CircularProgress, MenuItem, Select, Typography } from "@mui/material";
+import { Button, CircularProgress, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
 import { sortOrderOptionsTwo } from "../../../../global/MockData/MockTraces";
 import { useState } from "react";
 import { getKafkaPeakLatencyFilterData } from "../../../../api/TraceApiService";
@@ -25,13 +25,17 @@ const PeakLatencyKafka = () => {
   const [emptyMessage, setEmptyMessage] = useState("");
   const [kafkaPeaklatencyData, setKafkaPeakLatencyData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("10");
+  const [minDurationValue, setMinDurationValue] = useState(0);
+  const [maxDurationValue, setMaxDurationValue] = useState(500);
+  const [minMaxError, setMinMaxError] = useState("");
 
-  const KafkaPeaklatencyFiltered = useCallback(async () => {
+  const KafkaPeaklatencyFiltered = useCallback(async (minDuration,maxDuration) => {
     try {
       setLoading(true);
       var response = await getKafkaPeakLatencyFilterData(
         selectedStartDate,
-        selectedOption,
+        minDuration,
+        maxDuration,
         selectedEndDate,
         lookBackVal.value
       );
@@ -52,19 +56,59 @@ const PeakLatencyKafka = () => {
   }, [
     selectedStartDate,
     selectedEndDate,
-    lookBackVal,
-    selectedOption,
+    lookBackVal
   ]);
 
   useEffect(() => {
-    KafkaPeaklatencyFiltered();
+    KafkaPeaklatencyFiltered(minDurationValue,maxDurationValue);
   }, [KafkaPeaklatencyFiltered]);
 
-  const handleSortOrderChange = (event) => {
+  const handleMinChange = (event) => {
+    const newValue = parseInt(event.target.value);
+
+    if (!isNaN(newValue)) {
+      if (newValue <= maxDurationValue) {
+        setMinDurationValue(newValue);
+        setMinMaxError('');
+      } else {
+        setMinDurationValue(newValue);
+        setMinMaxError('Min value cannot be greater than Max value');
+      }
+    } else {
+      setMinDurationValue(event.target.value);
+      setMinMaxError('Please enter a valid number');
+    }
+  };
+
+  const handleMaxChange = (event) => {
+    const newValue = parseInt(event.target.value);
+
+    if (!isNaN(newValue)) {
+      if (newValue >= minDurationValue) {
+        setMaxDurationValue(newValue);
+        setMinMaxError('');
+      } else {
+        setMaxDurationValue(newValue);
+        setMinMaxError('Max value cannot be less than Min value');
+      }
+    } else {
+      setMaxDurationValue(event.target.value);
+      setMinMaxError('Please enter a valid number');
+    }
+  };
+
+  const handleApplyButtonClick = () => {
     setErrorMessage("");
     setEmptyMessage("");
-    setSelectedOption(event.target.value);
-  };
+    console.log("Durations " + [minDurationValue, maxDurationValue]);
+    KafkaPeaklatencyFiltered(minDurationValue,maxDurationValue);
+  }
+
+  // const handleSortOrderChange = (event) => {
+  //   setErrorMessage("");
+  //   setEmptyMessage("");
+  //   setSelectedOption(event.target.value);
+  // };
 
   const peakLatencyOptions = {
     chart: {
@@ -161,12 +205,73 @@ const PeakLatencyKafka = () => {
           justifyContent: "center",
           marginBottom: "10px",
           // marginRight:"-30px"
-          marginLeft: "250px",
+          // marginLeft: "250px",
         }}
       >
-        <p>Peak Latency &gt; {selectedOption}(ms)</p>
+         <div style={{ display: "flex", justifyContent: "flex-start" }} >
+        <Tooltip title={minMaxError} placement="top" arrow>
+          <TextField
+            label="Min (ms)"
+            variant="outlined"
+            value={minDurationValue}
+            onChange={handleMinChange}
+            error={minMaxError !== ''}
+            InputProps={{
+              classes: {
+                notchedOutline: "focused-textfield"
+              },
+            }}
+            InputLabelProps={{
+              style: {
+                color: colors.textColor[500],
+              },
+            }}
+            size="small"
+            style={{
+              margin: "10px 5px 10px 5px", color: "#000", width: "75px"
+            }}
+          />
+        </Tooltip>
+        <Tooltip title={minMaxError} placement="top" arrow>
+          <TextField
+            label="Max (ms)"
+            variant="outlined"
+            size="small"
+            value={maxDurationValue}
+            onChange={handleMaxChange}
+            InputProps={{
+              classes: {
+                notchedOutline: "focused-textfield"
+              },
+            }}
+            InputLabelProps={{
+              style: {
+                color: colors.textColor[500],
+              },
+            }}
+            error={minMaxError !== ''}
+            color="primary"
+            style={{
+              margin: "10px 5px 10px 5px", color: "#000", width: "75px"
+            }}
+          />
+        </Tooltip>
+        {/* </div> */}
+        <Button
+          variant="contained"
+          onClick={handleApplyButtonClick}
+          size="small"
+          disabled={minMaxError}
+          color="primary"
+          style={{ height: "30px", margin: "15px 5px 10px 5px",fontSize:"10px" }}
+        >
+          Apply
+        </Button>
+      </div>
+      <p style={{ marginLeft: "30px", }} >Peak Latency</p>
+      </div>
 
-        <div
+      {/* <div
           style={{
             display: "flex",
             flexDirection: "column",
@@ -204,9 +309,9 @@ const PeakLatencyKafka = () => {
               </MenuItem>
             ))}
           </Select>
-        </div>
+        </div> */}
 
-      </div>
+      {/* </div> */}
       <div data-theme={theme.palette.mode} style={{ width: chartWidth, marginTop: "-30px" }} >
         {loading ? (<div
           style={{
