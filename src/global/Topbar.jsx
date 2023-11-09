@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { Brightness4, Brightness7, Person } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { ColorModeContext, tokens } from "../theme";
+import {  tokens } from "../theme";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "./globalContext/GlobalContext";
 
@@ -17,7 +17,7 @@ function Topbar() {
   const theme = useTheme();
 
   const colors = tokens(theme.palette.mode);
-  const colorMode = useContext(ColorModeContext);
+  // const colorMode = useContext(ColorModeContext);
   const {setMetricRender} = useContext(GlobalContext);
 
   const handleLogout = () => {
@@ -29,7 +29,9 @@ function Topbar() {
 
   const handleColorMode = () => {
     setMetricRender(false);
-    colorMode.toggleColorMode();
+    let colorMode = localStorage.getItem("mode");
+    localStorage.setItem("mode",!colorMode);
+    // colorMode.toggleColorMode();
   }
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
