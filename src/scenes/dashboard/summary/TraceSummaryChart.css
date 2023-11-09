@@ -1,0 +1,19 @@
+@media (max-width: 768px) {
+    /* .main-content {
+        background-color: red;
+    } */
+    .content {
+        width: 110vh;
+        height: calc(179vh - 50px);
+        /* height: 165vh; */
+    }
+    .dashboards {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+    }
+    .charts {
+        display: flex;
+        flex-direction: column;
+    }
+}

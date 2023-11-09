@@ -20,6 +20,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useCallback } from "react";
 import { tokens } from "../../../theme";
 import { useNavigate } from "react-router-dom";
+import "./TraceSummaryChart.css";
 
 const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
@@ -126,10 +127,10 @@ const TraceBarChart = () => {
   // const chartWidth3 = isCollapsed ? 'calc(85vh - 20px)' : 'calc(75vh - 15px)'
 
   return (
-    <div>
+    <div className="main-content">
       {loading ? (
         <Loading />
-      ) : emptyMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "73vh" }}>
+      ) : emptyMessage ? (<div className="empty-message" style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "73vh" }}>
         <Typography variant="h5" fontWeight={"600"}>
           {emptyMessage}
         </Typography>
@@ -140,6 +141,7 @@ const TraceBarChart = () => {
       </div>) : integrationdata.length !== 0 ? (
         <div>
           <div
+            className="content"
             style={{
               // maxHeight: "82.5vh",
               maxHeight: "73vh",
@@ -147,7 +149,7 @@ const TraceBarChart = () => {
               width: "100%"
             }}
           >
-            <div>
+            <div className="dashboards">
               {" "}
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -194,6 +196,7 @@ const TraceBarChart = () => {
                 />
               ) : null}
               <ServiceTable selectedService={selectedService} /> */}
+            <div className="charts">
               <Grid container spacing={2}>
                 {" "}
                 <Grid item xs={12} sm={6}>
@@ -228,6 +231,7 @@ const TraceBarChart = () => {
                   </Card>
                 </Grid>
               </Grid>
+            </div>
             </div>
           </div>
         </div>

@@ -40,14 +40,14 @@ const SideNavbar = () => {
     <Box>
       <Sidebar
         collapsed={isCollapsed}
-        rootStyles={{ height: "100vh", borderRight: "none" }}
+        rootStyles={{ height: "100%", borderRight: "none" }}
       >
         <Menu
           iconShape="square"
           rootStyles={{
             display: "flex",
             flexDirection: "column",
-            height: "100vh",
+            height: "100%",
             backgroundColor: colors.primary[400],
           }}
           menuItemStyles={{

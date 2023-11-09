@@ -42,3 +42,13 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+@media screen and (max-width: 768px) {
+  html,
+body,
+#root,
+.app,
+.content {
+    height: auto;
+  }
+}
