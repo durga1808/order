@@ -5,7 +5,7 @@ import { useTheme } from "@emotion/react";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 import "./PeakLatencyChart.css";
-import { CircularProgress, MenuItem, Select, Typography } from "@mui/material";
+import { Button, CircularProgress, InputAdornment, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
 import { useEffect } from "react";
 import { getPeakLatencyFilterData } from "../../../../api/TraceApiService";
 import { useCallback } from "react";
@@ -27,15 +27,19 @@ const PeakLatencyChart = () => {
   const [loading, setLoading] = useState(false);
   const [peaklatencyData, setPeakLatencyData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("500");
+  const [minDurationValue, setMinDurationValue] = useState(0);
+  const [maxDurationValue, setMaxDurationValue] = useState(500);
+  const [minMaxError, setMinMaxError] = useState("");
 
   // const [FiteredData,setFiteredData] = useState([]);
 
-  const PeaklatencyFiltered = useCallback(async () => {
+  const PeaklatencyFiltered = useCallback(async (minDuration,maxDuration) => {
     try {
       setLoading(true);
       var response = await getPeakLatencyFilterData(
         selectedStartDate,
-        selectedOption,
+        minDuration,
+        maxDuration,
         selectedEndDate,
         lookBackVal.value
       );
@@ -56,49 +60,59 @@ const PeakLatencyChart = () => {
     selectedStartDate,
     selectedEndDate,
     lookBackVal,
-    selectedOption,
   ]);
 
-  useEffect(() => {
-    PeaklatencyFiltered();
-  }, [PeaklatencyFiltered]);
+  const handleMinChange = (event) => {
+    const newValue = parseInt(event.target.value);
 
-  const handleSortOrderChange = (event) => {
-    setErrorMessage("");
-    setEmptyMessage("");
-    setSelectedOption(event.target.value);
+    if (!isNaN(newValue)) {
+      if (newValue <= maxDurationValue) {
+        setMinDurationValue(newValue);
+        setMinMaxError('');
+      } else {
+        setMinDurationValue(newValue);
+        setMinMaxError('Min value cannot be greater than Max value');
+      }
+    } else {
+      setMinDurationValue(event.target.value);
+      setMinMaxError('Please enter a valid number');
+    }
   };
 
-  const sortOrderOptions = [
-    {
-      label: "50",
-      value: "50",
-    },
-    {
-      label: "100",
-      value: "100",
-    },
-    {
-      label: "200",
-      value: "200",
-    },
-    {
-      label: "500",
-      value: "500",
-    },
-    {
-      label: "700",
-      value: "700",
-    },
-    {
-      label: "1000",
-      value: "1000",
-    },
-    {
-      label: "> 2000",
-      value: "2000",
-    },
-  ];
+  const handleMaxChange = (event) => {
+    const newValue = parseInt(event.target.value);
+
+    if (!isNaN(newValue)) {
+      if (newValue >= minDurationValue) {
+        setMaxDurationValue(newValue);
+        setMinMaxError('');
+      } else {
+        setMaxDurationValue(newValue);
+        setMinMaxError('Max value cannot be less than Min value');
+      }
+    } else {
+      setMaxDurationValue(event.target.value);
+      setMinMaxError('Please enter a valid number');
+    }
+  };
+
+  useEffect(() => {
+    PeaklatencyFiltered(minDurationValue,maxDurationValue);
+  }, [PeaklatencyFiltered]);
+
+  // const handleSortOrderChange = (event) => {
+    // setErrorMessage("");
+    // setEmptyMessage("");
+  //   setSelectedOption(event.target.value);
+  // };
+
+  const handleApplyButtonClick = () => {
+    setErrorMessage("");
+    setEmptyMessage("");
+    console.log("Durations " + [minDurationValue, maxDurationValue]);
+    PeaklatencyFiltered(minDurationValue,maxDurationValue);
+  }
+
   const peakLatencyOptions = {
     chart: {
       height: 250,
@@ -194,19 +208,17 @@ const PeakLatencyChart = () => {
           justifyContent: "center",
           marginBottom: "10px",
           // marginRight:"-30px"
-          marginLeft: "50px",
+          // marginLeft: "50px",
         }}
       >
-        <p>Peak Latency &gt; {selectedOption}(ms)</p>
-
-        <div
+        {/* <div
           style={{
             display: "flex",
             flexDirection: "column",
             // marginBottom: "10px",
           }}
-        >
-          <label
+        > */}
+        {/* <label
             style={{
               fontSize: "8px",
               fontWeight: "500",
@@ -222,7 +234,7 @@ const PeakLatencyChart = () => {
             style={{
               width: "95px",
               height: "32px",
-              marginLeft: "50px",
+              // marginLeft: "50px",
               // borderColor:"red"
             }}
           >
@@ -234,8 +246,68 @@ const PeakLatencyChart = () => {
                 {option.label}
               </MenuItem>
             ))}
-          </Select>
+          </Select> */}
+        <div style={{ display: "flex", justifyContent: "flex-start" }} >
+        <Tooltip title={minMaxError} placement="top" arrow>
+          <TextField
+            label="Min (ms)"
+            variant="outlined"
+            value={minDurationValue}
+            onChange={handleMinChange}
+            error={minMaxError !== ''}
+            size="small"
+            InputProps={{
+              classes: {
+                notchedOutline: "focused-textfield"
+              },
+            }}
+            InputLabelProps={{
+              style: {
+                color: colors.textColor[500],
+              },
+            }}
+            style={{
+              margin: "10px 5px 10px 5px", color: "#000", width: "75px"
+            }}
+          />
+          </Tooltip>
+          <Tooltip title={minMaxError} placement="top" arrow>
+          <TextField
+            label="Max (ms)"
+            variant="outlined"
+            size="small"
+            value={maxDurationValue}
+            onChange={handleMaxChange}
+            error={minMaxError !== ''}
+            InputProps={{
+              classes: {
+                notchedOutline: "focused-textfield"
+              },
+            }}
+            InputLabelProps={{
+              style: {
+                color: colors.textColor[500],
+              },
+            }}
+            color="primary"
+            style={{
+              margin: "10px 5px 10px 5px", color: "#000", width: "75px"
+            }}
+          />
+          </Tooltip>
+          {/* </div> */}
+          <Button
+            variant="contained"
+            onClick={handleApplyButtonClick}
+            disabled={minMaxError}
+            size="small"
+            color="primary"
+            style={{ height: "30px", margin: "15px 5px 10px 5px",fontSize:"10px" }}
+          >
+            Apply
+          </Button>
         </div>
+        <p style={{marginLeft:"20px"}} >Peak Latency</p>
       </div>
 
       <div

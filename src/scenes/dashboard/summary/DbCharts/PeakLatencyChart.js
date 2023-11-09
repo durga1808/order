@@ -4,7 +4,7 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../../../theme";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
-import { CircularProgress, MenuItem, Select, Typography } from "@mui/material";
+import { Button, CircularProgress, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
 import { sortOrderOptions } from "../../../../global/MockData/MockTraces";
 import { useCallback } from "react";
 import { getDBPeakLatencyFilterData } from "../../../../api/TraceApiService";
@@ -25,13 +25,17 @@ const DBCallsCount = () => {
   const [emptyMessage, setEmptyMessage] = useState("");
   const [dbPeaklatencyData, setDbPeakLatencyData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("50");
+  const [minDurationValue, setMinDurationValue] = useState(0);
+  const [maxDurationValue, setMaxDurationValue] = useState(500);
+  const [minMaxError, setMinMaxError] = useState("");
 
-  const DBPeaklatencyFiltered = useCallback(async () => {
+  const DBPeaklatencyFiltered = useCallback(async (minDuration,maxDuration) => {
     try {
       setLoading(true);
       var response = await getDBPeakLatencyFilterData(
         selectedStartDate,
-        selectedOption,
+        minDuration,
+        maxDuration,
         selectedEndDate,
         lookBackVal.value
       );
@@ -51,20 +55,60 @@ const DBCallsCount = () => {
   }, [
     selectedStartDate,
     selectedEndDate,
-    lookBackVal,
-    selectedOption,
+    lookBackVal
   ]);
 
   useEffect(() => {
-    DBPeaklatencyFiltered();
+    DBPeaklatencyFiltered(minDurationValue,maxDurationValue);
   }, [DBPeaklatencyFiltered]);
 
+  const handleMinChange = (event) => {
+    const newValue = parseInt(event.target.value);
 
-  const handleSortOrderChange = (event) => {
+    if (!isNaN(newValue)) {
+      if (newValue <= maxDurationValue) {
+        setMinDurationValue(newValue);
+        setMinMaxError('');
+      } else {
+        setMinDurationValue(newValue);
+        setMinMaxError('Min value cannot be greater than Max value');
+      }
+    } else {
+      setMinDurationValue(event.target.value);
+      setMinMaxError('Please enter a valid number');
+    }
+  };
+
+  const handleMaxChange = (event) => {
+    const newValue = parseInt(event.target.value);
+
+    if (!isNaN(newValue)) {
+      if (newValue >= minDurationValue) {
+        setMaxDurationValue(newValue);
+        setMinMaxError('');
+      } else {
+        setMaxDurationValue(newValue);
+        setMinMaxError('Max value cannot be less than Min value');
+      }
+    } else {
+      setMaxDurationValue(event.target.value);
+      setMinMaxError('Please enter a valid number');
+    }
+  };
+
+  const handleApplyButtonClick = () => {
     setErrorMessage("");
     setEmptyMessage("");
-    setSelectedOption(event.target.value);
-  };
+    console.log("Durations " + [minDurationValue, maxDurationValue]);
+    DBPeaklatencyFiltered(minDurationValue,maxDurationValue);
+  }
+
+
+  // const handleSortOrderChange = (event) => {
+  //   setErrorMessage("");
+  //   setEmptyMessage("");
+  //   setSelectedOption(event.target.value);
+  // };
 
   const options = {
     chart: {
@@ -158,12 +202,72 @@ const DBCallsCount = () => {
           justifyContent: "center",
           marginBottom: "10px",
           // marginRight:"-30px"
-          marginLeft: "250px",
+          // marginLeft: "250px",
         }}
       >
-        <p>Peak Latency &gt; {selectedOption}(ms)</p>
+        <div style={{ display: "flex", justifyContent: "flex-start" }} >
+        <Tooltip title={minMaxError} placement="top" arrow>
+          <TextField
+            label="Min (ms)"
+            variant="outlined"
+            value={minDurationValue}
+            onChange={handleMinChange}
+            error={minMaxError !== ''}
+            InputProps={{
+              classes: {
+                notchedOutline: "focused-textfield"
+              },
+            }}
+            InputLabelProps={{
+              style: {
+                color: colors.textColor[500],
+              },
+            }}
+            size="small"
+            style={{
+              margin: "10px 5px 10px 5px", color: "#000", width: "75px"
+            }}
+          />
+          </Tooltip>
+          <Tooltip title={minMaxError} placement="top" arrow>
+          <TextField
+            label="Max (ms)"
+            variant="outlined"
+            size="small"
+            value={maxDurationValue}
+            onChange={handleMaxChange}
+            InputProps={{
+              classes: {
+                notchedOutline: "focused-textfield"
+              },
+            }}
+            InputLabelProps={{
+              style: {
+                color: colors.textColor[500],
+              },
+            }}
+            error={minMaxError !== ''}
+            color="primary"
+            style={{
+              margin: "10px 5px 10px 5px", color: "#000", width: "75px"
+            }}
+          />
+          </Tooltip>
+          {/* </div> */}
+          <Button
+            variant="contained"
+            onClick={handleApplyButtonClick}
+            size="small"
+            disabled={minMaxError}
+            color="primary"
+            style={{ height: "30px", margin: "15px 5px 10px 5px",fontSize:"10px" }}
+          >
+            Apply
+          </Button>
+        </div>
+        <p style={{marginLeft: "30px"}} >Peak Latency</p>
 
-        <div
+        {/* <div
           style={{
             display: "flex",
             flexDirection: "column",
@@ -201,7 +305,7 @@ const DBCallsCount = () => {
               </MenuItem>
             ))}
           </Select>
-        </div>
+        </div> */}
 
       </div>
       <div

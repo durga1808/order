@@ -191,6 +191,8 @@ const TraceList = () => {
     const data = await FindByTraceIdForSpans(traceId);
     //console.log("OUTPUT " + JSON.stringify(data.data[0]));
     setSelectedTrace(data.data[0]);
+    setActiveTraceId(traceId);
+    setActiveTraceIcon(true);
    // setTraceLoading(false);
   } catch (error) {
     console.log("ERROR " + error);
@@ -204,8 +206,8 @@ const TraceList = () => {
     setTraceLoading(true);
     
     spanApiCall(traceId);
-    setActiveTraceId(traceId);
-    setActiveTraceIcon(true);
+    // setActiveTraceId(traceId);
+    // setActiveTraceIcon(true);
     setTraceLoading(false);
   };
 

@@ -60,6 +60,7 @@ const GlobalContextProvider = ({ children }) => {
     const [traceSelectedService, setTraceSelectedService] = useState([]);
     const [minDurationValue, setMinDurationValue] = useState(0);
     const [maxDurationValue, setMaxDurationValue] = useState(10000);
+    const [minMaxError, setMinMaxError] = useState("");
     const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
     const [selectedHttpCode, setSelectedHttpCode] = useState([]);
 
@@ -176,7 +177,9 @@ const GlobalContextProvider = ({ children }) => {
                 logSelectedService,
                 setLogSelectedService,
                 selectedSeverity,
-                setSelectedSeverity
+                setSelectedSeverity,
+                minMaxError,
+                setMinMaxError
             }}
         >
             {children}

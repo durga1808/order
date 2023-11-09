@@ -27,7 +27,7 @@ const TraceBarChart = () => {
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
   const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService, setMetricRender, setTraceSummaryService, setLogSummaryService, selectedStartDate,
-    selectedEndDate, needHistoricalData, setNavActiveTab } = useContext(GlobalContext);
+    selectedEndDate, needHistoricalData, setNavActiveTab, setClearTraceFilter } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -62,6 +62,7 @@ const TraceBarChart = () => {
     setLogSummaryService([]);
     setMetricRender(false);
     traceSummaryApiCall();
+    setClearTraceFilter(true);
     setActiveTab(0);
     setNavActiveTab(0);
     setTraceRender(false);

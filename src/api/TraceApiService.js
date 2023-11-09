@@ -285,10 +285,10 @@ export const getKafkaSummaryData = async (startDate, endDate, minutesAgo) => {
 
 export const getPeakLatencyFilterData = async (
   startDate,
-  PeakLatency,
+  minPeakLatency,
+  maxPeakLatency,
   endDate,
   minutesAgo,
-
 ) => {
   try {
     const serviceListData = JSON.parse(localStorage.getItem("serviceListData"));
@@ -298,14 +298,14 @@ export const getPeakLatencyFilterData = async (
 
     if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
       console.log(
-        `History call + ${traceURL}/TraceSumaryChartPeaKLatencyCount?from=${endDate}&peakLatencyThreshold=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${startDate}`
+        `History call + ${traceURL}/TraceSumaryChartPeaKLatencyCount?from=${endDate}&maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&serviceNameList=${serviceNameListParam}&to=${startDate}`
       );
-      finalUrl = ` ${traceURL}/TraceSumaryChartPeaKLatencyCount?from=${endDate}&peakLatencyThreshold=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${startDate}`;
+      finalUrl = ` ${traceURL}/TraceSumaryChartPeaKLatencyCount?from=${endDate}&maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&serviceNameList=${serviceNameListParam}&to=${startDate}`;
     } else {
       console.log(
-        `Minutes call + ${traceURL}/TraceSumaryChartPeaKLatencyCount?minutesAgo=${minutesAgo}&peakLatencyThreshold=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${startDate}`
+        `Minutes call + ${traceURL}/TraceSumaryChartPeaKLatencyCount?maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}&to=${startDate}`
       );
-      finalUrl = `${traceURL}/TraceSumaryChartPeaKLatencyCount?minutesAgo=${minutesAgo}&peakLatencyThreshold=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${startDate}`;
+      finalUrl = `${traceURL}/TraceSumaryChartPeaKLatencyCount?maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}&to=${startDate}`;
     }
 
     const response = await axios.get(finalUrl);
@@ -318,7 +318,8 @@ export const getPeakLatencyFilterData = async (
 
 export const getDBPeakLatencyFilterData = async (
   startDate,
-  PeakLatency,
+  minPeakLatency,
+  maxPeakLatency,
   endDate,
   minutesAgo,
 
@@ -331,14 +332,14 @@ export const getDBPeakLatencyFilterData = async (
 
     if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
       console.log(
-        `History call + ${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`
+        `History call + ${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`
       );
-      finalUrl = ` ${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`;
+      finalUrl = ` ${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`;
     } else {
       console.log(
-        `Minutes call + ${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&minutesAgo=${minutesAgo}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}`
+        `Minutes call + ${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}`
       );
-      finalUrl = `${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&minutesAgo=${minutesAgo}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}`;
+      finalUrl = `${traceURL}/DBSumaryChartPeakLatencyCount?from=${startDate}&maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}`;
     }
 
     const response = await axios.get(finalUrl);
@@ -351,7 +352,8 @@ export const getDBPeakLatencyFilterData = async (
 
 export const getKafkaPeakLatencyFilterData = async (
   startDate,
-  PeakLatency,
+  minPeakLatency,
+  maxPeakLatency,
   endDate,
   minutesAgo,
 
@@ -364,14 +366,14 @@ export const getKafkaPeakLatencyFilterData = async (
 
     if (JSON.parse(localStorage.getItem("needHistoricalData"))) {
       console.log(
-        `History call + ${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`
+        `History call + ${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`
       );
-      finalUrl = ` ${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`;
+      finalUrl = ` ${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&serviceNameList=${serviceNameListParam}&to=${endDate}`;
     } else {
       console.log(
-        `Minutes call + ${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&minutesAgo=${minutesAgo}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}`
+        `Minutes call + ${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}`
       );
-      finalUrl = `${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&minutesAgo=${minutesAgo}&peakLatency=${PeakLatency}&serviceNameList=${serviceNameListParam}`;
+      finalUrl = `${traceURL}/KafkaSumaryChartPeakLatencyCount?from=${startDate}&maxpeakLatency=${maxPeakLatency}&minpeakLatency=${minPeakLatency}&minutesAgo=${minutesAgo}&serviceNameList=${serviceNameListParam}`;
     }
 
     const response = await axios.get(finalUrl);
