@@ -1,4 +1,4 @@
-import { Box, IconButton, Tooltip, Typography, useTheme } from "@mui/material";
+import { Box, IconButton, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import {
   AnalyticsOutlined,
@@ -9,7 +9,7 @@ import {
   Person,
   FilterListOutlined,
 } from "@mui/icons-material";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { tokens } from "../theme";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "./globalContext/GlobalContext";
@@ -20,6 +20,8 @@ import Logfilter from "../scenes/logs/Logfilter";
 
 const SideNavbar = () => {
   const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
   const colors = tokens(theme.palette.mode);
   const isDarkMode = theme.palette.mode === "dark";
 
@@ -36,11 +38,33 @@ const SideNavbar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
+  // const BREAK_POINTS = {
+  //   xs: '480px',
+  //   sm: '576px',
+  //   md: '768px',
+  //   lg: '992px',
+  //   xl: '1200px',
+  //   custom: '900px', // Add your custom breakpoint here
+  //   xxl: '1600px',
+  //   always: 'always',
+  //   all: 'all',
+  // };  
+
+  useEffect(() => {
+    // Collapse the sidebar on small screens
+    if (isSmallScreen) {
+      setIsCollapsed(true);
+    } else {
+      setIsCollapsed(false);
+    }
+  }, [isSmallScreen, setIsCollapsed]);
+
   return (
     <Box>
       <Sidebar
         collapsed={isCollapsed}
         rootStyles={{ height: "100%", borderRight: "none" }}
+        // breakPoint={BREAK_POINTS.custom}
       >
         <Menu
           iconShape="square"

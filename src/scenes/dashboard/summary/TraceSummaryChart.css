@@ -1,15 +1,48 @@
 @media (max-width: 768px) {
-    /* .main-content {
-        background-color: red;
-    } */
+    .main-content {
+        overflow-y: auto;
+        height: 147vh;
+    }
     .content {
-        width: 110vh;
-        height: calc(179vh - 50px);
-        /* height: 165vh; */
+        background-color: blue;
+        /* width: calc(100vw - 20px); */
+        width: 110%;
+        align-items: center;
     }
     .dashboards {
         display: flex;
         flex-direction: column;
+        overflow-y: auto;
+        height: auto;
+    }
+    /* .charts {
+        display: flex;
+        flex-direction: column;
+    } */
+    .chart-1 {
+        width: calc(40px - 20px);
+    }
+    .chart-2 {
+        width: calc(40px - 20px);
+    }
+    .chart-3 {
+        width: calc(40px - 20px);
+    }
+}
+
+@media (max-width: 1023px) {
+    .main-content {
+        /* overflow-y: auto; */
+        /* height: 100vh; */
+    }
+    .content {
+        background-color: blue;
+        width: 170vh;
+    }
+    .dashboards {
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
         height: auto;
     }
     .charts {

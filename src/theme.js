@@ -185,6 +185,15 @@ export const tokens = (mode) => ({
       }),
 });
 
+const customBreakpoints = {
+  xs: 0,
+  sm: 800,
+  md: 960,
+  lg: 1280,
+  xl: 1920,
+};
+
+
 //MUI Theme settings
 export const themeSettings = (mode) => {
   const colors = tokens(mode);
@@ -269,6 +278,9 @@ export const themeSettings = (mode) => {
         fontFamily: ["Red Hat Display", "Sans serif"].join(","),
         fontSize: 10,
       },
+    },
+    breakpoints: {
+      values: customBreakpoints,
     },
   };
 };
