@@ -13,6 +13,7 @@ import {
   Select,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
@@ -100,6 +101,8 @@ const DashboardTopBar = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const FilterbuttonStyle = {
     backgroundColor: theme.palette.mode === "light" ? "#339999" : "#A9A9A9",
@@ -626,7 +629,7 @@ const DashboardTopBar = () => {
           </Box>
         </Toolbar>
         <div style={{ marginTop: "-25px", marginLeft: "13px" }} >
-          {window.location.pathname === "/mainpage/dashboard" ||
+          {isSmallScreen ? null : (window.location.pathname === "/mainpage/dashboard" ||
             window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
             <Tabs
               value={activeTab}
@@ -647,7 +650,7 @@ const DashboardTopBar = () => {
               <Tab label="Db Summary" sx={{ color: "#FFF" }} />
               <Tab label="Kafka Summary" sx={{ color: "#FFF" }} />
             </Tabs>
-          ) : null}
+          ) : null)}
           <Box sx={{ alignItems: "flex-start", marginLeft: "25px", padding: "5px", marginTop: "5px" }}>
             {window.location.pathname === "/mainpage/traces" ? (
               <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>
