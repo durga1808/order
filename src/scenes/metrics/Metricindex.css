@@ -1,0 +1,38 @@
+.index-container {
+  height: calc(88vh - 70px);
+  overflow-y: auto;
+}
+
+@media screen and (max-width: 768px) {
+  /* Example: Reduce margin for cards  */
+  .card-style {
+    margin: 10px;
+  }
+
+  /* Example: Adjust the height of LineChart */
+  .line-chart {
+    height: 25vh;
+  }
+
+  .index-container {
+    height: calc(128vh - 70px);
+    overflow-y: auto;
+    /* height: 131vh; */
+  }
+}
+
+/*mobile L */
+@media screen and (max-width: 425px) {
+  .card-style {
+    margin: 5px;
+  }
+
+  .line-chart {
+    height: 20vh;
+  }
+
+  .index-container {
+    height: calc(148vh - 70px);
+    /* overflow-y: auto ; */
+  }
+}
