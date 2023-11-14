@@ -29,6 +29,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
+import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
 
 
 const DashboardTopBar = () => {
@@ -626,6 +627,46 @@ const DashboardTopBar = () => {
                 </Tooltip>
               </Box>
             </div>
+
+            {isSmallScreen ? (
+            <div
+              style={{
+                alignItems: "center",
+                marginBottom: "20px",
+                // marginRight: "10px",
+                marginTop: "9px",
+              }}
+            >
+              <label
+                style={{
+                  fontSize: "10px",
+                  marginBottom: "5px",
+                  marginLeft: "5px",
+                  color: colors.tabColor[500],
+                }}>
+                  Filter
+              </label>
+              <Box 
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  position: "relative",
+                }}>
+                  <Tooltip title="Filter">
+                    <IconButton
+                      sx={{ mr: 2 }}
+                      // onClick={handleRefreshClick}
+                      // aria-label="Refresh"
+                      style={FilterbuttonStyle}
+                    >
+                      <FilterAltRoundedIcon style={RefreshiconStyle} />
+                    </IconButton>
+                  </Tooltip>
+              </Box>
+            </div>
+            ) : null}
           </Box>
         </Toolbar>
         <div style={{ marginTop: "-25px", marginLeft: "13px" }} >

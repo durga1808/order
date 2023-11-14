@@ -31,7 +31,7 @@ function Topbar() {
   const appBarStyles = {
     height: "50px",
     // width: "768px",
-    width:isSmallScreen? "768px":"100%"
+    // width:isSmallScreen? "768px":"100%"
   };
 
   const handleColorMode = () => {
