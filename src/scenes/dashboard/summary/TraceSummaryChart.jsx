@@ -1,7 +1,7 @@
 import React, { useState,memo } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Grid, Typography, useTheme } from "@mui/material";
+import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import ApiCallCount from "./TraceCharts/ApiCallCount";
 import PeakLatencyChart from "./TraceCharts/PeakLatencyChart";
 import ErrSucssCallCountChart from "./TraceCharts/ErrSucssCallCountChart";
@@ -35,6 +35,7 @@ const TraceBarChart = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const traceSummaryApiCall = useCallback(async () => {
     try {
@@ -145,7 +146,7 @@ const TraceBarChart = () => {
             className="content"
             style={{
               // maxHeight: "82.5vh",
-              maxHeight: "73vh",
+              maxHeight: isSmallScreen ? "auto" : "73vh",
               // overflowY: "auto",
               width: "100%"
             }}
@@ -154,7 +155,7 @@ const TraceBarChart = () => {
               {" "}
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(40vh - 40px)", color: theme.palette.mode === "dark"?"white":"black" }} classes="chart-1">
+                  <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(40vh - 40px)", width: isSmallScreen ? "calc(1000px - 40px)" : "", color: theme.palette.mode === "dark"?"white":"black" }} classes="chart-1">
                     <CardContent>
                       {hasErrChartData || hasSuccChartData ? (
                         <ErrSucssCallCountChart
@@ -201,7 +202,7 @@ const TraceBarChart = () => {
               <Grid container spacing={2}>
                 {" "}
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 32px)", color: theme.palette.mode === "dark" ? "white" : "black" }} classes="chart-2">
+                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 32px)", width: isSmallScreen ? "calc(1000px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" }} classes="chart-2">
                     <CardContent>
                       {/* {integrationdata.map((items) =>
                         items.apiCallCount !== 0 ? (
@@ -225,7 +226,7 @@ const TraceBarChart = () => {
                   </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 32px)", color: theme.palette.mode === "dark" ? "white" : "black" }} classes="chart-3">
+                  <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 32px)", width: isSmallScreen ? "calc(1000px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" }} classes="chart-3">
                     <CardContent>
                       <PeakLatencyChart />
                     </CardContent>

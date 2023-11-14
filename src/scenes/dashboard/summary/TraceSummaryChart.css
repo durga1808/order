@@ -1,19 +1,24 @@
-@media (max-width: 768px) {
+@media (max-width: 768px) and (min-width: 320px) {
     .main-content {
         overflow-y: auto;
-        height: 147vh;
+        /* height: 147vh; */
+        /* height: calc(127vh - 50px); */
+        max-height: calc(147vh - 50px);
     }
     .content {
         background-color: blue;
         /* width: calc(100vw - 20px); */
-        width: 110%;
+        /* width: 110%; */
+        width: calc(110vh - 20px);
+        /* height: auto; */
+        height: calc(100% - 50px);
         align-items: center;
     }
     .dashboards {
         display: flex;
         flex-direction: column;
         overflow-y: auto;
-        height: auto;
+        /* height: auto; */
     }
     /* .charts {
         display: flex;
@@ -33,16 +38,20 @@
 @media (max-width: 1023px) {
     .main-content {
         /* overflow-y: auto; */
-        /* height: 100vh; */
+        /* max-height: calc(147vh - 50px); */
     }
     .content {
         background-color: blue;
         width: 170vh;
+        height: auto;
+        /* overflow-y: auto; */
+        /* height: 125vh; */
     }
     .dashboards {
         display: flex;
         flex-direction: column;
         overflow-y: auto;
+        /* height: 125vh; */
         height: auto;
     }
     .charts {

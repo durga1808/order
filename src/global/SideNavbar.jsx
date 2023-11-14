@@ -50,18 +50,20 @@ const SideNavbar = () => {
   //   all: 'all',
   // };  
 
-  useEffect(() => {
-    // Collapse the sidebar on small screens
-    if (isSmallScreen) {
-      setIsCollapsed(true);
-    } else {
-      setIsCollapsed(false);
-    }
-  }, [isSmallScreen, setIsCollapsed]);
+  // useEffect(() => {
+ 
+  //   if (isSmallScreen) {
+  //     setIsCollapsed(true);
+  //   } else {
+  //     setIsCollapsed(false);
+  //   }
+  // }, [isSmallScreen, setIsCollapsed]);
 
   return (
     <Box>
-      <Sidebar
+
+
+      {isSmallScreen?null:<Sidebar
         collapsed={isCollapsed}
         rootStyles={{ height: "100%", borderRight: "none" }}
         // breakPoint={BREAK_POINTS.custom}
@@ -219,7 +221,8 @@ const SideNavbar = () => {
             <Typography variant="h6">LOGS</Typography>
           </MenuItem> */}
         </Menu>
-      </Sidebar>
+      </Sidebar>}
+      
     </Box>
   );
 };

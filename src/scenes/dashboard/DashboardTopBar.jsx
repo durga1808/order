@@ -13,6 +13,7 @@ import {
   Select,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +29,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
+import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
 
 
 const DashboardTopBar = () => {
@@ -100,6 +102,8 @@ const DashboardTopBar = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const FilterbuttonStyle = {
     backgroundColor: theme.palette.mode === "light" ? "#339999" : "#A9A9A9",
@@ -623,10 +627,50 @@ const DashboardTopBar = () => {
                 </Tooltip>
               </Box>
             </div>
+
+            {isSmallScreen ? (
+            <div
+              style={{
+                alignItems: "center",
+                marginBottom: "20px",
+                // marginRight: "10px",
+                marginTop: "9px",
+              }}
+            >
+              <label
+                style={{
+                  fontSize: "10px",
+                  marginBottom: "5px",
+                  marginLeft: "5px",
+                  color: colors.tabColor[500],
+                }}>
+                  Filter
+              </label>
+              <Box 
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  display: "flex",
+                  justifyContent: "center",
+                  position: "relative",
+                }}>
+                  <Tooltip title="Filter">
+                    <IconButton
+                      sx={{ mr: 2 }}
+                      // onClick={handleRefreshClick}
+                      // aria-label="Refresh"
+                      style={FilterbuttonStyle}
+                    >
+                      <FilterAltRoundedIcon style={RefreshiconStyle} />
+                    </IconButton>
+                  </Tooltip>
+              </Box>
+            </div>
+            ) : null}
           </Box>
         </Toolbar>
         <div style={{ marginTop: "-25px", marginLeft: "13px" }} >
-          {window.location.pathname === "/mainpage/dashboard" ||
+          {isSmallScreen ? null : (window.location.pathname === "/mainpage/dashboard" ||
             window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
             <Tabs
               value={activeTab}
@@ -647,7 +691,7 @@ const DashboardTopBar = () => {
               <Tab label="Db Summary" sx={{ color: "#FFF" }} />
               <Tab label="Kafka Summary" sx={{ color: "#FFF" }} />
             </Tabs>
-          ) : null}
+          ) : null)}
           <Box sx={{ alignItems: "flex-start", marginLeft: "25px", padding: "5px", marginTop: "5px" }}>
             {window.location.pathname === "/mainpage/traces" ? (
               <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>
