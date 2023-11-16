@@ -8,6 +8,7 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../theme";
 import {
   Box,
+  Drawer,
   IconButton,
   MenuItem,
   Select,
@@ -29,7 +30,8 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
-import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
+import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
+import DashboardTab from "./DashboardTab";
 
 
 const DashboardTopBar = () => {
@@ -90,7 +92,9 @@ const DashboardTopBar = () => {
     setShowError,
     navActiveTab,
     setNavActiveTab,
-    setMinMaxError
+    setMinMaxError,
+    openDrawer,
+    setOpenDrawer,
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -99,11 +103,12 @@ const DashboardTopBar = () => {
   const [endDate, setEndDate] = useState(null);
   const [previousStartDate, setPreviousStartDate] = useState(false);
 
-
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+
+  // const [dashboardMenuAnchor, setDashboardMenuAnchor] = useState(null);
 
   const FilterbuttonStyle = {
     backgroundColor: theme.palette.mode === "light" ? "#339999" : "#A9A9A9",
@@ -111,12 +116,16 @@ const DashboardTopBar = () => {
 
   const RefreshiconStyle = { fontSize: "20px", color: colors.tabColor[500] };
 
+  // const handleDashboardTabClick = (event) => {
+  //   setDashboardMenuAnchor(event.currentTarget);
+  // };  
+
   const iconStyle = {
     fontSize: "20px",
     color:
       window.location.pathname === "/mainpage/traces" ||
-        window.location.pathname === "/mainpage/metrics" ||
-        window.location.pathname === "/mainpage/logs"
+      window.location.pathname === "/mainpage/metrics" ||
+      window.location.pathname === "/mainpage/logs"
         ? colors.tabColor[500]
         : "#666663",
   };
@@ -185,9 +194,23 @@ const DashboardTopBar = () => {
     } else if (newValue === 2) {
       navigate("/mainpage/dashboard/dbSummary");
     } else if (newValue === 3) {
-      navigate("/mainpage/dashboard/kafkaSummary")
+      navigate("/mainpage/dashboard/kafkaSummary");
     }
     setActiveTab(newValue);
+  };
+  
+  const handleDashboardOptionSelect = (option) => {
+    console.log("Selected option:", option);
+    if (option === "Trace Summary") {
+      navigate("/mainpage/dashboard");
+    } 
+    else if (option === "Log Summary") {
+      navigate("/mainpage/dashboard/logSummary");
+    } else if (option === "Db Summary") {
+      navigate("/mainpage/dashboard/dbSummary");
+    } else if (option === "Kafka Summary") {
+      navigate("/mainpage/dashboard/kafkaSummary");
+    }
   };
 
   const handleTabChangePages = (event, newValue) => {
@@ -285,7 +308,6 @@ const DashboardTopBar = () => {
       setEndDate(null);
     }
 
-
     setStartDate(date);
   };
 
@@ -301,15 +323,29 @@ const DashboardTopBar = () => {
       setTraceGlobalError(null);
       setSelectedEndDate(formattedDate);
       setEndDate(date);
-
     }
   };
+
+  // { window.location.pathname === "/mainpage/traces" ||
+  // window.location.pathname === "/mainpage/metrics" ||
+  // window.location.pathname === "/mainpage/logs" ?toggleDrawer:null}
+
+  const toggleDrawer = () => {
+
+    setOpenDrawer(!openDrawer)
+  
+  };
+
   const appBarStyles = {
     height: "70px",
   };
   return (
     <>
-      <AppBar position="static" elevation={3} style={{ backgroundColor: colors.primary[400] }} >
+      <AppBar
+        position="static"
+        elevation={3}
+        style={{ backgroundColor: colors.primary[400] }}
+      >
         <Toolbar
           style={{
             display: "flex",
@@ -318,11 +354,36 @@ const DashboardTopBar = () => {
             // minHeight: "120px"
           }}
         >
-          <div >
+          {isSmallScreen ? <div >
             {window.location.pathname === "/mainpage/dashboard" ||
               window.location.pathname === "/mainpage/traces" ||
               window.location.pathname === "/mainpage/metrics" ||
               window.location.pathname === "/mainpage/logs" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
+              <Tabs
+                value={navActiveTab}
+                onChange={handleTabChangePages}
+                TabIndicatorProps={{
+                  sx: {
+                    borderRadius: 3,
+                  },
+                }}
+                textColor="inherit"
+                indicatorColor="primary">
+                <Tab label={<DashboardTab onDashboardOptionSelect={handleDashboardOptionSelect} />} sx={{ color: "#FFF" }} />
+                <Tab label="Traces" sx={{ color: "#FFF" }} />
+                <Tab label="Metrics" sx={{ color: "#FFF" }} />
+                <Tab label="Logs" sx={{ color: "#FFF" }} />
+              </Tabs>
+            ) : null}
+          </div> : (
+          <div >
+            {window.location.pathname === "/mainpage/dashboard" ||
+            window.location.pathname === "/mainpage/traces" ||
+            window.location.pathname === "/mainpage/metrics" ||
+            window.location.pathname === "/mainpage/logs" ||
+            window.location.pathname === "/mainpage/dashboard/logSummary" ||
+            window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+            window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
               <Tabs
                 value={navActiveTab}
                 onChange={handleTabChangePages}
@@ -334,14 +395,15 @@ const DashboardTopBar = () => {
                   },
                 }}
                 textColor="inherit"
-                indicatorColor="primary">
+                indicatorColor="primary"
+              >
                 <Tab label="Dashboard" sx={{ color: "#FFF" }} />
                 <Tab label="Traces" sx={{ color: "#FFF" }} />
                 <Tab label="Metrics" sx={{ color: "#FFF" }} />
                 <Tab label="Logs" sx={{ color: "#FFF" }} />
               </Tabs>
             ) : null}
-          </div>
+          </div> )}
           <Box
             sx={{
               display: "flex",
@@ -542,8 +604,8 @@ const DashboardTopBar = () => {
                           ? "#B3B3AD"
                           : "#FFF"
                         : endDate !== null || previousStartDate
-                          ? "lightgray"
-                          : "#000",
+                        ? "lightgray"
+                        : "#000",
                     padding: "7px 16px",
                     "& .MuiSelect-icon": {
                       color:
@@ -552,8 +614,8 @@ const DashboardTopBar = () => {
                             ? "#B3B3AD"
                             : "#FFF"
                           : endDate !== null || previousStartDate
-                            ? "lightgray"
-                            : "#000", // Customize the dropdown arrow color
+                          ? "lightgray"
+                          : "#000", // Customize the dropdown arrow color
                     },
                     "& .MuiSelect-root": {
                       color: "#000", // Customize the dropdown text color
@@ -577,8 +639,8 @@ const DashboardTopBar = () => {
                               ? "#666663"
                               : "#FFF"
                             : endDate !== null || previousStartDate
-                              ? "lightgray"
-                              : "#000",
+                            ? "lightgray"
+                            : "#000",
                       }}
                     >
                       {option.label}
@@ -629,49 +691,54 @@ const DashboardTopBar = () => {
             </div>
 
             {isSmallScreen ? (
-            <div
-              style={{
-                alignItems: "center",
-                marginBottom: "20px",
-                // marginRight: "10px",
-                marginTop: "9px",
-              }}
-            >
-              <label
+              <div
                 style={{
-                  fontSize: "10px",
-                  marginBottom: "5px",
-                  marginLeft: "5px",
-                  color: colors.tabColor[500],
-                }}>
+                  alignItems: "center",
+                  marginBottom: "20px",
+                  // marginRight: "10px",
+                  marginTop: "9px",
+                }}
+              >
+                <label
+                  style={{
+                    fontSize: "10px",
+                    marginBottom: "5px",
+                    marginLeft: "5px",
+                    color: colors.tabColor[500],
+                  }}
+                >
                   Filter
-              </label>
-              <Box 
-                sx={{
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  justifyContent: "center",
-                  position: "relative",
-                }}>
+                </label>
+                <Box
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    position: "relative",
+                  }}
+                >
                   <Tooltip title="Filter">
                     <IconButton
                       sx={{ mr: 2 }}
-                      // onClick={handleRefreshClick}
+                      onClick={toggleDrawer}
                       // aria-label="Refresh"
                       style={FilterbuttonStyle}
                     >
                       <FilterAltRoundedIcon style={RefreshiconStyle} />
                     </IconButton>
                   </Tooltip>
-              </Box>
-            </div>
+                </Box>
+              </div>
             ) : null}
           </Box>
         </Toolbar>
-        <div style={{ marginTop: "-25px", marginLeft: "13px" }} >
-          {isSmallScreen ? null : (window.location.pathname === "/mainpage/dashboard" ||
-            window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
+        <div style={{ marginTop: "-25px", marginLeft: "13px" }}>
+          {isSmallScreen ? null : window.location.pathname ===
+              "/mainpage/dashboard" ||
+            window.location.pathname === "/mainpage/dashboard/logSummary" ||
+            window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+            window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -691,21 +758,55 @@ const DashboardTopBar = () => {
               <Tab label="Db Summary" sx={{ color: "#FFF" }} />
               <Tab label="Kafka Summary" sx={{ color: "#FFF" }} />
             </Tabs>
-          ) : null)}
-          <Box sx={{ alignItems: "flex-start", marginLeft: "25px", padding: "5px", marginTop: "5px" }}>
+          ) : null}
+
+          {window.location.pathname === "/mainpage/traces" ? (
+            <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
+              <FilterDialog />
+            </Drawer>
+          ) : null}
+
+          {window.location.pathname === "/mainpage/metrics" ? (
+            <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
+              <Metricfilter />
+            </Drawer>
+          ) : null}
+
+          {window.location.pathname === "/mainpage/logs" ? (
+            <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
+              <Logfilter />
+            </Drawer>
+          ) : null}
+          <Box
+            sx={{
+              alignItems: "flex-start",
+              marginLeft: "25px",
+              padding: "5px",
+              marginTop: "5px",
+            }}
+          >
             {window.location.pathname === "/mainpage/traces" ? (
               <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>
-                TRACES {traceDisplayService.length > 0 ? `(${traceDisplayService.join(', ')})` : ''}
+                TRACES{" "}
+                {traceDisplayService.length > 0
+                  ? `(${traceDisplayService.join(", ")})`
+                  : ""}
               </Typography>
             ) : window.location.pathname === "/mainpage/metrics" ? (
-              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>METRICS {`(${selectedService})`}</Typography>
+              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>
+                METRICS {`(${selectedService})`}
+              </Typography>
             ) : window.location.pathname === "/mainpage/logs" ? (
-              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>LOGS {selectedLogService.length > 0 ? `(${selectedLogService.join(', ')})` : ''}</Typography>
+              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>
+                LOGS{" "}
+                {selectedLogService.length > 0
+                  ? `(${selectedLogService.join(", ")})`
+                  : ""}
+              </Typography>
             ) : null}
           </Box>
         </div>
       </AppBar>
-
     </>
   );
 };

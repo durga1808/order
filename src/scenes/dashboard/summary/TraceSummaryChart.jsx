@@ -129,7 +129,11 @@ const TraceBarChart = () => {
   // const chartWidth3 = isCollapsed ? 'calc(85vh - 20px)' : 'calc(75vh - 15px)'
 
   return (
-    <div className="main-content">
+    <div className="main-content" 
+    // style={{
+    //   overflowY: isSmallScreen? "auto" : "",
+    // }}
+    >
       {loading ? (
         <Loading />
       ) : emptyMessage ? (<div className="empty-message" style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "73vh" }}>
@@ -143,7 +147,7 @@ const TraceBarChart = () => {
       </div>) : integrationdata.length !== 0 ? (
         <div>
           <div
-            className="content"
+            className="content-trace"
             style={{
               // maxHeight: "82.5vh",
               maxHeight: isSmallScreen ? "auto" : "73vh",
@@ -155,7 +159,7 @@ const TraceBarChart = () => {
               {" "}
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(40vh - 40px)", width: isSmallScreen ? "calc(1000px - 40px)" : "", color: theme.palette.mode === "dark"?"white":"black" }} classes="chart-1">
+                  <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: isSmallScreen ? "" : "calc(42vh - 40px)", width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark"?"white":"black" }}>
                     <CardContent>
                       {hasErrChartData || hasSuccChartData ? (
                         <ErrSucssCallCountChart
@@ -198,11 +202,11 @@ const TraceBarChart = () => {
                 />
               ) : null}
               <ServiceTable selectedService={selectedService} /> */}
-            <div className="charts">
+            <div>
               <Grid container spacing={2}>
                 {" "}
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 32px)", width: isSmallScreen ? "calc(1000px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" }} classes="chart-2">
+                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", height: isSmallScreen ? "" : "calc(42vh - 32px)", width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" }}>
                     <CardContent>
                       {/* {integrationdata.map((items) =>
                         items.apiCallCount !== 0 ? (
@@ -226,7 +230,7 @@ const TraceBarChart = () => {
                   </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 32px)", width: isSmallScreen ? "calc(1000px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" }} classes="chart-3">
+                  <Card elevation={3} style={{ margin: isSmallScreen ? "5px 15px 5px 25px" : "5px 25px 5px 15px", height: isSmallScreen ? "" : "calc(42vh - 32px)", width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" }}>
                     <CardContent>
                       <PeakLatencyChart />
                     </CardContent>

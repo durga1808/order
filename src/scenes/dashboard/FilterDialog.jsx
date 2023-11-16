@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Drawer, Divider, IconButton, useTheme } from "@mui/material";
+import { Drawer, Divider, IconButton, useTheme, useMediaQuery } from "@mui/material";
 import { List, ListItem } from "@mui/material";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -38,7 +38,9 @@ const FilterDialog = () => {
     selectedHttpMethod,
     setSelectedHttpMethod,
     minMaxError,
-    setMinMaxError
+    setMinMaxError,
+    openDrawer,
+    setOpenDrawer
   } = useContext(GlobalContext);
   const [services, setServices] = useState(
     JSON.parse(localStorage.getItem("serviceListData"))
@@ -48,6 +50,7 @@ const FilterDialog = () => {
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const codesNew = [
     {
@@ -207,6 +210,7 @@ const FilterDialog = () => {
   }, [clearTraceFilter]);
 
   const handleApplyButtonClick = () => {
+    setOpenDrawer(false)
     const payload = {
       duration: {
         minValue: minDurationValue,
@@ -273,7 +277,7 @@ const FilterDialog = () => {
   };
 
   return (
-    <div className="custom-drawer" style={{ backgroundColor: colors.primary[400], overflowY: "auto", height: "82vh" }}>
+    <div className="custom-drawer" style={{ backgroundColor: colors.primary[400],overflowY: "auto", height: "82vh" }}>
       <style>
         {`
 
