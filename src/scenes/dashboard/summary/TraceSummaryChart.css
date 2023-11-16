@@ -1,61 +1,29 @@
-@media (max-width: 768px) and (min-width: 320px) {
+@media screen and (max-width: 768px) and (min-width: 320px) {
     .main-content {
-        overflow-y: auto;
-        /* height: 147vh; */
-        /* height: calc(127vh - 50px); */
-        max-height: calc(147vh - 50px);
+        overflow-x: auto;
+        height: calc(133vh - 50px);
     }
-    .content {
-        background-color: blue;
-        /* width: calc(100vw - 20px); */
-        /* width: 110%; */
+    .content-trace {
+        /* background-color: blue; */
         width: calc(110vh - 20px);
-        /* height: auto; */
         height: calc(100% - 50px);
         align-items: center;
     }
-    .dashboards {
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto;
-        /* height: auto; */
-    }
-    /* .charts {
-        display: flex;
-        flex-direction: column;
-    } */
-    .chart-1 {
-        width: calc(40px - 20px);
-    }
-    .chart-2 {
-        width: calc(40px - 20px);
-    }
-    .chart-3 {
-        width: calc(40px - 20px);
-    }
 }
 
-@media (max-width: 1023px) {
+@media screen and (max-width: 1024px) {
     .main-content {
         /* overflow-y: auto; */
         /* max-height: calc(147vh - 50px); */
     }
     .content {
-        background-color: blue;
         width: 170vh;
         height: auto;
-        /* overflow-y: auto; */
-        /* height: 125vh; */
     }
     .dashboards {
         display: flex;
         flex-direction: column;
         overflow-y: auto;
-        /* height: 125vh; */
         height: auto;
-    }
-    .charts {
-        display: flex;
-        flex-direction: column;
     }
 }

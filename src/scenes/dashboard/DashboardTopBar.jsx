@@ -30,6 +30,7 @@ import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
 import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
+import DashboardTab from "./DashboardTab";
 
 
 const DashboardTopBar = () => {
@@ -105,11 +106,17 @@ const DashboardTopBar = () => {
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
+  // const [dashboardMenuAnchor, setDashboardMenuAnchor] = useState(null);
+
   const FilterbuttonStyle = {
     backgroundColor: theme.palette.mode === "light" ? "#339999" : "#A9A9A9",
   };
 
   const RefreshiconStyle = { fontSize: "20px", color: colors.tabColor[500] };
+
+  // const handleDashboardTabClick = (event) => {
+  //   setDashboardMenuAnchor(event.currentTarget);
+  // };  
 
   const iconStyle = {
     fontSize: "20px",
@@ -188,6 +195,20 @@ const DashboardTopBar = () => {
       navigate("/mainpage/dashboard/kafkaSummary")
     }
     setActiveTab(newValue);
+  };
+  
+  const handleDashboardOptionSelect = (option) => {
+    console.log("Selected option:", option);
+    if (option === "Trace Summary") {
+      navigate("/mainpage/dashboard");
+    } 
+    else if (option === "Log Summary") {
+      navigate("/mainpage/dashboard/logSummary");
+    } else if (option === "Db Summary") {
+      navigate("/mainpage/dashboard/dbSummary");
+    } else if (option === "Kafka Summary") {
+      navigate("/mainpage/dashboard/kafkaSummary");
+    }
   };
 
   const handleTabChangePages = (event, newValue) => {
@@ -318,6 +339,28 @@ const DashboardTopBar = () => {
             // minHeight: "120px"
           }}
         >
+          {isSmallScreen ? <div >
+            {window.location.pathname === "/mainpage/dashboard" ||
+              window.location.pathname === "/mainpage/traces" ||
+              window.location.pathname === "/mainpage/metrics" ||
+              window.location.pathname === "/mainpage/logs" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
+              <Tabs
+                value={navActiveTab}
+                onChange={handleTabChangePages}
+                TabIndicatorProps={{
+                  sx: {
+                    borderRadius: 3,
+                  },
+                }}
+                textColor="inherit"
+                indicatorColor="primary">
+                <Tab label={<DashboardTab onDashboardOptionSelect={handleDashboardOptionSelect} />} sx={{ color: "#FFF" }} />
+                <Tab label="Traces" sx={{ color: "#FFF" }} />
+                <Tab label="Metrics" sx={{ color: "#FFF" }} />
+                <Tab label="Logs" sx={{ color: "#FFF" }} />
+              </Tabs>
+            ) : null}
+          </div> : (
           <div >
             {window.location.pathname === "/mainpage/dashboard" ||
               window.location.pathname === "/mainpage/traces" ||
@@ -341,7 +384,7 @@ const DashboardTopBar = () => {
                 <Tab label="Logs" sx={{ color: "#FFF" }} />
               </Tabs>
             ) : null}
-          </div>
+          </div> )}
           <Box
             sx={{
               display: "flex",
