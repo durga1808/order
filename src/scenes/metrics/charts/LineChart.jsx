@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import ReactApexChart from "react-apexcharts";
-import { useTheme, Box } from "@mui/material";
+import { useTheme, Box, useMediaQuery } from "@mui/material";
 import { tokens } from "../../../theme";
 import { GlobalContext } from "../../../global/globalContext/GlobalContext";
 
@@ -8,6 +8,8 @@ const LineChart = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { isCollapsed } = useContext(GlobalContext);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   const series = [
     {
@@ -146,7 +148,7 @@ const LineChart = ({ data }) => {
             options={options}
             series={series}
             type="area"
-            height={"90%"}
+            height={isSmallScreen ? "145%" : "90%"}
             // width={isCollapsed?1380:1210}
             width={"100%"}
           />

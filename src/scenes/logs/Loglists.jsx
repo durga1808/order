@@ -21,6 +21,7 @@ import {
   useTheme,
   Select,
   MenuItem,
+  useMediaQuery,
 } from "@mui/material";
 import "./Loglists.css";
 import React, { useContext, useState } from "react";
@@ -127,6 +128,7 @@ const Loglists = () => {
   const [getAllMessage, setGetAllMessage] = useState("");
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
 
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 
   const handlecardclose = () => {
     setIsCardVisible(false);
@@ -773,7 +775,7 @@ const Loglists = () => {
             sx={{
               padding: "20px",
               marginTop: "10px",
-              height: "calc(73vh - 72px)"
+              height: isSmallScreen ? "calc(90vh - 72px)" : "calc(73vh - 72px)"
             }}
           >
             <div>
@@ -826,7 +828,7 @@ const Loglists = () => {
                   {" "}
                   <TableContainer
                     sx={{
-                      maxHeight: "calc(66vh - 85px)",
+                      maxHeight: isSmallScreen ? "calc(86vh - 85px)" : "calc(66vh - 85px)",
                       overflowY: "auto",
                     }}
                   >
@@ -1085,7 +1087,7 @@ const Loglists = () => {
             {" "}
             <Card
               sx={{
-                height: "79.5vh",
+                height: isSmallScreen ? "90vh" : "79.5vh",
                 paddingBottom: "30px",
                 overflowY: "auto",
               }}
@@ -1097,7 +1099,7 @@ const Loglists = () => {
                   <IconButton
                     aria-label="close"
                     onClick={handlecardclose}
-                    style={{ bottom: 10, left: 120 }}
+                    style={{ bottom: isSmallScreen ? 10 : 10, left: isSmallScreen ? 70 : 100 }}
                   >
                     <CloseIcon />
                   </IconButton>

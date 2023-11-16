@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import LineChart from "./charts/LineChart";
 import Box from "@mui/material/Box";
-import { Card, Typography, useTheme } from "@mui/material";
+import { Card, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
@@ -69,6 +69,8 @@ const Metrics = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
   // const handleServiceChange = (event) => {
   //   console.log("Service " + event.target.value);
@@ -188,7 +190,7 @@ const Metrics = () => {
                 elevation={6}
                 // padding="10px"
                 // sx={{backgroundColor:colors.primary[500]}}
-                style={{ margin: "20px 20px 10px 20px", height: "35vh", color: "black" }}
+                style={{ margin: "20px 20px 10px 20px", height: isSmallScreen ? "58vh" : "35vh", color: "black" }}
               >
                 
                 <LineChart data={mock}  className="line-chart"  />

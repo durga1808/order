@@ -1,11 +1,12 @@
-import { Box } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 import React from 'react'
 import Loglists from './Loglists'
 
 const Logs = () => {
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
     return (
-        <div style={{ overflowY: "auto", height: "calc(79% - 10px)" }}>
+        <div style={{ overflowY: isSmallScreen ? "" : "auto", height: "calc(79% - 10px)" }}>
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "normal", margin: "20px" }}>
                 <Loglists />
             </Box>
