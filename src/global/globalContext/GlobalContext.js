@@ -13,6 +13,9 @@ const GlobalContextProvider = ({ children }) => {
     const [selectedSpan, setSelectedSpan] = useState({ attributes: [] });
     const [traceData, setTraceData] = useState([]);
 
+
+    const [openDrawer, setOpenDrawer] = useState(false);
+
     const defaultValue = 120;
     const defaultLabel = options.find((option) => option.value === defaultValue);
     const [lookBackVal, setLookBackVal] = useState(defaultLabel);
@@ -179,7 +182,9 @@ const GlobalContextProvider = ({ children }) => {
                 selectedSeverity,
                 setSelectedSeverity,
                 minMaxError,
-                setMinMaxError
+                setMinMaxError,
+                openDrawer,
+                setOpenDrawer
             }}
         >
             {children}
