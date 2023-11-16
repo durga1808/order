@@ -26,8 +26,13 @@ import { getMetricDataApi } from "../../api/MetricApiService";
 import { tokens } from "../../theme";
 
 const Metricfilter = () => {
-  const { selectedService, setSelectedService, setMetricRender } =
-    useContext(GlobalContext);
+  const {
+    selectedService,
+    setSelectedService,
+    setMetricRender,
+    openDrawer,
+    setOpenDrawer,
+  } = useContext(GlobalContext);
   const [services, setServices] = useState(
     JSON.parse(localStorage.getItem("serviceListData"))
   );
@@ -37,10 +42,13 @@ const Metricfilter = () => {
 
   const clearSelectedOptions = () => {
     setSelectedService([]);
-
   };
 
+  console.log(openDrawer,"openDrawer");
+
   const handleServiceToggle = (service) => () => {
+
+    setOpenDrawer(!openDrawer)
     if (selectedService.includes(service)) {
       setSelectedService(selectedService.filter((item) => item !== service));
     } else {
@@ -50,10 +58,18 @@ const Metricfilter = () => {
     // onClose();
   };
 
-  const handleApplyButtonClick = () => { };
+  const handleApplyButtonClick = () => {};
 
   return (
-    <div className="custom-drawer" style={{ width: "245px", backgroundColor: colors.primary[400], overflowY: "auto", height: "82vh" }}>
+    <div
+      className="custom-drawer"
+      style={{
+        width: "245px",
+        backgroundColor: colors.primary[400],
+        overflowY: "auto",
+        height: "82vh",
+      }}
+    >
       <style>
         {`
 
@@ -89,9 +105,13 @@ const Metricfilter = () => {
         <Divider />
 
         <ListItem>
-          <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
+          <Accordion
+            style={{ width: "500px", backgroundColor: colors.primary[400] }}
+          >
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h5" color={"#fff"}>Service</Typography>
+              <Typography variant="h5" color={"#fff"}>
+                Service
+              </Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -111,7 +131,7 @@ const Metricfilter = () => {
                       }
                       label={service}
                       sx={{
-                        color: 'white',
+                        color: "white",
                       }}
                       onChange={handleServiceToggle(service)}
                     />

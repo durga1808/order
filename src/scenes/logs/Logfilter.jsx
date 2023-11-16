@@ -1,30 +1,61 @@
-import React, { useEffect, useState } from 'react'
-import { Accordion, AccordionDetails, AccordionSummary, Button, Checkbox, Divider, Drawer, FormControlLabel, FormGroup, IconButton, List, ListItem, Typography, useTheme } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
-import { useContext } from 'react';
-import { GlobalContext } from '../../global/globalContext/GlobalContext';
+import React, { useEffect, useState } from "react";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Button,
+  Checkbox,
+  Divider,
+  Drawer,
+  FormControlLabel,
+  FormGroup,
+  IconButton,
+  List,
+  ListItem,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import { useContext } from "react";
+import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { tokens } from "../../theme";
 
 const Logfilter = () => {
   // const [logSelectedService, setLogSelectedService] = useState([]);
   // const [selectedSeverity, setSelectedSeverity] = useState([]);
-  const { setLogFilterApiBody, setNeedLogFilterCall, clearLogFilter, setClearLogFilter, setSelectedLogService, logSelectedService,
-    setLogSelectedService, selectedSeverity,
-    setSelectedSeverity } = useContext(GlobalContext);
-  const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
+  const {
+    setLogFilterApiBody,
+    setNeedLogFilterCall,
+    clearLogFilter,
+    setClearLogFilter,
+    setSelectedLogService,
+    logSelectedService,
+    setLogSelectedService,
+    selectedSeverity,
+    setSelectedSeverity,
+    openDrawer,
+    setOpenDrawer,
+  } = useContext(GlobalContext);
+  const [services, setServices] = useState(
+    JSON.parse(localStorage.getItem("serviceListData"))
+  );
 
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
   // const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
 
-  const severity = ['ERROR', 'SEVERE', 'WARN', 'INFO'];
+  const severity = ["ERROR", "SEVERE", "WARN", "INFO"];
 
   const handleServiceToggle = (service) => () => {
     if (logSelectedService.includes(service)) {
-      setLogSelectedService(logSelectedService.filter((item) => item !== service));
-      setSelectedLogService(logSelectedService.filter((item) => item !== service));
+      setLogSelectedService(
+        logSelectedService.filter((item) => item !== service)
+      );
+      setSelectedLogService(
+        logSelectedService.filter((item) => item !== service)
+      );
     } else {
       setLogSelectedService([...logSelectedService, service]);
       setSelectedLogService([...logSelectedService, service]);
@@ -35,7 +66,7 @@ const Logfilter = () => {
     setLogSelectedService([]);
     setSelectedSeverity([]);
     setSelectedLogService([]);
-  }
+  };
 
   const handleSeverityToggle = (severity) => () => {
     if (selectedSeverity.includes(severity)) {
@@ -43,32 +74,41 @@ const Logfilter = () => {
     } else {
       setSelectedSeverity([...selectedSeverity, severity]);
     }
-  }
+  };
 
   useEffect(() => {
     if (clearLogFilter) {
       clearSelectedOptions();
     }
-  }, [clearLogFilter])
+  }, [clearLogFilter]);
 
   const handleApplyButtonClick = () => {
+
+    setOpenDrawer(!openDrawer)
     const payload = {
       service: logSelectedService,
-      severityText: selectedSeverity
-    }
+      severityText: selectedSeverity,
+    };
 
     const apiBody = {};
 
-    if (payload.service !== null && Array.isArray(payload.service) && payload.service.length > 0) {
+    if (
+      payload.service !== null &&
+      Array.isArray(payload.service) &&
+      payload.service.length > 0
+    ) {
       apiBody.serviceName = payload.service;
     }
 
-    if (payload.severityText !== null && Array.isArray(payload.severityText) && payload.severityText.length > 0) {
+    if (
+      payload.severityText !== null &&
+      Array.isArray(payload.severityText) &&
+      payload.severityText.length > 0
+    ) {
       apiBody.severityText = payload.severityText;
     }
 
-
-    console.log('API Body:', apiBody);
+    console.log("API Body:", apiBody);
 
     if (Object.keys(apiBody).length !== 0) {
       setLogFilterApiBody(apiBody);
@@ -78,14 +118,19 @@ const Logfilter = () => {
       setNeedLogFilterCall(false);
     }
 
-
     // onClose();
-
-  }
-
+  };
 
   return (
-    <div className="custom-drawer" style={{ width: "245px", backgroundColor: colors.primary[400], overflowY: "auto", height: "82vh" }}>
+    <div
+      className="custom-drawer"
+      style={{
+        width: "245px",
+        backgroundColor: colors.primary[400],
+        overflowY: "auto",
+        height: "82vh",
+      }}
+    >
       <style>
         {`
 
@@ -99,25 +144,45 @@ const Logfilter = () => {
       }
     `}
       </style>
-        <List>
-          <ListItem sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
-            <Typography variant="h5" fontWeight="500" color={"#FFF"}>Filter Options</Typography>
-            <Button variant="contained" color='primary' onClick={clearSelectedOptions} sx={{
-                color: window.location.pathname === "/mainpage/dashboard" ||
+      <List>
+        <ListItem
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="h5" fontWeight="500" color={"#FFF"}>
+            Filter Options
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={clearSelectedOptions}
+            sx={{
+              color:
+                window.location.pathname === "/mainpage/dashboard" ||
                 window.location.pathname === "/mainpage/dashboard/logSummary" ||
                 window.location.pathname === "/mainpage/dashboard/dbSummary" ||
                 window.location.pathname === "/mainpage/dashboard/kafkaSummary"
                   ? "lightgrey"
                   : colors.primary[100],
-              }}>Clear</Button>
-            {/* <Button variant="contained" color='primary' onClick={clearSelectedOptions}>Clear</Button> */}
-          </ListItem>
-          <Divider />
+            }}
+          >
+            Clear
+          </Button>
+          {/* <Button variant="contained" color='primary' onClick={clearSelectedOptions}>Clear</Button> */}
+        </ListItem>
+        <Divider />
 
         <ListItem>
-          <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
+          <Accordion
+            style={{ width: "500px", backgroundColor: colors.primary[400] }}
+          >
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h5" color={"#FFF"}>Service</Typography>
+              <Typography variant="h5" color={"#FFF"}>
+                Service
+              </Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -125,37 +190,42 @@ const Logfilter = () => {
                 {services.map((service) => (
                   <FormControlLabel
                     key={service}
-                    control={<Checkbox
-                      checked={logSelectedService.includes(service)}
-                      onChange={handleServiceToggle(service)}
-                      sx={{
-                        // color: '#696969',
-                        // color: '#F2F3F4',
-                        color: '#17202A',
+                    control={
+                      <Checkbox
+                        checked={logSelectedService.includes(service)}
+                        onChange={handleServiceToggle(service)}
+                        sx={{
+                          // color: '#696969',
+                          // color: '#F2F3F4',
+                          color: "#17202A",
 
-                        '&.Mui-checked': {
-                          // color: "blue",
-                          color: "white",
-                        },
-                      }}
-                    />
+                          "&.Mui-checked": {
+                            // color: "blue",
+                            color: "white",
+                          },
+                        }}
+                      />
                     }
                     label={service}
                     sx={{
-                      color: 'white',
+                      color: "white",
                     }}
-                  />))}
+                  />
+                ))}
               </FormGroup>
             </AccordionDetails>
           </Accordion>
-
         </ListItem>
         <Divider />
 
         <ListItem>
-          <Accordion style={{ width: "500px", backgroundColor: colors.primary[400] }}>
+          <Accordion
+            style={{ width: "500px", backgroundColor: colors.primary[400] }}
+          >
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-              <Typography variant="h5" color={"#FFF"}>Severity Changes</Typography>
+              <Typography variant="h5" color={"#FFF"}>
+                Severity Changes
+              </Typography>
             </AccordionSummary>
 
             <AccordionDetails>
@@ -163,40 +233,45 @@ const Logfilter = () => {
                 {severity.map((severity) => (
                   <FormControlLabel
                     key={severity}
-                    control={<Checkbox
-                      checked={selectedSeverity.includes(severity)}
-                      onChange={handleSeverityToggle(severity)}
-                      sx={{
-                        // color: '#696969',
-                        // color: '#F2F3F4',
-                        color: '#17202A',
+                    control={
+                      <Checkbox
+                        checked={selectedSeverity.includes(severity)}
+                        onChange={handleSeverityToggle(severity)}
+                        sx={{
+                          // color: '#696969',
+                          // color: '#F2F3F4',
+                          color: "#17202A",
 
-                        '&.Mui-checked': {
-                          // color: "blue",
-                          color: "white",
-                        },
-                      }}
-                    />
+                          "&.Mui-checked": {
+                            // color: "blue",
+                            color: "white",
+                          },
+                        }}
+                      />
                     }
                     label={severity}
                     sx={{
-                      color: 'white',
+                      color: "white",
                     }}
-                  />))}
+                  />
+                ))}
               </FormGroup>
             </AccordionDetails>
           </Accordion>
         </ListItem>
-
       </List>
 
       <div style={{ padding: "16px" }}>
-        <Button variant="contained" onClick={handleApplyButtonClick} color="primary">
+        <Button
+          variant="contained"
+          onClick={handleApplyButtonClick}
+          color="primary"
+        >
           Apply
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Logfilter
+export default Logfilter;
