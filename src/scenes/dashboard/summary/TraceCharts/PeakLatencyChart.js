@@ -5,7 +5,7 @@ import { useTheme } from "@emotion/react";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 import "./PeakLatencyChart.css";
-import { Button, CircularProgress, InputAdornment, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
+import { Button, CircularProgress, InputAdornment, MenuItem, Select, TextField, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import { useEffect } from "react";
 import { getPeakLatencyFilterData } from "../../../../api/TraceApiService";
 import { useCallback } from "react";
@@ -30,6 +30,9 @@ const PeakLatencyChart = () => {
   const [minDurationValue, setMinDurationValue] = useState(0);
   const [maxDurationValue, setMaxDurationValue] = useState(500);
   const [minMaxError, setMinMaxError] = useState("");
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
 
   // const [FiteredData,setFiteredData] = useState([]);
 
@@ -198,6 +201,8 @@ const PeakLatencyChart = () => {
 
   const chartWidth = isCollapsed ? "calc(100% - 20px)" : "calc(103% - 30px)";
 
+  const chartHeight = (isLandscape && isSmallScreen) ? "200%" : "90%"
+
   return (
     <>
       <div
@@ -313,7 +318,8 @@ const PeakLatencyChart = () => {
       <div
         data-theme={theme.palette.mode}
         style={{
-          height: "calc(40vh - 20px)",
+          // height: "calc(40vh - 20px)",
+          height: (isLandscape && isSmallScreen) ? "calc(45vh - 35px)" : "calc(40vh - 40px)",
           width: chartWidth,
           marginTop: "-30px",
         }}
@@ -354,7 +360,7 @@ const PeakLatencyChart = () => {
             options={peakLatencyOptions}
             series={peakLatencySeries}
             type="bar"
-            height={"80%"}
+            height={chartHeight}
             width={"100%"}
           />
         )}

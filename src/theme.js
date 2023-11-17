@@ -188,9 +188,9 @@ export const tokens = (mode) => ({
 const customBreakpoints = {
   xs: 0,
   sm: 1200,
-  // md: 960,
-  // lg: 1280,
-  // xl: 1920,
+  md: 960,
+  lg: 1280,
+  xl: 1920,
 };
 
 

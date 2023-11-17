@@ -18,6 +18,7 @@ import { GlobalContext } from "../../../global/globalContext/GlobalContext";
 import { useContext } from "react";
 import { async } from "q";
 import { useNavigate } from "react-router-dom";
+import "./LogSummaryChart.css";
 
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
@@ -102,7 +103,7 @@ const LogBarChart = () => {
   );
 
   return (
-    <div>
+    <div className="log-content">
       {loading ? (
         <Loading />
       ) : emptyMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "73vh" }}>

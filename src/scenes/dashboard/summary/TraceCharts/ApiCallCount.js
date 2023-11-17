@@ -4,11 +4,15 @@ import { tokens } from "../../../../theme";
 import { useTheme } from "@emotion/react";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
+import { Box, useMediaQuery } from "@mui/material";
 
 const ApiCallCount = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { isCollapsed } = useContext(GlobalContext);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
 
   const apiCallsOptions = {
     chart: {
@@ -97,8 +101,10 @@ const ApiCallCount = ({ data }) => {
 
   const chartWidth = isCollapsed ? 'calc(100% - 20px)' : 'calc(103% - 20px)'
 
+  const chartHeight = (isLandscape && isSmallScreen) ? "200%" : "90%"
+
   return (
-    <div data-theme={theme.palette.mode} style={{height:"calc(40vh - 20px)",width:chartWidth}} >
+    <Box data-theme={theme.palette.mode} sx={{height:"calc(40vh - 20px)",width:chartWidth}} >
       <ReactApexChart
       style={{
         color: "#000",
@@ -106,10 +112,10 @@ const ApiCallCount = ({ data }) => {
         options={apiCallsOptions}
         series={apiCallsSeries}
         type="bar"
-        height={"90%"}
+        height={chartHeight}
         width={"100%"}
       />
-    </div>
+    </Box>
   );
 };
 
