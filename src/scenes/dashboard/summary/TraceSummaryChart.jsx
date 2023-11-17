@@ -36,6 +36,7 @@ const TraceBarChart = () => {
   const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
 
   const traceSummaryApiCall = useCallback(async () => {
     try {
@@ -130,9 +131,11 @@ const TraceBarChart = () => {
 
   return (
     <div className="main-content" 
-    // style={{
-    //   overflowY: isSmallScreen? "auto" : "",
-    // }}
+    style={{
+      [theme.breakpoints.down("sm")]: {
+        backgroundColor: "grey"
+      },
+    }}
     >
       {loading ? (
         <Loading />
@@ -150,7 +153,7 @@ const TraceBarChart = () => {
             className="content-trace"
             style={{
               // maxHeight: "82.5vh",
-              maxHeight: isSmallScreen ? "auto" : "73vh",
+              maxHeight: isSmallScreen ? "" : "73vh",
               // overflowY: "auto",
               width: "100%"
             }}
@@ -159,7 +162,10 @@ const TraceBarChart = () => {
               {" "}
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: isSmallScreen ? "" : "calc(42vh - 40px)", width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark"?"white":"black" }}>
+                  <Card elevation={3} style={{ margin: "15px 25px 15px 25px",
+                  //  height: isSmallScreen ? "calc(41vh - 40px)" : "calc(40vh - 40px)",
+                  height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
+                    width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark"?"white":"black" }}>
                     <CardContent>
                       {hasErrChartData || hasSuccChartData ? (
                         <ErrSucssCallCountChart
@@ -206,7 +212,16 @@ const TraceBarChart = () => {
               <Grid container spacing={2}>
                 {" "}
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", height: isSmallScreen ? "" : "calc(42vh - 32px)", width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" }}>
+                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", 
+                  // height: "calc(40vh - 32px)",
+        //           height: isLandscape
+        // ? "calc(41vh - 40px)"
+        // : isSmallScreen
+        // ? "calc(90vh - 24px)"
+        // : "calc(42vh - 32px)", 
+        height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
+        // height: isLandscape ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
+        width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" }}>
                     <CardContent>
                       {/* {integrationdata.map((items) =>
                         items.apiCallCount !== 0 ? (
@@ -230,7 +245,10 @@ const TraceBarChart = () => {
                   </Card>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Card elevation={3} style={{ margin: isSmallScreen ? "5px 15px 5px 25px" : "5px 25px 5px 15px", height: isSmallScreen ? "" : "calc(42vh - 32px)", width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" }}>
+                  <Card elevation={3} style={{ margin: isSmallScreen ? "5px 15px 5px 25px" : "5px 25px 5px 15px", 
+                  // height: isSmallScreen ? "calc(41vh - 40px)" : "calc(40vh - 32px)", 
+                  height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
+                  width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" }}>
                     <CardContent>
                       <PeakLatencyChart />
                     </CardContent>

@@ -129,6 +129,7 @@ const Loglists = () => {
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("lg"));
+  const isLandscape = useMediaQuery("(orientation: landscape)");
 
   const handlecardclose = () => {
     setIsCardVisible(false);
@@ -1097,7 +1098,12 @@ const Loglists = () => {
             {" "}
             <Card
               sx={{
-                height: isSmallScreen ? "90vh" : "79.5vh",
+                // height: isSmallScreen ? "90vh" : "79.5vh",
+                height: isLandscape ? "79.5vh" : "90vh",
+                [theme.breakpoints.down("sm")]: {
+                  backgroundColor: "grey",
+                  height: "90vh"
+                },
                 paddingBottom: "30px",
                 overflowY: "auto",
               }}

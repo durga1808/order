@@ -1,15 +1,10 @@
-@media (max-width: 768px) and (min-width: 320px) {
+@media (max-width: 769px) and (min-width: 300px) {
   .main-content {
-    overflow-y: auto;
-
-    max-height: calc(147vh - 50px);
+    height: 130vh;
   }
   .content {
-    background-color: blue;
-
+    /* background-color: blue; */
     width: calc(110vh - 20px);
-
-    height: calc(100% - 50px);
     align-items: center;
   }
   .dashboards {
@@ -17,23 +12,10 @@
     flex-direction: column;
     overflow-y: auto;
   }
-
-  .chart-1 {
-    width: calc(40px - 20px);
-  }
-  .chart-2 {
-    width: calc(40px - 20px);
-  }
-  .chart-3 {
-    width: calc(40px - 20px);
-  }
 }
 
-@media (max-width: 1023px) {
-  .main-content {
-  }
+@media (max-width: 1080px) {
   .content {
-    background-color: blue;
     width: 170vh;
     height: auto;
   }
@@ -41,7 +23,6 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-
     height: auto;
   }
   .charts {
@@ -49,3 +30,83 @@
     flex-direction: column;
   }
 }
+
+  @media (max-width: 670px) and (orientation: landscape) {
+    .main-content {
+      overflow-y: auto;
+      height: 126vh;
+    }
+    .content {
+      width: 190%;
+      align-items: center;
+    }
+    .dashboards {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }  
+  }
+
+  @media (max-width: 915px) and (orientation: landscape) {
+    .main-content {
+      overflow-y: auto;
+      height: 85vh;
+    }
+    .content {
+      width: 150%;
+      align-items: center;
+    }
+    .dashboards {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }  
+  }
+
+  @media (max-width: 1025px) and (orientation: landscape) {
+    .main-content {
+      overflow-y: auto;
+      height: 85vh;
+    }
+    .content {
+      width: 190%;
+      align-items: center;
+    }
+    .dashboards {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }  
+  }
+
+  @media (max-width: 668px) and (orientation: landscape) {
+    .main-content {
+      overflow-y: auto;
+      height: 120vh;
+    }
+    .content {
+      width: 900%;
+      align-items: center;
+    }
+    .dashboards {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }  
+  }
+  
+  @media (max-width: 741px) and (orientation: landscape) {
+    .main-content {
+      overflow-y: auto;
+      height: 110vh;
+    }
+    .content {
+      width: 500%;
+      align-items: center;
+    }
+    .dashboards {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }  
+  }

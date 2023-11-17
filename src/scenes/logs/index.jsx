@@ -4,6 +4,7 @@ import Loglists from './Loglists'
 
 const Logs = () => {
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+    const isLandscape = useMediaQuery("(orientation: landscape)");
 
     return (
         <div style={{ overflowY: isSmallScreen ? "" : "auto", height: "calc(79% - 10px)" }}>
