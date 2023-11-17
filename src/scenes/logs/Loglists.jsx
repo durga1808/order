@@ -773,9 +773,17 @@ const Loglists = () => {
           <Card
             elevation={6}
             sx={{
+             
               padding: "20px",
               marginTop: "10px",
-              height: isSmallScreen ? "calc(90vh - 72px)" : "calc(73vh - 72px)"
+              // backgroundColor:{sm:{backgroundColor:"gray"}},
+              height: isSmallScreen ? "calc(90vh - 72px)" : "calc(73vh - 72px)",
+              [theme.breakpoints.down('sm')]: {
+                height: "calc(100vh - 85px)"
+              },
+              [theme.breakpoints.down('lg')]: {
+                height: "calc(100vh - 85px)"
+              },
             }}
           >
             <div>
@@ -829,6 +837,9 @@ const Loglists = () => {
                   <TableContainer
                     sx={{
                       maxHeight: isSmallScreen ? "calc(86vh - 85px)" : "calc(66vh - 85px)",
+                      [theme.breakpoints.down('sm')]: {
+                        maxHeight: "calc(100vh - 85px)"
+                      },
                       overflowY: "auto",
                     }}
                   >
@@ -842,7 +853,6 @@ const Loglists = () => {
                               style={{
                                 backgroundColor: colors.primary[400],
                                 color: colors.tabColor[500],
-                               
                               }}
                             >
                               <Typography
