@@ -13,10 +13,11 @@ import LogSummaryChart from "./scenes/dashboard/summary/LogSummaryChart";
 import DashboardTopBar from "./scenes/dashboard/DashboardTopBar";
 import DbSummaryCharts from "./scenes/dashboard/summary/DbSummaryCharts";
 import KafkaSummaryChart from "./scenes/dashboard/summary/KafkaSummaryChart";
+import KeplerPowerMetrics from "./scenes/dashboard/summary/keplerDashboardCharts";
 
 function App() {
   const [theme, colorMode] = useMode();
-  
+
   const DashboardSection = () => {
     return (
       <div>
@@ -25,6 +26,7 @@ function App() {
           <Route path="logSummary" element={<LogSummaryChart />} />
           <Route path="dbSummary" element={<DbSummaryCharts />} />
           <Route path="kafkaSummary" element={<KafkaSummaryChart />} />
+          <Route path="keplerDashboard" element={<KeplerPowerMetrics />} />
         </Routes>
       </div>
     )
@@ -59,6 +61,25 @@ function App() {
             {/* Nested routes for /mainpage/* */}
             <Route path="/mainpage/*" element={<MainPage />} />
           </Routes>
+          {/* {localStorage.getItem("userInfo") !== null ? (<div className="app">
+            <SideNavbar />
+            <main className="content">
+              <Topbar />
+              <DashboardTopBar />
+              <Routes>
+                <Route path="/dashboard/*">
+                  <Route index element={<TraceSummaryChart />} />
+                  <Route path="logSummary" element={<LogSummaryChart />} />
+                  <Route path="dbSummary" element={<DbSummaryCharts />} />
+                  <Route path="kafkaSummary" element={<KafkaSummaryChart />} />
+                  <Route path="keplerDashboard" element={<KeplerPowerMetrics />} />
+                </Route>
+                <Route path="/traces" element={<Traces />} />
+                <Route path="/metrics" element={<Metrics />} />
+                <Route path="/logs" element={<Logs />} />
+              </Routes>
+            </main>
+          </div>) : null} */}
         </ColorModeContext.Provider>
       </ThemeProvider>
     </GlobalContextProvider>

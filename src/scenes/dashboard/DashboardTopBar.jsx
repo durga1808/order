@@ -182,6 +182,8 @@ const DashboardTopBar = () => {
       navigate("/mainpage/dashboard/dbSummary");
     } else if (newValue === 3) {
       navigate("/mainpage/dashboard/kafkaSummary")
+    } else if (newValue === 4) {
+      navigate("/mainpage/dashboard/keplerDashboard")
     }
     setActiveTab(newValue);
   };
@@ -318,7 +320,7 @@ const DashboardTopBar = () => {
             {window.location.pathname === "/mainpage/dashboard" ||
               window.location.pathname === "/mainpage/traces" ||
               window.location.pathname === "/mainpage/metrics" ||
-              window.location.pathname === "/mainpage/logs" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
+              window.location.pathname === "/mainpage/logs" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" || window.location.pathname === "/mainpage/dashboard/keplerDashboard" ? (
               <Tabs
                 value={navActiveTab}
                 onChange={handleTabChangePages}
@@ -627,7 +629,7 @@ const DashboardTopBar = () => {
         </Toolbar>
         <div style={{ marginTop: "-25px", marginLeft: "13px" }} >
           {window.location.pathname === "/mainpage/dashboard" ||
-            window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
+            window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" || window.location.pathname === "/mainpage/dashboard/keplerDashboard" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -646,6 +648,7 @@ const DashboardTopBar = () => {
               <Tab label="Log Summary" sx={{ color: "#FFF" }} />
               <Tab label="Db Summary" sx={{ color: "#FFF" }} />
               <Tab label="Kafka Summary" sx={{ color: "#FFF" }} />
+              <Tab label="Kepler Power Metrics" sx={{ color: "#FFF" }} />
             </Tabs>
           ) : null}
           <Box sx={{ alignItems: "flex-start", marginLeft: "25px", padding: "5px", marginTop: "5px" }}>

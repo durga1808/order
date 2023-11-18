@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   AppBar,
   Toolbar,
   IconButton,
-  CssBaseline,
   useTheme,
 } from "@mui/material";
 import { Brightness4, Brightness7, Person } from "@mui/icons-material";
