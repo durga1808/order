@@ -1,35 +1,38 @@
-@media (max-width: 670px) and (orientation: landscape) {
+.index-container {
+  height: calc(88vh - 70px);
+  overflow-y: auto;
+}
+
+@media screen and (max-width: 768px) {
+  /* Example: Reduce margin for cards  */
+  .card-style {
+    margin: 10px;
+  }
+
+  /* Example: Adjust the height of LineChart */
+  .line-chart {
+    height: 25vh;
+  }
+
   .index-container {
+    height: calc(128vh - 70px);
     overflow-y: auto;
-    height: 120vh;
+    /* height: 131vh; */
   }
 }
 
-@media (max-width: 915px) and (orientation: landscape) {
-  .index-container {
-    overflow-y: auto;
-    height: 120vh;
+/*mobile L */
+@media screen and (max-width: 425px) {
+  .card-style {
+    margin: 5px;
   }
-}
 
-@media (max-width: 1025px) and (orientation: landscape) {
-  .index-container {
-    overflow-y: auto;
-    height: 120vh;
+  .line-chart {
+    height: 20vh;
   }
-}
 
-@media (max-width: 668px) and (orientation: landscape) {
   .index-container {
-    overflow-y: auto;
-    height: 120vh;
-  }
-}
-
-
-@media (max-width: 741px) and (orientation: landscape) {
-  .index-container {
-    overflow-y: auto;
-    height: 120vh;
+    height: calc(148vh - 70px);
+    /* overflow-y: auto ; */
   }
 }

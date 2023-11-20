@@ -189,9 +189,8 @@ const customBreakpoints = {
   xs: 0,
   sm: 1200,
   md: 960,
-  lg: 1080,
+  lg: 1280,
   xl: 1920,
-  ipadpro: 1025,
 };
 
 

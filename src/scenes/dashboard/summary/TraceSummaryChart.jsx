@@ -130,7 +130,7 @@ const TraceBarChart = () => {
   // const chartWidth3 = isCollapsed ? 'calc(85vh - 20px)' : 'calc(75vh - 15px)'
 
   return (
-    <div className="Tracesummarycontent" 
+    <div className="main-content" 
     style={{
       [theme.breakpoints.down("sm")]: {
         backgroundColor: "grey"

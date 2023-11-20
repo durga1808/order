@@ -71,7 +71,6 @@ const Metrics = () => {
   const colors = tokens(theme.palette.mode);
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
 
   // const handleServiceChange = (event) => {
   //   console.log("Service " + event.target.value);
@@ -177,7 +176,7 @@ const Metrics = () => {
 
   return (
     <>
-      <div className="index-container" style={{ overflowY: isLandscape ? "auto" : "hidden" }} >
+      <div className="index-container" >
         <div style={{ margin: "5px 10px 5px 10px" }}>
         </div>
         {loading ? (
@@ -186,17 +185,15 @@ const Metrics = () => {
           <div>
             {mockMetrics.map((mock, index) => (
               <Card
+              className="card-style"
                 key={index}
                 elevation={6}
                 // padding="10px"
                 // sx={{backgroundColor:colors.primary[500]}}
-                style={{ margin: "20px 20px 10px 20px", 
-                // height: isSmallScreen ? "58vh" : "35vh", 
-                height: (isLandscape && isSmallScreen) ? "60vh" : "58vh",
-                color: "black" }}
+                style={{ margin: "20px 20px 10px 20px", height: isSmallScreen ? "58vh" : "35vh", color: "black" }}
               >
                 
-                <LineChart data={mock} />
+                <LineChart data={mock}  className="line-chart"  />
               </Card>
             ))}
           </div>
