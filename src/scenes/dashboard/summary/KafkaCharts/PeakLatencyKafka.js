@@ -3,7 +3,7 @@ import ReactApexChart from "react-apexcharts";
 import { tokens } from "../../../../theme";
 import { useTheme } from "@emotion/react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
-import { Button, CircularProgress, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
+import { Button, CircularProgress, MenuItem, Select, TextField, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import { sortOrderOptionsTwo } from "../../../../global/MockData/MockTraces";
 import { useState } from "react";
 import { getKafkaPeakLatencyFilterData } from "../../../../api/TraceApiService";
@@ -19,6 +19,10 @@ const PeakLatencyKafka = () => {
     selectedStartDate,
     selectedEndDate,
   } = useContext(GlobalContext);
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+
+
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -312,7 +316,11 @@ const PeakLatencyKafka = () => {
         </div> */}
 
       {/* </div> */}
-      <div data-theme={theme.palette.mode} style={{ width: chartWidth, marginTop: "-30px" }} >
+      <div data-theme={theme.palette.mode} style={{ width: chartWidth,  ...(isiphone && {
+          height: "calc(50vh - 32px)",
+        }),
+   
+      marginTop: "-30px" }} >
         {loading ? (<div
           style={{
             display: "flex",
@@ -343,7 +351,7 @@ const PeakLatencyKafka = () => {
           options={peakLatencyOptions}
           series={peakLatencySeries}
           type="bar"
-          height={210}
+          height={"100%"}
         />)}
       </div>
     </>
