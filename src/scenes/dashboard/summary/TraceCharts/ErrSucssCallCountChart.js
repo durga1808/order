@@ -13,6 +13,8 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
+  
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
@@ -122,9 +124,10 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
       data-theme={theme.palette.mode}
       sx={{
         height: (isLandscape && isSmallScreen) ? "calc(45vh - 35px)" : "calc(40vh - 35px)",
+        ...(isiphone && {
+          height: "calc(80vh - 32px)",
+        }),
         width: chartWidth,
-        // overflowX: "auto",
-        // overflowY: "hidden",
         scrollbarColor: "blue",
       }}
     >

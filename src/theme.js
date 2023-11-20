@@ -190,7 +190,9 @@ const customBreakpoints = {
   sm: 1200,
   md: 960,
   lg: 1280,
-  xl: 1920,
+  xl: 1200,
+  iphone:500,
+
 };
 
 

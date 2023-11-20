@@ -12,7 +12,11 @@ const ApiCallCount = ({ data }) => {
   const { isCollapsed } = useContext(GlobalContext);
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
   const apiCallsOptions = {
     chart: {
@@ -99,16 +103,33 @@ const ApiCallCount = ({ data }) => {
     },
   ];
 
-  const chartWidth = isCollapsed ? 'calc(100% - 20px)' : 'calc(103% - 20px)'
+  const chartWidth = isCollapsed ? "calc(100% - 20px)" : "calc(103% - 20px)";
 
-  const chartHeight = (isLandscape && isSmallScreen) ? "200%" : "90%"
+  const chartHeight = isLandscape && isSmallScreen ? "200%" : "90%";
 
   return (
-    <Box data-theme={theme.palette.mode} sx={{height:"calc(40vh - 20px)",width:chartWidth}} >
-      <ReactApexChart
-      style={{
-        color: "#000",
+    <Box
+      data-theme={theme.palette.mode}
+      sx={{
+        height:
+          isLandscape && isSmallScreen
+            ? "calc(45vh - 35px)"
+            : "calc(40vh - 35px)",
+        ...(isiphone && {
+          height: "calc(80vh - 32px)",
+
+          // backgroundColor: "grey",
+        }),
+        width: chartWidth,
+        // overflowX: "auto",
+        // overflowY: "hidden",
+        scrollbarColor: "blue",
       }}
+    >
+      <ReactApexChart
+        style={{
+          color: "#000",
+        }}
         options={apiCallsOptions}
         series={apiCallsSeries}
         type="bar"

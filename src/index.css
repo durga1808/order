@@ -43,7 +43,7 @@ code {
   background: #555;
 }
 
-@media screen and (max-width: 768px) and (orientation: portrait)  {
+/* @media screen and (max-width: 768px) and (orientation: portrait)  {
   html,
 body,
 #root,
@@ -61,4 +61,4 @@ body,
 .content {
     height: auto;
   }
-}
+} */
