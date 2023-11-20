@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
-import { Grid, Typography, useTheme } from "@mui/material";
+import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import DebugBarChart from "./LogCharts/DebugBarChart";
 import WarnBarChart from "./LogCharts/WarnBarChart";
 import LogServiceDetails from "./LogCharts/LogServiceDetails";
@@ -31,6 +31,11 @@ const LogBarChart = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   // const colors = tokens(theme.palette.mode);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
   const logSummaryApiCall = useCallback(async () => {
     try {
@@ -126,7 +131,13 @@ const LogBarChart = () => {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(40vh - 40px)",color: theme.palette.mode === "dark"?"white":"black" }}>
+              <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 32px)",
+                                  width: isSmallScreen ? "calc(1040px - 40px)" : "", 
+                                  color: theme.palette.mode === "dark"?"white":"black" ,  ...(isiphone && {
+                    height:  "calc(80vh - 32px)",
+
+              // backgroundColor: "grey",
+            }) }}>
                 <CardContent>
                   {hasErrChartData ? (
                     <ErrorBarChart  
@@ -182,7 +193,13 @@ const LogBarChart = () => {
           <Grid container spacing={2}>
             {" "}
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "5px 15px 5px 25px", height: "calc(40vh - 32px)" ,  color: theme.palette.mode === "dark"?"white":"black"}}>
+              <Card elevation={3} style={{ margin: "5px 15px 5px 25px", height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 32px)", 
+              width: isSmallScreen ? "calc(1040px - 40px)" : "",
+               color: theme.palette.mode === "dark"?"white":"black" ,  ...(isiphone && {
+                height:  "calc(80vh - 32px)",
+
+          // backgroundColor: "grey",
+        })}}>
                 <CardContent>
                   {hasDebugChartData ? (
                     // If any item has debugCallCount !== 0, display the chart
@@ -200,7 +217,14 @@ const LogBarChart = () => {
               </Card>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Card elevation={3} style={{ margin: "5px 25px 5px 15px", height: "calc(40vh - 32px)", color: theme.palette.mode === "dark"?"white":"black" }}>
+              <Card elevation={3} style={{ margin: "5px 25px 5px 15px", 
+              height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 32px)",
+              width: isSmallScreen ? "calc(1040px - 40px)" : "",
+               color: theme.palette.mode === "dark"?"white":"black"  , ...(isiphone && {
+                height:  "calc(80vh - 32px)",
+
+          // backgroundColor: "grey",
+        }) }}>
                 <CardContent>
                   {hasWarnChartData ? (
                     <WarnBarChart data={integrationdata} />

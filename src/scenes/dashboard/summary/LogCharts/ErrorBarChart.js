@@ -5,11 +5,19 @@ import { tokens } from "../../../../theme";
 import "./ErrorBarChart.css";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
+import { useMediaQuery } from "@mui/material";
 
 const ErrorBarChart = ({ data, onBarClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { isCollapsed } = useContext(GlobalContext);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
@@ -98,12 +106,23 @@ const ErrorBarChart = ({ data, onBarClick }) => {
 
   const chartWidth = isCollapsed ? "calc(100% - 10px)" : "calc(103% - 70px)";
 
+  const chartHeight = isLandscape && isSmallScreen ? "200%" : "90%";
+
   return (
     <div
     
       data-theme={theme.palette.mode}
       style={{
-        height: "calc(40vh - 35px)",
+        // height: "calc(40vh - 35px)",
+        height:
+          isLandscape && isSmallScreen
+            ? "calc(45vh - 35px)"
+            : "calc(40vh - 35px)",
+            ...(isiphone && {
+              height: "calc(80vh - 32px)",
+    
+              // backgroundColor: "grey",
+            }),
         // marginLeft:"100px",
         // overflowX: "auto",
         // overflowY: "hidden",
@@ -120,7 +139,7 @@ const ErrorBarChart = ({ data, onBarClick }) => {
         options={options}
         series={series}
         type="bar"
-        height={"90%"}
+        height={chartHeight}
         width={"100%"}
       />
       {/* </Card> */}
