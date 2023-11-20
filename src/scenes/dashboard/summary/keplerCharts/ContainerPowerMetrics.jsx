@@ -62,6 +62,8 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
             },
         },
         yaxis: {
+            min: 0,
+            // max: 5,
             title: {
                 // text: "USAGE",
                 text: containerPowerMetrics.yaxis,
