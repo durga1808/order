@@ -15,9 +15,10 @@
 }
 
 @media (max-width: 1080px) {
-  .content {
-    width: 170vh;
-    height: auto;
+  .Tracesummarycontent {
+    background-color: blueviolet;
+    width: 74.6vh;
+    height: 90vh;
   }
   .dashboards {
     display: flex;

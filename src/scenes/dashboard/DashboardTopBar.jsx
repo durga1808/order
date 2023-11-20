@@ -38,6 +38,7 @@ const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
 
+
   // const {
   //   lookBackVal,
   //   setLookBackVal,
@@ -107,6 +108,8 @@ const DashboardTopBar = () => {
   const colors = tokens(theme.palette.mode);
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  
+  const isipadpro = useMediaQuery(theme.breakpoints.down("ipadpro"));
 
   // const [dashboardMenuAnchor, setDashboardMenuAnchor] = useState(null);
 
@@ -452,7 +455,7 @@ const DashboardTopBar = () => {
                     maxDate={endDate}
                     disableFuture
                     sx={{
-                      width: 153,
+                      width:isipadpro?135:150,
                       marginRight: 2,
                       backgroundColor:
                         theme.palette.mode === "dark" ? "#848482" : "#FFF",
@@ -525,7 +528,7 @@ const DashboardTopBar = () => {
                     sx={{
                       boxShadow: 0,
                       marginRight: 2,
-                      width: 150,
+                      width:isipadpro?135:150,
                       backgroundColor:
                         theme.palette.mode === "dark" ? "#848482" : "#FFF",
 
@@ -590,7 +593,7 @@ const DashboardTopBar = () => {
                       : handleLookbackChange
                   }
                   sx={{
-                    minWidth: 153,
+                    width:isipadpro?135:153,
                     maxHeight: 35,
                     // marginTop: "10px",
                     marginRight: "25px",
