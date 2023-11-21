@@ -2,13 +2,21 @@ import React, { useContext } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../../../theme";
-import { Card } from "@mui/material";
+import { Box, Card, useMediaQuery } from "@mui/material";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
 
 const DBCallsCount = ({ data, onBarClick }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { isCollapsed } = useContext(GlobalContext);
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
@@ -108,10 +116,23 @@ const DBCallsCount = ({ data, onBarClick }) => {
 
   const chartWidth = isCollapsed ? "calc(100%- 10px)" : "calc(103% - 70px)";
 
+  const chartHeight = isLandscape && isSmallScreen ? "200%" : "90%";
+
   return (
-    <div
+    <Box
       data-theme={theme.palette.mode}
-      style={{ height: "calc(40vh - 30px)", width: chartWidth }}
+      sx={{ 
+        // height: "calc(40vh - 30px)", 
+        height:
+          isLandscape && isSmallScreen
+            ? "calc(45vh - 35px)"
+            : "calc(40vh - 30px)",
+            ...(isiphone && {
+              height: "calc(50vh - 32px)",
+    
+              // backgroundColor: "grey",
+            }),
+        width: chartWidth }}
     >
       {" "}
       <ReactApexChart
@@ -121,10 +142,10 @@ const DBCallsCount = ({ data, onBarClick }) => {
         options={options}
         series={series}
         type="bar"
-        height={"90%"}
+        height={chartHeight}
         width={"100%"}
       />
-    </div>
+    </Box>
   );
 };
 

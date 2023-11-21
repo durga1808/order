@@ -108,7 +108,7 @@ const LogBarChart = () => {
   );
 
   return (
-    <div className="log-content">
+    <div className="log-content" style={{ height: isLandscape? "" : "78.4vh" }}>
       {loading ? (
         <Loading />
       ) : emptyMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "73vh" }}>

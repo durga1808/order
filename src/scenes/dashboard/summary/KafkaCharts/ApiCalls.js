@@ -3,17 +3,17 @@ import ReactApexChart from "react-apexcharts";
 import { useTheme } from "@emotion/react";
 import { tokens } from "../../../../theme";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
-import { useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 
 const ApiCalls = ({ data }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { isCollapsed } = useContext(GlobalContext);
 
-//   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-//   const isLandscape = useMediaQuery(
-//     "(max-width: 1000px) and (orientation: landscape)"
-//   );
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
@@ -115,15 +115,17 @@ const ApiCalls = ({ data }) => {
 
   const chartWidth = isCollapsed ? "calc(100% - 10px)" : "calc(103% - 70px)";
 
+  // const chartHeight = (isLandscape && isSmallScreen) ? "200%" : "79%";
+
   return (
-    <div
+    <Box
       data-theme={theme.palette.mode}
       style={{
         width: chartWidth,
         // height:
-        //   isLandscape && isSmallScreen
-        //     ? "calc(90vh - 24px)"
-        //     : "calc(40vh - 32px)",
+        //   (isLandscape && isSmallScreen)
+        //     ? "calc(45vh - 35px)"
+        //     : "calc(40vh - 30px)",
         ...(isiphone && {
           height: "calc(50vh - 32px)",
         }),
@@ -133,9 +135,11 @@ const ApiCalls = ({ data }) => {
         options={options}
         series={series}
         type="bar"
+        // height={chartHeight}
         height={"100%"}
+        // width={"100%"}
       />
-    </div>
+    </Box>
   );
 };
 

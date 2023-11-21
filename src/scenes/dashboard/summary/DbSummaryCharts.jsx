@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, useContext } from "react";
 import DBCallsCount from "./DbCharts/DbCallsCount";
 import PeakLatencyChart from "./DbCharts/PeakLatencyChart";
 import Loading from "../../../global/Loading/Loading";
-import { Card, CardContent, Grid, Typography, useTheme } from "@mui/material";
+import { Card, CardContent, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../../global/globalContext/GlobalContext";
 import { tokens } from "../../../theme";
@@ -29,6 +29,11 @@ const DbSummaryCharts = () => {
   const [integrationdata, setintegrationdata] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
   // const integrationdata = [
   //   {
@@ -122,7 +127,7 @@ const DbSummaryCharts = () => {
 
 
     return (
-      <div>
+      <div style={{ height: isLandscape? "" : "78.4vh" }}>
         {loading ? (
           <Loading />
         ) : emptyMessage ? (
@@ -170,8 +175,15 @@ const DbSummaryCharts = () => {
                     marginRight: "20px",
                     marginBottom: "10px",
                     marginLeft: "20px",
-                    height: "calc(40vh - 40px)",
-                    color: theme.palette.mode === "dark"?"white":"black"
+                    // height: "calc(40vh - 40px)",
+                    height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" : "calc(40vh - 40px)",
+
+                    color: theme.palette.mode === "dark"?"white":"black",
+                    ...(isiphone && {
+                      height:  "calc(50vh - 32px)",
+  
+                // backgroundColor: "grey",
+              })
                   }}
                 >
                   <CardContent>
@@ -206,8 +218,15 @@ const DbSummaryCharts = () => {
                 elevation={3}
                 style={{
                   margin: "7px 20px 15px 20px",
-                  height: "calc(40vh - 40px)",
-                  color: theme.palette.mode === "dark" ? "white" : "black"
+                  // height: "calc(40vh - 40px)",
+                  height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 40px)",
+
+                  color: theme.palette.mode === "dark" ? "white" : "black",
+                  ...(isiphone && {
+                    height:  "calc(60vh - 32px)",
+
+              // backgroundColor: "grey",
+            })
                 }}
               >
                 <CardContent>

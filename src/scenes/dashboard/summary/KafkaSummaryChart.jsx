@@ -80,7 +80,7 @@ const KafkaSummaryChart = () => {
   );
 
   return (
-    <div>
+    <div style={{ height: isLandscape? "" : "78.4vh" }}>
       {loading ? (
         <Loading />
       ) : emptyMessage ? (
@@ -124,11 +124,16 @@ const KafkaSummaryChart = () => {
               <Card
                 elevation={3}
                 style={{
-                  margin: "15px 25px 15px 25px",
+                  // margin: "15px 25px 15px 25px",
+                  marginTop: "15px",
+                    marginRight: "20px",
+                    marginBottom: "10px",
+                    marginLeft: "20px",
                   height:
-                    isLandscape && isSmallScreen
+                    (isLandscape && isSmallScreen)
                       ? "calc(90vh - 24px)"
-                      : "calc(40vh - 32px)",
+                      : "calc(40vh - 40px)",
+
                   ...(isiphone && {
                     height: "calc(50vh - 32px)",
                   }),
@@ -163,11 +168,12 @@ const KafkaSummaryChart = () => {
               <Card
                 elevation={3}
                 style={{
-                  margin: "5px 25px 15px 25px",
+                  // margin: "5px 25px 15px 25px",
+                  margin: "7px 20px 15px 20px",
                   height:
-                    isLandscape && isSmallScreen
+                    (isLandscape && isSmallScreen)
                       ? "calc(90vh - 24px)"
-                      : "calc(40vh - 32px)",
+                      : "calc(40vh - 40px)",
                   ...(isiphone && {
                     height: "calc(60vh - 32px)",
                   }),

@@ -132,13 +132,7 @@ const TraceBarChart = () => {
   // const chartWidth3 = isCollapsed ? 'calc(85vh - 20px)' : 'calc(75vh - 15px)'
 
   return (
-    <div className="main-content" 
-    style={{
-      [theme.breakpoints.down("sm")]: {
-        backgroundColor: "grey"
-      },
-    }}
-    >
+    <div className="main-content" style={{ height: isLandscape? "" : "78.4vh" }} >
       {loading ? (
         <Loading />
       ) : emptyMessage ? (<div className="empty-message" style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "73vh" }}>
@@ -169,11 +163,8 @@ const TraceBarChart = () => {
                 <Grid item xs={12}>
                   <Card elevation={3} style={{ margin: "15px 25px 15px 25px",
                   //  height: isSmallScreen ? "calc(41vh - 40px)" : "calc(40vh - 40px)",
-                  height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 32px)",
+                  height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 40px)",
                     width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark"?"white":"black",
-                    // [theme.breakpoints.down("sm")]: {
-                    //   // backgroundColor: "grey"
-                    // },
                     
                     ...(isiphone && {
                       height:  "calc(80vh - 32px)",

@@ -10,6 +10,9 @@ const LineChart = ({ data }) => {
   const { isCollapsed } = useContext(GlobalContext);
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
+  
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
   const series = [
     {
@@ -140,15 +143,26 @@ const LineChart = ({ data }) => {
 
   const chartWidth = isCollapsed ? 'calc(100% - 10px)' : 'calc(103% - 70px)'
 
+  const chartHeight = (isLandscape && isSmallScreen) ? "220%" : "90%"
+
   return (
-        <Box height="calc(40vh - 20px)" width={chartWidth} padding="5px" border="1px" style={{
+        <Box 
+        // height="calc(40vh - 20px)" 
+        sx={{
+          height: (isLandscape && isSmallScreen) ? "calc(45vh - 35px)" : "calc(42vh - 35px)",
+        ...(isiphone && {
+          height: "calc(80vh - 32px)",
+        }),
+        }}
+        
+        width={chartWidth} padding="5px" border="1px" style={{
           transition: "width 0.3s ease-in-out",
         }}>
           <ReactApexChart
             options={options}
             series={series}
             type="area"
-            height={isSmallScreen ? "145%" : "90%"}
+            height={chartHeight}
             // width={isCollapsed?1380:1210}
             width={"100%"}
           />

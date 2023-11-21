@@ -3,7 +3,7 @@ import ReactApexChart from "react-apexcharts";
 import { tokens } from "../../../../theme";
 import { useTheme } from "@emotion/react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
-import { Button, CircularProgress, MenuItem, Select, TextField, Tooltip, Typography, useMediaQuery } from "@mui/material";
+import { Box, Button, CircularProgress, MenuItem, Select, TextField, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import { sortOrderOptionsTwo } from "../../../../global/MockData/MockTraces";
 import { useState } from "react";
 import { getKafkaPeakLatencyFilterData } from "../../../../api/TraceApiService";
@@ -20,9 +20,12 @@ const PeakLatencyKafka = () => {
     selectedEndDate,
   } = useContext(GlobalContext);
 
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
+
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
-
-
 
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -199,6 +202,8 @@ const PeakLatencyKafka = () => {
 
   const chartWidth = isCollapsed ? 'calc(100% - 10px)' : 'calc(103% - 70px)'
 
+  const chartHeight = (isLandscape && isSmallScreen) ? "200%" : "79%";
+
   return (
     <>
       <div
@@ -316,9 +321,14 @@ const PeakLatencyKafka = () => {
         </div> */}
 
       {/* </div> */}
-      <div data-theme={theme.palette.mode} style={{ width: chartWidth,  ...(isiphone && {
-          height: "calc(50vh - 32px)",
-        }),
+      <Box data-theme={theme.palette.mode} 
+      sx={{ width: chartWidth,  height:
+        isLandscape && isSmallScreen
+          ? "calc(45vh - 35px)"
+          : "calc(40vh - 32px)",
+      ...(isiphone && {
+        height: "calc(50vh - 32px)",
+      }),
    
       marginTop: "-30px" }} >
         {loading ? (<div
@@ -351,9 +361,10 @@ const PeakLatencyKafka = () => {
           options={peakLatencyOptions}
           series={peakLatencySeries}
           type="bar"
-          height={"100%"}
+          height={chartHeight}
+          width={"100%"}
         />)}
-      </div>
+      </Box>
     </>
   );
 };

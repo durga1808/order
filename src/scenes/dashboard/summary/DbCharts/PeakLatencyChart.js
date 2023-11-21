@@ -4,7 +4,7 @@ import { useTheme } from "@emotion/react";
 import { tokens } from "../../../../theme";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
-import { Button, CircularProgress, MenuItem, Select, TextField, Tooltip, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, MenuItem, Select, TextField, Tooltip, Typography, useMediaQuery } from "@mui/material";
 import { sortOrderOptions } from "../../../../global/MockData/MockTraces";
 import { useCallback } from "react";
 import { getDBPeakLatencyFilterData } from "../../../../api/TraceApiService";
@@ -28,6 +28,13 @@ const DBCallsCount = () => {
   const [minDurationValue, setMinDurationValue] = useState(0);
   const [maxDurationValue, setMaxDurationValue] = useState(500);
   const [minMaxError, setMinMaxError] = useState("");
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
   const DBPeaklatencyFiltered = useCallback(async (minDuration,maxDuration) => {
     try {
@@ -192,6 +199,8 @@ const DBCallsCount = () => {
 
   const chartWidth = isCollapsed ? "calc(100% - 10px)" : "calc(103% - 70px)";
 
+  const chartHeight = (isLandscape && isSmallScreen) ? "200%" : "79%";
+
   return (
     <>
       <div
@@ -308,9 +317,20 @@ const DBCallsCount = () => {
         </div> */}
 
       </div>
-      <div
+      <Box
         data-theme={theme.palette.mode}
-        style={{ height: "calc(40vh - 30px)", width: chartWidth, marginTop: "-30px" }}
+        sx={{ 
+          // height: "calc(40vh - 30px)", 
+          height:
+          isLandscape && isSmallScreen
+            ? "calc(45vh - 35px)"
+            : "calc(40vh - 30px)",
+            ...(isiphone && {
+              height: "calc(50vh - 32px)",
+    
+              // backgroundColor: "grey",
+            }),
+        width: chartWidth, marginTop: "-30px" }}
       >
         {loading ? (<div
           style={{
@@ -345,10 +365,10 @@ const DBCallsCount = () => {
           options={options}
           series={series}
           type="bar"
-          height={"80%"}
+          height={chartHeight}
           width={"100%"}
         />)}
-      </div>
+      </Box>
     </>
   );
 };
