@@ -28,7 +28,7 @@ const KeplerPowerMetrics = () => {
     const processMetricData = (keplerMetricData, podName) => {
 
         var parts = podName.split('/');
-        var lastValue = parts[parts.length - 1];
+        var lastValue = parts[0];
 
         //FILTER DATA BY PODNAME FROM RESPONSE
         const filteredData = keplerMetricData.filter((data) => data.displayName === podName, setSelectedPodName(lastValue));
@@ -79,7 +79,7 @@ const KeplerPowerMetrics = () => {
         // setPowerMetrics(keplerContainerInfo);
         try {
             setLoading(true);
-            const keplerResponse = await getKeplerMetricData(selectedStartDate, selectedEndDate, lookBackVal.value);
+            const keplerResponse = await getKeplerMetricData(selectedStartDate, selectedEndDate, lookBackVal.value, "container");
             if (keplerResponse.length !== 0) {
                 setPowerMetrics(keplerResponse);
                 createPodMetricData(keplerResponse);
