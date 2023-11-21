@@ -115,17 +115,17 @@ const ApiCalls = ({ data }) => {
 
   const chartWidth = isCollapsed ? "calc(100% - 10px)" : "calc(103% - 70px)";
 
-  // const chartHeight = (isLandscape && isSmallScreen) ? "200%" : "79%";
+  const chartHeight = (isLandscape && isSmallScreen) ? "200%" : "79%";
 
   return (
     <Box
       data-theme={theme.palette.mode}
       style={{
         width: chartWidth,
-        // height:
-        //   (isLandscape && isSmallScreen)
-        //     ? "calc(45vh - 35px)"
-        //     : "calc(40vh - 30px)",
+        height:
+          (isLandscape && isSmallScreen)
+            ? "calc(45vh - 35px)"
+            : "calc(40vh - 30px)",
         ...(isiphone && {
           height: "calc(50vh - 32px)",
         }),
@@ -135,9 +135,8 @@ const ApiCalls = ({ data }) => {
         options={options}
         series={series}
         type="bar"
-        // height={chartHeight}
-        height={"100%"}
-        // width={"100%"}
+        height={chartHeight}
+        width={"100%"}
       />
     </Box>
   );
