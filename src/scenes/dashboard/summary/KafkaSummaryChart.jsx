@@ -135,7 +135,7 @@ const KafkaSummaryChart = () => {
                       : "calc(40vh - 40px)",
 
                   ...(isiphone && {
-                    height: "calc(50vh - 32px)",
+                    height: "calc(70vh - 32px)",
                   }),
                   color: "black",
                 }}
@@ -175,7 +175,7 @@ const KafkaSummaryChart = () => {
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 40px)",
                   ...(isiphone && {
-                    height: "calc(60vh - 32px)",
+                    height: "calc(70vh - 32px)",
                   }),
                   color: "black",
                 }}

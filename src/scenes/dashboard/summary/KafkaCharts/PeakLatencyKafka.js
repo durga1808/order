@@ -322,12 +322,13 @@ const PeakLatencyKafka = () => {
 
       {/* </div> */}
       <Box data-theme={theme.palette.mode} 
-      sx={{ width: chartWidth,  height:
+      sx={{ width: chartWidth, 
+         height:
         isLandscape && isSmallScreen
           ? "calc(45vh - 35px)"
           : "calc(40vh - 32px)",
       ...(isiphone && {
-        height: "calc(50vh - 32px)",
+        height: "calc(80vh - 32px)",
       }),
    
       marginTop: "-30px" }} >

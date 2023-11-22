@@ -128,7 +128,7 @@ const DBCallsCount = ({ data, onBarClick }) => {
             ? "calc(45vh - 35px)"
             : "calc(40vh - 30px)",
             ...(isiphone && {
-              height: "calc(50vh - 32px)",
+              height: "calc(70vh - 32px)",
     
               // backgroundColor: "grey",
             }),

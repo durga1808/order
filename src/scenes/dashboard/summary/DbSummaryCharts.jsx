@@ -2,11 +2,21 @@ import React, { useCallback, useState, useEffect, useContext } from "react";
 import DBCallsCount from "./DbCharts/DbCallsCount";
 import PeakLatencyChart from "./DbCharts/PeakLatencyChart";
 import Loading from "../../../global/Loading/Loading";
-import { Card, CardContent, Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Card,
+  CardContent,
+  Grid,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../../global/globalContext/GlobalContext";
 import { tokens } from "../../../theme";
-import { getDbSummaryDataWithDate, getTraceSummaryDataWithDate } from "../../../api/TraceApiService";
+import {
+  getDbSummaryDataWithDate,
+  getTraceSummaryDataWithDate,
+} from "../../../api/TraceApiService";
 
 const DbSummaryCharts = () => {
   const {
@@ -31,7 +41,9 @@ const DbSummaryCharts = () => {
   const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
@@ -68,12 +80,14 @@ const DbSummaryCharts = () => {
   //   },
   // ];
 
-
-
   const DBSummaryApiCall = useCallback(async () => {
     try {
       setLoading(true);
-      var response = await getDbSummaryDataWithDate(selectedStartDate, selectedEndDate, lookBackVal.value);
+      var response = await getDbSummaryDataWithDate(
+        selectedStartDate,
+        selectedEndDate,
+        lookBackVal.value
+      );
       console.log("db", response);
       if (response.length !== 0) {
         setintegrationdata(response);
@@ -90,7 +104,6 @@ const DbSummaryCharts = () => {
     }
   }, [selectedStartDate, selectedEndDate, lookBackVal, needHistoricalData]);
 
-
   useEffect(() => {
     setErrorMessage("");
     setEmptyMessage("");
@@ -98,7 +111,13 @@ const DbSummaryCharts = () => {
     // setDbSummaryService([]);
     setActiveTab(2);
     setNavActiveTab(0);
-  }, [DBSummaryApiCall, setErrorMessage, setEmptyMessage, setActiveTab, setNavActiveTab]);
+  }, [
+    DBSummaryApiCall,
+    setErrorMessage,
+    setEmptyMessage,
+    setActiveTab,
+    setNavActiveTab,
+  ]);
 
   // useEffect(() => {
   //   // setNavActiveTab(2);
@@ -124,93 +143,96 @@ const DbSummaryCharts = () => {
     (item) => item.dbPeakLatencyCount !== 0
   );
 
+  return (
+    <div style={{ height: isLandscape ? "" : "78.4vh" }}>
+      {loading ? (
+        <Loading />
+      ) : emptyMessage ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "73vh",
+          }}
+        >
+          <Typography variant="h5" fontWeight={"600"}>
+            {emptyMessage}
+          </Typography>
+        </div>
+      ) : errorMessage ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "80vh",
+          }}
+        >
+          <Typography variant="h5" fontWeight={"600"}>
+            {errorMessage}
+          </Typography>
+        </div>
+      ) : integrationdata.length !== 0 ? (
+        <div
+          style={{
+            maxHeight: "73vh",
+            // overflowY: "auto",
+            width: "100%",
+          }}
+        >
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Card
+                elevation={3}
+                style={{
+                  marginTop: "15px",
+                  marginRight: "20px",
+                  marginBottom: "10px",
+                  marginLeft: "20px",
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(45vh - 35px)"
+                      : "calc(40vh - 32px)",
+                  ...(isiphone && {
+                    height: "calc(70vh - 32px)",
+                  }),
 
+                  color: theme.palette.mode === "dark" ? "white" : "black",
+                  // ...(isiphone && {
+                  // height:  "calc(50vh - 32px)",
 
-    return (
-      <div style={{ height: isLandscape? "" : "78.4vh" }}>
-        {loading ? (
-          <Loading />
-        ) : emptyMessage ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              height: "73vh",
-            }}
-          >
-            <Typography variant="h5" fontWeight={"600"}>
-              {emptyMessage}
-            </Typography>
-          </div>
-        ) : errorMessage ? (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              width: "100%",
-              height: "80vh",
-            }}
-          >
-            <Typography variant="h5" fontWeight={"600"}>
-              {errorMessage}
-            </Typography>
-          </div>
-        ) : integrationdata.length !== 0 ? (
-          <div
-            style={{
-              maxHeight: "73vh",
-              // overflowY: "auto",
-              width: "100%",
-            }}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Card
-                  elevation={3}
-                  style={{
-                    marginTop: "15px",
-                    marginRight: "20px",
-                    marginBottom: "10px",
-                    marginLeft: "20px",
-                    // height: "calc(40vh - 40px)",
-                    height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" : "calc(40vh - 40px)",
-
-                    color: theme.palette.mode === "dark"?"white":"black",
-                    ...(isiphone && {
-                      height:  "calc(50vh - 32px)",
-  
-                // backgroundColor: "grey",
-              })
-                  }}
-                >
-                  <CardContent>
-                    {hasDbCountChartData ? (
-                      <DBCallsCount
-                        data={integrationdata}
-                        onBarClick={handleBarClick}
-                      />
-                    ) : (
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          height: "calc(40vh - 24px)",
-                          width: "100%",
-                        }}
-                      >
-                        <Typography variant="h5" fontWeight={"600"}>
-                          Database Count Chart - No data
-                        </Typography>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </Grid>
+                  // backgroundColor: "grey",
+                  // })
+                }}
+              >
+                <CardContent>
+                  {hasDbCountChartData ? (
+                    <DBCallsCount
+                      data={integrationdata}
+                      onBarClick={handleBarClick}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "calc(40vh - 24px)",
+                        width: "100%",
+                      }}
+                    >
+                      <Typography variant="h5" fontWeight={"600"}>
+                        Database Count Chart - No data
+                      </Typography>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
             </Grid>
+          </Grid>
 
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -218,15 +240,15 @@ const DbSummaryCharts = () => {
                 elevation={3}
                 style={{
                   margin: "7px 20px 15px 20px",
-                  // height: "calc(40vh - 40px)",
-                  height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 40px)",
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(45vh - 35px)"
+                      : "calc(40vh - 32px)",
+                  ...(isiphone && {
+                    height: "calc(70vh - 32px)",
+                  }),
 
                   color: theme.palette.mode === "dark" ? "white" : "black",
-                  ...(isiphone && {
-                    height:  "calc(60vh - 32px)",
-
-              // backgroundColor: "grey",
-            })
                 }}
               >
                 <CardContent>
