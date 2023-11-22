@@ -13,7 +13,9 @@ import LogSummaryChart from "./scenes/dashboard/summary/LogSummaryChart";
 import DashboardTopBar from "./scenes/dashboard/DashboardTopBar";
 import DbSummaryCharts from "./scenes/dashboard/summary/DbSummaryCharts";
 import KafkaSummaryChart from "./scenes/dashboard/summary/KafkaSummaryChart";
-import KeplerPowerMetrics from "./scenes/dashboard/summary/keplerDashboardCharts";
+import PodDashboardCharts from "./scenes/dashboard/sustainability/PodDashboardCharts";
+import NodeDashboardCharts from "./scenes/dashboard/sustainability/NodeDashboardCharts";
+import HostDashboardCharts from "./scenes/dashboard/sustainability/HostDashboardCharts";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -26,9 +28,18 @@ function App() {
           <Route path="logSummary" element={<LogSummaryChart />} />
           <Route path="dbSummary" element={<DbSummaryCharts />} />
           <Route path="kafkaSummary" element={<KafkaSummaryChart />} />
-          <Route path="keplerDashboard" element={<KeplerPowerMetrics />} />
         </Routes>
       </div>
+    )
+  }
+
+  const SustainabilitySection = () => {
+    return (
+      <Routes>
+        <Route index element={<PodDashboardCharts />} />
+        <Route path="node" element={<NodeDashboardCharts />} />
+        <Route path="host" element={<HostDashboardCharts />} />
+      </Routes>
     )
   }
 
@@ -41,6 +52,7 @@ function App() {
           <DashboardTopBar />
           <Routes>
             <Route path="dashboard/*" element={<DashboardSection />} />
+            <Route path="sustainability/*" element={<SustainabilitySection />} />
             <Route path="traces" element={<Traces />} />
             <Route path="metrics" element={<Metrics />} />
             <Route path="logs" element={<Logs />} />

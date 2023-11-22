@@ -88,7 +88,9 @@ const DashboardTopBar = () => {
     setShowError,
     navActiveTab,
     setNavActiveTab,
-    setMinMaxError
+    setMinMaxError,
+    keplerActiveTab,
+    setKeplerActiveTab
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -182,20 +184,31 @@ const DashboardTopBar = () => {
       navigate("/mainpage/dashboard/dbSummary");
     } else if (newValue === 3) {
       navigate("/mainpage/dashboard/kafkaSummary")
-    } else if (newValue === 4) {
-      navigate("/mainpage/dashboard/keplerDashboard")
     }
     setActiveTab(newValue);
   };
+
+  const handleKeplerTabs = (event, newValue) => {
+    if (newValue === 0) {
+      navigate("/mainpage/sustainability");
+    } else if (newValue === 1) {
+      navigate("/mainpage/sustainability/node");
+    } else if (newValue === 2) {
+      navigate("/mainpage/sustainability/host");
+    } 
+    setKeplerActiveTab(newValue);
+  }
 
   const handleTabChangePages = (event, newValue) => {
     if (newValue === 0) {
       navigate("/mainpage/dashboard");
     } else if (newValue === 1) {
-      navigate("/mainpage/traces");
+      navigate("/mainpage/sustainability");
     } else if (newValue === 2) {
-      navigate("/mainpage/metrics");
+      navigate("/mainpage/traces");
     } else if (newValue === 3) {
+      navigate("/mainpage/metrics");
+    } else if (newValue === 4) {
       navigate("/mainpage/logs");
     }
     setNavActiveTab(newValue);
@@ -316,7 +329,7 @@ const DashboardTopBar = () => {
             // minHeight: "120px"
           }}
         >
-          <div >
+          {/* <div >
             {window.location.pathname === "/mainpage/dashboard" ||
               window.location.pathname === "/mainpage/traces" ||
               window.location.pathname === "/mainpage/metrics" ||
@@ -334,11 +347,33 @@ const DashboardTopBar = () => {
                 textColor="inherit"
                 indicatorColor="primary">
                 <Tab label="Dashboard" sx={{ color: "#FFF" }} />
+                <Tab label="Sustainability" sx={{ color: "#FFF" }} />
                 <Tab label="Traces" sx={{ color: "#FFF" }} />
                 <Tab label="Metrics" sx={{ color: "#FFF" }} />
                 <Tab label="Logs" sx={{ color: "#FFF" }} />
               </Tabs>
             ) : null}
+          </div> */}
+
+          <div >
+            <Tabs
+              value={navActiveTab}
+              onChange={handleTabChangePages}
+              TabIndicatorProps={{
+                sx: {
+                  // height: 2,
+                  borderRadius: 3,
+                  // backgroundColor: colors.tabIndicator[500],
+                },
+              }}
+              textColor="inherit"
+              indicatorColor="primary">
+              <Tab label="Dashboard" sx={{ color: "#FFF" }} />
+              <Tab label="Sustainability" sx={{ color: "#FFF" }} />
+              <Tab label="Traces" sx={{ color: "#FFF" }} />
+              <Tab label="Metrics" sx={{ color: "#FFF" }} />
+              <Tab label="Logs" sx={{ color: "#FFF" }} />
+            </Tabs>
           </div>
           <Box
             sx={{
@@ -629,7 +664,7 @@ const DashboardTopBar = () => {
         </Toolbar>
         <div style={{ marginTop: "-25px", marginLeft: "13px" }} >
           {window.location.pathname === "/mainpage/dashboard" ||
-            window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" || window.location.pathname === "/mainpage/dashboard/keplerDashboard" ? (
+            window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
             <Tabs
               value={activeTab}
               onChange={handleTabChange}
@@ -648,7 +683,27 @@ const DashboardTopBar = () => {
               <Tab label="Log Summary" sx={{ color: "#FFF" }} />
               <Tab label="Db Summary" sx={{ color: "#FFF" }} />
               <Tab label="Kafka Summary" sx={{ color: "#FFF" }} />
-              <Tab label="Kepler Power Metrics" sx={{ color: "#FFF" }} />
+            </Tabs>
+          ) : null}
+          {window.location.pathname === "/mainpage/sustainability" ||
+            window.location.pathname === "/mainpage/sustainability/node" || window.location.pathname === "/mainpage/sustainability/host" ? (
+            <Tabs
+              value={keplerActiveTab}
+              onChange={handleKeplerTabs}
+              TabIndicatorProps={{
+                sx: {
+                  // height: 2,
+                  marginTop: "-60px",
+                  borderRadius: 3,
+                  backgroundColor: colors.tabIndicator[500],
+                },
+              }}
+              textColor="inherit"
+              indicatorColor="primary"
+            >
+              <Tab label="Pod Metrics" sx={{ color: "#FFF" }} />
+              <Tab label="Node Metrics" sx={{ color: "#FFF" }} />
+              <Tab label="Host Metrics" sx={{ color: "#FFF" }} />
             </Tabs>
           ) : null}
           <Box sx={{ alignItems: "flex-start", marginLeft: "25px", padding: "5px", marginTop: "5px" }}>

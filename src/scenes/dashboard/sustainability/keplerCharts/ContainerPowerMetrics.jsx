@@ -141,7 +141,7 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
     const chartWidth = isCollapsed ? 'calc(70% - 10px)' : 'calc(73% - 70px)'
 
     return (
-        <Box height="calc(45vh - 20px)" width={chartWidth} padding="5px" border="1px" style={{
+        <Box height="calc(75vh - 20px)" width={chartWidth} padding="5px" border="1px" style={{
             transition: "width 0.3s ease-in-out",
         }}>
             <ReactApexChart

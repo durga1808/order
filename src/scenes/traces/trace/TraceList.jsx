@@ -362,7 +362,7 @@ const TraceList = () => {
     setLogRender(false);
     setMetricRender(false);
     setLogSummaryService([]);
-    setNavActiveTab(1);
+    setNavActiveTab(2);
     if (needFilterCall) {
       filterApiCall();
     } else if (logTrace.length === 0 || !traceRender) {

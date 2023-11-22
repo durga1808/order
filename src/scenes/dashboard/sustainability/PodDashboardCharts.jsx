@@ -7,13 +7,13 @@ import { GlobalContext } from '../../../global/globalContext/GlobalContext';
 import { tokens } from '../../../theme';
 import { getKeplerMetricData } from '../../../api/KeplerApiService';
 
-const KeplerPowerMetrics = () => {
+const PodDashboardCharts = () => {
 
     const [errorMessage, setErrorMessage] = useState("");
     const [emptyMessage, setEmptyMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const { lookBackVal,
-        setActiveTab,
+        setKeplerActiveTab,
         selectedStartDate,
         selectedEndDate,
         setNavActiveTab,
@@ -70,7 +70,7 @@ const KeplerPowerMetrics = () => {
     const keplerMetrics = [
         {
             data: containerPowerUsage,
-            title: `Pod-Containers Power Usage - ${selectedPodName}`,
+            title: `Pod Power Usage - ${selectedPodName}`,
             yaxis: "Power Usage",
         }
     ];
@@ -79,7 +79,7 @@ const KeplerPowerMetrics = () => {
         // setPowerMetrics(keplerContainerInfo);
         try {
             setLoading(true);
-            const keplerResponse = await getKeplerMetricData(selectedStartDate, selectedEndDate, lookBackVal.value, "container");
+            const keplerResponse = await getKeplerMetricData(selectedStartDate, selectedEndDate, lookBackVal.value, "pod");
             if (keplerResponse.length !== 0) {
                 setPowerMetrics(keplerResponse);
                 createPodMetricData(keplerResponse);
@@ -105,11 +105,11 @@ const KeplerPowerMetrics = () => {
         // setPowerMetrics(keplerContainerInfo);
         setErrorMessage("");
         setEmptyMessage("");
-        setActiveTab(4);
-        setNavActiveTab(0);
+        setKeplerActiveTab(0);
+        setNavActiveTab(1);
         // createPodMetricData(keplerContainerInfoContainer);
         fetchPowerMetrics();
-    }, [setErrorMessage, setEmptyMessage, setActiveTab, setNavActiveTab, fetchPowerMetrics])
+    }, [setErrorMessage, setEmptyMessage, setKeplerActiveTab, setNavActiveTab, fetchPowerMetrics])
 
     const hasContainerPowerMetrics = powerMetrics.some((item) => item.containerPowerMetrics.length !== 0)
 
@@ -155,7 +155,7 @@ const KeplerPowerMetrics = () => {
 
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(45vh - 30px)", color: 'black' }}>
+                            <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(75vh - 30px)", color: 'black' }}>
                                 <CardContent>
                                     <Box style={{ display: "flex", flexDirection: "row", }} >
                                         {hasContainerPowerMetrics ? (
@@ -166,7 +166,7 @@ const KeplerPowerMetrics = () => {
                                                     display: "flex",
                                                     justifyContent: "center",
                                                     alignItems: "center",
-                                                    height: "calc(45vh - 24px)",
+                                                    height: "calc(75vh - 24px)",
                                                     width: "100%",
                                                 }}
                                             >
@@ -184,7 +184,7 @@ const KeplerPowerMetrics = () => {
                                                 </ListItem>
                                             ))}
                                         </List> */}
-                                        <div style={{ width: '35%', maxHeight: '280px', overflowY: 'auto' }}>
+                                        <div style={{ width: '35%', maxHeight: '500px', overflowY: 'auto' }}>
                                             <Table size="small" aria-label="a dense table" sx={{
                                                 "& .MuiTableRow-root:hover": {
                                                     backgroundColor: 'lightgrey',
@@ -233,4 +233,4 @@ const KeplerPowerMetrics = () => {
     )
 }
 
-export default KeplerPowerMetrics;
+export default PodDashboardCharts;
