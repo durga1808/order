@@ -24,6 +24,7 @@ const NodeDashboardCharts = () => {
     const [podDisplayName, setPodDisplayName] = useState([]);
     const [selectedPodName, setSelectedPodName] = useState();
     const [containerPowerUsage, setContainerPowerUsage] = useState([]);
+    const keplerTypeList = ["DRAM", "PKG", "OTHER"]
 
     const processMetricData = (keplerMetricData, podName) => {
 
@@ -46,7 +47,7 @@ const NodeDashboardCharts = () => {
         });
 
         setContainerPowerUsage(processedData);
-        console.log("Container Usage Data: ", JSON.stringify(filteredData));
+        // console.log("Container Usage Data: ", JSON.stringify(filteredData));
     }
 
     const createPodMetricData = (keplerContainerData) => {
@@ -79,11 +80,11 @@ const NodeDashboardCharts = () => {
         // setPowerMetrics(keplerContainerInfo);
         try {
             setLoading(true);
-            const keplerResponse = await getKeplerMetricData(selectedStartDate, selectedEndDate, lookBackVal.value, "node");
+            const keplerResponse = await getKeplerMetricData(selectedStartDate, selectedEndDate, lookBackVal.value, "node",keplerTypeList);
             if (keplerResponse.length !== 0) {
                 setPowerMetrics(keplerResponse);
                 createPodMetricData(keplerResponse);
-                console.log("Response metric " + JSON.stringify(keplerResponse));
+                // console.log("Response metric " + JSON.stringify(keplerResponse));
             } else {
                 setEmptyMessage("No Data to show");
             }
