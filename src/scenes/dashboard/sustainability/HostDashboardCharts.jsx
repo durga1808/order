@@ -24,12 +24,12 @@ const HostDashboardCharts = () => {
     const [podDisplayName, setPodDisplayName] = useState([]);
     const [selectedPodName, setSelectedPodName] = useState();
     const [containerPowerUsage, setContainerPowerUsage] = useState([]);
-    const keplerTypeList = ["DRAM", "PKG", "OTHER"]
+    const keplerTypeList = ["DRAM", "PKG", "OTHER"];
 
     const processMetricData = (keplerMetricData, podName) => {
 
         var parts = podName.split('/');
-        var lastValue = parts[0];
+        var lastValue = parts[1];
 
         //FILTER DATA BY PODNAME FROM RESPONSE
         const filteredData = keplerMetricData.filter((data) => data.displayName === podName, setSelectedPodName(lastValue));

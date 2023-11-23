@@ -703,7 +703,7 @@ const DashboardTopBar = () => {
             >
               <Tab label="Pod Metrics" sx={{ color: "#FFF" }} />
               <Tab label="Node Metrics" sx={{ color: "#FFF" }} />
-              <Tab label="Host Metrics" sx={{ color: "#FFF" }} />
+              {/* <Tab label="Host Metrics" sx={{ color: "#FFF" }} /> */}
             </Tabs>
           ) : null}
           <Box sx={{ alignItems: "flex-start", marginLeft: "25px", padding: "5px", marginTop: "5px" }}>

@@ -13,7 +13,7 @@ const NodePowerMetrics = ({ nodePowerMetrics }) => {
         {
             name: nodePowerMetrics.title,
             data: nodePowerMetrics.data,
-            color: "#00888C",
+            // color: "#C40233",
         },
     ];
 

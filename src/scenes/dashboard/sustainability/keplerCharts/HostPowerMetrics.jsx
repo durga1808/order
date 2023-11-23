@@ -13,7 +13,8 @@ const HostPowerMetrics = ({ hostPowerMetrics }) => {
         {
             name: hostPowerMetrics.title,
             data: hostPowerMetrics.data,
-            color: "#00888C",
+            // color: "#00888C",
+            color: "#C40233",
         },
     ];
 

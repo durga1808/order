@@ -13,7 +13,7 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
         {
             name: containerPowerMetrics.title,
             data: containerPowerMetrics.data,
-            color: "#00888C",
+            color: "#C40233",
         },
     ];
 

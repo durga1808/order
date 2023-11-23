@@ -24,7 +24,7 @@ const PodDashboardCharts = () => {
     const [podDisplayName, setPodDisplayName] = useState([]);
     const [selectedPodName, setSelectedPodName] = useState();
     const [containerPowerUsage, setContainerPowerUsage] = useState([]);
-    const keplerTypeList = ["DRAM", "PKG", "OTHER"]
+    const keplerTypeList = ["DRAM", "PKG", "OTHER"];
 
     const processMetricData = (keplerMetricData, podName) => {
 
