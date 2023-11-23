@@ -770,7 +770,6 @@ const Loglists = () => {
             </div>
           </div>
           ) : null}
-
           <Card
             elevation={6}
             sx={{
