@@ -21,7 +21,11 @@ import { useNavigate } from "react-router-dom";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import "./DashboardTopBar.css";
-import { FilterListOutlined, Height, RefreshOutlined } from "@mui/icons-material";
+import {
+  FilterListOutlined,
+  Height,
+  RefreshOutlined,
+} from "@mui/icons-material";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { options } from "../../global/MockData/MockTraces";
 import Logfilter from "../logs/Logfilter";
@@ -106,9 +110,16 @@ const DashboardTopBar = () => {
   const colors = tokens(theme.palette.mode);
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) =>
+    theme.breakpoints.down("isipadpro")
+  );
+
+  const largem = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 
   // const [dashboardMenuAnchor, setDashboardMenuAnchor] = useState(null);
 
@@ -330,7 +341,6 @@ const DashboardTopBar = () => {
   // { window.location.pathname === "/mainpage/traces" ||
   // window.location.pathname === "/mainpage/metrics" ||
   // window.location.pathname === "/mainpage/logs" ?toggleDrawer:null}
-
 
   const toggleDrawer = () => {
     setOpenDrawer(!openDrawer);
@@ -786,6 +796,33 @@ const DashboardTopBar = () => {
                 sx: {
                   height: "82vh",
                   // top: 150,
+
+
+                  height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(isiphone && {
+                  height: "calc(450vh - 32px)",
+                }),
+
+                height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(isipadpro && {
+                  height: "calc(850vh - 32px)",
+                }),
+
+                height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(largem && {
+                  height: "calc(1200vh - 32px)",
+                }),
+
+
                   bottom: 150,
                 },
               }}
@@ -804,6 +841,31 @@ const DashboardTopBar = () => {
                 sx: {
                   height: "80vh",
                   // top: 150,
+
+                  height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(isiphone && {
+                  height: "calc(450vh - 32px)",
+                }),
+
+                height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(isipadpro && {
+                  height: "calc(850vh - 32px)",
+                }),
+
+                height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(largem && {
+                  height: "calc(1200vh - 32px)",
+                }),
+
                   bottom: 150,
                 },
               }}
@@ -814,7 +876,7 @@ const DashboardTopBar = () => {
 
           {window.location.pathname === "/mainpage/logs" ? (
             // <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
-            <Drawer 
+            <Drawer
               open={openDrawer}
               onClose={toggleDrawer}
               anchor="right"
@@ -822,19 +884,39 @@ const DashboardTopBar = () => {
                 sx: {
                   height: "82vh",
                   // "@media (max-width: 500px)": {
-                  //   height: "400vh", 
+                  //   height: "400vh",
                   // },
                   // top: 150,
-                  
-                  height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 40px)",
+
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
                   ...(isiphone && {
-                    height:  "calc(450vh - 32px)",
-            }),
+                    height: "calc(450vh - 32px)",
+                  }),
+
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(isipadpro && {
+                    height: "calc(850vh - 32px)",
+                  }),
+
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(largem && {
+                    height: "calc(1200vh - 32px)",
+                  }),
+
                   bottom: 150,
                 },
               }}
             >
-                <Logfilter />
+              <Logfilter />
             </Drawer>
           ) : null}
           <Box

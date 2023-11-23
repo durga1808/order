@@ -50,9 +50,15 @@ const Logfilter = () => {
   const severity = ["ERROR", "SEVERE", "WARN", "INFO"];
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) =>
+    theme.breakpoints.down("isipadpro")
+  );
+  const largem = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 
   const handleServiceToggle = (service) => () => {
     if (logSelectedService.includes(service)) {
@@ -89,7 +95,6 @@ const Logfilter = () => {
   }, [clearLogFilter]);
 
   const handleApplyButtonClick = () => {
-
     // setOpenDrawer(!openDrawer)
     const payload = {
       service: logSelectedService,
@@ -136,12 +141,22 @@ const Logfilter = () => {
         overflowY: "auto",
         height: "82vh",
         // "@media (max-width: 500px)": {
-        //   height: "400%", 
+        //   height: "400%",
         // }
         // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 40px)",
         ...(isiphone && {
-          height:  "calc(450vh - 32px)",
-  }),
+          height: "calc(450vh - 32px)",
+        }),
+
+        // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(850vh - 40px)",
+        ...(isipadpro && {
+          height: "calc(850vh - 32px)",
+        }),
+
+        // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(850vh - 40px)",
+        ...(largem && {
+          height: "calc(1200vh - 32px)",
+        }),
       }}
     >
       <style>

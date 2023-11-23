@@ -16,6 +16,7 @@ import {
   Radio,
   RadioGroup,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -40,6 +41,11 @@ const Metricfilter = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) => theme.breakpoints.down("isipadpro")
+  );
+  const largem = useMediaQuery((theme) => theme.breakpoints.down("lg"));
+
   const clearSelectedOptions = () => {
     setSelectedService([]);
   };
@@ -48,7 +54,7 @@ const Metricfilter = () => {
 
   const handleServiceToggle = (service) => () => {
 
-    setOpenDrawer(!openDrawer)
+    // setOpenDrawer(!openDrawer)
     if (selectedService.includes(service)) {
       setSelectedService(selectedService.filter((item) => item !== service));
     } else {
@@ -68,6 +74,21 @@ const Metricfilter = () => {
         backgroundColor: colors.primary[400],
         overflowY: "auto",
         height: "82vh",
+
+        ...(isiphone && {
+          height: "calc(450vh - 32px)",
+        }),
+
+        // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(850vh - 40px)",
+        ...(isipadpro && {
+          height: "calc(850vh - 32px)",
+        }),
+
+        // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(850vh - 40px)",
+        ...(largem && {
+          height: "calc(1200vh - 32px)",
+        }),
+
       }}
     >
       <style>
