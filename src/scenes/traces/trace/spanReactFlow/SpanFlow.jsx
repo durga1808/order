@@ -39,6 +39,8 @@ const SpanFlow = () => {
   const [spanflowErrStatus, setSpanflowErrStatus] = useState(false);
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
   const isipadmini = useMediaQuery((theme) => theme.breakpoints.only("ipadmini"));
+  const isipadpro = useMediaQuery((theme) => theme.breakpoints.only("isipadpro"));
+  const issurfacepro = useMediaQuery((theme) => theme.breakpoints.only("issurfacepro"));
 
   orderedSpans.forEach((status) => {});
 
@@ -635,6 +637,21 @@ const SpanFlow = () => {
                       isipadmini && {
                         maxHeight: "105vh",
                       }),
+
+
+                      // ...(
+                      //   isipadpro && {
+                      //     maxHeight: "130vh",
+                      //   }),
+
+                         ...(
+                      issurfacepro && {
+                        maxHeight: "100vh",
+                      }),
+
+
+
+
                    overflowY: "auto" }}
               >
                 <div
