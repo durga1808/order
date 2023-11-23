@@ -180,6 +180,9 @@ const TraceList = () => {
   );
   const isipadmini = useMediaQuery((theme) => theme.breakpoints.only("ipadmini"));
 
+  const issurfacepro = useMediaQuery((theme) => theme.breakpoints.only("issurfacepro"));
+  
+
   const createTimeInWords = (data) => {
     // Iterate through data and update createdTime
     const updatedData = data.map((item) => {
@@ -596,6 +599,15 @@ const TraceList = () => {
                   isipadmini && {
                     maxHeight: "113vh",
                   }),
+                  ...(
+                    isipadpro && {
+                      maxHeight: "100vh",
+                    }),
+                 
+                    ...(
+                      issurfacepro && {
+                        maxHeight: "135vh",
+                      }),
               overflowY: "auto",
               overflowX: "auto",
             }}

@@ -20,6 +20,10 @@ const Traces = () => {
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
   const isiphoneSE = useMediaQuery((theme) => theme.breakpoints.only("iphoneSE"));
   const isipadmini = useMediaQuery((theme) => theme.breakpoints.only("ipadmini"));
+  const isipadpro = useMediaQuery((theme) => theme.breakpoints.only("isipadpro"));
+  const issurfacepro = useMediaQuery((theme) => theme.breakpoints.only("issurfacepro"));
+
+  
 
   return (
     <div
@@ -83,6 +87,20 @@ const Traces = () => {
                         height: "120vh",
                       }),
 
+                      // ...(
+                      //   isipadpro && {
+                      //     maxHeight: "150vh",
+                      //   }),
+
+                      
+
+                      ...(
+                        issurfacepro && {
+                          maxHeight: "150vh",
+                        }),
+
+                     
+
                     
                 }}
               >
@@ -109,6 +127,16 @@ const Traces = () => {
                     ...(
                       isipadmini && {
                         height: "120vh",
+                      }),
+
+                      ...(
+                        isipadpro && {
+                          maxHeight: "170vh",
+                        }),
+                      
+                    ...(
+                      issurfacepro && {
+                        maxHeight: "135vh",
                       }),
                 }}
               >
