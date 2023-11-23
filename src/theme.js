@@ -191,9 +191,9 @@ const customBreakpoints = {
   md: 960,
   lg: 1280,
   xl: 1200,
-  iphone: 500,
+  iphone: 540,
   iphoneSE: 375,
-
+  isWidth: 667,
   isipadpro: 1024,
   issurfacepro: 912,
   ipadmini: 768,

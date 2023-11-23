@@ -74,6 +74,7 @@ const Metrics = () => {
   const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isWidth668 = useMediaQuery((theme) => theme.breakpoints.only("isWidth") && '(orientation: landscape)');
 
   // const handleServiceChange = (event) => {
   //   console.log("Service " + event.target.value);
@@ -181,7 +182,11 @@ const Metrics = () => {
     <>
       <div className="index-container" style={{ height: isLandscape ? "" : "calc(89.5vh - 70px)", overflowY: "auto", ...(isiphone && {
         height: "150vh", overflowY: "unset"
-      }) }}>
+      }),
+      // ...(isWidth668 && {
+      //   height: "120vh",
+      // }), 
+      }}>
         <div style={{ margin: "5px 10px 5px 10px" }}>
         </div>
         {loading ? (

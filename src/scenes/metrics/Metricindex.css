@@ -3,9 +3,37 @@
   }
 }
 
+@media (max-width: 654px) and (orientation: landscape) {
+  .index-container {
+    height: 70vh;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 933px) and (orientation: landscape) {
+  .index-container {
+    height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 1025px) and (orientation: landscape) {
+  .index-container {
+    height: 80vh;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 668px) and (orientation: landscape) {
+  .index-container {
+    height: 103vh;
+    overflow-y: auto;
+  }
+}
+
 @media (max-width: 741px) and (orientation: landscape) {
   .index-container {
-    height: 120vh;
+    height: 140vh;
     overflow-y: auto;
   }
 }
