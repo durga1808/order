@@ -18,7 +18,7 @@ const LineChart = ({ data }) => {
     {
       name: data.title,
       data: data.data,
-      color: "#00888C",
+      // color: "#00888C",
     },
   ];
 

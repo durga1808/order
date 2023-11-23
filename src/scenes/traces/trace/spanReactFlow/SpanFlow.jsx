@@ -20,6 +20,7 @@ import {
   TableContainer,
   TableRow,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import { tokens } from "../../../../theme";
@@ -36,6 +37,8 @@ const SpanFlow = () => {
   const [orderedSpans, setOrderedSpans] = useState([]);
   const [isCardVisible, setIsCardVisible] = useState(false);
   const [spanflowErrStatus, setSpanflowErrStatus] = useState(false);
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadmini = useMediaQuery((theme) => theme.breakpoints.only("ipadmini"));
 
   orderedSpans.forEach((status) => {});
 
@@ -466,7 +469,7 @@ const SpanFlow = () => {
                       }}
                       style={{
                         position: "absolute",
-                        height: "450px",
+                        height: "550px",
                         width: "500px",
                         // marginRight: "100px",
                       }}
@@ -475,7 +478,7 @@ const SpanFlow = () => {
                         <div
                           style={
                             {
-                              // maxHeight: "calc(80vh - 70px)",
+                              // maxHeight: "calc(100vh - 70px)",
                               // overflowY: "auto",
                               // paddingRight: "10px",
                               // marginTop: "10px",
@@ -620,8 +623,19 @@ const SpanFlow = () => {
                 </Card>
                 {/* <Typography variant="h6" >SpanCount <br /><Typography variant="h7" >{selectedTrace.spanCount}</Typography></Typography> */}
               </div>
+
+              {/* maxHeight: "calc(145vh - 50px)" */}
               <div
-                style={{ maxHeight: "calc(65vh - 70px)", overflowY: "auto" }}
+                style={{ maxHeight: "calc(71vh - 85px)",
+                ...(
+                  isiphone && {
+                    maxHeight:  "125vh",
+                  }),
+                  ...(
+                      isipadmini && {
+                        maxHeight: "105vh",
+                      }),
+                   overflowY: "auto" }}
               >
                 <div
                   style={{

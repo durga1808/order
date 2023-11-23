@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import TraceList from "./trace/TraceList";
-import { Box, Card, Typography, useTheme } from "@mui/material";
+import { Box, Card, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import SpanFlow from "./trace/spanReactFlow/SpanFlow";
 import SpanInfo from "./trace/spanReactFlow/SpanInfo";
@@ -15,6 +15,11 @@ const Traces = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { traceGlobalEmpty, traceGlobalError, showError } = useContext(GlobalContext);
+
+  
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isiphoneSE = useMediaQuery((theme) => theme.breakpoints.only("iphoneSE"));
+  const isipadmini = useMediaQuery((theme) => theme.breakpoints.only("ipadmini"));
 
   return (
     <div
@@ -67,6 +72,18 @@ const Traces = () => {
                   width: "100%",
                   overflowX: "auto",
                   height: "calc(84vh - 72px)",
+
+                  ...(
+                    isiphone && {
+                      height: "calc(150vh - 5px)",
+                    }),
+
+                    ...(
+                      isipadmini && {
+                        height: "120vh",
+                      }),
+
+                    
                 }}
               >
                 <TraceList />
@@ -81,9 +98,18 @@ const Traces = () => {
                 sx={{
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
-                  width: "600px",
+                  width:isiphoneSE?"500px":"600px",
+                
                   height: "calc(84vh - 72px)",
-                  // overflowY: "auto",
+                  ...(
+                    isiphone && {
+                      height: "148vh",
+                    }),
+                  
+                    ...(
+                      isipadmini && {
+                        height: "120vh",
+                      }),
                 }}
               >
                 <SpanFlow />
@@ -93,9 +119,12 @@ const Traces = () => {
                 sx={{
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
-                  width: "600px",
+                  width:isiphoneSE?"500px":"600px",
                   height: "calc(84vh - 72px)",
-                  // overflowY: "auto",
+                  // ...(
+                  //   isiphone && {
+                  //     height: "calc(150vh - 85px)",
+                  //   }),
                 }}
               >
                 <ErrorContext />

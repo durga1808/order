@@ -191,10 +191,13 @@ const customBreakpoints = {
   md: 960,
   lg: 1280,
   xl: 1200,
-  iphone:541,
+  iphone: 500,
+  iphoneSE: 375,
 
+  isipadpro: 1024,
+  issurfacepro: 912,
+  ipadmini: 768,
 };
-
 
 //MUI Theme settings
 export const themeSettings = (mode) => {

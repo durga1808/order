@@ -11,6 +11,7 @@ import {
   Button,
   Select,
   MenuItem,
+  useMediaQuery,
 } from "@mui/material";
 import "./TraceList.css";
 import { tokens } from "../../../theme";
@@ -169,6 +170,15 @@ const TraceList = () => {
   // const [emptyMessage, setEmptyMessage] = useState(null);
   // const [error, setError] = useState(null);
   const pageLimit = 10;
+
+
+
+  
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) =>
+    theme.breakpoints.only("isipadpro")
+  );
+  const isipadmini = useMediaQuery((theme) => theme.breakpoints.only("ipadmini"));
 
   const createTimeInWords = (data) => {
     // Iterate through data and update createdTime
@@ -578,6 +588,14 @@ const TraceList = () => {
             className="scrollable-div"
             style={{
               maxHeight: "calc(71vh - 85px)",
+              ...(
+                isiphone && {
+                  maxHeight: "calc(150vh - 85px)",
+                }),
+                ...(
+                  isipadmini && {
+                    maxHeight: "113vh",
+                  }),
               overflowY: "auto",
               overflowX: "auto",
             }}
@@ -597,6 +615,7 @@ const TraceList = () => {
                     margin: "10px 0 15px 0",
                     width: "calc(560px-10px)",
                     height: "fit-content",
+                    
                   }}
                 >
                   {/* <CardActionArea> */}

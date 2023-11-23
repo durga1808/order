@@ -17,6 +17,16 @@ const ApiCallCount = ({ data }) => {
   );
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) =>
+  theme.breakpoints.only("isipadpro")
+);
+const issurfacepro = useMediaQuery((theme) =>
+theme.breakpoints.only("issurfacepro")
+);
+  
+  const isipadmini= useMediaQuery((theme) => theme.breakpoints.up("ipadminiwidth"));
+  
+  const isipadmax = useMediaQuery((theme) => theme.breakpoints.down("ipadmaxwidth"));
 
   const apiCallsOptions = {
     chart: {
@@ -117,9 +127,15 @@ const ApiCallCount = ({ data }) => {
             : "calc(40vh - 35px)",
         ...(isiphone && {
           height: "calc(80vh - 32px)",
-
-          // backgroundColor: "grey",
         }),
+        ...(
+          isipadpro && {
+            height: "calc(28vh - 32px)",
+          }),
+          ...(
+            issurfacepro && {
+              height: "calc(35vh - 32px)",
+            }),
         width: chartWidth,
         // overflowX: "auto",
         // overflowY: "hidden",
