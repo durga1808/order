@@ -75,7 +75,8 @@ const Traces = () => {
                   padding: "15px",
                   width: "100%",
                   overflowX: "auto",
-                  height: "calc(84vh - 72px)",
+                  overflowY:issurfacepro?"scroll":null,
+                  height:issurfacepro?"110vh": "calc(84vh - 72px)",
 
                   ...(
                     isiphone && {
@@ -89,15 +90,15 @@ const Traces = () => {
 
                       // ...(
                       //   isipadpro && {
-                      //     maxHeight: "150vh",
+                      //     maxHeight: "170vh",
                       //   }),
 
                       
 
-                      ...(
-                        issurfacepro && {
-                          maxHeight: "150vh",
-                        }),
+                      // ...(
+                      //   issurfacepro && {
+                      //     maxHeight: "120vh",
+                      //   }),
 
                      
 
@@ -117,8 +118,8 @@ const Traces = () => {
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
                   width:isiphoneSE?"500px":"600px",
-                
-                  height: "calc(84vh - 72px)",
+                  overflowY:issurfacepro?"scroll":null,
+                  height:issurfacepro?"110vh": "calc(84vh - 72px)",
                   ...(
                     isiphone && {
                       height: "148vh",
@@ -134,10 +135,10 @@ const Traces = () => {
                           maxHeight: "170vh",
                         }),
                       
-                    ...(
-                      issurfacepro && {
-                        maxHeight: "135vh",
-                      }),
+                    // ...(
+                    //   issurfacepro && {
+                    //     maxHeight: "120vh",
+                    //   }),
                 }}
               >
                 <SpanFlow />
