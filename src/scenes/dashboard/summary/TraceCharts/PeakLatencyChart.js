@@ -43,6 +43,16 @@ const PeakLatencyChart = () => {
   );
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) =>
+  theme.breakpoints.only("isipadpro")
+);
+const issurfacepro = useMediaQuery((theme) =>
+theme.breakpoints.only("issurfacepro")
+);
+  
+  const isipadmini= useMediaQuery((theme) => theme.breakpoints.up("ipadminiwidth"));
+  
+  const isipadmax = useMediaQuery((theme) => theme.breakpoints.down("ipadmaxwidth"));
 
   // const [FiteredData,setFiteredData] = useState([]);
 
@@ -341,6 +351,14 @@ const PeakLatencyChart = () => {
           ...(isiphone && {
             height: "calc(80vh - 32px)",
           }),
+          ...(
+            isipadpro && {
+              height: "calc(28vh - 32px)",
+            }),
+            ...(
+              issurfacepro && {
+                height: "calc(35vh - 32px)",
+              }),
           width: chartWidth,
           marginTop: "-30px",
         }}

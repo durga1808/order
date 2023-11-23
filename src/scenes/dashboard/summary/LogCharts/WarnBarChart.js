@@ -17,6 +17,12 @@ const WarnBarChart = ({ data }) => {
   );
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) =>
+  theme.breakpoints.only("isipadpro")
+);
+const issurfacepro = useMediaQuery((theme) =>
+  theme.breakpoints.only("issurfacepro")
+);
 
   const WarnCountOptions = {
     chart: {
@@ -110,9 +116,15 @@ const WarnBarChart = ({ data }) => {
             : "calc(40vh - 20px)",
         ...(isiphone && {
           height: "calc(80vh - 32px)",
-
-          // backgroundColor: "grey",
         }),
+        ...(
+          isipadpro && {
+            height: "calc(28vh - 32px)",
+          }),
+          ...(
+            issurfacepro && {
+              height: "calc(35vh - 32px)",
+            }),
       width: chartWidth}}>
       <ReactApexChart
        style={{

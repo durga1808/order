@@ -15,6 +15,18 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
   const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
   
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  
+  const isipadpro = useMediaQuery((theme) =>
+    theme.breakpoints.only("isipadpro")
+  );
+  const issurfacepro = useMediaQuery((theme) =>
+  theme.breakpoints.only("issurfacepro")
+);
+
+  
+  const isipadmini= useMediaQuery((theme) => theme.breakpoints.up("ipadminiwidth"));
+  
+  const isipadmax = useMediaQuery((theme) => theme.breakpoints.down("ipadmaxwidth"));
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
@@ -127,6 +139,14 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
         ...(isiphone && {
           height: "calc(80vh - 32px)",
         }),
+        ...(
+          isipadpro && {
+            height: "calc(28vh - 32px)",
+          }),
+          ...(
+            issurfacepro && {
+              height: "calc(35vh - 32px)",
+            }),
         width: chartWidth,
         scrollbarColor: "blue",
       }}

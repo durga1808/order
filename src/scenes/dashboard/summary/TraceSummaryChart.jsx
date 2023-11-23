@@ -1,4 +1,4 @@
-import React, { useState,memo } from "react";
+import React, { useState, memo } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
@@ -26,8 +26,22 @@ const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
-  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService, setMetricRender, setTraceSummaryService, setLogSummaryService, selectedStartDate,
-    selectedEndDate, needHistoricalData, setNavActiveTab, setClearTraceFilter } = useContext(GlobalContext);
+  const {
+    lookBackVal,
+    setActiveTab,
+    setTraceRender,
+    setLogRender,
+    setSelected,
+    traceSummaryService,
+    setMetricRender,
+    setTraceSummaryService,
+    setLogSummaryService,
+    selectedStartDate,
+    selectedEndDate,
+    needHistoricalData,
+    setNavActiveTab,
+    setClearTraceFilter,
+  } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -36,14 +50,34 @@ const TraceBarChart = () => {
   const navigate = useNavigate();
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const issurfacepro = useMediaQuery((theme) =>
+  theme.breakpoints.only("issurfacepro")
+);
+
+  const isipadmini = useMediaQuery((theme) =>
+    theme.breakpoints.up("ipadminiwidth")
+  );
+
+  const isipadpro = useMediaQuery((theme) =>
+    theme.breakpoints.only("isipadpro")
+  );
+
+  console.log("isipadmini", isipadmini);
+  console.log("isipadmax", isipadpro);
 
   const traceSummaryApiCall = useCallback(async () => {
     try {
       setLoading(true);
-      var response = await getTraceSummaryDataWithDate(selectedStartDate, selectedEndDate, lookBackVal.value);
+      var response = await getTraceSummaryDataWithDate(
+        selectedStartDate,
+        selectedEndDate,
+        lookBackVal.value
+      );
       if (response.length !== 0) {
         setintegrationdata(response);
       } else {
@@ -70,8 +104,17 @@ const TraceBarChart = () => {
     setActiveTab(0);
     setNavActiveTab(0);
     setTraceRender(false);
-    setLogRender(false)
-  }, [traceSummaryApiCall, setActiveTab, setTraceRender, setNavActiveTab, setLogRender, setMetricRender, setTraceSummaryService, setLogSummaryService]);
+    setLogRender(false);
+  }, [
+    traceSummaryApiCall,
+    setActiveTab,
+    setTraceRender,
+    setNavActiveTab,
+    setLogRender,
+    setMetricRender,
+    setTraceSummaryService,
+    setLogSummaryService,
+  ]);
 
   const handleBarClick = (selectedDataPointIndex, selectedSeriesName) => {
     ///DONT REMOVE THIS CODE-----------------//
@@ -132,18 +175,42 @@ const TraceBarChart = () => {
   // const chartWidth3 = isCollapsed ? 'calc(85vh - 20px)' : 'calc(75vh - 15px)'
 
   return (
-    <div className="main-content" style={{ height: isLandscape? "" : "78.4vh" }} >
+    <div
+      className="main-content"
+      style={{ height: isLandscape ? "" : "78.4vh" }}
+    >
       {loading ? (
         <Loading />
-      ) : emptyMessage ? (<div className="empty-message" style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "73vh" }}>
-        <Typography variant="h5" fontWeight={"600"}>
-          {emptyMessage}
-        </Typography>
-      </div>) : errorMessage ? (<div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", width: "100%", height: "80vh" }}>
-        <Typography variant="h5" fontWeight={"600"}>
-          {errorMessage}
-        </Typography>
-      </div>) : integrationdata.length !== 0 ? (
+      ) : emptyMessage ? (
+        <div
+          className="empty-message"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "73vh",
+          }}
+        >
+          <Typography variant="h5" fontWeight={"600"}>
+            {emptyMessage}
+          </Typography>
+        </div>
+      ) : errorMessage ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "80vh",
+          }}
+        >
+          <Typography variant="h5" fontWeight={"600"}>
+            {errorMessage}
+          </Typography>
+        </div>
+      ) : integrationdata.length !== 0 ? (
         <div>
           <div
             className="content"
@@ -154,24 +221,46 @@ const TraceBarChart = () => {
               //   backgroundColor: "grey",
               // }),
               // overflowY: "auto",
-              width: "100%"
+              width: "100%",
             }}
           >
             <div className="dashboards">
               {" "}
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <Card elevation={3} style={{ margin: "15px 25px 15px 25px",
-                  //  height: isSmallScreen ? "calc(41vh - 40px)" : "calc(40vh - 40px)",
-                  height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 40px)",
-                    width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark"?"white":"black",
-                    
-                    ...(isiphone && {
-                      height:  "calc(80vh - 32px)",
+                  <Card
+                    elevation={3}
+                    style={{
+                      margin: "15px 25px 15px 25px",
+                      //  height: isSmallScreen ? "calc(41vh - 40px)" : "calc(40vh - 40px)",
+                      height:
+                        isLandscape && isSmallScreen
+                          ? "calc(90vh - 24px)"
+                          : "calc(40vh - 40px)",
+                      width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                      color: theme.palette.mode === "dark" ? "white" : "black",
 
-                // backgroundColor: "grey",
-              }),
-            }}>
+                      ...(isiphone && {
+                        height: "calc(80vh - 32px)",
+                      }),
+                      ...(
+                        isipadpro && {
+                          height: "calc(28vh - 32px)",
+                        }),
+                        ...(
+                          issurfacepro && {
+                            height: "calc(35vh - 32px)",
+                          }),
+
+                      //       ...((isipadmini) && {
+                      //         height:  "calc(50vh - 32px)",
+                      // }),
+
+                      //       ...((isipadmini&&isipadpro) && {
+                      //         height:  "calc(30vh - 32px)",
+                      // }),
+                    }}
+                  >
                     <CardContent>
                       {hasErrChartData || hasSuccChartData ? (
                         <ErrSucssCallCountChart
@@ -180,7 +269,15 @@ const TraceBarChart = () => {
                         />
                       ) : (
                         // <div>Error and Success Call Count Chart - No Data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(40vh - 24px)", width: "100%" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "calc(40vh - 24px)",
+                            width: "100%",
+                          }}
+                        >
                           <Typography variant="h5" fontWeight={"600"}>
                             Error and Success Count Chart - No Data
                           </Typography>
@@ -190,8 +287,6 @@ const TraceBarChart = () => {
                   </Card>
                 </Grid>
               </Grid>
-
-
               {/* {hasErrChartData ? (
                 <ServiceDetails
                   selectedService={selectedService}
@@ -214,27 +309,49 @@ const TraceBarChart = () => {
                 />
               ) : null}
               <ServiceTable selectedService={selectedService} /> */}
-            <div>
-              <Grid container spacing={2}>
-                {" "}
-                <Grid item xs={12} sm={6}>
-                  <Card elevation={4} style={{ margin: "5px 15px 5px 25px", 
-                  // height: "calc(40vh - 32px)",
-        //           height: isLandscape
-        // ? "calc(41vh - 40px)"
-        // : isSmallScreen
-        // ? "calc(90vh - 24px)"
-        // : "calc(42vh - 32px)", 
-        height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
-        // height: isLandscape ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
-        width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black",
-        ...(isiphone && {
-          height:  "calc(80vh - 32px)",
+              <div>
+                <Grid container spacing={2}>
+                  {" "}
+                  <Grid item xs={12} sm={6}>
+                    <Card
+                      elevation={4}
+                      style={{
+                        margin: "5px 15px 5px 25px",
+                        // height: "calc(40vh - 32px)",
+                        //           height: isLandscape
+                        // ? "calc(41vh - 40px)"
+                        // : isSmallScreen
+                        // ? "calc(90vh - 24px)"
+                        // : "calc(42vh - 32px)",
+                        height:
+                          isLandscape && isSmallScreen
+                            ? "calc(90vh - 24px)"
+                            :"calc(40vh - 32px)",
+                        // height: isLandscape ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
+                        width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                        color:
+                          theme.palette.mode === "dark" ? "white" : "black",
+                        ...(isiphone && {
+                          height: "calc(80vh - 32px)",
+                         
+                        }),
+                        ...(
+                          isipadpro && {
+                            height: "calc(28vh - 32px)",
+                          }),
+                          ...(
+                            issurfacepro && {
+                              height: "calc(35vh - 32px)",
+                            }),
 
-    // backgroundColor: "grey",
-  }), }}>
-                    <CardContent>
-                      {/* {integrationdata.map((items) =>
+                        // ...(isipadmini &&
+                        //   isipadpro && {
+                        //     height: "calc(30vh - 32px)",
+                        //   }),
+                      }}
+                    >
+                      <CardContent>
+                        {/* {integrationdata.map((items) =>
                         items.apiCallCount !== 0 ? (
                           <ApiCallCount data={integrationdata} />
                         ) : (
@@ -242,36 +359,61 @@ const TraceBarChart = () => {
                         )
                       )} */}
 
-                      {hasApiChartData ? (
-                        <ApiCallCount data={integrationdata} />
-                      ) : (
-                        // <div>Api Call Count Chart - No data</div>
-                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: "center", height: "calc(40vh - 25px)" }}>
-                          <Typography variant="h5" fontWeight={"600"}>
-                            Api Count Chart - No data
-                          </Typography>
-                        </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                        {hasApiChartData ? (
+                          <ApiCallCount data={integrationdata} />
+                        ) : (
+                          // <div>Api Call Count Chart - No data</div>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              height: "calc(40vh - 25px)",
+                            }}
+                          >
+                            <Typography variant="h5" fontWeight={"600"}>
+                              Api Count Chart - No data
+                            </Typography>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Card
+                      elevation={3}
+                      style={{
+                        margin: isSmallScreen
+                          ? "5px 15px 5px 25px"
+                          : "5px 25px 5px 15px",
+                        // height: isSmallScreen ? "calc(41vh - 40px)" : "calc(40vh - 32px)",
+                        height:
+                          isLandscape && isSmallScreen
+                            ? "calc(90vh - 24px)"
+                            : "calc(40vh - 32px)",
+                        width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                        color:
+                          theme.palette.mode === "dark" ? "white" : "black",
+                        ...(isiphone && {
+                          height: "calc(80vh - 32px)",
+                        }),
+                        ...(
+                          isipadpro && {
+                            height: "calc(28vh - 32px)",
+                          }),
+                          ...(
+                            issurfacepro && {
+                              height: "calc(35vh - 32px)",
+                            }),
+                      }}
+                    >
+                      <CardContent>
+                        <PeakLatencyChart />
+                      </CardContent>
+                    </Card>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Card elevation={3} style={{ margin: isSmallScreen ? "5px 15px 5px 25px" : "5px 25px 5px 15px", 
-                  // height: isSmallScreen ? "calc(41vh - 40px)" : "calc(40vh - 32px)", 
-                  height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
-                  width: isSmallScreen ? "calc(1040px - 40px)" : "", color: theme.palette.mode === "dark" ? "white" : "black" ,
-                  ...(isiphone && {
-                    height:  "calc(80vh - 32px)",
-
-              // backgroundColor: "grey",
-            }),}}>
-                    <CardContent>
-                      <PeakLatencyChart />
-                    </CardContent>
-                  </Card>
-                </Grid>
-              </Grid>
-            </div>
+              </div>
             </div>
           </div>
         </div>

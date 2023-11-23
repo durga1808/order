@@ -18,6 +18,12 @@ const ErrorBarChart = ({ data, onBarClick }) => {
   );
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) =>
+  theme.breakpoints.only("isipadpro")
+);
+const issurfacepro = useMediaQuery((theme) =>
+  theme.breakpoints.only("issurfacepro")
+);
 
   const handleBarClick = (event, chartContext, config) => {
     const selectedDataPointIndex = config.dataPointIndex;
@@ -120,9 +126,15 @@ const ErrorBarChart = ({ data, onBarClick }) => {
             : "calc(40vh - 35px)",
             ...(isiphone && {
               height: "calc(80vh - 32px)",
-    
-              // backgroundColor: "grey",
             }),
+            ...(
+              isipadpro && {
+                height: "calc(28vh - 32px)",
+              }),
+              ...(
+                issurfacepro && {
+                  height: "calc(35vh - 32px)",
+                }),
         // marginLeft:"100px",
         // overflowX: "auto",
         // overflowY: "hidden",
