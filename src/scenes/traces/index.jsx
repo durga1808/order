@@ -73,7 +73,7 @@ const Traces = () => {
                 sx={{
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
-                  width: "100%",
+                  width:isipadpro? "95%":"100%",
                   overflowX: "auto",
                   overflowY:issurfacepro?"scroll":null,
                   height:issurfacepro?"110vh": "calc(84vh - 72px)",
@@ -115,9 +115,8 @@ const Traces = () => {
               {!showError ? (<Card
                 elevation={4}
                 sx={{
-                  // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
-                  width:isiphoneSE?"500px":"600px",
+                  width:isiphoneSE?"500px":isipadpro?"520px":"600px",
                   overflowY:issurfacepro?"scroll":null,
                   height:issurfacepro?"110vh": "calc(84vh - 72px)",
                   ...(
