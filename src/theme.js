@@ -197,6 +197,7 @@ const customBreakpoints = {
   isipadpro: 1024,
   issurfacepro: 912,
   ipadmini: 768,
+  ipadAir: 820,
   iphoneXR: 414,
   surfDuo: 540,
 };

@@ -808,6 +808,12 @@ const Loglists = () => {
               [theme.breakpoints.only('isipadpro')]: {
                 height: "calc(67vh - 85px)"
               },
+              [theme.breakpoints.only('issurfacepro')]: {
+                height: "calc(68vh - 85px)"
+              },
+              [theme.breakpoints.only('ipadAir')]: {
+                height: "calc(77vh - 85px)"
+              }
             }}
           >
             <div>
