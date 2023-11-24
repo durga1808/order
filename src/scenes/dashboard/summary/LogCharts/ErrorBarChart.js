@@ -5,7 +5,7 @@ import { tokens } from "../../../../theme";
 import "./ErrorBarChart.css";
 import { useContext } from "react";
 import { GlobalContext } from "../../../../global/globalContext/GlobalContext";
-import { useMediaQuery } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 
 const ErrorBarChart = ({ data, onBarClick }) => {
   const theme = useTheme();
@@ -115,7 +115,7 @@ const issurfacepro = useMediaQuery((theme) =>
   const chartHeight = isLandscape && isSmallScreen ? "200%" : "90%";
 
   return (
-    <div
+    <Box
     
       data-theme={theme.palette.mode}
       style={{
@@ -155,7 +155,7 @@ const issurfacepro = useMediaQuery((theme) =>
         width={"100%"}
       />
       {/* </Card> */}
-    </div>
+    </Box>
   );
 };
 
