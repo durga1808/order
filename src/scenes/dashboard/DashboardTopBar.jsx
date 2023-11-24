@@ -21,7 +21,11 @@ import { useNavigate } from "react-router-dom";
 import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import "./DashboardTopBar.css";
-import { FilterListOutlined, RefreshOutlined } from "@mui/icons-material";
+import {
+  FilterListOutlined,
+  Height,
+  RefreshOutlined,
+} from "@mui/icons-material";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { options } from "../../global/MockData/MockTraces";
 import Logfilter from "../logs/Logfilter";
@@ -32,7 +36,6 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import DashboardTab from "./DashboardTab";
-
 
 const DashboardTopBar = () => {
   const navigate = useNavigate();
@@ -107,6 +110,16 @@ const DashboardTopBar = () => {
   const colors = tokens(theme.palette.mode);
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) =>
+    theme.breakpoints.down("isipadpro")
+  );
+
+  const largem = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 
   // const [dashboardMenuAnchor, setDashboardMenuAnchor] = useState(null);
 
@@ -118,7 +131,7 @@ const DashboardTopBar = () => {
 
   // const handleDashboardTabClick = (event) => {
   //   setDashboardMenuAnchor(event.currentTarget);
-  // };  
+  // };
 
   const iconStyle = {
     fontSize: "20px",
@@ -198,13 +211,12 @@ const DashboardTopBar = () => {
     }
     setActiveTab(newValue);
   };
-  
+
   const handleDashboardOptionSelect = (option) => {
     console.log("Selected option:", option);
     if (option === "Trace Summary") {
       navigate("/mainpage/dashboard");
-    } 
-    else if (option === "Log Summary") {
+    } else if (option === "Log Summary") {
       navigate("/mainpage/dashboard/logSummary");
     } else if (option === "Db Summary") {
       navigate("/mainpage/dashboard/dbSummary");
@@ -331,9 +343,7 @@ const DashboardTopBar = () => {
   // window.location.pathname === "/mainpage/logs" ?toggleDrawer:null}
 
   const toggleDrawer = () => {
-
-    setOpenDrawer(!openDrawer)
-  
+    setOpenDrawer(!openDrawer);
   };
 
   const appBarStyles = {
@@ -354,56 +364,72 @@ const DashboardTopBar = () => {
             // minHeight: "120px"
           }}
         >
-          {isSmallScreen ? <div >
-            {window.location.pathname === "/mainpage/dashboard" ||
+          {isSmallScreen ? (
+            <div>
+              {window.location.pathname === "/mainpage/dashboard" ||
               window.location.pathname === "/mainpage/traces" ||
               window.location.pathname === "/mainpage/metrics" ||
-              window.location.pathname === "/mainpage/logs" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
-              <Tabs
-                value={navActiveTab}
-                onChange={handleTabChangePages}
-                TabIndicatorProps={{
-                  sx: {
-                    borderRadius: 3,
-                  },
-                }}
-                textColor="inherit"
-                indicatorColor="primary">
-                <Tab label={<DashboardTab onDashboardOptionSelect={handleDashboardOptionSelect} />} sx={{ color: "#FFF" }} />
-                <Tab label="Traces" sx={{ color: "#FFF" }} />
-                <Tab label="Metrics" sx={{ color: "#FFF" }} />
-                <Tab label="Logs" sx={{ color: "#FFF" }} />
-              </Tabs>
-            ) : null}
-          </div> : (
-          <div >
-            {window.location.pathname === "/mainpage/dashboard" ||
-            window.location.pathname === "/mainpage/traces" ||
-            window.location.pathname === "/mainpage/metrics" ||
-            window.location.pathname === "/mainpage/logs" ||
-            window.location.pathname === "/mainpage/dashboard/logSummary" ||
-            window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-            window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
-              <Tabs
-                value={navActiveTab}
-                onChange={handleTabChangePages}
-                TabIndicatorProps={{
-                  sx: {
-                    // height: 2,
-                    borderRadius: 3,
-                    // backgroundColor: colors.tabIndicator[500],
-                  },
-                }}
-                textColor="inherit"
-                indicatorColor="primary"
-              >
-                <Tab label="Dashboard" sx={{ color: "#FFF" }} />
-                <Tab label="Traces" sx={{ color: "#FFF" }} />
-                <Tab label="Metrics" sx={{ color: "#FFF" }} />
-                <Tab label="Logs" sx={{ color: "#FFF" }} />
-              </Tabs>
-            ) : null}
-          </div> )}
+              window.location.pathname === "/mainpage/logs" ||
+              window.location.pathname === "/mainpage/dashboard/logSummary" ||
+              window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+              window.location.pathname ===
+                "/mainpage/dashboard/kafkaSummary" ? (
+                <Tabs
+                  value={navActiveTab}
+                  onChange={handleTabChangePages}
+                  TabIndicatorProps={{
+                    sx: {
+                      borderRadius: 3,
+                    },
+                  }}
+                  textColor="inherit"
+                  indicatorColor="primary"
+                >
+                  <Tab
+                    label={
+                      <DashboardTab
+                        onDashboardOptionSelect={handleDashboardOptionSelect}
+                      />
+                    }
+                    sx={{ color: "#FFF" }}
+                  />
+                  <Tab label="Traces" sx={{ color: "#FFF" }} />
+                  <Tab label="Metrics" sx={{ color: "#FFF" }} />
+                  <Tab label="Logs" sx={{ color: "#FFF" }} />
+                </Tabs>
+              ) : null}
+            </div>
+          ) : (
+            <div>
+              {window.location.pathname === "/mainpage/dashboard" ||
+              window.location.pathname === "/mainpage/traces" ||
+              window.location.pathname === "/mainpage/metrics" ||
+              window.location.pathname === "/mainpage/logs" ||
+              window.location.pathname === "/mainpage/dashboard/logSummary" ||
+              window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+              window.location.pathname ===
+                "/mainpage/dashboard/kafkaSummary" ? (
+                <Tabs
+                  value={navActiveTab}
+                  onChange={handleTabChangePages}
+                  TabIndicatorProps={{
+                    sx: {
+                      // height: 2,
+                      borderRadius: 3,
+                      // backgroundColor: colors.tabIndicator[500],
+                    },
+                  }}
+                  textColor="inherit"
+                  indicatorColor="primary"
+                >
+                  <Tab label="Dashboard" sx={{ color: "#FFF" }} />
+                  <Tab label="Traces" sx={{ color: "#FFF" }} />
+                  <Tab label="Metrics" sx={{ color: "#FFF" }} />
+                  <Tab label="Logs" sx={{ color: "#FFF" }} />
+                </Tabs>
+              ) : null}
+            </div>
+          )}
           <Box
             sx={{
               display: "flex",
@@ -761,19 +787,135 @@ const DashboardTopBar = () => {
           ) : null}
 
           {window.location.pathname === "/mainpage/traces" ? (
-            <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
+            // <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
+            <Drawer
+              open={openDrawer}
+              onClose={toggleDrawer}
+              anchor="right"
+              PaperProps={{
+                sx: {
+                  height: "82vh",
+                  // top: 150,
+
+
+                  height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(isiphone && {
+                  height: "calc(450vh - 32px)",
+                }),
+
+                height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(isipadpro && {
+                  height: "calc(850vh - 32px)",
+                }),
+
+                height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(largem && {
+                  height: "calc(1200vh - 32px)",
+                }),
+
+
+                  bottom: 150,
+                },
+              }}
+            >
               <FilterDialog />
             </Drawer>
           ) : null}
 
           {window.location.pathname === "/mainpage/metrics" ? (
-            <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
+            // <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
+            <Drawer
+              open={openDrawer}
+              onClose={toggleDrawer}
+              anchor="right"
+              PaperProps={{
+                sx: {
+                  height: "80vh",
+                  // top: 150,
+
+                  height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(isiphone && {
+                  height: "calc(450vh - 32px)",
+                }),
+
+                height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(isipadpro && {
+                  height: "calc(850vh - 32px)",
+                }),
+
+                height:
+                  isLandscape && isSmallScreen
+                    ? "calc(90vh - 24px)"
+                    : "calc(40vh - 40px)",
+                ...(largem && {
+                  height: "calc(1200vh - 32px)",
+                }),
+
+                  bottom: 150,
+                },
+              }}
+            >
               <Metricfilter />
             </Drawer>
           ) : null}
 
           {window.location.pathname === "/mainpage/logs" ? (
-            <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
+            // <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
+            <Drawer
+              open={openDrawer}
+              onClose={toggleDrawer}
+              anchor="right"
+              PaperProps={{
+                sx: {
+                  height: "82vh",
+                  // "@media (max-width: 500px)": {
+                  //   height: "400vh",
+                  // },
+                  // top: 150,
+
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(isiphone && {
+                    height: "calc(450vh - 32px)",
+                  }),
+
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(isipadpro && {
+                    height: "calc(850vh - 32px)",
+                  }),
+
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(largem && {
+                    height: "calc(1200vh - 32px)",
+                  }),
+
+                  bottom: 150,
+                },
+              }}
+            >
               <Logfilter />
             </Drawer>
           ) : null}

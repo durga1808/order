@@ -13,6 +13,7 @@ import {
   List,
   ListItem,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -47,6 +48,17 @@ const Logfilter = () => {
   // const services = ['order-project', 'vendor-project', 'ProviderService', 'DeliveryService'];
 
   const severity = ["ERROR", "SEVERE", "WARN", "INFO"];
+
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) =>
+    theme.breakpoints.down("isipadpro")
+  );
+  const largem = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 
   const handleServiceToggle = (service) => () => {
     if (logSelectedService.includes(service)) {
@@ -83,8 +95,7 @@ const Logfilter = () => {
   }, [clearLogFilter]);
 
   const handleApplyButtonClick = () => {
-
-    setOpenDrawer(!openDrawer)
+    // setOpenDrawer(!openDrawer)
     const payload = {
       service: logSelectedService,
       severityText: selectedSeverity,
@@ -129,6 +140,23 @@ const Logfilter = () => {
         backgroundColor: colors.primary[400],
         overflowY: "auto",
         height: "82vh",
+        // "@media (max-width: 500px)": {
+        //   height: "400%",
+        // }
+        // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(40vh - 40px)",
+        ...(isiphone && {
+          height: "calc(450vh - 32px)",
+        }),
+
+        // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(850vh - 40px)",
+        ...(isipadpro && {
+          height: "calc(850vh - 32px)",
+        }),
+
+        // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(850vh - 40px)",
+        ...(largem && {
+          height: "calc(1200vh - 32px)",
+        }),
       }}
     >
       <style>

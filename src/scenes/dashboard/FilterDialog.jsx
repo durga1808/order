@@ -52,6 +52,11 @@ const FilterDialog = () => {
   const colors = tokens(theme.palette.mode);
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) => theme.breakpoints.down("isipadpro"));
+  const largem = useMediaQuery((theme) => theme.breakpoints.down("lg"));
+
+
   const codesNew = [
     {
       labelName: "2xx",
@@ -277,7 +282,26 @@ const FilterDialog = () => {
   };
 
   return (
-    <div className="custom-drawer" style={{ backgroundColor: colors.primary[400],overflowY: "auto", height: "82vh" }}>
+    <div className="custom-drawer" style={{ 
+      backgroundColor: colors.primary[400],
+      overflowY: "auto",
+       height: "82vh" ,
+
+        ...(isiphone && {
+        height: "calc(450vh - 32px)",
+      }),
+
+      // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(850vh - 40px)",
+      ...(isipadpro && {
+        height: "calc(850vh - 32px)",
+      }),
+
+      // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(850vh - 40px)",
+      ...(largem && {
+        height: "calc(1200vh - 32px)",
+      }),
+     
+        }}>
       <style>
         {`
 
