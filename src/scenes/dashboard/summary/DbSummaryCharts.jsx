@@ -144,7 +144,7 @@ const DbSummaryCharts = () => {
   );
 
   return (
-    <div style={{ height: isLandscape ? "" : "78.4vh" }}>
+    <div style={{ height: isLandscape ? "" : "77vh" }}>
       {loading ? (
         <Loading />
       ) : emptyMessage ? (
@@ -195,7 +195,7 @@ const DbSummaryCharts = () => {
                   height:
                     isLandscape && isSmallScreen
                       ? "calc(45vh - 35px)"
-                      : "calc(40vh - 32px)",
+                      : "calc(40vh - 40px)",
                   ...(isiphone && {
                     height: "calc(70vh - 32px)",
                   }),
@@ -242,8 +242,8 @@ const DbSummaryCharts = () => {
                   margin: "7px 20px 15px 20px",
                   height:
                     isLandscape && isSmallScreen
-                      ? "calc(45vh - 35px)"
-                      : "calc(40vh - 32px)",
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
                   ...(isiphone && {
                     height: "calc(70vh - 32px)",
                   }),

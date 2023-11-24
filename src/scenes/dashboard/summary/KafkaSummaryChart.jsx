@@ -80,7 +80,7 @@ const KafkaSummaryChart = () => {
   );
 
   return (
-    <div style={{ height: isLandscape? "" : "78.4vh" }}>
+    <div style={{ height: isLandscape? "" : "77vh" }}>
       {loading ? (
         <Loading />
       ) : emptyMessage ? (
