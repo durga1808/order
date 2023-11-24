@@ -197,6 +197,8 @@ const customBreakpoints = {
   isipadpro: 1024,
   issurfacepro: 912,
   ipadmini: 768,
+  iphoneXR: 414,
+  surfDuo: 540,
 };
 
 //MUI Theme settings

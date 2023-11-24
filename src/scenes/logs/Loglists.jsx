@@ -41,6 +41,7 @@ import PaginationItem from "@mui/material/PaginationItem";
 import CloseIcon from "@mui/icons-material/Close";
 
 import './Loglists.css';
+import th from "date-fns/locale/th";
 
 const tableHeaderData = [
   {
@@ -130,6 +131,12 @@ const Loglists = () => {
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("lg"));
   const isLandscape = useMediaQuery("(orientation: landscape)");
+
+  const isWidth430 = useMediaQuery(
+    "(min-width: 400px) and (max-width: 431px)"
+  );
+
+  const isWidth400 = useMediaQuery("(min-width: 370px) and (max-width: 395px)");
 
   const handlecardclose = () => {
     setIsCardVisible(false);
@@ -777,13 +784,30 @@ const Loglists = () => {
              
               padding: "20px",
               marginTop: "10px",
-              // backgroundColor:{sm:{backgroundColor:"gray"}},
               height: isSmallScreen ? "calc(90vh - 72px)" : "calc(73vh - 72px)",
-              [theme.breakpoints.down('sm')]: {
+              // [theme.breakpoints.down('sm')]: {
+              //   height: "calc(100vh - 85px)"
+              // },
+              // [theme.breakpoints.down('lg')]: {
+              //   height: "calc(100vh - 85px)"
+              // },
+              [theme.breakpoints.down('iphoneSE')]: {
+                height: "calc(120vh - 85px)"
+              },
+              ...isWidth430 && {
                 height: "calc(100vh - 85px)"
               },
-              [theme.breakpoints.down('lg')]: {
-                height: "calc(100vh - 85px)"
+              ...isWidth400 && {
+                height: "calc(110vh - 85px)"
+              },
+              [theme.breakpoints.only('iphoneXR')]: {
+                height: "calc(102vh - 85px)"
+              },
+              [theme.breakpoints.only('surfDuo')]: {
+                height: "calc(110vh - 85px)"
+              },
+              [theme.breakpoints.only('isipadpro')]: {
+                height: "calc(67vh - 85px)"
               },
             }}
           >
@@ -841,6 +865,14 @@ const Loglists = () => {
                       [theme.breakpoints.down('sm')]: {
                         maxHeight: "calc(100vh - 85px)"
                       },
+                      [theme.breakpoints.down('iphoneSE')]: {
+                        // height: "calc(120vh - 85px)"
+                        maxHeight: "calc(110vh - 85px)"
+                      },
+                      // [theme.breakpoints.only('iphoneSE')]: {
+                      //   // height: "calc(120vh - 85px)"
+                      //   maxHeight: "calc(110vh - 85px)"
+                      // },
                       overflowY: "auto",
                     }}
                   >
@@ -1101,7 +1133,6 @@ const Loglists = () => {
                 // height: isSmallScreen ? "90vh" : "79.5vh",
                 height: isLandscape ? "79.5vh" : "90vh",
                 [theme.breakpoints.down("sm")]: {
-                  backgroundColor: "grey",
                   height: "90vh"
                 },
                 paddingBottom: "30px",
