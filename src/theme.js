@@ -200,6 +200,7 @@ const customBreakpoints = {
   ipadAir: 820,
   iphoneXR: 414,
   surfDuo: 540,
+  iphone12: 390,
 };
 
 //MUI Theme settings
