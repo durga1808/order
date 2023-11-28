@@ -133,7 +133,7 @@ const KafkaSummaryChart = () => {
                     (isLandscape && isSmallScreen)
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 40px)",
-
+                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   ...(isiphone && {
                     height: "calc(70vh - 32px)",
                   }),
@@ -174,8 +174,9 @@ const KafkaSummaryChart = () => {
                     (isLandscape && isSmallScreen)
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 40px)",
+                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   ...(isiphone && {
-                    height: "calc(70vh - 32px)",
+                    height: "calc(72vh - 32px)",
                   }),
                   color: "black",
                 }}

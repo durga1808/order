@@ -237,7 +237,7 @@ const TraceBarChart = () => {
                         isLandscape && isSmallScreen
                           ? "calc(90vh - 24px)"
                           : "calc(40vh - 40px)",
-                      // width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                      width: isSmallScreen ? "calc(1070px - 40px)" : "",
                       color: theme.palette.mode === "dark" ? "white" : "black",
 
                       ...(isiphone && {
@@ -328,7 +328,7 @@ const TraceBarChart = () => {
                             ? "calc(90vh - 24px)"
                             :"calc(40vh - 32px)",
                         // height: isLandscape ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
-                        // width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                        width: isSmallScreen ? "calc(1070px - 40px)" : "",
                         color:
                           theme.palette.mode === "dark" ? "white" : "black",
                         ...(isiphone && {
@@ -391,7 +391,7 @@ const TraceBarChart = () => {
                           isLandscape && isSmallScreen
                             ? "calc(90vh - 24px)"
                             : "calc(40vh - 32px)",
-                        // width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                        width: isSmallScreen ? "calc(1070px - 40px)" : "",
                         color:
                           theme.palette.mode === "dark" ? "white" : "black",
                         ...(isiphone && {

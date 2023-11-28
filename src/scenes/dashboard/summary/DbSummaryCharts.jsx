@@ -196,6 +196,7 @@ const DbSummaryCharts = () => {
                     isLandscape && isSmallScreen
                       ? "calc(45vh - 35px)"
                       : "calc(40vh - 40px)",
+                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   ...(isiphone && {
                     height: "calc(70vh - 32px)",
                   }),
@@ -244,6 +245,7 @@ const DbSummaryCharts = () => {
                     isLandscape && isSmallScreen
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 40px)",
+                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   ...(isiphone && {
                     height: "calc(70vh - 32px)",
                   }),

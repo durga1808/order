@@ -190,7 +190,7 @@ const LogBarChart = () => {
                     isLandscape && isSmallScreen
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 40px)",
-                  // width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   color: theme.palette.mode === "dark" ? "white" : "black",
                   ...(isiphone && {
                     height: "calc(80vh - 32px)",
@@ -274,7 +274,7 @@ const LogBarChart = () => {
                     isLandscape && isSmallScreen
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 32px)",
-                  // width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   color: theme.palette.mode === "dark" ? "white" : "black",
                   ...(isiphone && {
                     height: "calc(80vh - 32px)",
@@ -323,7 +323,7 @@ const LogBarChart = () => {
                     isLandscape && isSmallScreen
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 32px)",
-                  // width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   color: theme.palette.mode === "dark" ? "white" : "black",
                   ...(isiphone && {
                     height: "calc(80vh - 32px)",
