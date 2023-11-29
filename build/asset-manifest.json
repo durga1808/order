@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/static/css/main.4e85836a.css",
-    "main.js": "/static/js/main.96f52886.js",
+    "main.js": "/static/js/main.da320313.js",
     "static/media/observai.png": "/static/media/observai.ce90f42f2fbb2ce26aee.png",
     "static/media/zaga-logedit.jpg": "/static/media/zaga-logedit.242683575116b6343771.jpg",
     "index.html": "/index.html",
     "main.4e85836a.css.map": "/static/css/main.4e85836a.css.map",
-    "main.96f52886.js.map": "/static/js/main.96f52886.js.map"
+    "main.da320313.js.map": "/static/js/main.da320313.js.map"
   },
   "entrypoints": [
     "static/css/main.4e85836a.css",
-    "static/js/main.96f52886.js"
+    "static/js/main.da320313.js"
   ]
 }
