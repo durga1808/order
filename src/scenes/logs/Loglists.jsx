@@ -30,7 +30,14 @@ import { format, formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { useCallback } from "react";
-import { GetAllLogBySortsWithDate, LogFilterOption, LogFilterOptionWithDate, getAllLogBySorts, getAllLogBySortsWithDate, searchLogsWithDate } from "../../api/LogApiService";
+import {
+  GetAllLogBySortsWithDate,
+  LogFilterOption,
+  LogFilterOptionWithDate,
+  getAllLogBySorts,
+  getAllLogBySortsWithDate,
+  searchLogsWithDate,
+} from "../../api/LogApiService";
 import { useEffect } from "react";
 import { SearchOutlined } from "@mui/icons-material";
 import { tokens } from "../../theme";
@@ -39,8 +46,9 @@ import Loading from "../../global/Loading/Loading";
 import { searchLogs } from "../../api/LogApiService";
 import PaginationItem from "@mui/material/PaginationItem";
 import CloseIcon from "@mui/icons-material/Close";
+import { debounce,cancel } from 'lodash';
 
-import './Loglists.css';
+import "./Loglists.css";
 import th from "date-fns/locale/th";
 
 const tableHeaderData = [
@@ -119,7 +127,7 @@ const Loglists = () => {
     setNavActiveTab,
     setNeedFilterCall,
     setTraceDisplayService,
-    setClearTraceFilter
+    setClearTraceFilter,
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -132,9 +140,7 @@ const Loglists = () => {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("lg"));
   const isLandscape = useMediaQuery("(orientation: landscape)");
 
-  const isWidth430 = useMediaQuery(
-    "(min-width: 400px) and (max-width: 431px)"
-  );
+  const isWidth430 = useMediaQuery("(min-width: 400px) and (max-width: 431px)");
 
   const isWidth400 = useMediaQuery("(min-width: 370px) and (max-width: 395px)");
 
@@ -164,7 +170,7 @@ const Loglists = () => {
     setSelectedLogData([selectedLogDataObj]);
     // setIsCollapsed(true);
     setIsCardVisible(true);
-    console.log(severity)
+    console.log(severity);
   };
 
   const StyledTableCell = styled(TableCell)(() => ({
@@ -235,7 +241,6 @@ const Loglists = () => {
   };
 
   function createData(severity, time, traceid, serviceName, message, index) {
-
     traceid = traceid === "" ? "No Trace ID" : traceid;
 
     // const actionButton = (
@@ -347,8 +352,6 @@ const Loglists = () => {
       </div>
     );
 
-
-
     return {
       severity,
       time,
@@ -435,41 +438,56 @@ const Loglists = () => {
       }
       setLoading(false);
     },
-    [selectedStartDate, selectedEndDate, lookBackVal, selectedOption, logSummaryService, needHistoricalData]
+    [
+      selectedStartDate,
+      selectedEndDate,
+      lookBackVal,
+      selectedOption,
+      logSummaryService,
+      needHistoricalData,
+    ]
   );
 
-  const logFilterApiCall = useCallback(
-    async () => {
-      setLoading(true);
-      console.log("Filter Body " + logFilterApiBody);
-      try {
-        console.log("Filter callback ");
-        const { data, totalCount } = await LogFilterOptionWithDate(
-          selectedStartDate,
-          selectedEndDate,
-          lookBackVal.value,
-          selectedOption,
-          currentPage,
-          pageLimit,
-          logFilterApiBody
-        );
-        if (data.length !== 0) {
-          const updatedData = createTimeInWords(data);
-          const finalOutput = mapLogData(updatedData);
-          setLogData(finalOutput);
-          console.log(finalOutput);
-          setTotalPageCount(Math.ceil(totalCount / pageLimit));
-        } else {
-          setFilterMessage("No Matched data for this filter!");
-        }
-      } catch (error) {
-        console.log("ERROR from log " + error);
-      } finally {
-        setLoading(false);
+  const logFilterApiCall = useCallback(async () => {
+    setLoading(true);
+    console.log("Filter Body " + logFilterApiBody);
+    try {
+      console.log("Filter callback ");
+      const { data, totalCount } = await LogFilterOptionWithDate(
+        selectedStartDate,
+        selectedEndDate,
+        lookBackVal.value,
+        selectedOption,
+        currentPage,
+        pageLimit,
+        logFilterApiBody
+      );
+      if (data.length !== 0) {
+        const updatedData = createTimeInWords(data);
+        const finalOutput = mapLogData(updatedData);
+        setLogData(finalOutput);
+        console.log("finalOutput filter body", finalOutput);
+        setTotalPageCount(Math.ceil(totalCount / pageLimit));
+      } else {
+        setFilterMessage("No Matched data for this filter!");
       }
-    },
-    [selectedStartDate, selectedEndDate, lookBackVal, selectedOption, setLogData, setTotalPageCount, pageLimit, currentPage, logFilterApiBody, needHistoricalData]
-  );
+    } catch (error) {
+      console.log("ERROR from log " + error);
+    } finally {
+      setLoading(false);
+    }
+  }, [
+    selectedStartDate,
+    selectedEndDate,
+    lookBackVal,
+    selectedOption,
+    setLogData,
+    setTotalPageCount,
+    pageLimit,
+    currentPage,
+    logFilterApiBody,
+    needHistoricalData,
+  ]);
 
   // const [searchQuery, setSearchQuery] = useState("");
   const { searchQuery, setSearchQuery } = useContext(GlobalContext);
@@ -480,7 +498,10 @@ const Loglists = () => {
     setCurrentPage(Number(selectedPage));
   };
 
-  const handleSearch = async () => {
+
+
+
+  const handleSearch= async () => {
     setLoading(true);
     try {
       const { data, totalCount } = await searchLogsWithDate(
@@ -492,15 +513,17 @@ const Loglists = () => {
         pageLimit
       );
       // Process and set the search results
-      if (data.length !== 0) {
+      console.log("datalength", data.length);
+      if (data.length > 0) {
         const updatedData = createTimeInWords(data);
         const finalOutput = mapLogData(updatedData);
         setSearchResults(finalOutput);
         setTotalPageCount(Math.ceil(totalCount / pageLimit));
-        console.log("Search " + JSON.stringify(data));
-        console.log("API", finalOutput);
+        // console.log("Search RESULTS" + JSON.stringify(data));
+        console.log(" sEARCH API BODY", finalOutput);
       } else {
         setSearchResults([]);
+        // setLogData([]);
         setNoMatchMessage("No result matched for this search");
       }
     } catch (error) {
@@ -508,17 +531,31 @@ const Loglists = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }
+
+
 
   const handleSearchChange = (event) => {
     const searchQuery = event.target.value;
+    console.log("searchQuery", searchQuery);
     setLogRender(true);
     setSearchQuery(searchQuery);
+    // const inputValueLength = searchQuery.length;
+    // console.log(inputValueLength);
+    // if (inputValueLength === 0) {
+    //   // setSearchResults([]);
+
+    //   setLogData([])
+    //   setTimeout(() => {
+    //     setSearchResults([]);
+    //   }, 12000);
+    // }
   };
 
   const handleSearchKeyDown = (event) => {
     if (event.key === "Enter") {
       handleSearch();
+    } else {
     }
   };
 
@@ -527,11 +564,11 @@ const Loglists = () => {
     Object.entries(logFilterApiBody).map(([key, value], index) => {
       value.forEach((val, index) => {
         filteredData.push(val);
-      })
-    })
+      });
+    });
     console.log("Filtered Data " + filteredData);
     return filteredData;
-  }
+  };
 
   useEffect(() => {
     setTraceSummaryService([]);
@@ -543,6 +580,7 @@ const Loglists = () => {
     if (needLogFilterCall) {
       setFilteredOptions(createFilterData());
       console.log("From Filter");
+      setSearchResults([]);
       setIsCardVisible(false);
       // setIsCollapsed(false);
       logFilterApiCall();
@@ -555,16 +593,20 @@ const Loglists = () => {
       const finalOutput = mapLogData(updatedData);
       setLogData(finalOutput);
       // logFilterApiCall();
-    } else if (searchQuery && logRender) {
+    } else if (searchQuery   !== "" && logRender) {
       setClearLogFilter(false);
+      console.log("SEARCH WORD ---------------" + searchQuery);
       // setSearchResults([]);
       setIsCardVisible(false);
       // setIsCollapsed(false);
-      handleSearch();
+      handleSearch()
     } else {
       setClearLogFilter(false);
       console.log("From get ALL");
       setIsCardVisible(false);
+      console.log("SEARCH --------------- " + searchQuery);
+      setSearchQuery("");
+      setSearchResults([]);
       // setIsCollapsed(false);
       handleGetAllLogData(currentPage);
     }
@@ -596,9 +638,8 @@ const Loglists = () => {
 
   const handleSortOrderChange = (event) => {
     setSelectedOption(event.target.value);
-    setCurrentPage(1)
+    setCurrentPage(1);
   };
-
 
   const tableBodyData = [
     createData(
@@ -692,30 +733,30 @@ const Loglists = () => {
             <TextField
               placeholder="Search for message"
               size="small"
-              
-              style={{  marginBottom: "5px", width: "80%", marginTop: "6px" }}
-              InputProps= { 
+              style={{ marginBottom: "5px", width: "80%", marginTop: "6px" }}
+              InputProps={
                 // {style: { fontsize: '1.8rem', height: 40 } }
                 {
-                endAdornment: (
-                  <IconButton
-                    type="button"
-                    sx={{ p: "10px" }}
-                    aria-label="search"
-                    onClick={handleSearch}
-                  >
-                    <SearchOutlined />
-                  </IconButton>
-                ),
+                  endAdornment: (
+                    <IconButton
+                      type="button"
+                      sx={{ p: "10px" }}
+                      aria-label="search"
+                      onClick={handleSearch}
+                    >
+                      <SearchOutlined />
+                    </IconButton>
+                  ),
+                }
               }
-            }
               value={searchQuery}
               onChange={handleSearchChange}
               onKeyDown={handleSearchKeyDown}
             />
             {/* {!needLogFilterCall ? ( */}
 
-              <Box sx={{
+            <Box
+              sx={{
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
@@ -724,13 +765,24 @@ const Loglists = () => {
                 // marginBottom: "20px",
                 // padding: "-20px",
                 height: "57px",
-              }}>
-                <div style={{
+              }}
+            >
+              <div
+                style={{
                   display: "flex",
-                  flexDirection: "column", marginBottom: "25px" 
-                }}>
-                  <label style={{ fontSize: '12px',marginLeft:needLogFilterCall?"50px":"0px" }}>SortBy</label>
-                  {/* <Dropdown
+                  flexDirection: "column",
+                  marginBottom: "25px",
+                }}
+              >
+                <label
+                  style={{
+                    fontSize: "12px",
+                    marginLeft: needLogFilterCall ? "50px" : "0px",
+                  }}
+                >
+                  SortBy
+                </label>
+                {/* <Dropdown
                     options={sortOrderOptions}
                     placeholder="Sort Order"
                     arrowClosed={<span className="arrow-closed" />}
@@ -739,48 +791,60 @@ const Loglists = () => {
                     onChange={handleSortOrderChange}
                     // style={{ marginTop: "5px"}}
                   /> */}
-                  <Select
-                    value={selectedOption}
-                    onChange={handleSortOrderChange}
-                    size="small"
-                    // displayEmpty
-                    // inputProps={{ "aria-label": "Select Sort Order" }}
-                    style={{ width: "150px", marginLeft:needLogFilterCall?"50px":"0px" }}
-                  >
-                    <MenuItem value="" disabled>
-                      Sort Order
+                <Select
+                  value={selectedOption}
+                  onChange={handleSortOrderChange}
+                  size="small"
+                  // displayEmpty
+                  // inputProps={{ "aria-label": "Select Sort Order" }}
+                  style={{
+                    width: "150px",
+                    marginLeft: needLogFilterCall ? "50px" : "0px",
+                  }}
+                >
+                  <MenuItem value="" disabled>
+                    Sort Order
+                  </MenuItem>
+                  {sortOrderOptions.map((option, index) => (
+                    <MenuItem key={index} value={option.value}>
+                      {option.label}
                     </MenuItem>
-                    {sortOrderOptions.map((option, index) => (
-                      <MenuItem key={index} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </div>
-              </Box>
+                  ))}
+                </Select>
+              </div>
+            </Box>
             {/* ) : null} */}
           </Box>
           {needLogFilterCall ? (
-          <div style={{ marginBottom: "5px" }}  >
-            <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start" }} >
-              <Typography variant="h6" fontWeight={"600"}>
-                Filtered By:
-              </Typography>
-              {filteredOptions.map((option, index) => (
-                <React.Fragment key={index} >
-                  <Typography style={{ marginLeft: "5px" }} variant="h6" fontWeight={"600"}>
-                    {option}
-                  </Typography>
-                  {index < filteredOptions.length - 1 && <span>, </span>}
-                </React.Fragment>
-              ))}
+            <div style={{ marginBottom: "5px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                }}
+              >
+                <Typography variant="h6" fontWeight={"600"}>
+                  Filtered By:
+                </Typography>
+                {filteredOptions.map((option, index) => (
+                  <React.Fragment key={index}>
+                    <Typography
+                      style={{ marginLeft: "5px" }}
+                      variant="h6"
+                      fontWeight={"600"}
+                    >
+                      {option}
+                    </Typography>
+                    {index < filteredOptions.length - 1 && <span>, </span>}
+                  </React.Fragment>
+                ))}
+              </div>
             </div>
-          </div>
           ) : null}
           <Card
             elevation={6}
             sx={{
-             
               padding: "20px",
               marginTop: "10px",
               height: isSmallScreen ? "calc(90vh - 72px)" : "calc(73vh - 72px)",
@@ -790,30 +854,30 @@ const Loglists = () => {
               // [theme.breakpoints.down('lg')]: {
               //   height: "calc(100vh - 85px)"
               // },
-              [theme.breakpoints.down('iphoneSE')]: {
-                height: "calc(120vh - 85px)"
+              [theme.breakpoints.down("iphoneSE")]: {
+                height: "calc(120vh - 85px)",
               },
-              ...isWidth430 && {
-                height: "calc(100vh - 85px)"
+              ...(isWidth430 && {
+                height: "calc(100vh - 85px)",
+              }),
+              ...(isWidth400 && {
+                height: "calc(110vh - 85px)",
+              }),
+              [theme.breakpoints.only("iphoneXR")]: {
+                height: "calc(102vh - 85px)",
               },
-              ...isWidth400 && {
-                height: "calc(110vh - 85px)"
+              [theme.breakpoints.only("surfDuo")]: {
+                height: "calc(110vh - 85px)",
               },
-              [theme.breakpoints.only('iphoneXR')]: {
-                height: "calc(102vh - 85px)"
+              [theme.breakpoints.only("isipadpro")]: {
+                height: "calc(67vh - 85px)",
               },
-              [theme.breakpoints.only('surfDuo')]: {
-                height: "calc(110vh - 85px)"
+              [theme.breakpoints.only("issurfacepro")]: {
+                height: "calc(68vh - 85px)",
               },
-              [theme.breakpoints.only('isipadpro')]: {
-                height: "calc(67vh - 85px)"
+              [theme.breakpoints.only("ipadAir")]: {
+                height: "calc(77vh - 85px)",
               },
-              [theme.breakpoints.only('issurfacepro')]: {
-                height: "calc(68vh - 85px)"
-              },
-              [theme.breakpoints.only('ipadAir')]: {
-                height: "calc(77vh - 85px)"
-              }
             }}
           >
             <div>
@@ -866,13 +930,15 @@ const Loglists = () => {
                   {" "}
                   <TableContainer
                     sx={{
-                      maxHeight: isSmallScreen ? "calc(86vh - 85px)" : "calc(66vh - 85px)",
-                      [theme.breakpoints.down('sm')]: {
-                        maxHeight: "calc(100vh - 85px)"
+                      maxHeight: isSmallScreen
+                        ? "calc(86vh - 85px)"
+                        : "calc(66vh - 85px)",
+                      [theme.breakpoints.down("sm")]: {
+                        maxHeight: "calc(100vh - 85px)",
                       },
-                      [theme.breakpoints.down('iphoneSE')]: {
+                      [theme.breakpoints.down("iphoneSE")]: {
                         // height: "calc(120vh - 85px)"
-                        maxHeight: "calc(110vh - 85px)"
+                        maxHeight: "calc(110vh - 85px)",
                       },
                       // [theme.breakpoints.only('iphoneSE')]: {
                       //   // height: "calc(120vh - 85px)"
@@ -882,8 +948,8 @@ const Loglists = () => {
                     }}
                   >
                     <Table stickyHeader aria-label="sticky table">
-                      <TableHead >
-                        <TableRow style={{ height: '20px' } }>
+                      <TableHead>
+                        <TableRow style={{ height: "20px" }}>
                           {tableHeaderData.map((column, index) => (
                             <TableCell
                               key={index}
@@ -913,178 +979,194 @@ const Loglists = () => {
                       <TableBody>
                         {searchResults.length > 0
                           ? searchResults.map((row, index) => (
-                            <StyledTableRow
-                              hover
-                              role="checkbox"
-                              tabIndex={-1}
-                              key={index}
-                              // className={index === selectedRowIndex ? "selected-row" : ""}
-                              className={((index === selectedRowIndex) && theme.palette.mode === "light" )  ? "selected-row-light" : ((index === selectedRowIndex) && theme.palette.mode === "dark") ? "selected-row-dark" : ""}
-                            >
-                              {tableHeaderData.map((column, index) => {
-                                const value = row[column.id];
-                                if (column.id === "action") {
-                                  return (
-                                    <TableCell
-                                      key={index}
-                                      align={column.align}
-                                      style={{
-                                        padding: "10px",
-                                        color:
-                                          column.id === "severity" &&
-                                            (row.severity === "SEVERE" ||
-                                              row.severity === "ERROR")
-                                            ? "red"
-                                            : "inherit",
-                                      }}
-                                    >
-                                      <Typography
-                                        variant="h6"
-                                        style={{
-                                          width: "150px",
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                        }}
-                                      >
-                                        {value}
-                                      </Typography>
-                                    </TableCell>
-                                  );
-                                } else if (column.id === "message") {
-                                  return (
-                                    <TableCell
-                                      key={index}
-                                      align={column.align}
-                                      style={{
-                                        padding: "10px",
-                                        color:
-                                          column.id === "severity" &&
-                                            (row.severity === "SEVERE" ||
-                                              row.severity === "ERROR")
-                                            ? "red"
-                                            : "inherit",
-                                      }}
-                                    >
-                                      <Typography
-                                        variant="h6"
-                                        style={{
-                                          width: "150px",
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                        }}
-                                      >
-                                        {highlightSearchQuery(
-                                          value,
-                                          searchQuery
-                                        )}
-                                      </Typography>
-                                    </TableCell>
-                                  );
-                                } else {
-                                  return (
-                                    <TableCell
-                                      key={column.id}
-                                      align={column.align}
-                                      style={{
-                                        padding: "10px",
-                                        color:
-                                          column.id === "severity" &&
-                                            (row.severity === "SEVERE" ||
-                                              row.severity === "ERROR")
-                                            ? "red"
-                                            : "inherit",
-                                      }}
-                                    >
-                                      <Typography
-                                        variant="h6"
-                                        style={{
-                                          width: "150px",
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                        }}
-                                      >
-                                        {value}
-                                      </Typography>
-                                    </TableCell>
-                                  );
+                              <StyledTableRow
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                key={index}
+                                // className={index === selectedRowIndex ? "selected-row" : ""}
+                                className={
+                                  index === selectedRowIndex &&
+                                  theme.palette.mode === "light"
+                                    ? "selected-row-light"
+                                    : index === selectedRowIndex &&
+                                      theme.palette.mode === "dark"
+                                    ? "selected-row-dark"
+                                    : ""
                                 }
-                              })}
-                            </StyledTableRow>
-                          ))
+                              >
+                                {tableHeaderData.map((column, index) => {
+                                  const value = row[column.id];
+                                  if (column.id === "action") {
+                                    return (
+                                      <TableCell
+                                        key={index}
+                                        align={column.align}
+                                        style={{
+                                          padding: "10px",
+                                          color:
+                                            column.id === "severity" &&
+                                            (row.severity === "SEVERE" ||
+                                              row.severity === "ERROR")
+                                              ? "red"
+                                              : "inherit",
+                                        }}
+                                      >
+                                        <Typography
+                                          variant="h6"
+                                          style={{
+                                            width: "150px",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                          }}
+                                        >
+                                          {value}
+                                        </Typography>
+                                      </TableCell>
+                                    );
+                                  } else if (column.id === "message") {
+                                    return (
+                                      <TableCell
+                                        key={index}
+                                        align={column.align}
+                                        style={{
+                                          padding: "10px",
+                                          color:
+                                            column.id === "severity" &&
+                                            (row.severity === "SEVERE" ||
+                                              row.severity === "ERROR")
+                                              ? "red"
+                                              : "inherit",
+                                        }}
+                                      >
+                                        <Typography
+                                          variant="h6"
+                                          style={{
+                                            width: "150px",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                          }}
+                                        >
+                                          {highlightSearchQuery(
+                                            value,
+                                            searchQuery
+                                          )}
+                                        </Typography>
+                                      </TableCell>
+                                    );
+                                  } else {
+                                    return (
+                                      <TableCell
+                                        key={column.id}
+                                        align={column.align}
+                                        style={{
+                                          padding: "10px",
+                                          color:
+                                            column.id === "severity" &&
+                                            (row.severity === "SEVERE" ||
+                                              row.severity === "ERROR")
+                                              ? "red"
+                                              : "inherit",
+                                        }}
+                                      >
+                                        <Typography
+                                          variant="h6"
+                                          style={{
+                                            width: "150px",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                          }}
+                                        >
+                                          {value}
+                                        </Typography>
+                                      </TableCell>
+                                    );
+                                  }
+                                })}
+                              </StyledTableRow>
+                            ))
                           : logData.map((row, index) => (
-                            <StyledTableRow
-                              hover
-                              role="checkbox"
-                              tabIndex={-1}
-                              key={index}
-                              // className={index === selectedRowIndex ? "selected-row" : ""}
-                              className={((index === selectedRowIndex) && theme.palette.mode === "light" )  ? "selected-row-light" : ((index === selectedRowIndex) && theme.palette.mode === "dark") ? "selected-row-dark" : ""}
-                            >
-                              {tableHeaderData.map((column, index) => {
-                                const value = row[column.id];
-                                if (column.id === "action") {
-                                  return (
-                                    <TableCell
-                                      key={index}
-                                      align={column.align}
-                                      style={{
-                                        padding: "10px",
-                                        color:
-                                          column.id === "severity" &&
-                                            (row.severity === "SEVERE" ||
-                                              row.severity === "ERROR")
-                                            ? "red"
-                                            : "inherit",
-                                      }}
-                                    >
-                                      <Typography
-                                        variant="h6"
-                                        style={{
-                                          width: "180px",
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                        }}
-                                      >
-                                        {value}
-                                      </Typography>
-                                    </TableCell>
-                                  );
-                                } else {
-                                  return (
-                                    <TableCell
-                                      key={index}
-                                      align={column.align}
-                                      style={{
-                                        padding: "10px",
-                                        color:
-                                          column.id === "severity" &&
-                                            (row.severity === "SEVERE" ||
-                                              row.severity === "ERROR")
-                                            ? "red"
-                                            : "inherit",
-                                      }}
-                                    >
-                                      <Typography
-                                        variant="h6"
-                                        style={{
-                                          width: "150px",
-                                          whiteSpace: "nowrap",
-                                          overflow: "hidden",
-                                          textOverflow: "ellipsis",
-                                        }}
-                                      >
-                                        {value}
-                                      </Typography>
-                                    </TableCell>
-                                  );
+                              <StyledTableRow
+                                hover
+                                role="checkbox"
+                                tabIndex={-1}
+                                key={index}
+                                // className={index === selectedRowIndex ? "selected-row" : ""}
+                                className={
+                                  index === selectedRowIndex &&
+                                  theme.palette.mode === "light"
+                                    ? "selected-row-light"
+                                    : index === selectedRowIndex &&
+                                      theme.palette.mode === "dark"
+                                    ? "selected-row-dark"
+                                    : ""
                                 }
-                              })}
-                            </StyledTableRow>
-                          ))}
+                              >
+                                {tableHeaderData.map((column, index) => {
+                                  const value = row[column.id];
+                                  if (column.id === "action") {
+                                    return (
+                                      <TableCell
+                                        key={index}
+                                        align={column.align}
+                                        style={{
+                                          padding: "10px",
+                                          color:
+                                            column.id === "severity" &&
+                                            (row.severity === "SEVERE" ||
+                                              row.severity === "ERROR")
+                                              ? "red"
+                                              : "inherit",
+                                        }}
+                                      >
+                                        <Typography
+                                          variant="h6"
+                                          style={{
+                                            width: "180px",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                          }}
+                                        >
+                                          {value}
+                                        </Typography>
+                                      </TableCell>
+                                    );
+                                  } else {
+                                    return (
+                                      <TableCell
+                                        key={index}
+                                        align={column.align}
+                                        style={{
+                                          padding: "10px",
+                                          color:
+                                            column.id === "severity" &&
+                                            (row.severity === "SEVERE" ||
+                                              row.severity === "ERROR")
+                                              ? "red"
+                                              : "inherit",
+                                        }}
+                                      >
+                                        <Typography
+                                          variant="h6"
+                                          style={{
+                                            width: "150px",
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                          }}
+                                        >
+                                          {value}
+                                        </Typography>
+                                      </TableCell>
+                                    );
+                                  }
+                                })}
+                              </StyledTableRow>
+                            ))}
                       </TableBody>
                     </Table>
                   </TableContainer>
@@ -1109,8 +1191,8 @@ const Loglists = () => {
                             backgroundColor:
                               item.type === "page" && item.page !== currentPage
                                 ? null
-                                //jey : colors.blueAccent[400],
-                                : colors.primary[400],
+                                : //jey : colors.blueAccent[400],
+                                  colors.primary[400],
                             color:
                               // item.type === "page" && item.page === currentPage
                               //   ? "#FFF"
@@ -1138,7 +1220,7 @@ const Loglists = () => {
                 // height: isSmallScreen ? "90vh" : "79.5vh",
                 height: isLandscape ? "79.5vh" : "90vh",
                 [theme.breakpoints.down("sm")]: {
-                  height: "90vh"
+                  height: "90vh",
                 },
                 paddingBottom: "30px",
                 overflowY: "auto",
@@ -1151,7 +1233,10 @@ const Loglists = () => {
                   <IconButton
                     aria-label="close"
                     onClick={handlecardclose}
-                    style={{ bottom: isSmallScreen ? 10 : 10, left: isSmallScreen ? 70 : 100 }}
+                    style={{
+                      bottom: isSmallScreen ? 10 : 10,
+                      left: isSmallScreen ? 70 : 100,
+                    }}
                   >
                     <CloseIcon />
                   </IconButton>
@@ -1174,7 +1259,7 @@ const Loglists = () => {
                                   padding: "5px",
                                   whiteSpace: "nowrap",
                                   overflow: "hidden",
-                                  color: "#fff"
+                                  color: "#fff",
                                 }}
                               >
                                 Field
@@ -1189,7 +1274,7 @@ const Loglists = () => {
                                   padding: "5px",
                                   whiteSpace: "nowrap",
                                   overflow: "hidden",
-                                  color: "#fff"
+                                  color: "#fff",
                                 }}
                               >
                                 Value
@@ -1205,7 +1290,7 @@ const Loglists = () => {
                                 role="checkbox"
                                 tabIndex={-1}
                                 key={index}
-                              // className={index === selectedRowIndex ? "selected-row" : ""}
+                                // className={index === selectedRowIndex ? "selected-row" : ""}
                               >
                                 <StyledTableCell style={{ minWidth: "10px" }}>
                                   {key}

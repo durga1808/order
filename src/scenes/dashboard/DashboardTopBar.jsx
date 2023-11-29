@@ -177,7 +177,7 @@ const DashboardTopBar = () => {
     setLogFilterApiBody({});
     setRecentLogData([]);
     setRefresh(true);
-    setSearchQuery([]);
+    setSearchQuery("");
     setLogTrace([]);
     setTraceRender(false);
     setLogRender(false);
