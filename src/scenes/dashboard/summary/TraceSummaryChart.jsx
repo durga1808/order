@@ -241,7 +241,7 @@ const TraceBarChart = () => {
                       color: theme.palette.mode === "dark" ? "white" : "black",
 
                       ...(isiphone && {
-                        height: "calc(80vh - 32px)",
+                        height: "calc(65vh - 32px)",
                       }),
                       ...(
                         isipadpro && {
@@ -332,7 +332,7 @@ const TraceBarChart = () => {
                         color:
                           theme.palette.mode === "dark" ? "white" : "black",
                         ...(isiphone && {
-                          height: "calc(80vh - 32px)",
+                          height: "calc(65vh - 32px)",
                          
                         }),
                         ...(
@@ -395,7 +395,7 @@ const TraceBarChart = () => {
                         color:
                           theme.palette.mode === "dark" ? "white" : "black",
                         ...(isiphone && {
-                          height: "calc(80vh - 32px)",
+                          height: "calc(65vh - 32px)",
                         }),
                         ...(
                           isipadpro && {

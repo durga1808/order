@@ -132,6 +132,8 @@ const Loglists = () => {
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("lg"));
   const isLandscape = useMediaQuery("(orientation: landscape)");
 
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+
   const isWidth430 = useMediaQuery(
     "(min-width: 400px) and (max-width: 431px)"
   );
@@ -783,37 +785,41 @@ const Loglists = () => {
              
               padding: "20px",
               marginTop: "10px",
-              height: isSmallScreen ? "calc(90vh - 72px)" : "calc(73vh - 72px)",
+              height: "calc(73vh - 72px)",
+              // height: isSmallScreen ? "calc(90vh - 72px)" : "calc(73vh - 72px)",
               // [theme.breakpoints.down('sm')]: {
               //   height: "calc(100vh - 85px)"
               // },
               // [theme.breakpoints.down('lg')]: {
               //   height: "calc(100vh - 85px)"
               // },
-              [theme.breakpoints.down('iphoneSE')]: {
-                height: "calc(120vh - 85px)"
-              },
-              ...isWidth430 && {
-                height: "calc(100vh - 85px)"
-              },
-              ...isWidth400 && {
-                height: "calc(110vh - 85px)"
-              },
-              [theme.breakpoints.only('iphoneXR')]: {
-                height: "calc(102vh - 85px)"
-              },
-              [theme.breakpoints.only('surfDuo')]: {
-                height: "calc(110vh - 85px)"
-              },
-              [theme.breakpoints.only('isipadpro')]: {
-                height: "calc(67vh - 85px)"
-              },
-              [theme.breakpoints.only('issurfacepro')]: {
-                height: "calc(68vh - 85px)"
-              },
-              [theme.breakpoints.only('ipadAir')]: {
-                height: "calc(77vh - 85px)"
-              }
+              ...(isiphone && {
+                height: "100vh",
+              }),
+              // [theme.breakpoints.down('iphoneSE')]: {
+              //   height: "calc(120vh - 85px)"
+              // },
+              // ...isWidth430 && {
+              //   height: "calc(100vh - 85px)"
+              // },
+              // ...isWidth400 && {
+              //   height: "calc(110vh - 85px)"
+              // },
+              // [theme.breakpoints.only('iphoneXR')]: {
+              //   height: "calc(102vh - 85px)"
+              // },
+              // [theme.breakpoints.only('surfDuo')]: {
+              //   height: "calc(110vh - 85px)"
+              // },
+              // [theme.breakpoints.only('isipadpro')]: {
+              //   height: "calc(67vh - 85px)"
+              // },
+              // [theme.breakpoints.only('issurfacepro')]: {
+              //   height: "calc(68vh - 85px)"
+              // },
+              // [theme.breakpoints.only('ipadAir')]: {
+              //   height: "calc(77vh - 85px)"
+              // }
             }}
           >
             <div>
