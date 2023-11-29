@@ -19,7 +19,7 @@
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 800px;
+    width: 1000px;
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -91,4 +91,11 @@
   
   .error-message {
     color: red;
+  }
+
+  @media screen and (max-width: 912px) {
+    .login-container{
+      height: 135vh;
+      width: 90vh;
+    }
   }

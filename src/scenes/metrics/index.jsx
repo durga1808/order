@@ -180,7 +180,7 @@ const Metrics = () => {
 
   return (
     <>
-      <div className="index-container" style={{ height: isLandscape ? "" : "calc(89.5vh - 70px)", overflowY: "auto", ...(isiphone && {
+      <div className="index-container" style={{ height: isLandscape ? "" : "calc(88vh - 70px)", overflowY: "auto", ...(isiphone && {
         height: "150vh", overflowY: "unset"
       }),
       // ...(isWidth668 && {

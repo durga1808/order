@@ -139,7 +139,7 @@ const LogBarChart = () => {
   return (
     <div
       className="log-content"
-      style={{ height: isLandscape ? "" : "78.4vh" }}
+      style={{ height: isLandscape ? "" : "77vh" }}
     >
       {loading ? (
         <Loading />
@@ -175,9 +175,9 @@ const LogBarChart = () => {
         <div
           style={{
             // maxHeight: "82.5vh",
-            maxHeight: "73vh",
+            maxHeight: isSmallScreen ? "" : "73vh",
             // overflowY: "auto",
-            minWidth: "100%",
+            width: "100%",
           }}
         >
           <Grid container spacing={2}>
@@ -189,8 +189,8 @@ const LogBarChart = () => {
                   height:
                     isLandscape && isSmallScreen
                       ? "calc(90vh - 24px)"
-                      : "calc(40vh - 32px)",
-                  width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                      : "calc(40vh - 40px)",
+                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   color: theme.palette.mode === "dark" ? "white" : "black",
                   ...(isiphone && {
                     height: "calc(80vh - 32px)",
@@ -274,7 +274,7 @@ const LogBarChart = () => {
                     isLandscape && isSmallScreen
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 32px)",
-                  width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   color: theme.palette.mode === "dark" ? "white" : "black",
                   ...(isiphone && {
                     height: "calc(80vh - 32px)",
@@ -316,12 +316,14 @@ const LogBarChart = () => {
               <Card
                 elevation={3}
                 style={{
-                  margin: "5px 25px 5px 15px",
+                  margin: isSmallScreen
+                  ? "5px 15px 5px 25px" :
+                  "5px 25px 5px 15px",
                   height:
                     isLandscape && isSmallScreen
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 32px)",
-                  width: isSmallScreen ? "calc(1040px - 40px)" : "",
+                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   color: theme.palette.mode === "dark" ? "white" : "black",
                   ...(isiphone && {
                     height: "calc(80vh - 32px)",
