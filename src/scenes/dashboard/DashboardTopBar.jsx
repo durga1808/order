@@ -36,6 +36,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { format } from "date-fns";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import DashboardTab from "./DashboardTab";
+import SustainabilityTabs from "./SustainabilityTabs";
 
 const DashboardTopBar = () => {
   const navigate = useNavigate();
@@ -98,6 +99,8 @@ const DashboardTopBar = () => {
     setMinMaxError,
     openDrawer,
     setOpenDrawer,
+    keplerActiveTab,
+    setKeplerActiveTab,
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -222,17 +225,34 @@ const DashboardTopBar = () => {
       navigate("/mainpage/dashboard/dbSummary");
     } else if (option === "Kafka Summary") {
       navigate("/mainpage/dashboard/kafkaSummary");
+    } else if (option === "Pod Metrics") {
+      navigate("/mainpage/sustainability");
+    } else if (option === "Node Metrics") {
+      navigate("/mainpage/sustainability/node");
     }
+  };
+
+  const handleKeplerTabs = (event, newValue) => {
+    if (newValue === 0) {
+      navigate("/mainpage/sustainability");
+    } else if (newValue === 1) {
+      navigate("/mainpage/sustainability/node");
+    } else if (newValue === 2) {
+      navigate("/mainpage/sustainability/host");
+    }
+    setKeplerActiveTab(newValue);
   };
 
   const handleTabChangePages = (event, newValue) => {
     if (newValue === 0) {
       navigate("/mainpage/dashboard");
     } else if (newValue === 1) {
-      navigate("/mainpage/traces");
+      navigate("/mainpage/sustainability");
     } else if (newValue === 2) {
-      navigate("/mainpage/metrics");
+      navigate("/mainpage/traces");
     } else if (newValue === 3) {
+      navigate("/mainpage/metrics");
+    } else if (newValue === 4) {
       navigate("/mainpage/logs");
     }
     setNavActiveTab(newValue);
@@ -367,6 +387,9 @@ const DashboardTopBar = () => {
           {isSmallScreen ? (
             <div>
               {window.location.pathname === "/mainpage/dashboard" ||
+              window.location.pathname === "/mainpage/sustainability" ||
+              window.location.pathname === "/mainpage/sustainability/node" ||
+              window.location.pathname ==="/mainpage/sustainability/host"||
               window.location.pathname === "/mainpage/traces" ||
               window.location.pathname === "/mainpage/metrics" ||
               window.location.pathname === "/mainpage/logs" ||
@@ -393,6 +416,14 @@ const DashboardTopBar = () => {
                     }
                     sx={{ color: "#FFF" }}
                   />
+                  <Tab
+                    label={
+                      <SustainabilityTabs
+                        onDashboardOptionSelect={handleDashboardOptionSelect}
+                      />
+                    }
+                    sx={{ color: "#FFF" }}
+                  />
                   <Tab label="Traces" sx={{ color: "#FFF" }} />
                   <Tab label="Metrics" sx={{ color: "#FFF" }} />
                   <Tab label="Logs" sx={{ color: "#FFF" }} />
@@ -402,6 +433,9 @@ const DashboardTopBar = () => {
           ) : (
             <div>
               {window.location.pathname === "/mainpage/dashboard" ||
+              window.location.pathname === "/mainpage/sustainability" ||
+              window.location.pathname === "/mainpage/sustainability/node" ||
+              window.location.pathname ==="/mainpage/sustainability/host"||
               window.location.pathname === "/mainpage/traces" ||
               window.location.pathname === "/mainpage/metrics" ||
               window.location.pathname === "/mainpage/logs" ||
@@ -423,6 +457,7 @@ const DashboardTopBar = () => {
                   indicatorColor="primary"
                 >
                   <Tab label="Dashboard" sx={{ color: "#FFF" }} />
+                  <Tab label="Sustainability" sx={{ color: "#FFF" }} />
                   <Tab label="Traces" sx={{ color: "#FFF" }} />
                   <Tab label="Metrics" sx={{ color: "#FFF" }} />
                   <Tab label="Logs" sx={{ color: "#FFF" }} />
@@ -786,6 +821,27 @@ const DashboardTopBar = () => {
             </Tabs>
           ) : null}
 
+{isSmallScreen ? null :window.location.pathname === "/mainpage/sustainability" ||
+            window.location.pathname === "/mainpage/sustainability/node" || window.location.pathname === "/mainpage/sustainability/host" ? (
+            <Tabs
+              value={keplerActiveTab}
+              onChange={handleKeplerTabs}
+              TabIndicatorProps={{
+                sx: {
+                  marginTop: "-60px",
+                  borderRadius: 3,
+                  backgroundColor: colors.tabIndicator[500],
+                },
+              }}
+              textColor="inherit"
+              indicatorColor="primary"
+            >
+              <Tab label="Pod Metrics" sx={{ color: "#FFF" }} />
+              <Tab label="Node Metrics" sx={{ color: "#FFF" }} />
+              {/* <Tab label="Host Metrics" sx={{ color: "#FFF" }} /> */}
+            </Tabs>
+          ) : null}
+
           {window.location.pathname === "/mainpage/traces" ? (
             // <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
             <Drawer
@@ -797,31 +853,29 @@ const DashboardTopBar = () => {
                   height: "82vh",
                   // top: 150,
 
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(isiphone && {
+                    height: "calc(450vh - 32px)",
+                  }),
 
                   height:
-                  isLandscape && isSmallScreen
-                    ? "calc(90vh - 24px)"
-                    : "calc(40vh - 40px)",
-                ...(isiphone && {
-                  height: "calc(450vh - 32px)",
-                }),
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(isipadpro && {
+                    height: "calc(850vh - 32px)",
+                  }),
 
-                height:
-                  isLandscape && isSmallScreen
-                    ? "calc(90vh - 24px)"
-                    : "calc(40vh - 40px)",
-                ...(isipadpro && {
-                  height: "calc(850vh - 32px)",
-                }),
-
-                height:
-                  isLandscape && isSmallScreen
-                    ? "calc(90vh - 24px)"
-                    : "calc(40vh - 40px)",
-                ...(largem && {
-                  height: "calc(1200vh - 32px)",
-                }),
-
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(largem && {
+                    height: "calc(1200vh - 32px)",
+                  }),
 
                   bottom: 150,
                 },
@@ -843,28 +897,28 @@ const DashboardTopBar = () => {
                   // top: 150,
 
                   height:
-                  isLandscape && isSmallScreen
-                    ? "calc(90vh - 24px)"
-                    : "calc(40vh - 40px)",
-                ...(isiphone && {
-                  height: "calc(450vh - 32px)",
-                }),
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(isiphone && {
+                    height: "calc(450vh - 32px)",
+                  }),
 
-                height:
-                  isLandscape && isSmallScreen
-                    ? "calc(90vh - 24px)"
-                    : "calc(40vh - 40px)",
-                ...(isipadpro && {
-                  height: "calc(850vh - 32px)",
-                }),
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(isipadpro && {
+                    height: "calc(850vh - 32px)",
+                  }),
 
-                height:
-                  isLandscape && isSmallScreen
-                    ? "calc(90vh - 24px)"
-                    : "calc(40vh - 40px)",
-                ...(largem && {
-                  height: "calc(1200vh - 32px)",
-                }),
+                  height:
+                    isLandscape && isSmallScreen
+                      ? "calc(90vh - 24px)"
+                      : "calc(40vh - 40px)",
+                  ...(largem && {
+                    height: "calc(1200vh - 32px)",
+                  }),
 
                   bottom: 150,
                 },

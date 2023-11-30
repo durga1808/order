@@ -573,7 +573,7 @@ const Loglists = () => {
     setTraceRender(false);
     setMetricRender(false);
     // setTraceDisplayService([]);
-    setNavActiveTab(3);
+    setNavActiveTab(4);
     console.log("Filtered Data useEffect" + filteredOptions);
     if (needLogFilterCall) {
       setFilteredOptions(createFilterData());

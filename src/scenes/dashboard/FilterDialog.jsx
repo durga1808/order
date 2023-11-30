@@ -328,12 +328,9 @@ const FilterDialog = () => {
               variant="h5"
               fontWeight="500"
               color={
-                window.location.pathname === "/mainpage/dashboard" ||
-                  window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                  window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                  window.location.pathname === "/mainpage/dashboard/kafkaSummary"
-                  ? "lightgrey"
-                  : "#FFF"
+                window.location.pathname === "/mainpage/traces"
+                  ? "#FFF"
+                  : "lightgrey"
               }
             >
               Filter Options
@@ -343,18 +340,12 @@ const FilterDialog = () => {
               color="primary"
               onClick={clearSelectedOptions}
               disabled={
-                window.location.pathname === "/mainpage/dashboard" ||
-                window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                window.location.pathname !== "/mainpage/traces"
               }
               sx={{
-                color: window.location.pathname === "/mainpage/dashboard" ||
-                  window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                  window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                  window.location.pathname === "/mainpage/dashboard/kafkaSummary"
-                  ? "lightgrey"
-                  : colors.primary[100],
+                color: window.location.pathname === "/mainpage/traces"
+                  ? colors.primary[100]
+                  : "lightgrey"
               }}
             >
               Clear
@@ -366,10 +357,7 @@ const FilterDialog = () => {
             <Accordion
               style={{ width: "500px", backgroundColor: colors.primary[400] }}
               disabled={
-                window.location.pathname === "/mainpage/dashboard" ||
-                window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                window.location.pathname !== "/mainpage/traces"
               }
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -381,12 +369,7 @@ const FilterDialog = () => {
               <AccordionDetails>
                 <Slider
                   disabled={
-                    window.location.pathname === "/mainpage/dashboard" ||
-                    // window.location.pathname === "/mainpage/log" ||
-                    window.location.pathname ===
-                    "/mainpage/dashboard/logSummary" ||
-                    window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                    window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                    window.location.pathname !== "/mainpage/traces"
                   }
                   value={[minDurationValue, maxDurationValue]}
                   min={0}
@@ -395,24 +378,14 @@ const FilterDialog = () => {
                   valueLabelDisplay="auto"
                   getAriaValueText={(valuetext) => valuetext}
                   style={{
-                    color:
-                      window.location.pathname === "/mainpage/dashboard" ||
-                        window.location.pathname ===
-                        "/mainpage/dashboard/logSummary" ||
-                        window.location.pathname ===
-                        "/mainpage/dashboard/dbSummary" ||
-                        window.location.pathname === "/mainpage/dashboard/kafkaSummary"
-                        ? "lightgrey"
-                        : "white",
+                    color: window.location.pathname === "/mainpage/traces"
+                      ? "white"
+                      : "lightgrey"
                   }}
                 />
                 <TextField
                   disabled={
-                    window.location.pathname === "/mainpage/dashboard" ||
-                    window.location.pathname ===
-                    "/mainpage/dashboard/logSummary" ||
-                    window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                    window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                    window.location.pathname !== "/mainpage/traces"
                   }
                   label="Min"
                   variant="outlined"
@@ -431,11 +404,7 @@ const FilterDialog = () => {
                 />
                 <TextField
                   disabled={
-                    window.location.pathname === "/mainpage/dashboard" ||
-                    window.location.pathname ===
-                    "/mainpage/dashboard/logSummary" ||
-                    window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                    window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                    window.location.pathname !== "/mainpage/traces"
                   }
                   label="Max"
                   variant="outlined"
@@ -462,10 +431,7 @@ const FilterDialog = () => {
             <Accordion
               style={{ width: "500px", backgroundColor: colors.primary[400] }}
               disabled={
-                window.location.pathname === "/mainpage/dashboard" ||
-                window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                window.location.pathname !== "/mainpage/traces"
               }
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -481,7 +447,7 @@ const FilterDialog = () => {
                       key={index}
                       control={
                         <Checkbox
-                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"}
+                          disabled={window.location.pathname !== "/mainpage/traces"}
                           checked={traceSelectedService.includes(service)}
                           onChange={handleServiceToggle(service)}
                           sx={{
@@ -512,10 +478,7 @@ const FilterDialog = () => {
             <Accordion
               style={{ width: "500px", backgroundColor: colors.primary[400] }}
               disabled={
-                window.location.pathname === "/mainpage/dashboard" ||
-                window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                window.location.pathname !== "/mainpage/traces"
               }
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -531,7 +494,7 @@ const FilterDialog = () => {
                       key={method}
                       control={
                         <Checkbox
-                          disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary"}
+                          disabled={window.location.pathname !== "/mainpage/traces"}
                           checked={selectedHttpMethod.includes(method)}
                           onChange={handleHttpToggle(method)}
                           sx={{
@@ -562,10 +525,7 @@ const FilterDialog = () => {
             <Accordion
               style={{ width: "500px", backgroundColor: colors.primary[400] }}
               disabled={
-                window.location.pathname === "/mainpage/dashboard" ||
-                window.location.pathname === "/mainpage/dashboard/logSummary" ||
-                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-                window.location.pathname === "/mainpage/dashboard/kafkaSummary"
+                window.location.pathname !== "/mainpage/traces"
               }
             >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -582,14 +542,7 @@ const FilterDialog = () => {
                       control={
                         <Checkbox
                           disabled={
-                            window.location.pathname ===
-                            "/mainpage/dashboard" ||
-                            window.location.pathname ===
-                            "/mainpage/dashboard/logSummary" ||
-                            window.location.pathname ===
-                            "/mainpage/dashboard/dbSummary" ||
-                            window.location.pathname ===
-                            "/mainpage/dashboard/kafkaSummary"
+                            window.location.pathname !== "/mainpage/traces"
                           }
                           checked={selectedHttpCode.some(
                             (opt) =>
@@ -629,10 +582,7 @@ const FilterDialog = () => {
             onClick={handleApplyButtonClick}
             color="primary"
             disabled={
-              window.location.pathname === "/mainpage/dashboard" ||
-              window.location.pathname === "/mainpage/dashboard/logSummary" ||
-              window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-              window.location.pathname === "/mainpage/dashboard/kafkaSummary" || minMaxError
+              window.location.pathname !== "/mainpage/traces" || minMaxError
             }
           >
             Apply

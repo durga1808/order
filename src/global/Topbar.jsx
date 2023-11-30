@@ -1,9 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
   AppBar,
   Toolbar,
   IconButton,
-  CssBaseline,
   useTheme,
   useMediaQuery,
   Box,

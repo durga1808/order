@@ -3,7 +3,7 @@ import LineChart from "./charts/LineChart";
 import Box from "@mui/material/Box";
 import { Card, Typography, useMediaQuery, useTheme } from "@mui/material";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
-import Dropdown from "react-dropdown";
+// import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import { useContext } from "react";
 import "./MetricLayout.css";
@@ -13,43 +13,43 @@ import { tokens } from "../../theme";
 import "./Metricindex.css";
 
 const Metrics = () => {
-  const dataFields = [
-    {
-      x: new Date(1695875216150),
-      y: 30,
-    },
-    {
-      x: new Date("2023-10-11").getTime(),
-      y: 40,
-    },
-    {
-      x: new Date("2023-10-12").getTime(),
-      y: 50,
-    },
-    {
-      x: new Date("2023-10-13").getTime(),
-      y: 35,
-    },
-  ];
+  // const dataFields = [
+  //   {
+  //     x: new Date(1695875216150),
+  //     y: 30,
+  //   },
+  //   {
+  //     x: new Date("2023-10-11").getTime(),
+  //     y: 40,
+  //   },
+  //   {
+  //     x: new Date("2023-10-12").getTime(),
+  //     y: 50,
+  //   },
+  //   {
+  //     x: new Date("2023-10-13").getTime(),
+  //     y: 35,
+  //   },
+  // ];
 
-  const dataFields1 = [
-    {
-      x: new Date("2023-10-10").getTime(),
-      y: 30,
-    },
-    {
-      x: new Date("2023-10-11").getTime(),
-      y: 40,
-    },
-    {
-      x: new Date("2023-10-12").getTime(),
-      y: 50,
-    },
-    {
-      x: new Date(1695875216150),
-      y: 55,
-    },
-  ];
+  // const dataFields1 = [
+  //   {
+  //     x: new Date("2023-10-10").getTime(),
+  //     y: 30,
+  //   },
+  //   {
+  //     x: new Date("2023-10-11").getTime(),
+  //     y: 40,
+  //   },
+  //   {
+  //     x: new Date("2023-10-12").getTime(),
+  //     y: 50,
+  //   },
+  //   {
+  //     x: new Date(1695875216150),
+  //     y: 55,
+  //   },
+  // ];
 
   // const services = [
   //   "order-project",
@@ -58,17 +58,17 @@ const Metrics = () => {
   //   "DeliveryService",
   // ];
 
-  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender, setTraceSummaryService, setLogSummaryService, selectedService, setSelectedService, selectedStartDate, selectedEndDate, needHistoricalData, setNavActiveTab } = useContext(GlobalContext);
-  const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
-  const options = services.map((serve) => serve);
+  const { lookBackVal, setTraceRender, setLogRender, setMetricRender, metricRender, setTraceSummaryService, setLogSummaryService, selectedService, selectedStartDate, selectedEndDate, setNavActiveTab } = useContext(GlobalContext);
+  // const [services, setServices] = useState(JSON.parse(localStorage.getItem("serviceListData")));
+  // const options = services.map((serve) => serve);
   // const [selectedService, setSelectedService] = useState((services && services.length > 0) ? services[0] : null);
   const [cpuUsageData, setCpuUsageData] = useState([]);
   const [memoryUsageData, setMemoryUsageData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [emptyMessage, setEmptyMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  // const theme = useTheme();
+  // const colors = tokens(theme.palette.mode);
 
   const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
   const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
@@ -156,7 +156,7 @@ const Metrics = () => {
       setMetricRender(true);
       setLoading(false);
     }
-  }, [selectedStartDate, selectedEndDate, setMetricRender, lookBackVal, needHistoricalData]);
+  }, [selectedStartDate, selectedEndDate, setMetricRender, lookBackVal]);
 
   useEffect(() => {
     console.log("Selected Service " + selectedService);
@@ -164,7 +164,7 @@ const Metrics = () => {
     // setEmptyMessage("");
     setTraceSummaryService([]);
     setLogSummaryService([]);
-    setNavActiveTab(2);
+    setNavActiveTab(3);
     if (!metricRender) {
       console.log("Selected Service 222222222222" + selectedService);
       getAllMetricsData(selectedService);

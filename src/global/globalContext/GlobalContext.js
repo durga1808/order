@@ -57,7 +57,7 @@ const GlobalContextProvider = ({ children }) => {
     const [traceDisplayService, setTraceDisplayService] = useState([]);
     const [showError, setShowError] = useState(false);
     const [erroredLogData, setErroredLogData] = useState([]);
-    const [navActiveTab, setNavActiveTab] = useState(false);
+    const [navActiveTab, setNavActiveTab] = useState(0);
     const [DbSummaryService, setDbSummaryService] = useState([]);
 
     const [traceSelectedService, setTraceSelectedService] = useState([]);
@@ -69,6 +69,8 @@ const GlobalContextProvider = ({ children }) => {
 
     const [logSelectedService, setLogSelectedService] = useState([]);
     const [selectedSeverity, setSelectedSeverity] = useState([]);
+
+    const [keplerActiveTab, setKeplerActiveTab] = useState(0);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -184,7 +186,9 @@ const GlobalContextProvider = ({ children }) => {
                 minMaxError,
                 setMinMaxError,
                 openDrawer,
-                setOpenDrawer
+                setOpenDrawer,
+                keplerActiveTab,
+                setKeplerActiveTab
             }}
         >
             {children}
