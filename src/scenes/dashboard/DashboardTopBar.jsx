@@ -90,7 +90,9 @@ const DashboardTopBar = () => {
     setNavActiveTab,
     setMinMaxError,
     keplerActiveTab,
-    setKeplerActiveTab
+    setKeplerActiveTab,
+    apmActiveTab,
+    setApmActiveTab
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -112,9 +114,9 @@ const DashboardTopBar = () => {
   const iconStyle = {
     fontSize: "20px",
     color:
-      window.location.pathname === "/mainpage/traces" ||
-        window.location.pathname === "/mainpage/metrics" ||
-        window.location.pathname === "/mainpage/logs"
+      window.location.pathname === "/mainpage/apm" ||
+        window.location.pathname === "/mainpage/apm/metrics" ||
+        window.location.pathname === "/mainpage/apm/logs"
         ? colors.tabColor[500]
         : "#666663",
   };
@@ -199,39 +201,51 @@ const DashboardTopBar = () => {
     setKeplerActiveTab(newValue);
   }
 
+  const handleApmTabs = (event, newValue) => {
+    if (newValue === 0) {
+      navigate("/mainpage/apm");
+    } else if (newValue === 1) {
+      navigate("/mainpage/apm/metrics");
+    } else if (newValue === 2) {
+      navigate("/mainpage/apm/logs");
+    } 
+    setApmActiveTab(newValue);
+  }
+
   const handleTabChangePages = (event, newValue) => {
     if (newValue === 0) {
       navigate("/mainpage/dashboard");
     } else if (newValue === 1) {
       navigate("/mainpage/sustainability");
     } else if (newValue === 2) {
-      navigate("/mainpage/traces");
-    } else if (newValue === 3) {
-      navigate("/mainpage/metrics");
-    } else if (newValue === 4) {
-      navigate("/mainpage/logs");
+      navigate("/mainpage/apm");
     }
+    // } else if (newValue === 3) {
+    //   navigate("/mainpage/metrics");
+    // } else if (newValue === 4) {
+    //   navigate("/mainpage/logs");
+    // }
     setNavActiveTab(newValue);
   };
 
   const handleFilterClick = () => {
     // setFilterDialogOpen(true);
-    if (window.location.pathname === "/mainpage/logs") {
+    if (window.location.pathname === "/mainpage/apm/logs") {
       setLogFilterDialogOpen(true);
-    } else if (window.location.pathname === "/mainpage/traces") {
+    } else if (window.location.pathname === "/mainpage/apm") {
       setFilterDialogOpen(true);
-    } else if (window.location.pathname === "/mainpage/metrics") {
+    } else if (window.location.pathname === "/mainpage/apm/metrics") {
       setmetricFilterDialogOpen(true);
     }
   };
 
   const handleFilterDialogClose = () => {
     // setFilterDialogOpen(false);
-    if (window.location.pathname === "/mainpage/logs") {
+    if (window.location.pathname === "/mainpage/apm/logs") {
       setLogFilterDialogOpen(false);
-    } else if (window.location.pathname === "/mainpage/traces") {
+    } else if (window.location.pathname === "/mainpage/apm") {
       setFilterDialogOpen(false);
-    } else if (window.location.pathname === "/mainpage/metrics") {
+    } else if (window.location.pathname === "/mainpage/apm/metrics") {
       setmetricFilterDialogOpen(false);
     }
   };
@@ -361,18 +375,20 @@ const DashboardTopBar = () => {
               onChange={handleTabChangePages}
               TabIndicatorProps={{
                 sx: {
-                  // height: 2,
+                  height: 2,
                   borderRadius: 3,
+                  marginBottom:"3px"
                   // backgroundColor: colors.tabIndicator[500],
                 },
               }}
               textColor="inherit"
               indicatorColor="primary">
-              <Tab label="Dashboard" sx={{ color: "#FFF" }} />
+              <Tab label="Observability" sx={{ color: "#FFF" }} />
               <Tab label="Sustainability" sx={{ color: "#FFF" }} />
-              <Tab label="Traces" sx={{ color: "#FFF" }} />
+              <Tab label="APM" sx={{ color: "#FFF" }} />
+              {/* <Tab label="Traces" sx={{ color: "#FFF" }} />
               <Tab label="Metrics" sx={{ color: "#FFF" }} />
-              <Tab label="Logs" sx={{ color: "#FFF" }} />
+              <Tab label="Logs" sx={{ color: "#FFF" }} /> */}
             </Tabs>
           </div>
           <Box
@@ -662,7 +678,7 @@ const DashboardTopBar = () => {
             </div>
           </Box>
         </Toolbar>
-        <div style={{ marginTop: "-25px", marginLeft: "13px" }} >
+        <div style={{ marginTop: "-30px", marginLeft: "20px" }} >
           {window.location.pathname === "/mainpage/dashboard" ||
             window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
             <Tabs
@@ -672,6 +688,7 @@ const DashboardTopBar = () => {
                 sx: {
                   // height: 2,
                   marginTop: "-60px",
+                  marginBottom:"3px",
                   borderRadius: 3,
                   backgroundColor: colors.tabIndicator[500],
                 },
@@ -693,11 +710,13 @@ const DashboardTopBar = () => {
               TabIndicatorProps={{
                 sx: {
                   // height: 2,
-                  marginTop: "-60px",
+                  marginTop: "-50px",
+                  marginBottom:"3px",
                   borderRadius: 3,
                   backgroundColor: colors.tabIndicator[500],
                 },
               }}
+              style={{marginLeft:"8px"}}
               textColor="inherit"
               indicatorColor="primary"
             >
@@ -706,15 +725,39 @@ const DashboardTopBar = () => {
               {/* <Tab label="Host Metrics" sx={{ color: "#FFF" }} /> */}
             </Tabs>
           ) : null}
+          {window.location.pathname === "/mainpage/apm" ||
+            window.location.pathname === "/mainpage/apm/metrics" || window.location.pathname === "/mainpage/apm/logs" ? (
+            <Tabs
+              value={apmActiveTab}
+              onChange={handleApmTabs}
+              TabIndicatorProps={{
+                sx: {
+                  // height: 2,
+                  marginTop: "-50px",
+                  marginBottom:"3px",
+                  borderRadius: 3,
+                  backgroundColor: colors.tabIndicator[500],
+                },
+              }}
+              style={{marginLeft:"8px"}}
+              textColor="inherit"
+              indicatorColor="primary"
+            >
+              <Tab label="Traces" sx={{ color: "#FFF" }} />
+              <Tab label="Metrics" sx={{ color: "#FFF" }} />
+              <Tab label="Logs" sx={{ color: "#FFF" }} />
+              {/* <Tab label="Host Metrics" sx={{ color: "#FFF" }} /> */}
+            </Tabs>
+          ) : null}
           <Box sx={{ alignItems: "flex-start", marginLeft: "25px", padding: "5px", marginTop: "5px" }}>
             {window.location.pathname === "/mainpage/traces" ? (
               <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>
-                TRACES {traceDisplayService.length > 0 ? `(${traceDisplayService.join(', ')})` : ''}
+                {traceDisplayService.length > 0 ? `(${traceDisplayService.join(', ')})` : ''}
               </Typography>
             ) : window.location.pathname === "/mainpage/metrics" ? (
-              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>METRICS {`(${selectedService})`}</Typography>
+              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>{`(${selectedService})`}</Typography>
             ) : window.location.pathname === "/mainpage/logs" ? (
-              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>LOGS {selectedLogService.length > 0 ? `(${selectedLogService.join(', ')})` : ''}</Typography>
+              <Typography variant="h5" fontWeight={500} sx={{ color: "#FFF" }}>{selectedLogService.length > 0 ? `(${selectedLogService.join(', ')})` : ''}</Typography>
             ) : null}
           </Box>
         </div>

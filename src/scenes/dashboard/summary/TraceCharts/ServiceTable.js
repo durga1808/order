@@ -176,7 +176,7 @@ const ServiceTable = ({ selectedService }) => {
   const colors = tokens(theme.palette.mode);
 
 
-  const { setSelected, setTraceData, setRecentTrace, dashboardPageCount, dashboardPage, setDashboardPage } = useContext(GlobalContext);
+  const { setSelected, setTraceData, setRecentTrace, dashboardPageCount, dashboardPage, setDashboardPage,setApmActiveTab } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   const [selectedServiceData, setselectedServiceData] = useState([]);
@@ -208,7 +208,8 @@ const ServiceTable = ({ selectedService }) => {
     // setTraceData([trace]);
     localStorage.setItem("routeName", "Traces");
     setSelected("Traces");
-    navigate("/mainpage/traces");
+    setApmActiveTab(0);
+    navigate("/mainpage/apm");
   }
 
 

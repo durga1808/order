@@ -68,6 +68,7 @@ const GlobalContextProvider = ({ children }) => {
     const [selectedSeverity, setSelectedSeverity] = useState([]);
 
     const [keplerActiveTab, setKeplerActiveTab] = useState(0);
+    const [apmActiveTab, setApmActiveTab] = useState(0);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -183,7 +184,9 @@ const GlobalContextProvider = ({ children }) => {
                 minMaxError,
                 setMinMaxError,
                 keplerActiveTab,
-                setKeplerActiveTab
+                setKeplerActiveTab,
+                apmActiveTab,
+                setApmActiveTab
             }}
         >
             {children}

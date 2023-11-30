@@ -58,7 +58,7 @@ const Traces = () => {
           {/* <TraceTopBar /> */}
 
           <div style={{ width: "100%" }}>
-            <Box sx={{ m: "20px 10px 0 20px" }}>
+            <Box sx={{ m: "14px 10px 0 20px" }}>
               <Card
                 elevation={4}
                 sx={{
@@ -75,7 +75,7 @@ const Traces = () => {
           </div>
 
           <div style={{ width: "100%" }}>
-            <Box sx={{ m: "20px 20px 10px 10px" }}>
+            <Box sx={{ m: "14px 20px 10px 10px" }}>
               {!showError ? (<Card
                 elevation={4}
                 sx={{
