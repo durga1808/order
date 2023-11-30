@@ -449,7 +449,7 @@ const Loglists = () => {
   );
 
   const logFilterApiCall = useCallback(async () => {
-    setLoading(true);
+    // setLoading(true);
     console.log("Filter Body " + logFilterApiBody);
     try {
       console.log("Filter callback ");
@@ -518,6 +518,7 @@ const Loglists = () => {
         const updatedData = createTimeInWords(data);
         const finalOutput = mapLogData(updatedData);
         setSearchResults(finalOutput);
+        // setLogData(finalOutput)
         setTotalPageCount(Math.ceil(totalCount / pageLimit));
         // console.log("Search RESULTS" + JSON.stringify(data));
         console.log(" sEARCH API BODY", finalOutput);
@@ -540,16 +541,11 @@ const Loglists = () => {
     console.log("searchQuery", searchQuery);
     setLogRender(true);
     setSearchQuery(searchQuery);
-    // const inputValueLength = searchQuery.length;
-    // console.log(inputValueLength);
-    // if (inputValueLength === 0) {
-    //   // setSearchResults([]);
-
-    //   setLogData([])
-    //   setTimeout(() => {
-    //     setSearchResults([]);
-    //   }, 12000);
-    // }
+    const inputValueLength = searchQuery.length;
+    console.log(inputValueLength);
+    if (inputValueLength === 0) {
+      setSearchResults([]);
+    }
   };
 
   const handleSearchKeyDown = (event) => {
@@ -599,7 +595,7 @@ const Loglists = () => {
       // setSearchResults([]);
       setIsCardVisible(false);
       // setIsCollapsed(false);
-      handleSearch()
+      // handleSearch()
     } else {
       setClearLogFilter(false);
       console.log("From get ALL");
@@ -623,7 +619,7 @@ const Loglists = () => {
     setTraceRender,
     handleGetAllLogData,
     logRender,
-    searchQuery,
+    // searchQuery,
     currentPage,
     setMetricRender,
     setTraceSummaryService,
