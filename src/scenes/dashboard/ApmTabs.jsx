@@ -8,15 +8,15 @@ import Typography from "@mui/material/Typography";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { useNavigate } from "react-router";
 
-const DashboardTab = ({ onDashboardOptionSelect }) => {
+const ApmTabs = ({ onDashboardOptionSelect }) => {
     const [dashboardMenuAnchor, setDashboardMenuAnchor] = useState(null);
     const navigate = useNavigate();
 
     const options = [
-        { label: "Trace Summary", value: "/mainpage/dashboard" },
-        { label: "Log Summary", value: "/mainpage/dashboard/logSummary" },
-        { label: "Db Summary", value: "/mainpage/dashboard/dbSummary" },
-        { label: "Kafka Summary", value: "/mainpage/dashboard/kafkaSummary" },
+        { label: "Trace", value: "/mainpage/apm" },
+        { label: "Metrics", value: "/mainpage/apm/metrics" },
+        { label: "Logs", value: "/mainpage/apm/logs" },
+       
     ];
 
     const handleDashboardTabClick = (event) => {
@@ -42,10 +42,10 @@ const DashboardTab = ({ onDashboardOptionSelect }) => {
       <>
         <IconButton
           onClick={handleDashboardTabClick}
-          aria-label="Dashboard"
+          aria-label="APM"
           style={{ color: "#FFF" }}
         >
-          <Typography variant="h7">OBSERVABILITY</Typography>
+          <Typography variant="h7">APM</Typography>
           <ArrowDropDownIcon />
         </IconButton>
         <Menu
@@ -53,18 +53,7 @@ const DashboardTab = ({ onDashboardOptionSelect }) => {
           open={Boolean(dashboardMenuAnchor)}
           onClose={() => setDashboardMenuAnchor(null)}
         >
-          {/* <MenuItem onClick={() => handleDashboardOptionSelect("dashboard")}>
-            Trace Summary
-          </MenuItem>
-          <MenuItem onClick={() => handleDashboardOptionSelect("logSummary")}>
-            Log Summary
-          </MenuItem>
-          <MenuItem onClick={() => handleDashboardOptionSelect("dbSummary")}>
-            Db Summary
-          </MenuItem>
-          <MenuItem onClick={() => handleDashboardOptionSelect("kafkaSummary")}>
-            Kafka Summary
-          </MenuItem> */}
+         
             {options.map((option, index) => (
                 <MenuItem
                 key={index}
@@ -78,4 +67,4 @@ const DashboardTab = ({ onDashboardOptionSelect }) => {
     );
   };
 
-export default DashboardTab;
+export default ApmTabs;

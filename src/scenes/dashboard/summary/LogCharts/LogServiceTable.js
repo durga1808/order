@@ -144,7 +144,7 @@ const ServiceTable = ({ selectedService }) => {
 
 
 
-  const { setSelected, setRecentLogData } = useContext(GlobalContext);
+  const { setSelected, setRecentLogData,setApmActiveTab } = useContext(GlobalContext);
   const navigate = useNavigate();
 
 
@@ -183,7 +183,8 @@ const ServiceTable = ({ selectedService }) => {
         setRecentLogData(logData);
         localStorage.setItem("routeName", "Logs");
         setSelected("Logs");
-        navigate("/mainpage/logs");
+        setApmActiveTab(2);
+        navigate("/mainpage/apm/logs");
       }
     } catch (error) {
       console.log("Error " + error);

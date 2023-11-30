@@ -143,11 +143,11 @@ const SideNavbar = () => {
                 window.location.pathname === "/mainpage/dashboard/logSummary" ||
                 window.location.pathname === "/mainpage/dashboard/dbSummary" ||
                 window.location.pathname === "/mainpage/dashboard/kafkaSummary" ||
-                window.location.pathname === "/mainpage/traces" || window.location.pathname === "/mainpage/sustainability" || window.location.pathname === "/mainpage/sustainability/node" || window.location.pathname === "/mainpage/sustainability/host" ? (
+                window.location.pathname === "/mainpage/apm" || window.location.pathname === "/mainpage/sustainability" || window.location.pathname === "/mainpage/sustainability/node" || window.location.pathname === "/mainpage/sustainability/host" ? (
                 <FilterDialog />
-              ) : window.location.pathname === "/mainpage/metrics" ? (
+              ) : window.location.pathname === "/mainpage/apm/metrics" ? (
                 <Metricfilter />
-              ) : window.location.pathname === "/mainpage/logs" ? (
+              ) : window.location.pathname === "/mainpage/apm/logs" ? (
                 <Logfilter />
               ) : null) : null
           }

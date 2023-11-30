@@ -26,22 +26,8 @@ const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
-  const {
-    lookBackVal,
-    setActiveTab,
-    setTraceRender,
-    setLogRender,
-    setSelected,
-    traceSummaryService,
-    setMetricRender,
-    setTraceSummaryService,
-    setLogSummaryService,
-    selectedStartDate,
-    selectedEndDate,
-    needHistoricalData,
-    setNavActiveTab,
-    setClearTraceFilter,
-  } = useContext(GlobalContext);
+  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService, setMetricRender, setTraceSummaryService, setLogSummaryService, selectedStartDate,
+    selectedEndDate, needHistoricalData, setNavActiveTab, setClearTraceFilter,setApmActiveTab } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -150,8 +136,9 @@ const TraceBarChart = () => {
     traceSummaryService.push(serviceName);
     localStorage.setItem("routeName", "Traces");
     setSelected("Traces");
-    navigate("/mainpage/traces");
-    setNavActiveTab(1);
+    setApmActiveTab(0);
+    navigate("/mainpage/apm");
+    // setNavActiveTab(1);
   };
 
   const hasErrChartData = integrationdata.some(

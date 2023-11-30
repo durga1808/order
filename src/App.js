@@ -43,6 +43,16 @@ function App() {
     )
   }
 
+  const ApmSection = () => {
+    return (
+      <Routes>
+        <Route index element={<Traces />} />
+        <Route path="metrics" element={<Metrics />} />
+        <Route path="logs" element={<Logs />} />
+      </Routes>
+    )
+  }
+
   const MainPage = () => {
     return (
       <div className="app">
@@ -53,9 +63,7 @@ function App() {
           <Routes>
             <Route path="dashboard/*" element={<DashboardSection />} />
             <Route path="sustainability/*" element={<SustainabilitySection />} />
-            <Route path="traces" element={<Traces />} />
-            <Route path="metrics" element={<Metrics />} />
-            <Route path="logs" element={<Logs />} />
+            <Route path="apm/*" element={<ApmSection />} />
           </Routes>
         </main>
       </div>

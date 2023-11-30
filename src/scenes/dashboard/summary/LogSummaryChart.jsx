@@ -22,17 +22,7 @@ import "./LogSummaryChart.css";
 
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
-  const {
-    lookBackVal,
-    setSelected,
-    logSummaryService,
-    setLogSummaryService,
-    selectedStartDate,
-    selectedEndDate,
-    needHistoricalData,
-    setActiveTab,
-    setNavActiveTab,
-  } = useContext(GlobalContext);
+  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService,selectedStartDate, selectedEndDate,needHistoricalData, setActiveTab, setNavActiveTab,setApmActiveTab } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -122,8 +112,9 @@ const LogBarChart = () => {
     logSummaryService.push(serviceName);
     localStorage.setItem("routeName", "Logs");
     setSelected("Logs");
-    navigate("/mainpage/logs");
-    setNavActiveTab(3);
+    setApmActiveTab(2);
+    navigate("/mainpage/apm/logs");
+    // setNavActiveTab(3);
   };
 
   const hasErrChartData = integrationdata.some(

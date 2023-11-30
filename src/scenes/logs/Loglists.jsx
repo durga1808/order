@@ -128,6 +128,7 @@ const Loglists = () => {
     setNeedFilterCall,
     setTraceDisplayService,
     setClearTraceFilter,
+    setApmActiveTab
   } = useContext(GlobalContext);
   const navigate = useNavigate();
 
@@ -224,7 +225,8 @@ const Loglists = () => {
         setLogTrace(updatedData);
         localStorage.setItem("routeName", "Traces");
         setSelected("Traces");
-        navigate("/mainpage/traces");
+        setApmActiveTab(0);
+        navigate("/mainpage/apm");
         setClearTraceFilter(true);
         setNeedFilterCall(false);
         setTraceDisplayService([]);
@@ -573,7 +575,7 @@ const Loglists = () => {
     setTraceRender(false);
     setMetricRender(false);
     // setTraceDisplayService([]);
-    setNavActiveTab(4);
+    setNavActiveTab(2);
     console.log("Filtered Data useEffect" + filteredOptions);
     if (needLogFilterCall) {
       setFilteredOptions(createFilterData());

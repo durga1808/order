@@ -156,7 +156,8 @@ const TraceList = () => {
     setNavActiveTab,
     setClearLogFilter,
     setNeedLogFilterCall,
-    setSelectedLogService
+    setSelectedLogService,
+    setApmActiveTab
   } = useContext(GlobalContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPageCount, setTotalPageCount] = useState(0);
@@ -376,6 +377,7 @@ const TraceList = () => {
     setMetricRender(false);
     setLogSummaryService([]);
     setNavActiveTab(2);
+    setApmActiveTab(0);
     if (needFilterCall) {
       filterApiCall();
     } else if (logTrace.length === 0 || !traceRender) {
@@ -417,9 +419,10 @@ const TraceList = () => {
       if (logData.length !== 0) {
         setLogRender(true);
         setGlobalLogData(logData);
-        localStorage.setItem("routeName", "Logs");
-        setSelected("Logs");
-        navigate("/mainpage/logs");
+        // localStorage.setItem("routeName", "Logs");
+        // setSelected("Logs");
+        setApmActiveTab(2);
+        navigate("/mainpage/apm/logs");
         setClearLogFilter(true);
         setNeedLogFilterCall(false);
         setSelectedLogService([]);

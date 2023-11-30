@@ -37,6 +37,7 @@ import { format } from "date-fns";
 import FilterAltRoundedIcon from "@mui/icons-material/FilterAltRounded";
 import DashboardTab from "./DashboardTab";
 import SustainabilityTabs from "./SustainabilityTabs";
+import ApmTabs from "./ApmTabs";
 
 const DashboardTopBar = () => {
   const navigate = useNavigate();
@@ -101,6 +102,8 @@ const DashboardTopBar = () => {
     setOpenDrawer,
     keplerActiveTab,
     setKeplerActiveTab,
+    apmActiveTab,
+    setApmActiveTab,
   } = useContext(GlobalContext);
 
   const [logFilterDialogOpen, setLogFilterDialogOpen] = useState(false);
@@ -139,9 +142,9 @@ const DashboardTopBar = () => {
   const iconStyle = {
     fontSize: "20px",
     color:
-      window.location.pathname === "/mainpage/traces" ||
-      window.location.pathname === "/mainpage/metrics" ||
-      window.location.pathname === "/mainpage/logs"
+      window.location.pathname === "/mainpage/apm" ||
+      window.location.pathname === "/mainpage/apm/metrics" ||
+      window.location.pathname === "/mainpage/apm/logs"
         ? colors.tabColor[500]
         : "#666663",
   };
@@ -229,6 +232,12 @@ const DashboardTopBar = () => {
       navigate("/mainpage/sustainability");
     } else if (option === "Node Metrics") {
       navigate("/mainpage/sustainability/node");
+    } else if (option === "Trace") {
+      navigate("/mainpage/apm");
+    } else if (option === "Metrics") {
+      navigate("/mainpage/apm/metrics");
+    } else if (option === "Logs") {
+      navigate("/mainpage/apm/logs");
     }
   };
 
@@ -243,39 +252,51 @@ const DashboardTopBar = () => {
     setKeplerActiveTab(newValue);
   };
 
+  const handleApmTabs = (event, newValue) => {
+    if (newValue === 0) {
+      navigate("/mainpage/apm");
+    } else if (newValue === 1) {
+      navigate("/mainpage/apm/metrics");
+    } else if (newValue === 2) {
+      navigate("/mainpage/apm/logs");
+    }
+    setApmActiveTab(newValue);
+  };
+
   const handleTabChangePages = (event, newValue) => {
     if (newValue === 0) {
       navigate("/mainpage/dashboard");
     } else if (newValue === 1) {
       navigate("/mainpage/sustainability");
     } else if (newValue === 2) {
-      navigate("/mainpage/traces");
-    } else if (newValue === 3) {
-      navigate("/mainpage/metrics");
-    } else if (newValue === 4) {
-      navigate("/mainpage/logs");
+      navigate("/mainpage/apm");
     }
+    // } else if (newValue === 3) {
+    //   navigate("/mainpage/metrics");
+    // } else if (newValue === 4) {
+    //   navigate("/mainpage/logs");
+    // }
     setNavActiveTab(newValue);
   };
 
   const handleFilterClick = () => {
     // setFilterDialogOpen(true);
-    if (window.location.pathname === "/mainpage/logs") {
+    if (window.location.pathname === "/mainpage/apm/logs") {
       setLogFilterDialogOpen(true);
-    } else if (window.location.pathname === "/mainpage/traces") {
+    } else if (window.location.pathname === "/mainpage/apm") {
       setFilterDialogOpen(true);
-    } else if (window.location.pathname === "/mainpage/metrics") {
+    } else if (window.location.pathname === "/mainpage/apm/metrics") {
       setmetricFilterDialogOpen(true);
     }
   };
 
   const handleFilterDialogClose = () => {
     // setFilterDialogOpen(false);
-    if (window.location.pathname === "/mainpage/logs") {
+    if (window.location.pathname === "/mainpage/apm/logs") {
       setLogFilterDialogOpen(false);
-    } else if (window.location.pathname === "/mainpage/traces") {
+    } else if (window.location.pathname === "/mainpage/apm") {
       setFilterDialogOpen(false);
-    } else if (window.location.pathname === "/mainpage/metrics") {
+    } else if (window.location.pathname === "/mainpage/apm/metrics") {
       setmetricFilterDialogOpen(false);
     }
   };
@@ -389,10 +410,10 @@ const DashboardTopBar = () => {
               {window.location.pathname === "/mainpage/dashboard" ||
               window.location.pathname === "/mainpage/sustainability" ||
               window.location.pathname === "/mainpage/sustainability/node" ||
-              window.location.pathname ==="/mainpage/sustainability/host"||
-              window.location.pathname === "/mainpage/traces" ||
-              window.location.pathname === "/mainpage/metrics" ||
-              window.location.pathname === "/mainpage/logs" ||
+              window.location.pathname === "/mainpage/sustainability/host" ||
+              window.location.pathname === "/mainpage/apm" ||
+              window.location.pathname === "/mainpage/apm/metrics" ||
+              window.location.pathname === "/mainpage/apm/logs" ||
               window.location.pathname === "/mainpage/dashboard/logSummary" ||
               window.location.pathname === "/mainpage/dashboard/dbSummary" ||
               window.location.pathname ===
@@ -424,21 +445,33 @@ const DashboardTopBar = () => {
                     }
                     sx={{ color: "#FFF" }}
                   />
-                  <Tab label="Traces" sx={{ color: "#FFF" }} />
-                  <Tab label="Metrics" sx={{ color: "#FFF" }} />
-                  <Tab label="Logs" sx={{ color: "#FFF" }} />
+
+                  <Tab
+                    label={
+                      <ApmTabs
+                        onDashboardOptionSelect={handleDashboardOptionSelect}
+                      />
+                    }
+                    sx={{ color: "#FFF" }}
+                  />
+
+                  {/*               
+                    <Tab label="Traces" sx={{ color: "#FFF" }} />
+                    <Tab label="Metrics" sx={{ color: "#FFF" }} />
+                    <Tab label="Logs" sx={{ color: "#FFF" }} /> */}
                 </Tabs>
               ) : null}
             </div>
           ) : (
             <div>
               {window.location.pathname === "/mainpage/dashboard" ||
+              window.location.pathname === "/mainpage/apm" ||
               window.location.pathname === "/mainpage/sustainability" ||
               window.location.pathname === "/mainpage/sustainability/node" ||
-              window.location.pathname ==="/mainpage/sustainability/host"||
-              window.location.pathname === "/mainpage/traces" ||
-              window.location.pathname === "/mainpage/metrics" ||
-              window.location.pathname === "/mainpage/logs" ||
+              window.location.pathname === "/mainpage/sustainability/host" ||
+              window.location.pathname === "/mainpage/apm" ||
+              window.location.pathname === "/mainpage/apm/metrics" ||
+              window.location.pathname === "/mainpage/apm/logs" ||
               window.location.pathname === "/mainpage/dashboard/logSummary" ||
               window.location.pathname === "/mainpage/dashboard/dbSummary" ||
               window.location.pathname ===
@@ -456,11 +489,15 @@ const DashboardTopBar = () => {
                   textColor="inherit"
                   indicatorColor="primary"
                 >
-                  <Tab label="Dashboard" sx={{ color: "#FFF" }} />
+                  <Tab label="Observability" sx={{ color: "#FFF" }} />
                   <Tab label="Sustainability" sx={{ color: "#FFF" }} />
-                  <Tab label="Traces" sx={{ color: "#FFF" }} />
-                  <Tab label="Metrics" sx={{ color: "#FFF" }} />
-                  <Tab label="Logs" sx={{ color: "#FFF" }} />
+
+                  <Tab label="APM" sx={{ color: "#FFF" }} />
+
+                  {/*                   
+                    <Tab label="Traces" sx={{ color: "#FFF" }} />
+                    <Tab label="Metrics" sx={{ color: "#FFF" }} />
+                    <Tab label="Logs" sx={{ color: "#FFF" }} /> */}
                 </Tabs>
               ) : null}
             </div>
@@ -633,13 +670,13 @@ const DashboardTopBar = () => {
                 TimeBy
               </label>
               {/* <Dropdown
-                      options={options}
-                      placeholder="Lookback for"
-                      value={lookBackVal.label}
-                      onChange={(val) => handleLookbackChange(val)}
-                      arrowClosed={<span className="arrow-closed" />}
-                      arrowOpen={<span className="arrow-open" />}
-                    /> */}
+                        options={options}
+                        placeholder="Lookback for"
+                        value={lookBackVal.label}
+                        onChange={(val) => handleLookbackChange(val)}
+                        arrowClosed={<span className="arrow-closed" />}
+                        arrowOpen={<span className="arrow-open" />}
+                      /> */}
 
               <div>
                 {" "}
@@ -807,6 +844,7 @@ const DashboardTopBar = () => {
                 sx: {
                   // height: 2,
                   marginTop: "-60px",
+                  marginBottom: "3px",
                   borderRadius: 3,
                   backgroundColor: colors.tabIndicator[500],
                 },
@@ -821,8 +859,10 @@ const DashboardTopBar = () => {
             </Tabs>
           ) : null}
 
-{isSmallScreen ? null :window.location.pathname === "/mainpage/sustainability" ||
-            window.location.pathname === "/mainpage/sustainability/node" || window.location.pathname === "/mainpage/sustainability/host" ? (
+          {isSmallScreen ? null : window.location.pathname ===
+              "/mainpage/sustainability" ||
+            window.location.pathname === "/mainpage/sustainability/node" ||
+            window.location.pathname === "/mainpage/sustainability/host" ? (
             <Tabs
               value={keplerActiveTab}
               onChange={handleKeplerTabs}
@@ -833,6 +873,7 @@ const DashboardTopBar = () => {
                   backgroundColor: colors.tabIndicator[500],
                 },
               }}
+              style={{ marginLeft: "8px" }}
               textColor="inherit"
               indicatorColor="primary"
             >
@@ -841,6 +882,33 @@ const DashboardTopBar = () => {
               {/* <Tab label="Host Metrics" sx={{ color: "#FFF" }} /> */}
             </Tabs>
           ) : null}
+
+          {isSmallScreen ? null : window.location.pathname ===
+              "/mainpage/apm" ||
+            window.location.pathname === "/mainpage/apm/metrics" ||
+            window.location.pathname === "/mainpage/apm/logs" ? (
+            <Tabs
+              value={apmActiveTab}
+              onChange={handleApmTabs}
+              TabIndicatorProps={{
+                sx: {
+                  marginTop: "-60px",
+                  borderRadius: 3,
+                  backgroundColor: colors.tabIndicator[500],
+                },
+              }}
+              style={{ marginLeft: "8px" }}
+              textColor="inherit"
+              indicatorColor="primary"
+            >
+              <Tab label="Traces" sx={{ color: "#FFF" }} />
+              <Tab label="Metrics" sx={{ color: "#FFF" }} />
+              <Tab label="Logs" sx={{ color: "#FFF" }} />
+              {/* <Tab label="Host Metrics" sx={{ color: "#FFF" }} /> */}
+            </Tabs>
+          ) : null}
+
+          {/* window.location.pathname === "/mainpage/apm" || */}
 
           {window.location.pathname === "/mainpage/traces" ? (
             // <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
