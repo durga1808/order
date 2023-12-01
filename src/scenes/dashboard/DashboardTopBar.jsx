@@ -42,6 +42,7 @@ import ApmTabs from "./ApmTabs";
 const DashboardTopBar = () => {
   const navigate = useNavigate();
   const [filterDialogOpen, setFilterDialogOpen] = useState(false);
+  const [enabled, setEnabled] = useState(false);
 
   // const {
   //   lookBackVal,
@@ -143,8 +144,8 @@ const DashboardTopBar = () => {
     fontSize: "20px",
     color:
       window.location.pathname === "/mainpage/apm" ||
-      window.location.pathname === "/mainpage/apm/metrics" ||
-      window.location.pathname === "/mainpage/apm/logs"
+        window.location.pathname === "/mainpage/apm/metrics" ||
+        window.location.pathname === "/mainpage/apm/logs"
         ? colors.tabColor[500]
         : "#666663",
   };
@@ -384,6 +385,7 @@ const DashboardTopBar = () => {
   // window.location.pathname === "/mainpage/logs" ?toggleDrawer:null}
 
   const toggleDrawer = () => {
+    // enabling();
     setOpenDrawer(!openDrawer);
   };
 
@@ -408,15 +410,15 @@ const DashboardTopBar = () => {
           {isSmallScreen ? (
             <div>
               {window.location.pathname === "/mainpage/dashboard" ||
-              window.location.pathname === "/mainpage/sustainability" ||
-              window.location.pathname === "/mainpage/sustainability/node" ||
-              window.location.pathname === "/mainpage/sustainability/host" ||
-              window.location.pathname === "/mainpage/apm" ||
-              window.location.pathname === "/mainpage/apm/metrics" ||
-              window.location.pathname === "/mainpage/apm/logs" ||
-              window.location.pathname === "/mainpage/dashboard/logSummary" ||
-              window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-              window.location.pathname ===
+                window.location.pathname === "/mainpage/sustainability" ||
+                window.location.pathname === "/mainpage/sustainability/node" ||
+                window.location.pathname === "/mainpage/sustainability/host" ||
+                window.location.pathname === "/mainpage/apm" ||
+                window.location.pathname === "/mainpage/apm/metrics" ||
+                window.location.pathname === "/mainpage/apm/logs" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                window.location.pathname ===
                 "/mainpage/dashboard/kafkaSummary" ? (
                 <Tabs
                   value={navActiveTab}
@@ -465,16 +467,16 @@ const DashboardTopBar = () => {
           ) : (
             <div>
               {window.location.pathname === "/mainpage/dashboard" ||
-              window.location.pathname === "/mainpage/apm" ||
-              window.location.pathname === "/mainpage/sustainability" ||
-              window.location.pathname === "/mainpage/sustainability/node" ||
-              window.location.pathname === "/mainpage/sustainability/host" ||
-              window.location.pathname === "/mainpage/apm" ||
-              window.location.pathname === "/mainpage/apm/metrics" ||
-              window.location.pathname === "/mainpage/apm/logs" ||
-              window.location.pathname === "/mainpage/dashboard/logSummary" ||
-              window.location.pathname === "/mainpage/dashboard/dbSummary" ||
-              window.location.pathname ===
+                window.location.pathname === "/mainpage/apm" ||
+                window.location.pathname === "/mainpage/sustainability" ||
+                window.location.pathname === "/mainpage/sustainability/node" ||
+                window.location.pathname === "/mainpage/sustainability/host" ||
+                window.location.pathname === "/mainpage/apm" ||
+                window.location.pathname === "/mainpage/apm/metrics" ||
+                window.location.pathname === "/mainpage/apm/logs" ||
+                window.location.pathname === "/mainpage/dashboard/logSummary" ||
+                window.location.pathname === "/mainpage/dashboard/dbSummary" ||
+                window.location.pathname ===
                 "/mainpage/dashboard/kafkaSummary" ? (
                 <Tabs
                   value={navActiveTab}
@@ -702,8 +704,8 @@ const DashboardTopBar = () => {
                           ? "#B3B3AD"
                           : "#FFF"
                         : endDate !== null || previousStartDate
-                        ? "lightgray"
-                        : "#000",
+                          ? "lightgray"
+                          : "#000",
                     padding: "7px 16px",
                     "& .MuiSelect-icon": {
                       color:
@@ -712,8 +714,8 @@ const DashboardTopBar = () => {
                             ? "#B3B3AD"
                             : "#FFF"
                           : endDate !== null || previousStartDate
-                          ? "lightgray"
-                          : "#000", // Customize the dropdown arrow color
+                            ? "lightgray"
+                            : "#000", // Customize the dropdown arrow color
                     },
                     "& .MuiSelect-root": {
                       color: "#000", // Customize the dropdown text color
@@ -737,8 +739,8 @@ const DashboardTopBar = () => {
                               ? "#666663"
                               : "#FFF"
                             : endDate !== null || previousStartDate
-                            ? "lightgray"
-                            : "#000",
+                              ? "lightgray"
+                              : "#000",
                       }}
                     >
                       {option.label}
@@ -820,6 +822,7 @@ const DashboardTopBar = () => {
                     <IconButton
                       sx={{ mr: 2 }}
                       onClick={toggleDrawer}
+                      disabled={window.location.pathname === "/mainpage/dashboard" || window.location.pathname === "/mainpage/dashboard/logSummary" || window.location.pathname === "/mainpage/dashboard/dbSummary" || window.location.pathname === "/mainpage/dashboard/kafkaSummary" || window.location.pathname === "/mainpage/sustainability" || window.location.pathname === "/mainpage/sustainability/node"}
                       // aria-label="Refresh"
                       style={FilterbuttonStyle}
                     >
@@ -833,7 +836,7 @@ const DashboardTopBar = () => {
         </Toolbar>
         <div style={{ marginTop: "-25px", marginLeft: "13px" }}>
           {isSmallScreen ? null : window.location.pathname ===
-              "/mainpage/dashboard" ||
+            "/mainpage/dashboard" ||
             window.location.pathname === "/mainpage/dashboard/logSummary" ||
             window.location.pathname === "/mainpage/dashboard/dbSummary" ||
             window.location.pathname === "/mainpage/dashboard/kafkaSummary" ? (
@@ -860,7 +863,7 @@ const DashboardTopBar = () => {
           ) : null}
 
           {isSmallScreen ? null : window.location.pathname ===
-              "/mainpage/sustainability" ||
+            "/mainpage/sustainability" ||
             window.location.pathname === "/mainpage/sustainability/node" ||
             window.location.pathname === "/mainpage/sustainability/host" ? (
             <Tabs
@@ -884,7 +887,7 @@ const DashboardTopBar = () => {
           ) : null}
 
           {isSmallScreen ? null : window.location.pathname ===
-              "/mainpage/apm" ||
+            "/mainpage/apm" ||
             window.location.pathname === "/mainpage/apm/metrics" ||
             window.location.pathname === "/mainpage/apm/logs" ? (
             <Tabs
@@ -910,7 +913,7 @@ const DashboardTopBar = () => {
 
           {/* window.location.pathname === "/mainpage/apm" || */}
 
-          {window.location.pathname === "/mainpage/traces" ? (
+          {window.location.pathname === "/mainpage/apm" ? (
             // <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
             <Drawer
               open={openDrawer}
@@ -953,7 +956,7 @@ const DashboardTopBar = () => {
             </Drawer>
           ) : null}
 
-          {window.location.pathname === "/mainpage/metrics" ? (
+          {window.location.pathname === "/mainpage/apm/metrics" ? (
             // <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
             <Drawer
               open={openDrawer}
@@ -996,7 +999,7 @@ const DashboardTopBar = () => {
             </Drawer>
           ) : null}
 
-          {window.location.pathname === "/mainpage/logs" ? (
+          {window.location.pathname === "/mainpage/apm/logs" ? (
             // <Drawer anchor="right" open={openDrawer} onClose={toggleDrawer}>
             <Drawer
               open={openDrawer}
