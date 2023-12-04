@@ -152,9 +152,9 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
     return (
         <Box height="calc(75vh - 20px)" width={chartWidth} padding="5px" border="1px" style={{
             transition: "width 0.3s ease-in-out",
-            ...(isiphone && {
-                height: "calc(140vh - 32px)",
-              }),
+            // ...(isiphone && {
+            //     height: "calc(140vh - 32px)",
+            //   }),
             //   ...(istablet && {
             //     height: "calc(50vh - 32px)",
             //   }),

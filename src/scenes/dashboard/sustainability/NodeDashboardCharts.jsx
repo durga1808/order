@@ -114,6 +114,11 @@ const NodeDashboardCharts = () => {
 
     const hasContainerPowerMetrics = powerMetrics.some((item) => item.containerPowerMetrics.length !== 0)
 
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+    const isLandscape = useMediaQuery(
+        "(max-width: 1000px) and (orientation: landscape)"
+    );
+
     const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
     const istablet = useMediaQuery((theme) => theme.breakpoints.down("lg"));
 
@@ -161,10 +166,10 @@ const NodeDashboardCharts = () => {
 
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(75vh - 30px)", 
+                            <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: (isLandscape && isSmallScreen) ? "calc(120vh - 20px)" : "calc(75vh - 30px)",
                             
                             ...(isiphone && {
-                                height: "calc(140vh - 32px)",
+                                height: "calc(100vh - 32px)",
                               }),
                             //   ...(istablet && {
                             //     height: "calc(100vh - 32px)",
