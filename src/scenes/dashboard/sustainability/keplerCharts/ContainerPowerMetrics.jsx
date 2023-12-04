@@ -9,6 +9,13 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
     const theme = useTheme();
     const { isCollapsed } = useContext(GlobalContext);
 
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+    const isLandscape = useMediaQuery(
+        "(max-width: 1000px) and (orientation: landscape)"
+    );
+
+    const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+
     const series = [
         {
             name: containerPowerMetrics.title,
@@ -137,17 +144,10 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
         //   },
         // },
     };
-
-    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
   
     const chartWidth = isCollapsed ? 'calc(70% - 10px)' : 'calc(73% - 70px)'
 
-    const chartHeight = (isLandscape && isSmallScreen) ? "200%" : "90%"
-
-
-    const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
-    const istablet = useMediaQuery((theme) => theme.breakpoints.down("lg"));
+    const chartHeight = (isLandscape && isSmallScreen) ? "150%" : (isiphone ? "125%" : "90%") ;
 
     return (
         <Box height="calc(75vh - 20px)" width={chartWidth} padding="5px" border="1px" style={{
