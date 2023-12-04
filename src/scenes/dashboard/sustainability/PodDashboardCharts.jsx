@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Divider, Grid, List, ListItem, Table, TableBody, TableCell, TableRow, Typography, colors, useTheme } from '@mui/material';
+import { Box, Button, Card, CardContent, Divider, Grid, List, ListItem, Table, TableBody, TableCell, TableRow, Typography, colors, useMediaQuery, useTheme } from '@mui/material';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Loading from '../../../global/Loading/Loading';
 import { keplerContainerInfo, keplerContainerInfoContainer, keplerContainerInfoNew } from '../../../global/MockData/KeplerMockData';
@@ -19,6 +19,13 @@ const PodDashboardCharts = () => {
         setNavActiveTab,
         needHistoricalData
     } = useContext(GlobalContext);
+
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+    const isLandscape = useMediaQuery(
+        "(max-width: 1000px) and (orientation: landscape)"
+    );
+
+    const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
     const [powerMetrics, setPowerMetrics] = useState([]);
     const [podDisplayName, setPodDisplayName] = useState([]);
@@ -156,7 +163,9 @@ const PodDashboardCharts = () => {
 
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(75vh - 30px)", color: 'black' }}>
+                            <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: (isLandscape && isSmallScreen) ? "calc(120vh - 20px)" : "calc(75vh - 30px)", color: 'black', ...(isiphone && {
+                                height: "calc(100vh - 32px)",
+                            }) }}>
                                 <CardContent>
                                     <Box style={{ display: "flex", flexDirection: "row", }} >
                                         {hasContainerPowerMetrics ? (

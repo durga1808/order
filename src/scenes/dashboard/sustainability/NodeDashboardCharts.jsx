@@ -1,4 +1,4 @@
-import { Box, Button, Card, CardContent, Divider, Grid, List, ListItem, Table, TableBody, TableCell, TableRow, Typography, colors, useTheme } from '@mui/material';
+import { Box, Button, Card, CardContent, Divider, Grid, List, ListItem, Table, TableBody, TableCell, TableRow, Typography, colors, useMediaQuery, useTheme } from '@mui/material';
 import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Loading from '../../../global/Loading/Loading';
 import { keplerContainerInfo, keplerContainerInfoContainer, keplerContainerInfoNew } from '../../../global/MockData/KeplerMockData';
@@ -114,6 +114,16 @@ const NodeDashboardCharts = () => {
 
     const hasContainerPowerMetrics = powerMetrics.some((item) => item.containerPowerMetrics.length !== 0)
 
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+    const isLandscape = useMediaQuery(
+        "(max-width: 1000px) and (orientation: landscape)"
+    );
+
+    const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+    const istablet = useMediaQuery((theme) => theme.breakpoints.down("lg"));
+
+
+
     return (
         <div>
             {loading ? (
@@ -156,20 +166,35 @@ const NodeDashboardCharts = () => {
 
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: "calc(75vh - 30px)", color: 'black' }}>
+                            <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: (isLandscape && isSmallScreen) ? "calc(120vh - 20px)" : "calc(75vh - 30px)",
+                            
+                            ...(isiphone && {
+                                height: "calc(100vh - 32px)",
+                              }),
+                            //   ...(istablet && {
+                            //     height: "calc(100vh - 32px)",
+                            //     backgroundColor: "gray"
+                            //   }),
+                            color: 'black'
+                             }}>
+
                                 <CardContent>
-                                    <Box style={{ display: "flex", flexDirection: "row", }} >
+                                    <Box style={{ display: "flex", flexDirection: "row", 
+                                   
+                                     
+                                }} >
                                         {hasContainerPowerMetrics ? (
                                             <ContainerPowerMetrics containerPowerMetrics={keplerMetrics[0]} />
                                         ) : (
                                             <div
+                                            
                                                 style={{
                                                     display: "flex",
                                                     justifyContent: "center",
                                                     alignItems: "center",
                                                     height: "calc(75vh - 24px)",
                                                     width: "100%",
-                                                }}
+                                                        }}
                                             >
                                                 <Typography variant="h5" fontWeight={"600"}>
                                                     Container Power Metrics - No data
@@ -185,7 +210,10 @@ const NodeDashboardCharts = () => {
                                                 </ListItem>
                                             ))}
                                         </List> */}
-                                        <div style={{ width: '35%', maxHeight: '500px', overflowY: 'auto' }}>
+                                        <div style={{ width: '35%', maxHeight: '500px', overflowY: 'auto',
+                                    
+                                    
+                                    }}>
                                             <Table size="small" aria-label="a dense table" sx={{
                                                 "& .MuiTableRow-root:hover": {
                                                     backgroundColor: 'lightgrey',

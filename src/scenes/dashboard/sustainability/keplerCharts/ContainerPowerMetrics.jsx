@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import React, { useContext } from 'react'
 import ReactApexChart from 'react-apexcharts';
 import { tokens } from '../../../../theme';
@@ -8,6 +8,13 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
 
     const theme = useTheme();
     const { isCollapsed } = useContext(GlobalContext);
+
+    const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+    const isLandscape = useMediaQuery(
+        "(max-width: 1000px) and (orientation: landscape)"
+    );
+
+    const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
 
     const series = [
         {
@@ -137,18 +144,26 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
         //   },
         // },
     };
-
+  
     const chartWidth = isCollapsed ? 'calc(70% - 10px)' : 'calc(73% - 70px)'
+
+    const chartHeight = (isLandscape && isSmallScreen) ? "150%" : (isiphone ? "125%" : "90%") ;
 
     return (
         <Box height="calc(75vh - 20px)" width={chartWidth} padding="5px" border="1px" style={{
             transition: "width 0.3s ease-in-out",
+            // ...(isiphone && {
+            //     height: "calc(140vh - 32px)",
+            //   }),
+            //   ...(istablet && {
+            //     height: "calc(50vh - 32px)",
+            //   }),
         }}>
             <ReactApexChart
                 options={options}
                 series={series}
                 type="area"
-                height={"90%"}
+                height={chartHeight}
                 // width={isCollapsed?1380:1210}
                 width={"100%"}
             />
