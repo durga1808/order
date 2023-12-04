@@ -26,8 +26,23 @@ const TraceBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [errorCalls, setErrorCalls] = useState(null);
   const [successCalls, setSuccessCalls] = useState(null);
-  const { lookBackVal, setActiveTab, setTraceRender, setLogRender, setSelected, traceSummaryService, setMetricRender, setTraceSummaryService, setLogSummaryService, selectedStartDate,
-    selectedEndDate, needHistoricalData, setNavActiveTab, setClearTraceFilter,setApmActiveTab } = useContext(GlobalContext);
+  const {
+    lookBackVal,
+    setActiveTab,
+    setTraceRender,
+    setLogRender,
+    setSelected,
+    traceSummaryService,
+    setMetricRender,
+    setTraceSummaryService,
+    setLogSummaryService,
+    selectedStartDate,
+    selectedEndDate,
+    needHistoricalData,
+    setNavActiveTab,
+    setClearTraceFilter,
+    setApmActiveTab,
+  } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -42,8 +57,8 @@ const TraceBarChart = () => {
 
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
   const issurfacepro = useMediaQuery((theme) =>
-  theme.breakpoints.only("issurfacepro")
-);
+    theme.breakpoints.only("issurfacepro")
+  );
 
   const isipadmini = useMediaQuery((theme) =>
     theme.breakpoints.up("ipadminiwidth")
@@ -162,10 +177,7 @@ const TraceBarChart = () => {
   // const chartWidth3 = isCollapsed ? 'calc(85vh - 20px)' : 'calc(75vh - 15px)'
 
   return (
-    <div
-      className="main-content"
-      style={{ height: isLandscape ? "" : "77vh" }}
-    >
+    <div className="main-content" style={{ height: isLandscape ? "" : "77vh" }}>
       {loading ? (
         <Loading />
       ) : emptyMessage ? (
@@ -224,20 +236,18 @@ const TraceBarChart = () => {
                         isLandscape && isSmallScreen
                           ? "calc(90vh - 24px)"
                           : "calc(40vh - 40px)",
-                      width: isSmallScreen ? "calc(1070px - 40px)" : "",
+                      width: isSmallScreen ? "calc(1000px - 40px)" : "",
                       color: theme.palette.mode === "dark" ? "white" : "black",
 
                       ...(isiphone && {
                         height: "calc(65vh - 32px)",
                       }),
-                      ...(
-                        isipadpro && {
-                          height: "calc(28vh - 32px)",
-                        }),
-                        ...(
-                          issurfacepro && {
-                            height: "calc(35vh - 32px)",
-                          }),
+                      ...(isipadpro && {
+                        height: "calc(28vh - 32px)",
+                      }),
+                      ...(issurfacepro && {
+                        height: "calc(35vh - 32px)",
+                      }),
 
                       //       ...((isipadmini) && {
                       //         height:  "calc(50vh - 32px)",
@@ -313,23 +323,20 @@ const TraceBarChart = () => {
                         height:
                           isLandscape && isSmallScreen
                             ? "calc(90vh - 24px)"
-                            :"calc(40vh - 32px)",
+                            : "calc(40vh - 32px)",
                         // height: isLandscape ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
-                        width: isSmallScreen ? "calc(1070px - 40px)" : "",
+                        width: isSmallScreen ? "calc(1000px - 40px)" : "",
                         color:
                           theme.palette.mode === "dark" ? "white" : "black",
                         ...(isiphone && {
                           height: "calc(65vh - 32px)",
-                         
                         }),
-                        ...(
-                          isipadpro && {
-                            height: "calc(28vh - 32px)",
-                          }),
-                          ...(
-                            issurfacepro && {
-                              height: "calc(35vh - 32px)",
-                            }),
+                        ...(isipadpro && {
+                          height: "calc(28vh - 32px)",
+                        }),
+                        ...(issurfacepro && {
+                          height: "calc(35vh - 32px)",
+                        }),
 
                         // ...(isipadmini &&
                         //   isipadpro && {
@@ -378,20 +385,18 @@ const TraceBarChart = () => {
                           isLandscape && isSmallScreen
                             ? "calc(90vh - 24px)"
                             : "calc(40vh - 32px)",
-                        width: isSmallScreen ? "calc(1070px - 40px)" : "",
+                        width: isSmallScreen ? "calc(1000px - 40px)" : "",
                         color:
                           theme.palette.mode === "dark" ? "white" : "black",
                         ...(isiphone && {
                           height: "calc(65vh - 32px)",
                         }),
-                        ...(
-                          isipadpro && {
-                            height: "calc(28vh - 32px)",
-                          }),
-                          ...(
-                            issurfacepro && {
-                              height: "calc(35vh - 32px)",
-                            }),
+                        ...(isipadpro && {
+                          height: "calc(28vh - 32px)",
+                        }),
+                        ...(issurfacepro && {
+                          height: "calc(35vh - 32px)",
+                        }),
                       }}
                     >
                       <CardContent>

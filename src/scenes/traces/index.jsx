@@ -6,24 +6,30 @@ import SpanFlow from "./trace/spanReactFlow/SpanFlow";
 import SpanInfo from "./trace/spanReactFlow/SpanInfo";
 import { useContext } from "react";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
-import KeyboardDoubleArrowRightRoundedIcon from '@mui/icons-material/KeyboardDoubleArrowRightRounded';
+import KeyboardDoubleArrowRightRoundedIcon from "@mui/icons-material/KeyboardDoubleArrowRightRounded";
 import ErrorContext from "./trace/ErrorBox/ErrorContext";
 
-import "./index.css"
+import "./index.css";
 
 const Traces = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const { traceGlobalEmpty, traceGlobalError, showError } = useContext(GlobalContext);
+  const { traceGlobalEmpty, traceGlobalError, showError } =
+    useContext(GlobalContext);
 
-  
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
-  const isiphoneSE = useMediaQuery((theme) => theme.breakpoints.only("iphoneSE"));
-  const isipadmini = useMediaQuery((theme) => theme.breakpoints.only("ipadmini"));
-  const isipadpro = useMediaQuery((theme) => theme.breakpoints.only("isipadpro"));
-  const issurfacepro = useMediaQuery((theme) => theme.breakpoints.only("issurfacepro"));
-
-  
+  const isiphoneSE = useMediaQuery((theme) =>
+    theme.breakpoints.only("iphoneSE")
+  );
+  const isipadmini = useMediaQuery((theme) =>
+    theme.breakpoints.only("ipadmini")
+  );
+  const isipadpro = useMediaQuery((theme) =>
+    theme.breakpoints.only("isipadpro")
+  );
+  const issurfacepro = useMediaQuery((theme) =>
+    theme.breakpoints.only("issurfacepro")
+  );
 
   return (
     <div
@@ -73,36 +79,27 @@ const Traces = () => {
                 sx={{
                   // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
                   padding: "15px",
-                  width:isipadpro? "95%":"100%",
+                  width: "100%",
                   overflowX: "auto",
-                  overflowY:issurfacepro?"scroll":null,
-                  height:issurfacepro?"110vh": "calc(84vh - 72px)",
+                  overflowY: issurfacepro ? "scroll" : null,
+                  height: issurfacepro ? "110vh" : "calc(84vh - 72px)",
 
-                  ...(
-                    isiphone && {
-                      height: "calc(150vh - 5px)",
-                    }),
+                  ...(isiphone && {
+                    height: "calc(150vh - 5px)",
+                  }),
 
-                    ...(
-                      isipadmini && {
-                        height: "120vh",
-                      }),
+                  ...(isipadmini && {
+                    height: "120vh",
+                  }),
 
-                      // ...(
-                      //   isipadpro && {
-                      //     maxHeight: "170vh",
-                      //   }),
+                  ...(isipadpro && {
+                    maxHeight: "170vh",
+                  }),
 
-                      
-
-                      // ...(
-                      //   issurfacepro && {
-                      //     maxHeight: "120vh",
-                      //   }),
-
-                     
-
-                    
+                  // ...(
+                  //   issurfacepro && {
+                  //     maxHeight: "120vh",
+                  //   }),
                 }}
               >
                 <TraceList />
@@ -112,51 +109,51 @@ const Traces = () => {
 
           <div style={{ width: "100%" }}>
             <Box sx={{ m: "14px 20px 10px 10px" }}>
-              {!showError ? (<Card
-                elevation={4}
-                sx={{
-                  padding: "15px",
-                  width:isiphoneSE?"500px":isipadpro?"520px":"600px",
-                  overflowY:issurfacepro?"scroll":null,
-                  height:issurfacepro?"110vh": "calc(84vh - 72px)",
-                  ...(
-                    isiphone && {
+              {!showError ? (
+                <Card
+                  elevation={4}
+                  sx={{
+                    padding: "15px",
+                    width: isiphoneSE ? "500px" : isipadpro ? "450px" : "600px",
+                    overflowY: issurfacepro ? "scroll" : null,
+                    height: issurfacepro ? "110vh" : "calc(84vh - 72px)",
+                    ...(isiphone && {
                       height: "148vh",
                     }),
-                  
-                    ...(
-                      isipadmini && {
-                        height: "120vh",
-                      }),
 
-                      ...(
-                        isipadpro && {
-                          maxHeight: "170vh",
-                        }),
-                      
+                    ...(isipadmini && {
+                      height: "120vh",
+                    }),
+
+                    ...(isipadpro && {
+                      maxHeight: "170vh",
+                    }),
+
                     // ...(
                     //   issurfacepro && {
                     //     maxHeight: "120vh",
                     //   }),
-                }}
-              >
-                <SpanFlow />
-              </Card>
-              ) : (<Card
-                elevation={4}
-                sx={{
-                  // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
-                  padding: "15px",
-                  width:isiphoneSE?"500px":"600px",
-                  height: "calc(84vh - 72px)",
-                  // ...(
-                  //   isiphone && {
-                  //     height: "calc(150vh - 85px)",
-                  //   }),
-                }}
-              >
-                <ErrorContext />
-              </Card>)}
+                  }}
+                >
+                  <SpanFlow />
+                </Card>
+              ) : (
+                <Card
+                  elevation={4}
+                  sx={{
+                    // backgroundColor: theme.palette.mode==="dark"?"#2C3539":null,
+                    padding: "15px",
+                    width: isiphoneSE ? "500px" : "600px",
+                    height: "calc(84vh - 72px)",
+                    // ...(
+                    //   isiphone && {
+                    //     height: "calc(150vh - 85px)",
+                    //   }),
+                  }}
+                >
+                  <ErrorContext />
+                </Card>
+              )}
               {/* <Box sx={{ m: "30px 20px 20px 0" }} >
             <Card sx={{ backgroundColor: colors.primary[400], padding: "15px", width: "620px", height: 315 }}>
               <SpanInfo />
