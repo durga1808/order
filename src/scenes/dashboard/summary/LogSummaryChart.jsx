@@ -22,7 +22,18 @@ import "./LogSummaryChart.css";
 
 const LogBarChart = () => {
   const [selectedService, setSelectedService] = useState(null);
-  const { lookBackVal, setSelected, logSummaryService,setLogSummaryService,selectedStartDate, selectedEndDate,needHistoricalData, setActiveTab, setNavActiveTab,setApmActiveTab } = useContext(GlobalContext);
+  const {
+    lookBackVal,
+    setSelected,
+    logSummaryService,
+    setLogSummaryService,
+    selectedStartDate,
+    selectedEndDate,
+    needHistoricalData,
+    setActiveTab,
+    setNavActiveTab,
+    setApmActiveTab,
+  } = useContext(GlobalContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [emptyMessage, setEmptyMessage] = useState("");
 
@@ -43,8 +54,8 @@ const LogBarChart = () => {
   );
 
   const issurfacepro = useMediaQuery((theme) =>
-  theme.breakpoints.only("issurfacepro")
-);
+    theme.breakpoints.only("issurfacepro")
+  );
 
   const logSummaryApiCall = useCallback(async () => {
     try {
@@ -128,10 +139,7 @@ const LogBarChart = () => {
   );
 
   return (
-    <div
-      className="log-content"
-      style={{ height: isLandscape ? "" : "77vh" }}
-    >
+    <div className="log-content" style={{ height: isLandscape ? "" : "77vh" }}>
       {loading ? (
         <Loading />
       ) : emptyMessage ? (
@@ -181,19 +189,17 @@ const LogBarChart = () => {
                     isLandscape && isSmallScreen
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 40px)",
-                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
+                  width: isSmallScreen ? "calc(1000px - 40px)" : "",
                   color: theme.palette.mode === "dark" ? "white" : "black",
                   ...(isiphone && {
                     height: "calc(80vh - 32px)",
                   }),
-                  ...(
-                    isipadpro && {
-                      height: "calc(28vh - 32px)",
-                    }),
-                    ...(
-                      issurfacepro && {
-                        height: "calc(35vh - 32px)",
-                      }),
+                  ...(isipadpro && {
+                    height: "calc(28vh - 32px)",
+                  }),
+                  ...(issurfacepro && {
+                    height: "calc(35vh - 32px)",
+                  }),
                 }}
               >
                 <CardContent>
@@ -265,19 +271,17 @@ const LogBarChart = () => {
                     isLandscape && isSmallScreen
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 32px)",
-                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
+                  width: isSmallScreen ? "calc(1000px - 40px)" : "",
                   color: theme.palette.mode === "dark" ? "white" : "black",
                   ...(isiphone && {
                     height: "calc(80vh - 32px)",
                   }),
-                  ...(
-                    isipadpro && {
-                      height: "calc(28vh - 32px)",
-                    }),
-                    ...(
-                      issurfacepro && {
-                        height: "calc(35vh - 32px)",
-                      }),
+                  ...(isipadpro && {
+                    height: "calc(28vh - 32px)",
+                  }),
+                  ...(issurfacepro && {
+                    height: "calc(35vh - 32px)",
+                  }),
                 }}
               >
                 <CardContent>
@@ -308,25 +312,23 @@ const LogBarChart = () => {
                 elevation={3}
                 style={{
                   margin: isSmallScreen
-                  ? "5px 15px 5px 25px" :
-                  "5px 25px 5px 15px",
+                    ? "5px 15px 5px 25px"
+                    : "5px 25px 5px 15px",
                   height:
                     isLandscape && isSmallScreen
                       ? "calc(90vh - 24px)"
                       : "calc(40vh - 32px)",
-                  width: isSmallScreen ? "calc(1070px - 40px)" : "",
+                  width: isSmallScreen ? "calc(1000px - 40px)" : "",
                   color: theme.palette.mode === "dark" ? "white" : "black",
                   ...(isiphone && {
                     height: "calc(80vh - 32px)",
                   }),
-                  ...(
-                    isipadpro && {
-                      height: "calc(28vh - 32px)",
-                    }),
-                    ...(
-                      issurfacepro && {
-                        height: "calc(35vh - 32px)",
-                      }),
+                  ...(isipadpro && {
+                    height: "calc(28vh - 32px)",
+                  }),
+                  ...(issurfacepro && {
+                    height: "calc(35vh - 32px)",
+                  }),
                 }}
               >
                 <CardContent>
