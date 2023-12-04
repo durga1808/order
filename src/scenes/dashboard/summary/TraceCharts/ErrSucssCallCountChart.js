@@ -129,7 +129,7 @@ const ErrorSuccessChart = ({ ErrSuccessData, onBarClick }) => {
 
   const chartWidth = isCollapsed ? 'calc(100% - 10px)' : 'calc(103% - 70px)'
 
-  const chartHeight = (isLandscape && isSmallScreen) ? "200%" : "90%"
+  const chartHeight = isLandscape && isSmallScreen ? "200%" : "90%"
 
   return (
     <Box

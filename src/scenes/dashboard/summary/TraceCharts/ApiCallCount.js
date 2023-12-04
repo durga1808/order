@@ -113,7 +113,7 @@ theme.breakpoints.only("issurfacepro")
     },
   ];
 
-  const chartWidth = isCollapsed ? "calc(100% - 20px)" : "calc(103% - 20px)";
+  const chartWidth = isCollapsed ? 'calc(100% - 10px)' : 'calc(103% - 70px)';
 
   const chartHeight = isLandscape && isSmallScreen ? "200%" : "90%";
 

@@ -193,8 +193,8 @@ const DbSummaryCharts = () => {
                   marginBottom: "10px",
                   marginLeft: "20px",
                   height:
-                    isLandscape && isSmallScreen
-                      ? "calc(45vh - 35px)"
+                    (isLandscape && isSmallScreen)
+                      ? "calc(90vh - 24px)"
                       : "calc(40vh - 40px)",
                   width: isSmallScreen ? "calc(1070px - 40px)" : "",
                   ...(isiphone && {

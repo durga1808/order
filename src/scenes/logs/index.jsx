@@ -7,7 +7,7 @@ const Logs = () => {
     const isLandscape = useMediaQuery("(max-width: 1000px) and (orientation: landscape)");
 
     return (
-        <div style={{ overflowY: isSmallScreen ? "" : "auto", height: isSmallScreen ? "calc(50% - 10px)" : "calc(79% - 10px)" }}>
+        <div style={{ overflowY: isSmallScreen ? "" : "auto", height: isSmallScreen ? "calc(40% - 10px)" : "calc(77% - 10px)" }}>
             <Box sx={{ display: "flex", flexDirection: "column", alignItems: "normal", margin: "20px" }}>
                 <Loglists />
             </Box>
