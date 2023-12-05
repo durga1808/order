@@ -104,12 +104,14 @@ const PodDashboardCharts = () => {
 
     useEffect(() => {
         // setPowerMetrics(keplerContainerInfo);
-        setErrorMessage("");
-        setEmptyMessage("");
         setKeplerActiveTab(0);
         setNavActiveTab(1);
         // createPodMetricData(keplerContainerInfoContainer);
         fetchPowerMetrics();
+        return () => {
+            setErrorMessage("");
+            setEmptyMessage("");
+        }
     }, [setErrorMessage, setEmptyMessage, setKeplerActiveTab, setNavActiveTab, fetchPowerMetrics])
 
     const hasContainerPowerMetrics = powerMetrics.some((item) => item.containerPowerMetrics.length !== 0)
