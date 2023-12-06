@@ -11,14 +11,18 @@ import "./SpanFlow.css";
 import {
   Box,
   Card,
+  FormControlLabel,
+  FormGroup,
   IconButton,
   Paper,
   Popover,
+  Switch,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableRow,
+  ToggleButton,
   Typography,
   useMediaQuery,
   useTheme,
@@ -30,6 +34,7 @@ import SpanInfo from "./SpanInfo";
 import { useRef } from "react";
 import Loading from "../../../../global/Loading/Loading";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import CustomFlow from "./CustomFlow";
 
 const SpanFlow = () => {
   const [nodes, setNodes] = useState([]);
@@ -52,6 +57,14 @@ const SpanFlow = () => {
   // console.log("stscode", selectedTrace);
   console.log("order-span", orderedSpans);
   const [loading, setLoading] = useState(false);
+
+  const [checked, setChecked] = useState(false);
+  const [showCard, setShowCard] = useState(false);
+
+  const switchHandler = (event) => {
+    setChecked(event.target.checked);
+    setShowCard(!showCard);
+  };
 
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -449,6 +462,18 @@ const SpanFlow = () => {
                       {selectedTrace.serviceName}
                     </Typography>
                   </Typography>
+
+                  <FormGroup>
+                    <FormControlLabel
+                    // labelPlacement="top"
+                      control={<Switch size="small"
+                      checked={checked} 
+                      onChange={switchHandler} 
+                      />}
+                      label="Flow"
+                    />
+                  </FormGroup>
+
                   <Typography variant="h6">
                     SpanCount <br />
                     <Typography variant="h7">
@@ -627,8 +652,11 @@ const SpanFlow = () => {
               </div>
 
               {/* maxHeight: "calc(145vh - 50px)" */}
+              {showCard ? <div>
+                <CustomFlow />
+              </div> : (
               <div
-                style={{ maxHeight: "calc(71vh - 85px)",
+                style={{ maxHeight: "calc(69vh - 85px)",
                 ...(
                   isiphone && {
                     maxHeight:  "125vh",
@@ -685,7 +713,9 @@ const SpanFlow = () => {
                   <SpanInfo />
                 </div>
               </div>
+              )}
             </div>
+              
           )}
         </div>
       )}
