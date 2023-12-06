@@ -1,3 +1,7 @@
+## npm run build --prod
+## podman build -f Dockerfile -t quay.io/zagaos/observai-dashboard .
+## podman run -i --rm -p 8080:8080 quay.io/zagaos/observai-dashboard
+
 FROM docker.io/nginxinc/nginx-unprivileged
 
 USER root
@@ -17,10 +21,3 @@ USER nginx
 EXPOSE 8080
 
 CMD ["nginx","-g","daemon off;"]
-
-
-# docker build --build-arg REACT_APP_APIURL_LOGS=http://otel-extraction.opentelemetry-workspace.svc.cluster.local:8083/logs --build-arg REACT_APP_APIURL_TRACES=http://otel-extraction.opentelemetry-workspace.svc.cluster.local:8083/trace  --build-arg REACT_APP_APIURL_METRICS=http://otel-extraction.opentelemetry-workspace.svc.cluster.local:8083/metrics  --build-arg REACT_APP_APIURL_METRICS_WS=ws://otel-extraction.opentelemetry-workspace.svc.cluster.local:8083/websocket  -t mugicoder13/otel-dashboard .
-
-# docker build -t mugicoder13/otel-dashboard .
-
-# docker push mugicoder13/otel-dashboard

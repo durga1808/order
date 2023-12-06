@@ -1,0 +1,112 @@
+@media (max-width: 769px) and (min-width: 300px) {
+  .main-content {
+    height: 130vh;
+  }
+  .content {
+    /* background-color: blue; */
+    width: calc(110vh - 20px);
+    align-items: center;
+  }
+  .dashboards {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 1080px) {
+  .content {
+    width: 170vh;
+    height: auto;
+  }
+  .dashboards {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    height: auto;
+  }
+  .charts {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+  @media (max-width: 670px) and (orientation: landscape) {
+    .main-content {
+      overflow-y: auto;
+      height: 126vh;
+    }
+    .content {
+      width: 190%;
+      align-items: center;
+    }
+    .dashboards {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }  
+  }
+
+  @media (max-width: 915px) and (orientation: landscape) {
+    .main-content {
+      overflow-y: auto;
+      height: 85vh;
+    }
+    .content {
+      width: 150%;
+      align-items: center;
+    }
+    .dashboards {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }  
+  }
+
+  @media (max-width: 1025px) and (orientation: landscape) {
+    .main-content {
+      overflow-y: auto;
+      height: 85vh;
+    }
+    .content {
+      width: 190%;
+      align-items: center;
+    }
+    .dashboards {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }  
+  }
+
+  @media (max-width: 668px) and (orientation: landscape) {
+    .main-content {
+      overflow-y: auto;
+      height: 120vh;
+    }
+    .content {
+      width: 900%;
+      align-items: center;
+    }
+    .dashboards {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }  
+  }
+  
+  @media (max-width: 741px) and (orientation: landscape) {
+    .main-content {
+      overflow-y: auto;
+      height: 110vh;
+    }
+    .content {
+      width: 500%;
+      align-items: center;
+    }
+    .dashboards {
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }  
+  }

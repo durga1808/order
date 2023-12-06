@@ -1,133 +1,235 @@
 import React, { useContext, useState } from "react";
 import "./Login.css";
-import { Button, useTheme } from "@mui/material";
+import {
+  Button,
+  CircularProgress,
+  FormControl,
+  MenuItem,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 import { tokens } from "../../theme";
 import { LoginInfo } from "../../global/MockData/LoginMock";
 import { GlobalContext } from "../../global/globalContext/GlobalContext";
+import { getServiceList, loginUser } from "../../api/LoginApiService";
+import Loading from "../../global/Loading/Loading";
+import observai from "../../assets/observai.png";
+import { green } from "@mui/material/colors";
 
 const Login = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { setSelected } = useContext(GlobalContext);
+  const { setServiceList, setSelected } = useContext(GlobalContext);
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('none');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("none");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [serviceListData, setServiceListData] = useState([]);
 
-  const handleLogin = () => {
-    // console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
-    LoginInfo.forEach((userInfo) => {
-      if (userInfo.username === username) {
-        if (userInfo.password === password) {
-          if (userInfo.roles.includes(role)) {
-            console.log(' login called with username ' + username + ' and password ' + password + ' Role ' + role);
-            localStorage.setItem("routeName", "Dashboard");
-            setSelected("Dashboard");
-            navigate("/mainpage/dashboard");
-          }
-        }
+  const servicePayload = (serviceData) => {
+    serviceData.forEach((item) => {
+      serviceListData.push(item.serviceName);
+    });
+    localStorage.setItem("serviceListData", JSON.stringify(serviceListData));
+    console.log("ServiceName " + serviceListData);
+  };
+
+  const getServiceListCall = async (userInfo) => {
+    try {
+      const serviceData = await getServiceList(userInfo);
+      console.log("ServiceList " + JSON.stringify(serviceData));
+      if (serviceData !== 0) {
+        setServiceList(serviceData);
+        servicePayload(serviceData);
+        navigate("/mainpage/dashboard");
+      } else {
+        setErrorMessage("No Service assigned for this user");
       }
-    })
-  }
+    } catch (error) {
+      console.log("error " + error);
+      setErrorMessage("An error occurred");
+    }
+  };
+
+  const handleLogin = async () => {
+    setLoading(true);
+    localStorage.setItem("routeName", "Dashboard");
+    setSelected("Dashboard");
+    localStorage.setItem("needHistoricalData", false);
+    if (!username || !password) {
+      setErrorMessage("Please fill in all fields.");
+      setLoading(false);
+      return;
+    }
+
+    const payload = {
+      username: username,
+      password: password,
+      // roles: [role],
+    };
+    console.log("Inside setTimeout");
+    const userAuth = await loginUser(payload);
+
+    if (userAuth.status === 200) {
+      console.log("login", username, password, role);
+      localStorage.setItem("userInfo", JSON.stringify(userAuth.data));
+      getServiceListCall(userAuth.data);
+      setLoading(false);
+      console.log(payload);
+    } else if (userAuth.response.status === 401) {
+      setLoading(false);
+      setErrorMessage(userAuth.response.data);
+    } else if (userAuth.response.status === 404) {
+      setLoading(false);
+      setErrorMessage(userAuth.response.data);
+    } else if (userAuth.response.status === 403) {
+      setLoading(false);
+      setErrorMessage(userAuth.response.data);
+    } else {
+      setLoading(false);
+      setErrorMessage("Something went wrong. Please try again later.");
+    }
+  };
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+
+  const isiphone12Pro = useMediaQuery((theme) =>
+    theme.breakpoints.only("iphone12")
+  );
+
+  const isSurfacepro = useMediaQuery((theme) =>
+    theme.breakpoints.down("issurfacepro")
+  );
+
+  const upto540 = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+
+  // const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  // const isMediumScreen = useMediaQuery((theme) => theme.breakpoints.between("md", "lg"));
 
   return (
-    <div className="login-wrap">
-      <div className="login-html">
-        <input id="tab-1" type="radio" name="tab" class="sign-in" checked />
-        <label for="tab-1" className="tab">
-          Login
-        </label>
+    <div
+      className="login-container"
+      style={{
+        // height: isSmallScreen ? "100vh" : "150vh" ,
 
-        <input id="tab-2" type="radio" name="tab" class="sign-up" />
-        <label for="tab-2" className="tab">
-          Sign Up
-        </label>
-        <div className="login-form">
-          <div className="sign-in-htm">
-            <div className="group">
-              <label for="user" className="label">
-                Username
-              </label>
-              <input id="user" type="text" className="input" value={username}
-                onChange={(e) => setUsername(e.target.value)} />
-            </div>
+        ...(upto540 && {
+          height: "310vh",
+          width: "140vh",
+        }),
+      }}
+    >
+      <div
+        className="login-form-container"
+        style={{
+          // width: isSmallScreen ? "90vw" : "70vw" ,
+          ...(upto540 && {
+            height: "50vh",
+            width: "125vh",
+          }),
+        }}
+      >
+        <div
+          className="login-card"
+          style={{
+            width: "1000vh",
 
-            <div className="group">
-              <label for="pass" className="label">
-                Password
-              </label>
-              <input
-                id="pass"
-                className="input"
-                data-type="password"
-                type="password"
-                value={password} onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
+            ...(upto540 && {
+              height: "calc(53vh - 32px)",
+              width: "calc(110vh - 32px)",
+            }),
+          }}
+        >
+          <h1>LOGIN</h1>
+          <input
+            type="text"
+            placeholder="USERNAME"
+            value={username}
+            style={{ fontFamily: "Red Hat Display", fontSize: "16px" }}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="PASSWORD"
+            value={password}
+            style={{ fontFamily: "Red Hat Display", fontSize: "16px" }}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-            <div className="role1">
-              <label for="check">
-                ROLE
-              </label>
-              <select className="inner-dropdown-all" value={role} onChange={(e) => setRole(e.target.value)} >
-                <option className="inner-dropdown" value="none">None</option>
-                <option className="inner-dropdown" value="admin">Admin</option>
-                <option className="inner-dropdown" value="vendor">Vendor</option>
-                <option className="inner-dropdown" value="user">User</option>
-              </select>
-            </div>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-            <div className="group">
-              <input type="submit" className="button" value="Login" onClick={() => handleLogin()} />
+          {loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: 18,
+                margin: 5,
+              }}
+            >
+              <Typography
+                variant="h6"
+                style={{ fontFamily: "Red Hat Display, sans-serif" }}
+              >
+                Loading...
+              </Typography>
             </div>
+          ) : (
+            <Button
+              sx={{
+                m: 2,
+                width: "10%",
+                backgroundColor: colors.greenAccent[500],
+                color: colors.grey[100],
+                "&:hover": {
+                  backgroundColor: "#ffffff",
+                  color: colors.primary[600],
+                },
+              }}
+              variant="contained"
+              onClick={() => handleLogin()}
+            >
+              LOGIN
+            </Button>
+          )}
+        </div>
+        <div className="login-card-details" style={{}}>
+          <img
+            src={observai}
+            alt="observai"
+            style={{
+              width: "450px",
+              height: "250px",
 
-            <div className="hr"></div>
-            <div className="foot-lnk">
-              <a href="#forgot">Forgot Password?</a>
-            </div>
-          </div>
-          <div className="sign-up-htm">
-            <div className="group">
-              <label for="user" className="label">
-                Username
-              </label>
-              <input id="user" type="text" className="input" />
-            </div>
-            <div className="group">
-              <label for="pass" className="label">
-                Password
-              </label>
-              <input
-                id="pass"
-                type="password"
-                className="input"
-                data-type="password"
-              />
-            </div>
-            <div className="group">
-              <label for="pass" className="label">
-                Repeat Password
-              </label>
-              <input
-                id="pass"
-                type="password"
-                className="input"
-                data-type="password"
-              />
-            </div>
-            <div className="group">
-              <label for="pass" className="label">
-                Email Address
-              </label>
-              <input id="pass" type="text" className="input" />
-            </div>
-            <div className="group">
-              <input type="submit" className="button" value="Sign Up" />
-            </div>
-          </div>
+              ...(upto540 && {
+                height: "60vh",
+                width: "60vh",
+              }),
+            }}
+          />
+          <Typography
+            variant="h5"
+            style={{
+              padding: "10px",
+              textAlign: "justify",
+
+              ...(upto540 && {
+                height: "40vh",
+                width: "56vh",
+              }),
+            }}
+          >
+            Three pillars of Observability . Unify Trace , Metrics, Log in one
+            place with ZAGA Observability. A full-stack hybrid cloud
+            Observability solution built to optimize performance, ensure
+            availability, and reduce remediation time.
+          </Typography>
         </div>
       </div>
     </div>

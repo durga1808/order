@@ -10,6 +10,7 @@ export const tokens = (mode) => ({
           200: "#c2c2c2",
           300: "#a3a3a3",
           400: "#858585",
+
           500: "#666666",
           600: "#525252",
           700: "#3d3d3d",
@@ -20,7 +21,8 @@ export const tokens = (mode) => ({
           100: "#d0d1d5",
           200: "#a1a4ab",
           300: "#727681",
-          400: "#2A3050",
+          400: "#2C3539",
+          // 500:"#f2f0f0",
           500: "#141b2d",
           600: "#101624",
           700: "#0c101b",
@@ -63,13 +65,42 @@ export const tokens = (mode) => ({
         lightGreen: {
           500: "#65d57a",
         },
+
+        textColor: {
+          500: "#FFF",
+        },
+        tabColor: {
+          500: "#FFF",
+        },
+
+        tabIndicator: {
+          500: "#A9A9A9",
+        },
+        hoverColor: {
+          500: "#848482",
+        },
+        spanBackground: {
+          500: "#101624",
+        },
+        navyBlueAccent: {
+          100: "#B2CCFF",
+          200: "#99B9FF",
+          300: "#80A6FF",
+          400: "#6683FF",
+          500: "#4D70FF",
+          600: "#335DFF",
+          700: "#1A4AFF",
+          800: "#0037FF",
+          900: "#002CE6",
+        },
       }
     : {
         grey: {
           100: "#141414",
           200: "#292929",
           300: "#3d3d3d",
-          400: "#525252",
+          // 400: "#525252",
+          400: "#E0E0E0",
           500: "#666666",
           600: "#858585",
           700: "#a3a3a3",
@@ -80,7 +111,7 @@ export const tokens = (mode) => ({
           100: "#040509",
           200: "#080b12",
           300: "#0c101b",
-          400: "#f2f0f0",
+          400: "#00888C",
           500: "#f2f0f0",
           600: "#434957",
           700: "#727681",
@@ -103,7 +134,8 @@ export const tokens = (mode) => ({
           200: "#58201e",
           300: "#832f2c",
           400: "#af3f3b",
-          500: "#db4f4a",
+          // 500: "#db4f4a",
+          500: "#cc0000",
           600: "#e2726e",
           700: "#e99592",
           800: "#f1b9b7",
@@ -113,7 +145,8 @@ export const tokens = (mode) => ({
           100: "#151632",
           200: "#2a2d64",
           300: "#3e4396",
-          400: "#535ac8",
+          // 400: "#535ac8",
+          400: "#002147",
           500: "#6870fa",
           600: "#868dfb",
           700: "#a4a9fc",
@@ -123,8 +156,52 @@ export const tokens = (mode) => ({
         lightGreen: {
           500: "#30A849",
         },
+        textColor: {
+          500: "#000",
+        },
+        tabColor: {
+          500: "#FFF",
+        },
+        tabIndicator: {
+          500: "#70d8bd",
+        },
+        hoverColor: {
+          500: "#339999",
+        },
+        spanBackground: {
+          500: "#FFF",
+        },
+        navyBlueAccent: {
+          100: "#B2CCFF",
+          200: "#99B9FF",
+          300: "#80A6FF",
+          400: "#6683FF",
+          500: "#4D70FF",
+          600: "#335DFF",
+          700: "#1A4AFF",
+          800: "#0037FF",
+          900: "#002CE6",
+        },
       }),
 });
+
+const customBreakpoints = {
+  xs: 0,
+  sm: 1200,
+  md: 960,
+  lg: 1280,
+  xl: 1200,
+  iphone: 540,
+  iphoneSE: 375,
+  isWidth: 667,
+  isipadpro: 1024,
+  issurfacepro: 912,
+  ipadmini: 768,
+  ipadAir: 820,
+  iphoneXR: 414,
+  surfDuo: 540,
+  iphone12: 390,
+};
 
 //MUI Theme settings
 export const themeSettings = (mode) => {
@@ -173,42 +250,46 @@ export const themeSettings = (mode) => {
               main: "#30A849",
             },
           }),
-      typography: {
+    },
+    typography: {
+      fontFamily: ["Red Hat Display", "Sans serif"].join(","),
+      fontSize: 12,
+      h1: {
+        fontFamily: ["Red Hat Display", "Sans serif"].join(","),
+        fontSize: 40,
+      },
+      h2: {
+        fontFamily: ["Red Hat Display", "Sans serif"].join(","),
+        fontSize: 32,
+      },
+      h3: {
+        fontFamily: ["Red Hat Display", "Sans serif"].join(","),
+        fontSize: 24,
+      },
+      h4: {
+        fontFamily: ["Red Hat Display", "Sans serif"].join(","),
+        fontSize: 20,
+      },
+      h5: {
+        fontFamily: ["Red Hat Display", "Sans serif"].join(","),
+        fontSize: 16,
+      },
+      h6: {
+        fontFamily: ["Red Hat Display", "Sans serif"].join(","),
+        fontSize: 14,
+        fontWeight: "600",
+      },
+      h7: {
         fontFamily: ["Red Hat Display", "Sans serif"].join(","),
         fontSize: 12,
-        h1: {
-          fontFamily: ["Red Hat Display", "Sans serif"].join(","),
-          fontSize: 40,
-        },
-        h2: {
-          fontFamily: ["Red Hat Display", "Sans serif"].join(","),
-          fontSize: 32,
-        },
-        h3: {
-          fontFamily: ["Red Hat Display", "Sans serif"].join(","),
-          fontSize: 24,
-        },
-        h4: {
-          fontFamily: ["Red Hat Display", "Sans serif"].join(","),
-          fontSize: 20,
-        },
-        h5: {
-          fontFamily: ["Red Hat Display", "Sans serif"].join(","),
-          fontSize: 16,
-        },
-        h6: {
-          fontFamily: ["Red Hat Display", "Sans serif"].join(","),
-          fontSize: 14,
-        },
-        h7: {
-          fontFamily: ["Red Hat Display", "Sans serif"].join(","),
-          fontSize: 12,
-        },
-        h8: {
-          fontFamily: ["Red Hat Display", "Sans serif"].join(","),
-          fontSize: 10,
-        },
       },
+      h8: {
+        fontFamily: ["Red Hat Display", "Sans serif"].join(","),
+        fontSize: 10,
+      },
+    },
+    breakpoints: {
+      values: customBreakpoints,
     },
   };
 };
@@ -238,7 +319,7 @@ export const useMode = () => {
   const colorMode = useMemo(() => ({
     toggleColorMode: () =>
       setMode((prev) => (prev === "light" ? "dark" : "light")),
-  }));
+  }),[]);
 
   const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
 

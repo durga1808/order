@@ -1,111 +1,205 @@
-import React, { useContext, useState } from "react";
-import { Drawer, Divider, IconButton } from "@mui/material";
-import {List, ListItem} from "@mui/material";
+import React, { useContext, useEffect, useState } from "react";
+import { Drawer, Divider, IconButton, useTheme, useMediaQuery } from "@mui/material";
+import { List, ListItem } from "@mui/material";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { FormGroup, FormControlLabel } from "@mui/material";
-import { GlobalContext } from "../../global/globalContext/GlobalContext";
 import { Slider, TextField, Button, Checkbox, Typography } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import { TraceFilterOption } from "../../api/TraceApiService";
+import { GlobalContext } from "../../global/globalContext/GlobalContext";
+import { formatDistanceToNow } from "date-fns";
+import { tokens } from "../../theme";
 
-const FilterDialog = ({ open, onClose }) => {
-  // const { expanded, setExpanded } = useState(false);
-  const { selectedOptions, setSelectedOptions } = useContext(GlobalContext);
+const FilterDialog = () => {
+  // const [value, setValue] = useState([0, 1000]);
+  // const [minDurationValue, setMinDurationValue] = useState(0);
+  // const [maxDurationValue, setMaxDurationValue] = useState(10000);
+  // const [traceSelectedService, setTraceSelectedService] = useState([]);
+  // const [selectedHttpMethod, setSelectedHttpMethod] = useState([]);
+  // const [selectedHttpCode, setSelectedHttpCode] = useState([]);
+  const {
+    setNeedFilterCall,
+    setClearTraceFilter,
+    clearTraceFilter,
+    setFilterApiBody,
+    setTraceGlobalEmpty,
+    setTraceGlobalError,
+    setTraceDisplayService,
+    setTraceSelectedService,
+    traceSelectedService,
+    minDurationValue,
+    setMinDurationValue,
+    maxDurationValue,
+    setMaxDurationValue,
+    selectedHttpCode,
+    setSelectedHttpCode,
+    selectedHttpMethod,
+    setSelectedHttpMethod,
+    minMaxError,
+    setMinMaxError,
+    openDrawer,
+    setOpenDrawer
+  } = useContext(GlobalContext);
+  const [services, setServices] = useState(
+    JSON.parse(localStorage.getItem("serviceListData"))
+  );
 
-  const [value, setValue] = useState([0, 1000]);
-  const [minValue, setMinValue] = useState(0);
-  const [maxValue, setMaxValue] = useState(1000);
+  const methods = ["POST", "GET", "PUT", "DELETE"];
 
-  const services = ['OrderService', 'VendorService', 'ProviderService', 'DeliveryService'];
-  const methods = ['POST', 'GET', 'PUT', 'DELETE'];
-  // const codes = ['2xx', '3xx', '4xx', '5xx'];
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const isipadpro = useMediaQuery((theme) => theme.breakpoints.down("isipadpro"));
+  const largem = useMediaQuery((theme) => theme.breakpoints.down("lg"));
+
 
   const codesNew = [
     {
       labelName: "2xx",
       labelValue: {
-        miniVal: 200,
-        maxiVal: 299
-      }
+        min: 200,
+        max: 299,
+      },
     },
     {
       labelName: "3xx",
       labelValue: {
-        miniVal: 300,
-        maxiVal: 399
-      }
+        min: 300,
+        max: 399,
+      },
     },
     {
       labelName: "4xx",
       labelValue: {
-        miniVal: 400,
-        maxiVal: 499
-      }
+        min: 400,
+        max: 499,
+      },
     },
     {
       labelName: "5xx",
       labelValue: {
-        miniVal: 500,
-        maxiVal: 599
-      }
-    }
-  ]
+        min: 500,
+        max: 599,
+      },
+    },
+  ];
 
-  const toggleOption = (option) => () => {
-    if (typeof option === 'string') {
-      if (selectedOptions.includes(option)) {
-        setSelectedOptions(selectedOptions.filter((item) => item !== option));
-      } else {
-        setSelectedOptions([...selectedOptions, option]);
-      }
-    } else if (typeof option === 'object') {
-
-      const isOptionSelected = selectedOptions.some(
-        (opt) =>
-          opt.miniVal === option.miniVal && opt.maxiVal === option.maxiVal
+  const handleServiceToggle = (service) => () => {
+    if (traceSelectedService.includes(service)) {
+      setTraceSelectedService(traceSelectedService.filter((item) => item !== service));
+      setTraceDisplayService(
+        traceSelectedService.filter((item) => item !== service)
       );
+    } else {
+      setTraceSelectedService([...traceSelectedService, service]);
+      setTraceDisplayService([...traceSelectedService, service]);
+    }
+  };
 
-      if (isOptionSelected) {
-        setSelectedOptions((prevSelectedOptions) =>
-          prevSelectedOptions.filter(
-            (opt) =>
-              opt.miniVal !== option.miniVal || opt.maxiVal !== option.maxiVal
-          )
-        );
-      } else {
-        setSelectedOptions([...selectedOptions, option]);
-      }
+  const handleHttpToggle = (method) => () => {
+    if (selectedHttpMethod.includes(method)) {
+      setSelectedHttpMethod(
+        selectedHttpMethod.filter((item) => item !== method)
+      );
+    } else {
+      setSelectedHttpMethod([...selectedHttpMethod, method]);
+    }
+  };
+
+  const handleHttpCodeToggle = (code) => () => {
+    if (
+      selectedHttpCode.some(
+        (opt) =>
+          typeof opt === "object" &&
+          opt.min === code.labelValue.min &&
+          opt.max === code.labelValue.max
+      )
+    ) {
+      setSelectedHttpCode(
+        selectedHttpCode.filter(
+          (opt) =>
+            !(
+              typeof opt === "object" &&
+              opt.min === code.labelValue.min &&
+              opt.max === code.labelValue.max
+            )
+        )
+      );
+    } else {
+      setSelectedHttpCode([...selectedHttpCode, code.labelValue]);
     }
   };
 
   const clearSelectedOptions = () => {
-    setSelectedOptions([]);
+    setSelectedHttpCode([]);
+    setSelectedHttpMethod([]);
+    setTraceSelectedService([]);
+    setTraceDisplayService([]);
+    setMinDurationValue(0);
+    setMaxDurationValue(10000);
+    setMinMaxError("");
   };
-
-  // const handlePanelChange = (panel) => (event, isExpanded) => {
-  //   setExpanded(isExpanded ? panel : false);
-  // };
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
-    setMinValue(newValue[0]);
-    setMaxValue(newValue[1]);
+    setMinDurationValue(newValue[0]);
+    setMaxDurationValue(newValue[1]);
   };
+
+  // const handleMinChange = (event) => {
+  //   const newValue = parseInt(event.target.value);
+  //   if (!isNaN(newValue)) {
+  //     setMinDurationValue(newValue);
+  //     if (newValue <= maxDurationValue){
+  //       setMinMaxError("Min value cannot be greater than Max value");
+  //     }
+  //   }
+  // };
+
+  // const handleMaxChange = (event) => {
+  //   const newValue = parseInt(event.target.value);
+  //   if (!isNaN(newValue)) {
+  //     setMaxDurationValue(newValue);
+  //     if (newValue >= minDurationValue){
+  //       setMinMaxError("Max value cannot be less than Min value");
+  //     }
+  //   }
+  // };
 
   const handleMinChange = (event) => {
     const newValue = parseInt(event.target.value);
-    if (!isNaN(newValue) && newValue <= maxValue) {
-      setMinValue(newValue);
-      setValue([newValue, value[1]]);
+
+    if (!isNaN(newValue)) {
+      if (newValue <= maxDurationValue) {
+        setMinDurationValue(newValue);
+        setMinMaxError('');
+      } else {
+        setMinDurationValue(newValue);
+        setMinMaxError('Min value cannot be greater than Max value');
+      }
+    } else {
+      setMinDurationValue(event.target.value);
+      setMinMaxError('Please enter a valid number');
     }
   };
 
   const handleMaxChange = (event) => {
     const newValue = parseInt(event.target.value);
-    if (!isNaN(newValue) && newValue >= minValue) {
-      setMaxValue(newValue);
-      setValue([value[0], newValue]);
+
+    if (!isNaN(newValue)) {
+      if (newValue >= minDurationValue) {
+        setMaxDurationValue(newValue);
+        setMinMaxError('');
+      } else {
+        setMaxDurationValue(newValue);
+        setMinMaxError('Max value cannot be less than Min value');
+      }
+    } else {
+      setMaxDurationValue(event.target.value);
+      setMinMaxError('Please enter a valid number');
     }
   };
 
@@ -113,125 +207,314 @@ const FilterDialog = ({ open, onClose }) => {
     return `${value}`;
   };
 
+  useEffect(() => {
+    if (clearTraceFilter) {
+      console.log("Trace in--------------------------------------api call----------------------");
+      clearSelectedOptions();
+    }
+  }, [clearTraceFilter]);
+
   const handleApplyButtonClick = () => {
-    console.log('Selected Options:', selectedOptions);
+    setOpenDrawer(false)
+    const payload = {
+      duration: {
+        minValue: minDurationValue,
+        maxValue: maxDurationValue,
+      },
+      service: traceSelectedService,
+      methodName: selectedHttpMethod,
+      statusCode: selectedHttpCode,
+    };
 
-    const selectedDuration = `${minValue}ms - ${maxValue}ms`;
-    console.log('Selected Duration:', selectedDuration);
+    const apiBody = {};
 
-    onClose();
+    // Check if minValue and maxValue are not null and not empty strings in the duration object
+    if (payload.duration.minValue > 0 || payload.duration.maxValue < 1000) {
+      apiBody.duration = {
+        min: payload.duration.minValue,
+        max: payload.duration.maxValue,
+      };
+    }
+
+    // Check if selectedService is not null and not an empty array
+    if (
+      payload.service !== null &&
+      Array.isArray(payload.service) &&
+      payload.service.length > 0
+    ) {
+      apiBody.serviceName = payload.service;
+    }
+
+    // Check if selectedHttpMethod is not null and not an empty array
+    if (
+      payload.methodName !== null &&
+      Array.isArray(payload.methodName) &&
+      payload.methodName.length > 0
+    ) {
+      apiBody.methodName = payload.methodName;
+    }
+
+    // Check if selectedHttpCode is not null and not an empty array
+    if (
+      payload.statusCode !== null &&
+      Array.isArray(payload.statusCode) &&
+      payload.statusCode.length > 0
+    ) {
+      apiBody.statusCode = payload.statusCode;
+    }
+
+    console.log("Selected Options:", apiBody);
+    if (Object.keys(apiBody).length !== 0) {
+      setFilterApiBody(apiBody);
+      setNeedFilterCall(true);
+      setTraceGlobalEmpty(null);
+      setTraceGlobalError(null);
+    } else {
+      setNeedFilterCall(false);
+      setClearTraceFilter(false);
+      setTraceGlobalEmpty(null);
+      setTraceGlobalError(null);
+    }
+    const selectedDuration = `${minDurationValue}ms - ${maxDurationValue}ms`;
+    console.log("Selected Duration:", selectedDuration);
+
+    // onClose();
   };
 
   return (
-    <Drawer anchor="right" open={open} onClose={onClose}  >
-      <div style={{ width: "300px" }}>
-        <List>
-          <ListItem sx={{ display: "flex", justifyContent: "flex-end", alignItems: "flex-end" }}>
-            <IconButton color="inherit" onClick={onClose}><ClearRoundedIcon /></IconButton>
-          </ListItem>
+    <div className="custom-drawer" style={{ 
+      backgroundColor: colors.primary[400],
+      overflowY: "auto",
+       height: "82vh" ,
 
-          <ListItem sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }} >
-            <Typography variant="h6">Filter Options</Typography>
-            <Button variant="outlined" color="inherit" onClick={clearSelectedOptions}>Clear</Button>
+        ...(isiphone && {
+        height: "calc(450vh - 32px)",
+      }),
+
+      // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(850vh - 40px)",
+      ...(isipadpro && {
+        height: "calc(850vh - 32px)",
+      }),
+
+      // height: (isLandscape && isSmallScreen) ? "calc(90vh - 24px)" :"calc(850vh - 40px)",
+      ...(largem && {
+        height: "calc(1200vh - 32px)",
+      }),
+     
+        }}>
+      <style>
+        {`
+
+      .custom-drawer::-webkit-scrollbar-thumb {
+        background-color: ${colors.primary[400]}; /* Color of the thumb */
+        border-radius: 6px; /* Roundness of the thumb */
+      }
+
+      .custom-drawer::-webkit-scrollbar-track {
+        background-color: ${colors.primary[400]}; /* Color of the track */
+      }
+    `}
+      </style>
+      <div style={{ width: '245px' }}>
+        <List>
+          <ListItem
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="h5"
+              fontWeight="500"
+              color={
+                window.location.pathname === "/mainpage/apm"
+                  ? "#FFF"
+                  : "lightgrey"
+              }
+            >
+              Filter Options
+            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={clearSelectedOptions}
+              disabled={
+                window.location.pathname !== "/mainpage/apm"
+              }
+              sx={{
+                color: window.location.pathname === "/mainpage/apm"
+                  ? colors.primary[100]
+                  : "lightgrey"
+              }}
+            >
+              Clear
+            </Button>
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px" }}>
+            <Accordion
+              style={{ width: "500px", backgroundColor: colors.primary[400] }}
+              disabled={
+                window.location.pathname !== "/mainpage/apm"
+              }
+            >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Duration</Typography>
+                <Typography variant="h5" color={"#FFF"}>
+                  Duration
+                </Typography>
               </AccordionSummary>
 
               <AccordionDetails>
                 <Slider
-                  value={value}
+                  disabled={
+                    window.location.pathname !== "/mainpage/apm"
+                  }
+                  value={[minDurationValue, maxDurationValue]}
                   min={0}
-                  max={1000}
+                  max={10000}
                   onChange={handleChange}
                   valueLabelDisplay="auto"
-                  getAriaValueText={valuetext}
-                  style={{ color: "grey" }}
+                  getAriaValueText={(valuetext) => valuetext}
+                  style={{
+                    color: window.location.pathname === "/mainpage/apm"
+                      ? "white"
+                      : "lightgrey"
+                  }}
                 />
-                  <TextField
-                    label="Min"
-                    variant="outlined"
-                    value={minValue}
-                    onChange={handleMinChange}
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">ms</InputAdornment>,
-                    }}
-                    style={{ margin: "10px"}}
-                  />
-                  <TextField
-                    label="Max"
-                    variant="outlined"
-                    value={maxValue}
-                    onChange={handleMaxChange}
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">ms</InputAdornment>,
-                    }}
-                    style={{ margin: "10px"}}
-                  />
+                <TextField
+                  disabled={
+                    window.location.pathname !== "/mainpage/apm"
+                  }
+                  label="Min"
+                  variant="outlined"
+                  value={minDurationValue}
+                  onChange={handleMinChange}
+                  error={minMaxError !== ''}
+                  helperText={minMaxError}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <span style={{ color: "#fff" }}>ms</span>
+                      </InputAdornment>
+                    ),
+                  }}
+                  style={{ margin: "10px", color: "#fff" }}
+                />
+                <TextField
+                  disabled={
+                    window.location.pathname !== "/mainpage/apm"
+                  }
+                  label="Max"
+                  variant="outlined"
+                  value={maxDurationValue}
+                  onChange={handleMaxChange}
+                  error={minMaxError !== ''}
+                  helperText={minMaxError}
+                  color="primary"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <span style={{ color: "#fff" }}>ms</span>
+                      </InputAdornment>
+                    ),
+                  }}
+                  style={{ margin: "10px", color: "#fff" }}
+                />
               </AccordionDetails>
             </Accordion>
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px" }}>
+            <Accordion
+              style={{ width: "500px", backgroundColor: colors.primary[400] }}
+              disabled={
+                window.location.pathname !== "/mainpage/apm"
+              }
+            >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>Service</Typography>
+                <Typography variant="h5" color={"#fff"}>
+                  Service
+                </Typography>
               </AccordionSummary>
 
               <AccordionDetails>
                 <FormGroup>
-                  {services.map((service) => (
+                  {services.map((service, index) => (
                     <FormControlLabel
-                    key={service}
-                    control={<Checkbox
-                      checked={selectedOptions.includes(service)}
-                      onChange={toggleOption(service)}
+                      key={index}
+                      control={
+                        <Checkbox
+                          disabled={window.location.pathname !== "/mainpage/apm"}
+                          checked={traceSelectedService.includes(service)}
+                          onChange={handleServiceToggle(service)}
+                          sx={{
+                            // color: '#696969',
+                            // color: '#F2F3F4',
+                            color: '#17202A',
+
+                            '&.Mui-checked': {
+                              // color: "blue",
+                              color: "white",
+                            },
+                          }}
+                        />
+                      }
+                      label={service}
                       sx={{
-                        color: "grey",
-                        '&.Mui-checked': {
-                          color: "blue",
-                        },
+                        color: "white",
                       }}
                     />
-                    }
-                  label={service}
-                  />))}
+                  ))}
                 </FormGroup>
               </AccordionDetails>
             </Accordion>
-
           </ListItem>
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px"}}>
+            <Accordion
+              style={{ width: "500px", backgroundColor: colors.primary[400] }}
+              disabled={
+                window.location.pathname !== "/mainpage/apm"
+              }
+            >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>HTTP Method</Typography>
+                <Typography variant="h5" color={"#fff"}>
+                  HTTP Method
+                </Typography>
               </AccordionSummary>
 
-              <AccordionDetails>  
+              <AccordionDetails>
                 <FormGroup>
                   {methods.map((method) => (
                     <FormControlLabel
-                    key={method}
-                    control={<Checkbox
-                      checked={selectedOptions.includes(method)}
-                      onChange={toggleOption(method)}
+                      key={method}
+                      control={
+                        <Checkbox
+                          disabled={window.location.pathname !== "/mainpage/apm"}
+                          checked={selectedHttpMethod.includes(method)}
+                          onChange={handleHttpToggle(method)}
+                          sx={{
+                            // color: '#696969',
+                            // color: '#F2F3F4',
+                            color: '#17202A',
+
+                            '&.Mui-checked': {
+                              // color: "blue",
+                              color: "white",
+                            },
+                          }}
+                        />
+                      }
+                      label={method}
                       sx={{
-                        color: "grey",
-                        '&.Mui-checked': {
-                          color: "blue",
-                        },
+                        color: "white",
                       }}
                     />
-                    }
-                  label={method}
-                  />))}
+                  ))}
                 </FormGroup>
               </AccordionDetails>
             </Accordion>
@@ -239,52 +522,74 @@ const FilterDialog = ({ open, onClose }) => {
           <Divider />
 
           <ListItem>
-            <Accordion style={{ width: "500px"}}>
+            <Accordion
+              style={{ width: "500px", backgroundColor: colors.primary[400] }}
+              disabled={
+                window.location.pathname !== "/mainpage/apm"
+              }
+            >
               <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                <Typography>HTTP Code</Typography>
+                <Typography variant="h5" color={"#fff"}>
+                  HTTP Code
+                </Typography>
               </AccordionSummary>
 
-              <AccordionDetails>  
+              <AccordionDetails>
                 <FormGroup>
-                  {codesNew.map((code,index) => (
+                  {codesNew.map((code, index) => (
                     <FormControlLabel
-                    key={index}
-                    control={<Checkbox
-                      checked={selectedOptions.some(
-                        (opt) =>
-                          typeof opt === 'string'
-                            ? opt === code
-                            : opt.miniVal === code.labelValue.miniVal &&
-                              opt.maxiVal === code.labelValue.maxiVal
-                      )}
-                      onChange={toggleOption(
-                        typeof code === 'string' ? code : code.labelValue
-                      )}
+                      key={index}
+                      control={
+                        <Checkbox
+                          disabled={
+                            window.location.pathname !== "/mainpage/apm"
+                          }
+                          checked={selectedHttpCode.some(
+                            (opt) =>
+                              typeof opt === "object" &&
+                              opt.min === code.labelValue.min &&
+                              opt.max === code.labelValue.max
+                          )}
+                          onChange={handleHttpCodeToggle(code)}
+                          sx={{
+                            // color: '#696969',
+                            // color: '#F2F3F4',
+                            color: '#17202A',
+
+                            '&.Mui-checked': {
+                              // color: "blue",
+                              color: "white",
+                            },
+                          }}
+                        />
+                      }
+                      label={code.labelName}
                       sx={{
-                        color: "grey",
-                        '&.Mui-checked': {
-                          color: "blue",
-                        },
+                        color: "white",
                       }}
                     />
-                    }
-                  label={code.labelName}
-                  />))}
+                  ))}
                 </FormGroup>
               </AccordionDetails>
             </Accordion>
           </ListItem>
           <Divider />
-
         </List>
 
         <div style={{ padding: "16px" }}>
-          <Button variant="contained" onClick={handleApplyButtonClick} color="primary">
+          <Button
+            variant="contained"
+            onClick={handleApplyButtonClick}
+            color="primary"
+            disabled={
+              window.location.pathname !== "/mainpage/apm" || minMaxError
+            }
+          >
             Apply
           </Button>
         </div>
       </div>
-    </Drawer>
+    </div>
   );
 };
 

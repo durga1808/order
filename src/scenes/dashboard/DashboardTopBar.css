@@ -37,7 +37,8 @@
     font-size: 14px;
     cursor: pointer;
     margin-right: 15px;
-    width: 150px;
+    /* width: 150px; */
+    width: fit-content;
 }
 
 /* .Dropdown-control:hover {
@@ -59,3 +60,8 @@
     -webkit-overflow-scrolling: touch;
     font-size: 14px;
 }
+
+
+
+
+  

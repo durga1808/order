@@ -1,399 +1,416 @@
-// import React, { useState } from "react";
-// import Chart from "react-apexcharts";
-// import { Card, CardContent, Typography } from "@mui/material";
+import React, { useState, memo } from "react";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import { Grid, Typography, useMediaQuery, useTheme } from "@mui/material";
+import ApiCallCount from "./TraceCharts/ApiCallCount";
+import PeakLatencyChart from "./TraceCharts/PeakLatencyChart";
+import ErrSucssCallCountChart from "./TraceCharts/ErrSucssCallCountChart";
+import ServiceDetails from "./TraceCharts/ServiceDetails";
+import ServiceTable from "./TraceCharts/ServiceTable";
+import {
+  getRecentTraceList,
+  getTraceSummaryData,
+  getTraceSummaryDataWithDate,
+} from "../../../api/TraceApiService";
+import { GlobalContext } from "../../../global/globalContext/GlobalContext";
+import { useEffect } from "react";
+import { useContext } from "react";
+import Loading from "../../../global/Loading/Loading";
+import { formatDistanceToNow } from "date-fns";
+import { useCallback } from "react";
+import { tokens } from "../../../theme";
+import { useNavigate } from "react-router-dom";
+import "./TraceSummaryChart.css";
 
-// const data = [
-//   { service: "Service A", errorCount: 10 },
-//   { service: "Service B", errorCount: 5 },
-//   { service: "Service C", errorCount: 8 },
-//   // Add more service data here
-// ];
+const TraceBarChart = () => {
+  const [selectedService, setSelectedService] = useState(null);
+  const [errorCalls, setErrorCalls] = useState(null);
+  const [successCalls, setSuccessCalls] = useState(null);
+  const {
+    lookBackVal,
+    setActiveTab,
+    setTraceRender,
+    setLogRender,
+    setSelected,
+    traceSummaryService,
+    setMetricRender,
+    setTraceSummaryService,
+    setLogSummaryService,
+    selectedStartDate,
+    selectedEndDate,
+    needHistoricalData,
+    setNavActiveTab,
+    setClearTraceFilter,
+    setApmActiveTab,
+  } = useContext(GlobalContext);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [emptyMessage, setEmptyMessage] = useState("");
 
-// const ErrorChart = () => {
-//   const [selectedService, setSelectedService] = useState(null);
+  const [integrationdata, setintegrationdata] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-//   const options = {
-//     chart: {
-//       id: "basic-bar",
-//       events: {
-//         dataPointSelection: (event, chartContext, config) => {
-//           const selectedServiceName = data[config.dataPointIndex].service;
-//           console.log(chartContext, "-----");
-//           const selectedErrorCount = data[config.dataPointIndex].errorCount;
+  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isLandscape = useMediaQuery(
+    "(max-width: 1000px) and (orientation: landscape)"
+  );
 
-//           setSelectedService({
-//             service: selectedServiceName,
-//             errorCount: selectedErrorCount,
-//           });
-//         },
-//       },
-//     },
+  const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
+  const issurfacepro = useMediaQuery((theme) =>
+    theme.breakpoints.only("issurfacepro")
+  );
 
-//     xaxis: {
-//       categories: data.map((item) => item.service),
-//     },
-//   };
+  const isipadmini = useMediaQuery((theme) =>
+    theme.breakpoints.up("ipadminiwidth")
+  );
 
-//   return (
-//     <div>
-//       <Chart
-//         options={options}
-//         series={[{ data: data.map((item) => item.errorCount) }]}
-//         type="bar"
-//         width="300"
-//         height="300"
-//       />
+  const isipadpro = useMediaQuery((theme) =>
+    theme.breakpoints.only("isipadpro")
+  );
 
-//       {selectedService && (
-//         <Card style={{ marginTop: 20 }}>
-//           <CardContent>
-//             <Typography variant="h5" component="div">
-//               Selected Service
-//             </Typography>
-//             <Typography variant="body2" color="text.secondary">
-//               Service Name: {selectedService.service}
-//             </Typography>
-//             <Typography variant="body2" color="text.secondary">
-//               Error Count: {selectedService.errorCount}
-//             </Typography>
-//           </CardContent>
-//         </Card>
-//       )}
-//     </div>
-//   );
-// };
+  console.log("isipadmini", isipadmini);
+  console.log("isipadmax", isipadpro);
 
-// export default ErrorChart;
-// ===============================================================
+  const traceSummaryApiCall = useCallback(async () => {
+    try {
+      setLoading(true);
+      var response = await getTraceSummaryDataWithDate(
+        selectedStartDate,
+        selectedEndDate,
+        lookBackVal.value
+      );
+      if (response.length !== 0) {
+        setintegrationdata(response);
+      } else {
+        setEmptyMessage("No Data to show");
+      }
 
-// import React, { useEffect, useState } from "react";
-// import * as d3 from "d3";
-// import { Card, CardContent, Typography } from "@mui/material";
+      // console.log("Trace summary data " + JSON.stringify(response));
+      setLoading(false);
+    } catch (error) {
+      // console.log("error " + error);
+      setErrorMessage("An error Occurred!");
+      setLoading(false);
+    }
+  }, [selectedStartDate, selectedEndDate, lookBackVal, needHistoricalData]);
 
-// const data = [
-//   { service: "Service A", errorCount: 10 },
-//   { service: "Service B", errorCount: 5 },
-//   { service: "Service C", errorCount: 8 },
-//   { service: "Service D", errorCount: 10 },
-//   { service: "Service E", errorCount: 5 },
-//   { service: "Service F", errorCount: 8 },
-//   { service: "Service G", errorCount: 10 },
-//   { service: "Service H", errorCount: 5 },
-//   { service: "Service I", errorCount: 8 },
+  useEffect(() => {
+    setErrorMessage("");
+    setEmptyMessage("");
+    setTraceSummaryService([]);
+    setLogSummaryService([]);
+    setMetricRender(false);
+    traceSummaryApiCall();
+    setClearTraceFilter(true);
+    setActiveTab(0);
+    setNavActiveTab(0);
+    setTraceRender(false);
+    setLogRender(false);
+  }, [
+    traceSummaryApiCall,
+    setActiveTab,
+    setTraceRender,
+    setNavActiveTab,
+    setLogRender,
+    setMetricRender,
+    setTraceSummaryService,
+    setLogSummaryService,
+  ]);
 
-//   // Add more service data here
-// ];
+  const handleBarClick = (selectedDataPointIndex, selectedSeriesName) => {
+    ///DONT REMOVE THIS CODE-----------------//
+    const serviceName = integrationdata[selectedDataPointIndex].serviceName;
+    console.log("ServiceName from Trace summary" + serviceName);
+    // const clickedBarData = integrationdata[selectedDataPointIndex];
+    // console.log("serviceName " + serviceName);
 
-// const ErrorChart = () => {
-//   const [selectedService, setSelectedService] = useState(null);
+    // const peakLatency = integrationdata.find(
+    //   (item) => item.serviceName === serviceName
+    // ).peakLatency;
+    // const errorCalls = integrationdata.find(
+    //   (item) => item.serviceName === serviceName
+    // ).totalErrorCalls;
+    // const successCalls = integrationdata.find(
+    //   (item) => item.serviceName === serviceName
+    // ).totalSuccessCalls;
 
-//   useEffect(() => {
-//     // Create the D3.js bar chart
-//     const svg = d3.select("#bar-chart");
+    // setSelectedService(serviceName, peakLatency, errorCalls, successCalls);
 
-//     const width = 600;
-//     const height = 300;
-//     const margin = { top: 20, right: 30, bottom: 50, left: 50 };
-
-//     const x = d3
-//       .scaleBand()
-//       .domain(data.map((d) => d.service))
-//       .range([margin.left, width - margin.right])
-//       .padding(0.1);
-
-//     const y = d3
-//       .scaleLinear()
-//       .domain([0, d3.max(data, (d) => d.errorCount)])
-//       .nice()
-//       .range([height - margin.bottom, margin.top]);
-
-//     svg
-//       .selectAll("rect")
-//       .data(data)
-//       .enter()
-//       .append("rect")
-//       .attr("x", (d) => x(d.service))
-//       .attr("y", (d) => y(d.errorCount))
-//       .attr("width", x.bandwidth())
-//       .attr("height", (d) => height - margin.bottom - y(d.errorCount))
-//       .attr("fill", "#8884d8")
-//       .on("click", (event, d) => handleBarClick(d));
-
-//     svg
-//       .append("g")
-//       .attr("transform", `translate(0,${height - margin.bottom})`)
-//       .call(d3.axisBottom(x))
-//       .selectAll("text")
-//       .style("text-anchor", "end")
-//       .attr("transform", "rotate(-45)");
-
-//     svg
-//       .append("g")
-//       .attr("transform", `translate(${margin.left},0)`)
-//       .call(d3.axisLeft(y));
-
-//     // Handle bar click event
-//     const handleBarClick = (selectedData) => {
-//       setSelectedService(selectedData);
-//     };
-//   }, []);
-
-//   return (
-//     <div>
-//       <svg id="bar-chart" width={600} height={300} />
-//       {selectedService && (
-//         <Card>
-//           <CardContent>
-//             <Typography variant="h5" component="div">
-//               Selected Service
-//             </Typography>
-//             <Typography variant="body2" color="text.secondary">
-//               Service Name: {selectedService.service}
-//             </Typography>
-//             <Typography variant="body2" color="text.secondary">
-//               Error Count: {selectedService.errorCount}
-//             </Typography>
-//           </CardContent>
-//         </Card>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ErrorChart;
-
-// -----------------------------------------------------------------------------------------
-// import React, { useState } from "react";
-// import { Chart } from "react-google-charts";
-// import { Card, CardContent, Typography } from "@mui/material";
-
-// const data = [
-//   ["Service", "Error Count"],
-//   ["Service A", 10],
-//   ["Service B", 5],
-//   ["Service C", 8],
-//   // Add more service data here
-// ];
-
-// const ErrorChart = () => {
-//   const [selectedBar, setSelectedBar] = useState(null);
-
-//   const handleBarSelect = (chartWrapper) => {
-//     const selection = chartWrapper.getChart().getSelection();
-//     if (selection.length === 1) {
-//       const [selectedItem] = selection;
-//       const service = data[selectedItem.row + 1][0];
-//       const errorCount = data[selectedItem.row + 1][1];
-//       setSelectedBar({ service, errorCount });
-//     } else {
-//       setSelectedBar(null);
-//     }
-//   };
-
-//   return (
-//     <div>
-//       <Chart
-//         width={"600px"}
-//         height={"400px"}
-//         chartType="BarChart"
-//         loader={<div>Loading Chart</div>}
-//         data={data}
-//         options={{
-//           title: "Error Counts by Service",
-//           chartArea: { width: "60%" },
-//           hAxis: { title: "Service Name" },
-//           vAxis: { title: "Error Count" },
-//         }}
-//         chartEvents={[
-//           {
-//             eventName: "select",
-//             callback: ({ chartWrapper }) => handleBarSelect(chartWrapper),
-//           },
-//         ]}
-//       />
-
-//       {selectedBar && (
-//         <Card style={{ marginTop: 20 }}>
-//           <CardContent>
-//             <Typography variant="h5" component="div">
-//               Selected Bar Details
-//             </Typography>
-//             <Typography variant="body2" color="text.secondary">
-//               Service Name: {selectedBar.service}
-//             </Typography>
-//             <Typography variant="body2" color="text.secondary">
-//               Error Count: {selectedBar.errorCount}
-//             </Typography>
-//           </CardContent>
-//         </Card>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ErrorChart;
-
-// ================================================================================
-// import React, { useState } from "react";
-// import c3 from "c3";
-// import "c3/c3.css";
-// import { Card, CardContent, Typography } from "@mui/material";
-
-// const ErrorChart = () => {
-//   const [selectedService, setSelectedService] = useState(null);
-
-//   const handleBarClick = (data) => {
-//     if (data && data.id) {
-//       setSelectedService({ service: data.id, errorCount: data.value });
-//     }
-//   };
-//   const data = {
-//     columns: [
-//       ["Service A", 10],
-//       ["Service B", 5],
-//       ["Service C", 8],
-//       // Add more service data here
-//     ],
-//     type: "bar",
-//     onclick: handleBarClick,
-//   };
-//   // Initialize the C3.js chart when the component mounts
-//   React.useEffect(() => {
-//     const chart = c3.generate({
-//       bindto: "#errorChart",
-//       data: data,
-//       bar: {
-//         width: {
-//           ratio: 0.6, // Adjust the bar width as needed
-//         },
-//       },
-//       axis: {
-//         x: {
-//           type: "category",
-//           categories: data.columns.map((column) => column[0]),
-//         },
-//       },
-//     });
-
-//     // Add a click event handler to the bars
-//     // chart.on("click", handleBarClick);
-
-//     // Cleanup when the component unmounts
-//     return () => {
-//       chart.destroy();
-//     };
-//   }, []);
-
-//   return (
-//     <div>
-//       <div id="errorChart"></div>
-
-//       {selectedService && (
-//         <Card style={{ marginTop: 20 }}>
-//           <CardContent>
-//             <Typography variant="h5" component="div">
-//               Selected Service
-//             </Typography>
-//             <Typography variant="body2" color="text.secondary">
-//               Service Name: {selectedService.service}
-//             </Typography>
-//             <Typography variant="body2" color="text.secondary">
-//               Error Count: {selectedService.errorCount}
-//             </Typography>
-//           </CardContent>
-//         </Card>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default ErrorChart;
-
-import React, { useState } from "react";
-import ReactECharts from "echarts-for-react";
-import { Card, CardContent, Typography } from "@mui/material";
-
-const data = [
-  { service: "Service A", errorCount: 10 },
-  { service: "Service B", errorCount: 5 },
-  { service: "Service C", errorCount: 8 },
-  { service: "Service D", errorCount: 10 },
-  { service: "Service E", errorCount: 5 },
-  { service: "Service F", errorCount: 8 },
-  { service: "Service G", errorCount: 10 },
-  { service: "Service H", errorCount: 5 },
-  { service: "Service I", errorCount: 8 },
-  // Add more service data here
-];
-
-const ErrorChart = () => {
-  const [selectedData, setSelectedData] = useState(null);
-
-  const handleBarClick = (params) => {
-    const { name, value } = params;
-    setSelectedData({ service: name, errorCount: value });
+    // if (selectedSeriesName === "Error Calls") {
+    //   setErrorCalls(clickedBarData.totalErrorCalls);
+    //   setSuccessCalls(null);
+    // } else if (selectedSeriesName === "Success Calls") {
+    //   setSuccessCalls(clickedBarData.totalSuccessCalls);
+    //   setErrorCalls(null);
+    // }
+    // const apiBody = {
+    //   serviceName: [serviceName]
+    // }
+    // setNeedFilterCall(true);
+    // setFilterApiBody(apiBody);
+    traceSummaryService.push(serviceName);
+    localStorage.setItem("routeName", "Traces");
+    setSelected("Traces");
+    setApmActiveTab(0);
+    navigate("/mainpage/apm");
+    // setNavActiveTab(1);
   };
 
-  return (
-    <div>
-      <ReactECharts
-        option={{
-          tooltip: {
-            trigger: "axis",
-            axisPointer: {
-              type: "shadow",
-            },
-          },
-          xAxis: {
-            type: "category",
-            data: data.map((item) => item.service),
-          },
-          yAxis: {
-            type: "value",
-          },
-          series: [
-            {
-              name: "Error Count",
-              type: "bar",
-              data: data.map((item) => item.errorCount),
-              emphasis: {
-                focus: "series",
-              },
-              itemStyle: {
-                color: "#8884d8",
-              },
-            },
-          ],
-        }}
-        onEvents={{
-          click: (event) => {
-            if (event.data && event.dataIndex !== undefined) {
-              handleBarClick({
-                name: data[event.dataIndex].service,
-                value: data[event.dataIndex].errorCount,
-              });
-            }
-          },
-        }}
-      />
+  const hasErrChartData = integrationdata.some(
+    (item) => item.totalErrorCalls !== 0
+  );
+  const hasSuccChartData = integrationdata.some(
+    (item) => item.totalSuccessCalls !== 0
+  );
+  const hasApiChartData = integrationdata.some(
+    (item) => item.apiCallCount !== 0
+  );
+  const hasPeakChartData = integrationdata.some(
+    (item) => item.peakLatency !== 0
+  );
 
-      {selectedData && (
-        <Card style={{ marginTop: 20 }}>
-          <CardContent>
-            <Typography variant="h5" component="div">
-              Selected Bar Details
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Service Name: {selectedData.service}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Error Count: {selectedData.errorCount}
-            </Typography>
-          </CardContent>
-        </Card>
-      )}
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
+  // const chartWidth = isCollapsed ? 'calc(175vh - 10px)' : 'calc(155vh - 15px)'
+  // const chartWidth2 = isCollapsed ? 'calc(90vh - 20px)' : 'calc(80vh - 10px)'
+  // const chartWidth3 = isCollapsed ? 'calc(85vh - 20px)' : 'calc(75vh - 15px)'
+
+  return (
+    <div className="main-content" style={{ height: isLandscape ? "" : "77vh" }}>
+      {loading ? (
+        <Loading />
+      ) : emptyMessage ? (
+        <div
+          className="empty-message"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "73vh",
+          }}
+        >
+          <Typography variant="h5" fontWeight={"600"}>
+            {emptyMessage}
+          </Typography>
+        </div>
+      ) : errorMessage ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "80vh",
+          }}
+        >
+          <Typography variant="h5" fontWeight={"600"}>
+            {errorMessage}
+          </Typography>
+        </div>
+      ) : integrationdata.length !== 0 ? (
+        <div>
+          <div
+            className="content"
+            style={{
+              // maxHeight: "82.5vh",
+              maxHeight: isSmallScreen ? "" : "73vh",
+              // ...(theme.breakpoints.down("sm") && {
+              //   backgroundColor: "grey",
+              // }),
+              // overflowY: "auto",
+              width: "100%",
+            }}
+          >
+            <div className="dashboards">
+              {" "}
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <Card
+                    elevation={3}
+                    style={{
+                      margin: "15px 25px 15px 25px",
+                      //  height: isSmallScreen ? "calc(41vh - 40px)" : "calc(40vh - 40px)",
+                      height:
+                        isLandscape && isSmallScreen
+                          ? "calc(90vh - 24px)"
+                          : "calc(40vh - 40px)",
+                      width: isSmallScreen ? "calc(1000px - 40px)" : "",
+                      color: theme.palette.mode === "dark" ? "white" : "black",
+
+                      ...(isiphone && {
+                        height: "calc(80vh - 32px)",
+                      }),
+                      ...(isipadpro && {
+                        height: "calc(28vh - 32px)",
+                      }),
+                      ...(issurfacepro && {
+                        height: "calc(35vh - 32px)",
+                      }),
+
+                      //       ...((isipadmini) && {
+                      //         height:  "calc(50vh - 32px)",
+                      // }),
+
+                      //       ...((isipadmini&&isipadpro) && {
+                      //         height:  "calc(30vh - 32px)",
+                      // }),
+                    }}
+                  >
+                    <CardContent>
+                      {hasErrChartData || hasSuccChartData ? (
+                        <ErrSucssCallCountChart
+                          ErrSuccessData={integrationdata}
+                          onBarClick={handleBarClick}
+                        />
+                      ) : (
+                        // <div>Error and Success Call Count Chart - No Data</div>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            height: "calc(40vh - 24px)",
+                            width: "100%",
+                          }}
+                        >
+                          <Typography variant="h5" fontWeight={"600"}>
+                            Error and Success Count Chart - No Data
+                          </Typography>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </Grid>
+              </Grid>
+              {/* {hasErrChartData ? (
+                <ServiceDetails
+                  selectedService={selectedService}
+                  APICallsData={
+                    selectedService
+                      ? integrationdata.find(
+                        (item) => item.serviceName === selectedService
+                      ).apiCallCount
+                      : null
+                  }
+                  PeakLatencyData={
+                    selectedService
+                      ? integrationdata.find(
+                        (item) => item.serviceName === selectedService
+                      ).peakLatency
+                      : null
+                  }
+                  ErrorData={errorCalls}
+                  SuccessData={successCalls}
+                />
+              ) : null}
+              <ServiceTable selectedService={selectedService} /> */}
+              <div>
+                <Grid container spacing={2}>
+                  {" "}
+                  <Grid item xs={12} sm={6}>
+                    <Card
+                      elevation={4}
+                      style={{
+                        margin: "5px 15px 5px 25px",
+                        // height: "calc(40vh - 32px)",
+                        //           height: isLandscape
+                        // ? "calc(41vh - 40px)"
+                        // : isSmallScreen
+                        // ? "calc(90vh - 24px)"
+                        // : "calc(42vh - 32px)",
+                        height:
+                          isLandscape && isSmallScreen
+                            ? "calc(90vh - 24px)"
+                            : "calc(40vh - 32px)",
+                        // height: isLandscape ? "calc(90vh - 24px)" : "calc(40vh - 32px)",
+                        width: isSmallScreen ? "calc(1000px - 40px)" : "",
+                        color:
+                          theme.palette.mode === "dark" ? "white" : "black",
+                        ...(isiphone && {
+                          height: "calc(80vh - 32px)",
+                        }),
+                        ...(isipadpro && {
+                          height: "calc(28vh - 32px)",
+                        }),
+                        ...(issurfacepro && {
+                          height: "calc(35vh - 32px)",
+                        }),
+
+                        // ...(isipadmini &&
+                        //   isipadpro && {
+                        //     height: "calc(30vh - 32px)",
+                        //   }),
+                      }}
+                    >
+                      <CardContent>
+                        {/* {integrationdata.map((items) =>
+                        items.apiCallCount !== 0 ? (
+                          <ApiCallCount data={integrationdata} />
+                        ) : (
+                          <div>No Data</div>
+                        )
+                      )} */}
+
+                        {hasApiChartData ? (
+                          <ApiCallCount data={integrationdata} />
+                        ) : (
+                          // <div>Api Call Count Chart - No data</div>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              height: "calc(40vh - 25px)",
+                            }}
+                          >
+                            <Typography variant="h5" fontWeight={"600"}>
+                              Api Count Chart - No data
+                            </Typography>
+                          </div>
+                        )}
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                  <Grid item xs={12} sm={6}>
+                    <Card
+                      elevation={3}
+                      style={{
+                        margin: isSmallScreen
+                          ? "5px 15px 5px 25px"
+                          : "5px 25px 5px 15px",
+                        // height: isSmallScreen ? "calc(41vh - 40px)" : "calc(40vh - 32px)",
+                        height:
+                          isLandscape && isSmallScreen
+                            ? "calc(90vh - 24px)"
+                            : "calc(40vh - 32px)",
+                        width: isSmallScreen ? "calc(1000px - 40px)" : "",
+                        color:
+                          theme.palette.mode === "dark" ? "white" : "black",
+                        ...(isiphone && {
+                          height: "calc(80vh - 32px)",
+                        }),
+                        ...(isipadpro && {
+                          height: "calc(28vh - 32px)",
+                        }),
+                        ...(issurfacepro && {
+                          height: "calc(35vh - 32px)",
+                        }),
+                      }}
+                    >
+                      <CardContent>
+                        <PeakLatencyChart />
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                </Grid>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
-
-export default ErrorChart;
+export default TraceBarChart;

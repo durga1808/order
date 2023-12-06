@@ -1,0 +1,44 @@
+:root {
+  --menu-bg-light: #ffffff;
+  --menu-bg-dark: #2a3050;
+  --menu-item-bg-light: #ffffff;
+  --menu-item-bg-dark: #2a3050;
+  --menu-item-text-light: #000000;
+  --menu-item-text-dark: #ffffff;
+}
+
+[data-theme="dark"] .apexcharts-menu.apexcharts-menu-open .apexcharts-menu-item,
+[data-theme="dark"]
+  .apexcharts-menu.apexcharts-menu-open
+  .apexcharts-menu-item:focus,
+[data-theme="dark"]
+  .apexcharts-menu.apexcharts-menu-open
+  .apexcharts-menu-item:hover {
+  background-color: var(--menu-item-bg-dark);
+  color: var(--menu-item-text-dark);
+}
+
+[data-theme="dark"] .apexcharts-menu.apexcharts-menu-open {
+  background-color: var(--menu-bg-dark);
+}
+
+.apexcharts-menu.apexcharts-menu-open .apexcharts-menu-item,
+.apexcharts-menu.apexcharts-menu-open .apexcharts-menu-item:focus,
+.apexcharts-menu.apexcharts-menu-open .apexcharts-menu-item:hover {
+  background-color: var(--menu-item-bg-light);
+  color: var(--menu-item-text-light);
+}
+
+.apexcharts-menu.apexcharts-menu-open {
+  background-color: var(--menu-bg-light);
+}
+
+
+.chat-bar:hover {
+  background-color: #2980b9;
+}
+
+/* styles.css */
+.custom-bar:hover {
+  color:"green"; /* Change this to the desired hover color for the bar */
+}
