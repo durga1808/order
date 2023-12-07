@@ -40,6 +40,7 @@ const SpanFlow = () => {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [orderedSpans, setOrderedSpans] = useState([]);
+  // const [CustomFlow,setCustomflow] =useState([]);
   const [isCardVisible, setIsCardVisible] = useState(false);
   const [spanflowErrStatus, setSpanflowErrStatus] = useState(false);
   const isiphone = useMediaQuery((theme) => theme.breakpoints.down("iphone"));
@@ -50,6 +51,7 @@ const SpanFlow = () => {
   orderedSpans.forEach((status) => {});
 
   // console.log("isCardVisible", isCardVisible);
+  // console.log("cutom flow",CustomFlow);
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const { selectedTrace, setSelectedSpan, traceLoading } =
@@ -401,6 +403,7 @@ const SpanFlow = () => {
       // const orderedSpansData = sortingParentChildOrder(selectedTrace.spans);
       setOrderedSpans(selectedTrace.spanDTOs);
       dynamicNodeCreation(selectedTrace.spanDTOs);
+      // setCustomflow(selectedTrace.spanDTOs);
     }
     // setLoading(false);
   }, [selectedTrace, setSelectedSpan]);
@@ -468,7 +471,7 @@ const SpanFlow = () => {
                     // labelPlacement="top"
                       control={<Switch size="small"
                       checked={checked} 
-                      onChange={switchHandler} 
+                      onClick={switchHandler} 
                       />}
                       label="Flow"
                     />
@@ -653,7 +656,7 @@ const SpanFlow = () => {
 
               {/* maxHeight: "calc(145vh - 50px)" */}
               {showCard ? <div>
-                <CustomFlow />
+                <CustomFlow spandata={orderedSpans}/>
               </div> : (
               <div
                 style={{ maxHeight: "calc(69vh - 85px)",
