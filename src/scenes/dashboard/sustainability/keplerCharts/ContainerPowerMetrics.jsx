@@ -1,4 +1,4 @@
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
 import React, { useContext } from 'react'
 import ReactApexChart from 'react-apexcharts';
 import { tokens } from '../../../../theme';
@@ -7,7 +7,8 @@ import { GlobalContext } from '../../../../global/globalContext/GlobalContext';
 const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
 
     const theme = useTheme();
-    const { isCollapsed } = useContext(GlobalContext);
+    const { isCollapsed, keplerCurrentPage, setKeplerCurrentPage, nodeCurrentPage, setNodeCurrentPage } = useContext(GlobalContext);
+    const totalPages = containerPowerMetrics.totalCount;
 
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
     const isLandscape = useMediaQuery(
@@ -24,19 +25,31 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
         },
     ];
 
+    const handleApplyButtonClick = (increment) => {
+        if (containerPowerMetrics.type === "pod") {
+            setKeplerCurrentPage((prevPage) => prevPage + increment);
+        } else {
+            setNodeCurrentPage((prevPage) => prevPage + increment);
+        }
+    };
+
     const options = {
         chart: {
             type: "area",
             stacked: true,
-
+            toolbar: {
+                show: true,
+                offsetX: -2,
+                offsetY: -25,
+            },
             zoom: {
                 type: "x",
                 enabled: true,
                 autoScaleYaxis: true,
             },
-            toolbar: {
-                autoSelected: "zoom",
-            },
+            // toolbar: {
+            //     autoSelected: "zoom",
+            // },
 
             // background: colors.primary[400],
         },
@@ -49,7 +62,7 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
         // },
         title: {
             // text: "CPU UTILIZATION",
-            text: containerPowerMetrics.title,
+            // text: containerPowerMetrics.title,
             align: "middle",
             // offsetY: 10,
             style: {
@@ -144,13 +157,13 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
         //   },
         // },
     };
-  
+
     const chartWidth = isCollapsed ? 'calc(70% - 10px)' : 'calc(73% - 70px)'
 
-    const chartHeight = (isLandscape && isSmallScreen) ? "150%" : (isiphone ? "125%" : "90%") ;
+    const chartHeight = (isLandscape && isSmallScreen) ? "150%" : (isiphone ? "125%" : "90%");
 
     return (
-        <Box height="calc(75vh - 20px)" width={chartWidth} padding="5px" border="1px" style={{
+        <Box height="calc(75vh - 30px)" width={chartWidth} padding="5px" border="1px" style={{
             transition: "width 0.3s ease-in-out",
             // ...(isiphone && {
             //     height: "calc(140vh - 32px)",
@@ -159,6 +172,37 @@ const ContainerPowerMetrics = ({ containerPowerMetrics }) => {
             //     height: "calc(50vh - 32px)",
             //   }),
         }}>
+            <div style={{ display: "flex", justifyContent: "flex-start" }}>
+                <Button
+                    variant="contained"
+                    onClick={() => handleApplyButtonClick(-1)} // Navigate to previous page
+                    disabled={containerPowerMetrics.type === "pod" ? (keplerCurrentPage === 1) : (nodeCurrentPage === 1)} // Disable if on the first page
+                    size="small"
+                    color="primary"
+                    style={{
+                        height: "30px",
+                        margin: "0px 5px 0px 30px",
+                        fontSize: "10px",
+                    }}
+                >
+                    Previous
+                </Button>
+                <Button
+                    variant="contained"
+                    onClick={() => handleApplyButtonClick(1)} // Navigate to next page
+                    disabled={containerPowerMetrics.type === "pod" ? (keplerCurrentPage === totalPages) : (nodeCurrentPage === totalPages)} // Disable if on the last page
+                    size="small"
+                    color="primary"
+                    style={{
+                        height: "30px",
+                        margin: "0px 5px 0px 5px",
+                        fontSize: "10px",
+                    }}
+                >
+                    Next
+                </Button>
+                {containerPowerMetrics.type === "pod" ? (<p style={{ margin: "5px 0px 0px 15%" }} className='chart-title'>{containerPowerMetrics.title}</p>) : <p style={{ margin: "5px 0px 0px 10%" }} className='chart-title'>{containerPowerMetrics.title}</p>}
+            </div>
             <ReactApexChart
                 options={options}
                 series={series}

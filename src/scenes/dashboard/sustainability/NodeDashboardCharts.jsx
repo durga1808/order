@@ -5,7 +5,7 @@ import { keplerContainerInfo, keplerContainerInfoContainer, keplerContainerInfoN
 import ContainerPowerMetrics from './keplerCharts/ContainerPowerMetrics';
 import { GlobalContext } from '../../../global/globalContext/GlobalContext';
 import { tokens } from '../../../theme';
-import { getKeplerMetricData } from '../../../api/KeplerApiService';
+import { getKeplerMetricData, getKeplerMetricDataPaginated } from '../../../api/KeplerApiService';
 
 const NodeDashboardCharts = () => {
 
@@ -17,19 +17,21 @@ const NodeDashboardCharts = () => {
         selectedStartDate,
         selectedEndDate,
         setNavActiveTab,
-        needHistoricalData
+        needHistoricalData,
+        nodeCurrentPage,
     } = useContext(GlobalContext);
 
     const [powerMetrics, setPowerMetrics] = useState([]);
     const [podDisplayName, setPodDisplayName] = useState([]);
     const [selectedPodName, setSelectedPodName] = useState();
+    const [totalPages, setTotalPages] = useState(1);
     const [containerPowerUsage, setContainerPowerUsage] = useState([]);
     const keplerTypeList = ["DRAM", "PKG", "OTHER"];
 
     const processMetricData = (keplerMetricData, podName) => {
 
-        var parts = podName.split('/');
-        var lastValue = parts[0];
+        // var parts = podName.split('/');
+        var lastValue = podName;
 
         //FILTER DATA BY PODNAME FROM RESPONSE
         const filteredData = keplerMetricData.filter((data) => data.displayName === podName, setSelectedPodName(lastValue));
@@ -38,7 +40,7 @@ const NodeDashboardCharts = () => {
         const processedData = filteredData.flatMap((podData) => {
             return podData.containerPowerMetrics.map((metric) => {
                 const timestamp = new Date(metric.createdTime).getTime(); // Convert date string to timestamp
-
+                setTotalPages(Math.ceil(podData.totalCount / 10));
                 return {
                     x: timestamp,
                     y: metric.consumptionValue
@@ -73,6 +75,8 @@ const NodeDashboardCharts = () => {
             data: containerPowerUsage,
             title: `Node Power Usage - ${selectedPodName}`,
             yaxis: "Power Usage",
+            totalCount: totalPages,
+            type: "node"
         }
     ];
 
@@ -80,7 +84,7 @@ const NodeDashboardCharts = () => {
         // setPowerMetrics(keplerContainerInfo);
         try {
             setLoading(true);
-            const keplerResponse = await getKeplerMetricData(selectedStartDate, selectedEndDate, lookBackVal.value, "node",keplerTypeList);
+            const keplerResponse = await getKeplerMetricDataPaginated(selectedStartDate, selectedEndDate, lookBackVal.value, "node",keplerTypeList,nodeCurrentPage,10);
             if (keplerResponse.length !== 0) {
                 setPowerMetrics(keplerResponse);
                 createPodMetricData(keplerResponse);
@@ -94,22 +98,25 @@ const NodeDashboardCharts = () => {
             setErrorMessage("An error Occurred!");
             setLoading(false);
         }
-    }, [selectedStartDate, selectedEndDate, lookBackVal, needHistoricalData])
+    }, [selectedStartDate, selectedEndDate, lookBackVal, needHistoricalData,nodeCurrentPage])
 
     const handlePodClick = (clickedPodName) => {
         console.log("POD Name " + clickedPodName);
-        // setSelectedPodName(clickedPodName);
+        setSelectedPodName(clickedPodName);
         processMetricData(powerMetrics, clickedPodName);
     }
 
     useEffect(() => {
         // setPowerMetrics(keplerContainerInfo);
-        setErrorMessage("");
-        setEmptyMessage("");
         setKeplerActiveTab(1);
         setNavActiveTab(1);
         // createPodMetricData(keplerContainerInfoContainer);
         fetchPowerMetrics();
+        return () => {
+            setErrorMessage("");
+            setEmptyMessage("");
+            // setKeplerCurrentPage(1);
+        }
     }, [setErrorMessage, setEmptyMessage, setKeplerActiveTab, setNavActiveTab, fetchPowerMetrics])
 
     const hasContainerPowerMetrics = powerMetrics.some((item) => item.containerPowerMetrics.length !== 0)

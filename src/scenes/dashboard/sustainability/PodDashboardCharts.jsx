@@ -5,7 +5,7 @@ import { keplerContainerInfo, keplerContainerInfoContainer, keplerContainerInfoN
 import ContainerPowerMetrics from './keplerCharts/ContainerPowerMetrics';
 import { GlobalContext } from '../../../global/globalContext/GlobalContext';
 import { tokens } from '../../../theme';
-import { getKeplerMetricData } from '../../../api/KeplerApiService';
+import { getKeplerMetricData, getKeplerMetricDataPaginated } from '../../../api/KeplerApiService';
 
 const PodDashboardCharts = () => {
 
@@ -17,7 +17,9 @@ const PodDashboardCharts = () => {
         selectedStartDate,
         selectedEndDate,
         setNavActiveTab,
-        needHistoricalData
+        needHistoricalData,
+        keplerCurrentPage,
+        setKeplerCurrentPage
     } = useContext(GlobalContext);
 
     const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -29,23 +31,24 @@ const PodDashboardCharts = () => {
 
     const [powerMetrics, setPowerMetrics] = useState([]);
     const [podDisplayName, setPodDisplayName] = useState([]);
-    const [selectedPodName, setSelectedPodName] = useState();
+    const [selectedPodName, setSelectedPodName] = useState("");
     const [containerPowerUsage, setContainerPowerUsage] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
     const keplerTypeList = ["DRAM", "PKG", "OTHER"];
 
     const processMetricData = (keplerMetricData, podName) => {
 
         var parts = podName.split('/');
-        var lastValue = parts[0];
+        var lastValue = parts[2];
 
         //FILTER DATA BY PODNAME FROM RESPONSE
-        const filteredData = keplerMetricData.filter((data) => data.displayName === podName, setSelectedPodName(lastValue));
+        const filteredData = keplerMetricData.filter((data) => data.displayName === podName, selectedPodName === "" ? setSelectedPodName(lastValue) : null);
 
         //PROCESS THE FILTERED DATA
         const processedData = filteredData.flatMap((podData) => {
             return podData.containerPowerMetrics.map((metric) => {
                 const timestamp = new Date(metric.createdTime).getTime(); // Convert date string to timestamp
-
+                setTotalPages(Math.ceil(podData.totalCount / 10));
                 return {
                     x: timestamp,
                     y: metric.consumptionValue
@@ -80,6 +83,8 @@ const PodDashboardCharts = () => {
             data: containerPowerUsage,
             title: `Pod Power Usage - ${selectedPodName}`,
             yaxis: "Power Usage",
+            totalCount: totalPages,
+            type:"pod"
         }
     ];
 
@@ -87,7 +92,7 @@ const PodDashboardCharts = () => {
         // setPowerMetrics(keplerContainerInfo);
         try {
             setLoading(true);
-            const keplerResponse = await getKeplerMetricData(selectedStartDate, selectedEndDate, lookBackVal.value, "pod", keplerTypeList);
+            const keplerResponse = await getKeplerMetricDataPaginated(selectedStartDate, selectedEndDate, lookBackVal.value, "pod", keplerTypeList,keplerCurrentPage,10);
             if (keplerResponse.length !== 0) {
                 setPowerMetrics(keplerResponse);
                 createPodMetricData(keplerResponse);
@@ -101,11 +106,13 @@ const PodDashboardCharts = () => {
             setErrorMessage("An error Occurred!");
             setLoading(false);
         }
-    }, [selectedStartDate, selectedEndDate, lookBackVal, needHistoricalData])
+    }, [selectedStartDate, selectedEndDate, lookBackVal, needHistoricalData,keplerCurrentPage])
 
     const handlePodClick = (clickedPodName) => {
         console.log("POD Name " + clickedPodName);
-        // setSelectedPodName(clickedPodName);
+        var parts = clickedPodName.split('/');
+        var lastValue = parts[2];
+        setSelectedPodName(lastValue);
         processMetricData(powerMetrics, clickedPodName);
     }
 
@@ -118,6 +125,7 @@ const PodDashboardCharts = () => {
         return () => {
             setErrorMessage("");
             setEmptyMessage("");
+            // setKeplerCurrentPage(1);
         }
     }, [setErrorMessage, setEmptyMessage, setKeplerActiveTab, setNavActiveTab, fetchPowerMetrics])
 
@@ -165,13 +173,18 @@ const PodDashboardCharts = () => {
 
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Card elevation={3} style={{ margin: "15px 25px 15px 25px", height: (isLandscape && isSmallScreen) ? "calc(120vh - 20px)" : "calc(75vh - 30px)", color: 'black', ...(isiphone && {
-                                height: "calc(100vh - 32px)",
-                            }) }}>
+                            <Card elevation={3} style={{
+                                margin: "15px 25px 15px 25px", height: (isLandscape && isSmallScreen) ? "calc(120vh - 20px)" : "calc(75vh - 30px)", color: 'black', ...(isiphone && {
+                                    height: "calc(100vh - 32px)",
+                                })
+                            }}>
                                 <CardContent>
                                     <Box style={{ display: "flex", flexDirection: "row", }} >
                                         {hasContainerPowerMetrics ? (
-                                            <ContainerPowerMetrics containerPowerMetrics={keplerMetrics[0]} />
+                                            <>
+                                                
+                                                <ContainerPowerMetrics containerPowerMetrics={keplerMetrics[0]} />
+                                            </>
                                         ) : (
                                             <div
                                                 style={{

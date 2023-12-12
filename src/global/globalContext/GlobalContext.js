@@ -72,6 +72,8 @@ const GlobalContextProvider = ({ children }) => {
 
     const [keplerActiveTab, setKeplerActiveTab] = useState(0);
     const [apmActiveTab, setApmActiveTab] = useState(0);
+    const [keplerCurrentPage, setKeplerCurrentPage] = useState(1);
+    const [nodeCurrentPage, setNodeCurrentPage] = useState(1);
 
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -191,7 +193,11 @@ const GlobalContextProvider = ({ children }) => {
                 keplerActiveTab,
                 setKeplerActiveTab,
                 apmActiveTab,
-                setApmActiveTab
+                setApmActiveTab,
+                keplerCurrentPage,
+                setKeplerCurrentPage,
+                nodeCurrentPage,
+                setNodeCurrentPage
             }}
         >
             {children}
