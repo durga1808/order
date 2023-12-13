@@ -172,6 +172,11 @@ const CustomFlow = ({ spandata }) => {
                 marginBottom: "-10px",
                 marginTop: "-10px",
               },
+              "& .MuiStepConnector-line": {
+                borderColor: "black",
+                borderWidth: "2px",
+                width: "10px"
+              },
             }}
           >
             {spandata.map((span, index) => {
@@ -234,7 +239,7 @@ const CustomFlow = ({ spandata }) => {
               const isFunction = !isHTTP && !isKafka && !isDatabase;
 
               return (
-                <Step key={index}>
+                <Step key={index} >
                   <div className="circle" style={{ marginLeft: "-58px" }}>
                     {/* {isHTTP && (
                 // Render HTTP icon
