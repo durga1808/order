@@ -7,13 +7,22 @@ import {
   useMediaQuery,
   Box,
   Typography,
+  Dialog,
+  DialogContent,
+  Popover,
+  Divider,
 } from "@mui/material";
 import { Brightness4, Brightness7, Person } from "@mui/icons-material";
 import LogoutIcon from "@mui/icons-material/Logout";
+import Badge from '@mui/material/Badge';
+import NotificationImportantIcon from '@mui/icons-material/NotificationImportant';
 import { ColorModeContext, tokens } from "../theme";
 import { useNavigate } from "react-router-dom";
 import { GlobalContext } from "./globalContext/GlobalContext";
 import logo from "../assets/zaga-logedit.jpg";
+import { useState } from "react";
+import { getRealtimeAlertData } from "../api/AlertApiService";
+import { useEffect } from "react";
 
 function Topbar() {
   const navigate = useNavigate();
@@ -22,15 +31,27 @@ function Topbar() {
 
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
-  const { setMetricRender } = useContext(GlobalContext);
+  const { setMetricRender, alertResponse, setNotificationCount, notificationCount } = useContext(GlobalContext);
+  const [anchorEl, setAnchorEl] = useState(null);
+  
+
+  const handleIconClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    setNotificationCount(0);
+  };
+
+  const handleCloseModal = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'notification-popover' : undefined;
 
   const handleLogout = () => {
     navigate("/");
   };
   const appBarStyles = {
     height: "50px",
-    // width: "768px",
-    // width:isSmallScreen? "768px":"100%"
   };
 
   const handleColorMode = () => {
@@ -63,11 +84,11 @@ function Topbar() {
                   // color:"#FFF"
                 }}
               />
-              <Typography sx={{color:"#FFF"}}variant="h4" fontWeight="500" marginLeft={1}>
+              <Typography sx={{ color: "#FFF" }} variant="h4" fontWeight="500" marginLeft={1}>
                 OBSERVABILITY
               </Typography>
             </Box>
-            <Box sx={{display:"flex"}}>
+            <Box sx={{ display: "flex" }}>
               {" "}
               <IconButton
                 aria-label="Toggle Dark Mode"
@@ -102,10 +123,36 @@ function Topbar() {
               backgroundColor: colors.primary[400],
             }}
           >
-            {" "}
+            <IconButton onClick={handleIconClick} >
+              <Badge badgeContent={notificationCount} color="primary">
+                <NotificationImportantIcon style={{ fontSize: "20px", color: "#FFF" }} />
+              </Badge>
+            </IconButton>
+            <Popover
+              id={id}
+              open={open}
+              anchorEl={anchorEl}
+              onClose={handleCloseModal}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+            >
+              {alertResponse.map((data) => (
+                <>
+                  <Typography sx={{ p: 2 }}>{data.alertMessage}</Typography>
+                  <Divider />
+                </>
+              ))}
+            </Popover>
             <IconButton
               aria-label="Toggle Dark Mode"
               onClick={() => handleColorMode()}
+              style={{ marginLeft: "10px" }}
             >
               {theme.palette.mode === "light" ? (
                 <Brightness7 style={{ fontSize: "20px", color: "#FFF" }} />

@@ -17,13 +17,14 @@ import { getServiceList, loginUser } from "../../api/LoginApiService";
 import Loading from "../../global/Loading/Loading";
 import observai from "../../assets/observai.png";
 import { green } from "@mui/material/colors";
+import { getRealtimeAlertData } from "../../api/AlertApiService";
 
 const Login = () => {
   const navigate = useNavigate();
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { setServiceList, setSelected } = useContext(GlobalContext);
+  const { setServiceList, setSelected, setNotificationCount, alertResponse, notificationCount } = useContext(GlobalContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -40,6 +41,32 @@ const Login = () => {
     console.log("ServiceName " + serviceListData);
   };
 
+  const fetchAlerts = async () => {
+    try {
+      const socket = await getRealtimeAlertData();
+
+      socket.onopen = () => {
+        console.log("Websocket connection opened");
+      }
+
+      socket.onmessage = (event) => {
+        if (event.data !== "[]") {
+          console.log("Realtime data " + event.data);
+          setNotificationCount(prevCount => prevCount + 1);
+          alertResponse.push(JSON.parse(event.data));
+        }
+      };
+
+      socket.onclose = () => {
+        console.log("WebSocket connection closed.");
+        // setLoading(true);
+      };
+    } catch (error) {
+      // Handle error
+      console.log("Error occured " + error);
+    }
+  };
+
   const getServiceListCall = async (userInfo) => {
     try {
       const serviceData = await getServiceList(userInfo);
@@ -47,6 +74,7 @@ const Login = () => {
       if (serviceData !== 0) {
         setServiceList(serviceData);
         servicePayload(serviceData);
+        fetchAlerts();
         navigate("/mainpage/dashboard");
       } else {
         setErrorMessage("No Service assigned for this user");
