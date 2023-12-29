@@ -24,7 +24,7 @@ const Login = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
-  const { setServiceList, setSelected, setNotificationCount, alertResponse, notificationCount } = useContext(GlobalContext);
+  const { setServiceList, setSelected, setNotificationCount, alertResponse, notificationCount, setAlertResponse } = useContext(GlobalContext);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -41,6 +41,78 @@ const Login = () => {
     console.log("ServiceName " + serviceListData);
   };
 
+  // const processWsData = (wsData) => {
+  //   // console.log("output " + wsData);
+  //   let metricObj = {};
+  //   let traceObj = {};
+  //   let logObj = {};
+  //   if(wsData.alertType === "metric"){
+  //     metricObj = {
+  //       alertType:wsData.alertType,
+  //       alertData: wsData.message
+  //     }
+  //   } else if (wsData.alertType === "trace"){
+  //     traceObj = {
+  //       alertType: wsData.alertType,
+  //       alertData: wsData.message
+  //     }
+  //   } else if (wsData.alertType === "log"){
+  //     logObj = {
+  //       alertType: wsData.alertType,
+  //       alertData: wsData.message
+  //     }
+  //   }
+  //   console.log("output " + metricObj + " " + traceObj + " " + logObj);
+  //   // console.log("output " + wsData);
+  // }
+
+  let metricAlerts = [];
+  let traceAlerts = [];
+  let logAlerts = [];
+
+  // const processWsData = (wsData) => {
+  //   if (wsData.alertType === "metric") {
+  //     metricAlerts.push({
+  //       alertType: wsData.alertType,
+  //       alertData: wsData.alertMessage // Assuming the alert message is in wsData.alertMessage
+  //     });
+  //   } else if (wsData.alertType === "trace") {
+  //     traceAlerts.push({
+  //       alertType: wsData.alertType,
+  //       alertData: wsData.alertMessage // Assuming the alert message is in wsData.alertMessage
+  //     });
+  //   } else if (wsData.alertType === "log") {
+  //     logAlerts.push({
+  //       alertType: wsData.alertType,
+  //       alertData: wsData.alertMessage // Assuming the alert message is in wsData.alertMessage
+  //     });
+  //   }
+
+  //   // Now metricAlerts, traceAlerts, and logAlerts arrays contain respective alerts
+  //   console.log("Metric Alerts:", metricAlerts);
+  //   console.log("Trace Alerts:", traceAlerts);
+  //   console.log("Log Alerts:", logAlerts);
+  //   alertResponse.push(metricAlerts);
+  //   alertResponse.push(traceAlerts);
+  //   alertResponse.push(logAlerts);
+  // };
+
+  const processWsData = (wsData) => {
+    const { alertType, alertMessage } = wsData; // Destructure properties from wsData
+
+    // Create an object to represent the alert
+    const alert = {
+      alertType,
+      alertData: alertMessage // Assuming the alert message is in wsData.alertMessage
+    };
+
+    // Push the alert to the respective array based on alertType
+    alertResponse[alertType].push(alert);
+
+    // Now alertResponse object contains alerts categorized by type
+    console.log("Alerts:", alertResponse);
+  };
+
   const fetchAlerts = async () => {
     try {
       const socket = await getRealtimeAlertData();
@@ -53,7 +125,8 @@ const Login = () => {
         if (event.data !== "[]") {
           console.log("Realtime data " + event.data);
           setNotificationCount(prevCount => prevCount + 1);
-          alertResponse.push(JSON.parse(event.data));
+          processWsData(JSON.parse(event.data));
+          // alertResponse.push(JSON.parse(event.data));
         }
       };
 
@@ -75,7 +148,7 @@ const Login = () => {
         setServiceList(serviceData);
         servicePayload(serviceData);
         fetchAlerts();
-        navigate("/mainpage/dashboard");
+        navigate("/mainpage/apm");
       } else {
         setErrorMessage("No Service assigned for this user");
       }
