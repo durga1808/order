@@ -33,7 +33,7 @@ function Topbar() {
   const colorMode = useContext(ColorModeContext);
   const { setMetricRender, alertResponse, setNotificationCount, notificationCount } = useContext(GlobalContext);
   const [anchorEl, setAnchorEl] = useState(null);
-  
+
 
   const handleIconClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -142,12 +142,52 @@ function Topbar() {
                 horizontal: 'right',
               }}
             >
-              {alertResponse.map((data) => (
+              {/* {alertResponse.map((data) => (
                 <>
-                  <Typography sx={{ p: 2 }}>{data.alertMessage}</Typography>
+                  <Typography sx={{ p: 2  }}>{data.alertMessage} - <span style={{backgroundColor:"black",color:"white",padding:"5px",borderRadius:"5px" }}>{data.alertType}</span></Typography>
                   <Divider />
                 </>
-              ))}
+              ))} */}
+              <>
+                {/* Metric Alerts */}
+                {alertResponse.metric.length > 0 && (
+                  <>
+                    <Typography variant="h6" sx={{ mt: 2, textAlign:"center" }}>Metric Alerts</Typography>
+                    {alertResponse.metric.map((data, index) => (
+                      <div key={`metric-${index}`}>
+                        <Typography sx={{ p: 2 }}>{data.alertData}</Typography>
+                        {index !== alertResponse.metric.length - 1 && <Divider />}
+                      </div>
+                    ))}
+                  </>
+                )}
+
+                {/* Trace Alerts */}
+                {alertResponse.trace.length > 0 && (
+                  <>
+                    <Typography variant="h6" sx={{ mt: 2, textAlign:"center" }}>Trace Alerts</Typography>
+                    {alertResponse.trace.map((data, index) => (
+                      <div key={`trace-${index}`}>
+                        <Typography sx={{ p: 2 }}>{data.alertData}</Typography>
+                        {index !== alertResponse.trace.length - 1 && <Divider />}
+                      </div>
+                    ))}
+                  </>
+                )}
+
+                {/* Log Alerts */}
+                {alertResponse.log.length > 0 && (
+                  <>
+                    <Typography variant="h6" sx={{ mt: 2, textAlign:"center" }}>Log Alerts</Typography>
+                    {alertResponse.log.map((data, index) => (
+                      <div key={`log-${index}`}>
+                        <Typography sx={{ p: 2 }}>{data.alertData}</Typography>
+                        {index !== alertResponse.log.length - 1 && <Divider />}
+                      </div>
+                    ))}
+                  </>
+                )}
+              </>
             </Popover>
             <IconButton
               aria-label="Toggle Dark Mode"

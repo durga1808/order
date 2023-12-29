@@ -75,7 +75,11 @@ const GlobalContextProvider = ({ children }) => {
     const [keplerCurrentPage, setKeplerCurrentPage] = useState(1);
     const [nodeCurrentPage, setNodeCurrentPage] = useState(1);
     const [notificationCount, setNotificationCount] = useState(0);
-    const [alertResponse, setAlertResponse] = useState([]);
+    const [alertResponse, setAlertResponse] = useState({
+        metric: [],
+        trace: [],
+        log: []
+    });
 
     const [searchQuery, setSearchQuery] = useState("");
 
