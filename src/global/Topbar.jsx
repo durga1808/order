@@ -149,7 +149,7 @@ function Topbar() {
               backgroundColor: colors.primary[400],
             }}
           >
-            <IconButton onClick={handleIconClick} >
+            {/* <IconButton onClick={handleIconClick} >
               <Badge badgeContent={notificationCount} color="primary">
                 <NotificationImportantIcon style={{ fontSize: "20px", color: "#FFF" }} />
               </Badge>
@@ -168,14 +168,9 @@ function Topbar() {
                 horizontal: 'right',
               }}
             >
-              {/* {alertResponse.map((data) => (
-                <>
-                  <Typography sx={{ p: 2  }}>{data.alertMessage} - <span style={{backgroundColor:"black",color:"white",padding:"5px",borderRadius:"5px" }}>{data.alertType}</span></Typography>
-                  <Divider />
-                </>
-              ))} */}
+             
               <>
-                {/* Metric Alerts */}
+              
                 {alertResponse.metric.length > 0 && (
                   <>
                     <Typography variant="h6" sx={{ mt: 2, textAlign:"center" }}>Metric Alerts</Typography>
@@ -188,7 +183,7 @@ function Topbar() {
                   </>
                 )}
 
-                {/* Trace Alerts */}
+             
                 {alertResponse.trace.length > 0 && (
                   <>
                     <Typography variant="h6" sx={{ mt: 2, textAlign:"center" }}>Trace Alerts</Typography>
@@ -201,7 +196,7 @@ function Topbar() {
                   </>
                 )}
 
-                {/* Log Alerts */}
+              
                 {alertResponse.log.length > 0 && (
                   <>
                     <Typography variant="h6" sx={{ mt: 2, textAlign:"center" }}>Log Alerts</Typography>
@@ -214,7 +209,7 @@ function Topbar() {
                   </>
                 )}
               </>
-            </Popover>
+            </Popover> */}
             <IconButton
               aria-label="Toggle Dark Mode"
               onClick={() => handleColorMode()}
