@@ -149,67 +149,7 @@ function Topbar() {
               backgroundColor: colors.primary[400],
             }}
           >
-            {/* <IconButton onClick={handleIconClick} >
-              <Badge badgeContent={notificationCount} color="primary">
-                <NotificationImportantIcon style={{ fontSize: "20px", color: "#FFF" }} />
-              </Badge>
-            </IconButton>
-            <Popover
-              id={id}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleCloseModal}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-            >
-             
-              <>
-              
-                {alertResponse.metric.length > 0 && (
-                  <>
-                    <Typography variant="h6" sx={{ mt: 2, textAlign:"center" }}>Metric Alerts</Typography>
-                    {alertResponse.metric.map((data, index) => (
-                      <div key={`metric-${index}`}>
-                        <Typography sx={{ p: 2 }}>{data.alertData}</Typography>
-                        {index !== alertResponse.metric.length - 1 && <Divider />}
-                      </div>
-                    ))}
-                  </>
-                )}
-
-             
-                {alertResponse.trace.length > 0 && (
-                  <>
-                    <Typography variant="h6" sx={{ mt: 2, textAlign:"center" }}>Trace Alerts</Typography>
-                    {alertResponse.trace.map((data, index) => (
-                      <div key={`trace-${index}`}>
-                        <Typography sx={{ p: 2 }}>{data.alertData}</Typography>
-                        {index !== alertResponse.trace.length - 1 && <Divider />}
-                      </div>
-                    ))}
-                  </>
-                )}
-
-              
-                {alertResponse.log.length > 0 && (
-                  <>
-                    <Typography variant="h6" sx={{ mt: 2, textAlign:"center" }}>Log Alerts</Typography>
-                    {alertResponse.log.map((data, index) => (
-                      <div key={`log-${index}`}>
-                        <Typography sx={{ p: 2 }}>{data.alertData}</Typography>
-                        {index !== alertResponse.log.length - 1 && <Divider />}
-                      </div>
-                    ))}
-                  </>
-                )}
-              </>
-            </Popover> */}
+           
             <IconButton
               aria-label="Toggle Dark Mode"
               onClick={() => handleColorMode()}
@@ -251,7 +191,10 @@ function Topbar() {
                 <Accordion
                   style={{
                     width: "430px",
-                    backgroundColor:theme.palette.mode ==="dark"?"gray": colors.primary[400],
+                    backgroundColor:
+                      theme.palette.mode === "dark"
+                        ? "gray"
+                        : colors.primary[400],
                   }}
                 >
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -273,7 +216,11 @@ function Topbar() {
                                   lineHeight: "1",
                                   backgroundColor: "white",
                                   // color:"black"
-                                  color:data.alertData.includes("Critical Alert")?"red":"black",
+                                  color: data.alertData.includes(
+                                    "Critical Alert"
+                                  )
+                                    ? "red"
+                                    : "black",
                                 }}
                               >
                                 {data.alertData}
@@ -285,7 +232,9 @@ function Topbar() {
                           ))}
                         </>
                       ) : (
-                        <div style={{color:"#000"}}>There is no metric alert</div>
+                        <div style={{ color: "#000" }}>
+                          There is no metric alert
+                        </div>
                       )}
                     </FormGroup>
                   </AccordionDetails>
@@ -296,7 +245,10 @@ function Topbar() {
                 <Accordion
                   style={{
                     width: "430px",
-                    backgroundColor:theme.palette.mode ==="dark"?"gray": colors.primary[400],
+                    backgroundColor:
+                      theme.palette.mode === "dark"
+                        ? "gray"
+                        : colors.primary[400],
                   }}
                 >
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -318,7 +270,11 @@ function Topbar() {
                                   lineHeight: "1",
                                   backgroundColor: "white",
                                   // color:"red"
-                                  color:data.alertData.includes("Critical Alert")?"red":"black",
+                                  color: data.alertData.includes(
+                                    "Critical Alert"
+                                  )
+                                    ? "red"
+                                    : "black",
                                 }}
                               >
                                 {data.alertData}
@@ -330,7 +286,9 @@ function Topbar() {
                           ))}
                         </>
                       ) : (
-                        <div style={{color:"#000"}}>There is no trace alert</div>
+                        <div style={{ color: "#000" }}>
+                          There is no trace alert
+                        </div>
                       )}
                     </FormGroup>
                   </AccordionDetails>
@@ -341,7 +299,10 @@ function Topbar() {
                 <Accordion
                   style={{
                     width: "430px",
-                    backgroundColor:theme.palette.mode ==="dark"?"gray": colors.primary[400],
+                    backgroundColor:
+                      theme.palette.mode === "dark"
+                        ? "gray"
+                        : colors.primary[400],
                   }}
                 >
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -363,7 +324,11 @@ function Topbar() {
                                   lineHeight: "1",
                                   backgroundColor: "white",
                                   // color:"black"
-                                  color:data.alertData.includes("Critical Alert")?"red":"black",
+                                  color: data.alertData.includes(
+                                    "Critical Alert"
+                                  )
+                                    ? "red"
+                                    : "black",
                                 }}
                               >
                                 {data.alertData}
@@ -375,115 +340,17 @@ function Topbar() {
                           ))}
                         </>
                       ) : (
-                        <div style={{color:"#000"}}>There is no log alert</div>
+                        <div style={{ color: "#000" }}>
+                          There is no log alert
+                        </div>
                       )}
                     </FormGroup>
                   </AccordionDetails>
                 </Accordion>
               </ListItem>
-
-              {/* <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-around",
-                  marginBottom: "10px",
-                }}
-              >
-                
-                {["metric", "trace", "log"].map((option) => (
-                  <Typography
-                    key={option}
-                    variant="body1"
-                    sx={{
-                      cursor: "pointer",
-                      textDecoration:
-                        selectedOption === option ? "underline" : "none",
-                    }}
-                    onClick={() => handleOptionChange(option)}
-                  >
-                    {option}
-                  </Typography>
-                ))}
-              </div>
-              {alertResponse[selectedOption].length > 0 && (
-                <>
-                  {alertResponse[selectedOption].map((data, index) => (
-                    <div key={`${selectedOption}-${index}`}>
-                      <Typography variant="h6" sx={{ p: 2, lineHeight: "1" }}>
-                        {data.alertData}
-                      </Typography>
-                      {index !== alertResponse[selectedOption].length - 1 && (
-                        <Divider />
-                      )}
-                    </div>
-                  ))}
-                </>
-              )} */}
             </Popover>
 
-            {/* <Popover
-           
-              id={id}
-              open={open}
-              anchorEl={anchorEl}
-              onClose={handleCloseModal}
-              style={{ top: '28px' ,right:"0%",left:"-60px"}}
-              PaperProps={{
-                style: {
-                  borderRadius: '10px', // Adjust the border-radius value as needed
-                },
-              }}
-              anchorOrigin={{
-                // vertical: 'bottom',
-                // horizontal: 'left',
-              }}
-              transformOrigin={{
-                // vertical: '45px',
-                // horizontal: '1305px',
-              }}
-            >
-            
-              <>
-             
-                {alertResponse.metric.length > 0 && (
-                  <>
-                    <Typography variant="h5" sx={{ lineHeight: '2',  fontWeight:"bold", backgroundColor:"#769095", textAlign:"center" ,color:"#FFF"}}>Metric Alerts</Typography>
-                    {alertResponse.metric.map((data, index) => (
-                      <div key={`metric-${index}`}>
-                        <Typography variant="h6" sx={{ p: 2, lineHeight: '1'  }}>{data.alertData}</Typography>
-                        {index !== alertResponse.metric.length - 1 && <Divider />}
-                      </div>
-                    ))}
-                  </>
-                )}
-
-                
-                {alertResponse.trace.length > 0 && (
-                  <>
-                    <Typography variant="h5" sx={{ lineHeight: '2',  fontWeight:"bold", backgroundColor:"#769095", textAlign:"center" ,color:"#FFF"}}>Trace Alerts</Typography>
-                    {alertResponse.trace.map((data, index) => (
-                      <div key={`trace-${index}`}>
-                        <Typography variant="h6" sx={{ p: 2, lineHeight: '1'  }}>{data.alertData}</Typography>
-                        {index !== alertResponse.trace.length - 1 && <Divider />}
-                      </div>
-                    ))}
-                  </>
-                )}
-
-              
-                {alertResponse.log.length > 0 && (
-                  <>
-                    <Typography variant="h5" sx={{ lineHeight: '2',  fontWeight:"bold", backgroundColor:"#769095", textAlign:"center" ,color:"#FFF"}}>Log Alerts</Typography>
-                    {alertResponse.log.map((data, index) => (
-                      <div key={`log-${index}`}>
-                        <Typography variant="h6" sx={{ p: 2, lineHeight: '1'  }}>{data.alertData}</Typography>
-                        {index !== alertResponse.log.length - 1 && <Divider />}
-                      </div>
-                    ))}
-                  </>
-                )}
-              </>
-            </Popover> */}
+          
             <div style={{ marginLeft: "0px" }}>
               <IconButton aria-label="Account" onClick={handleLogout}>
                 <LogoutIcon style={{ fontSize: "20px", color: "#FFF" }} />
